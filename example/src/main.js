@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
-import installComps from '../packages/index'
+import installComps from '../../packages/index'
 
 const app = createApp(App)
 
