@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/prettierrc",
-  "singleQuote": true, // 使用单引号
-  "semi": false, // 结尾不加分号
-  "trailingComma": "all", // 末尾总是使用逗号(默认none)
+  "singleQuote": true,
+  "semi": false, 
+  "trailingComma": "all", 
   "htmlWhitespaceSensitivity": "ignore"
 }

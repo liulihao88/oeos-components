@@ -8,10 +8,12 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write example/ packages/"
   },
   "dependencies": {
+    "element-plus": "^2.5.5",
     "pinia": "^2.1.7",
+    "sass": "^1.70.0",
     "vue": "^3.4.15"
   },
   "devDependencies": {

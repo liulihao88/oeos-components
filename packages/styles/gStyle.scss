@@ -1,0 +1,490 @@
+:root {
+  --blue: blue;
+  --blue2: #f5f7fd;
+  --85: rgba(39, 48, 75, 0.85);
+  --65: rgba(39, 48, 75, 0.65);
+  --45: rgba(39, 48, 75, 0.45);
+  --black: #000;
+  --white: #ffffff;
+  --red: #e94c35;
+  --red2: #fdecea;
+  --yellow: #ffb51f;
+  --yellow2: #fff7e8;
+  --green: #30bd82;
+  --green2: #eaf8f2;
+  --gray: #ebedf0;
+  --gray2: #f7f8fa;
+  --line: #ebedf0;
+}
+@each $cl, $clVar in blue var(--blue), blue2 var(--blue2), 85 var(--85),
+  65 var(--65), 45 var(--45), black var(--black), white var(--white),
+  red var(--red), red2 var(--red2), yellow var(--yellow), yellow2 var(--yellow2),
+  green var(--green), green2 var(--green2), gray var(--gray), gray2 var(--gray2),
+  line var(--line)
+{
+  .cl-#{'' + $cl} {
+    color: $clVar;
+  }
+  .bg-#{'' + $cl} {
+    background: $clVar;
+  }
+}
+
+// 定义flex等分
+@for $num from 0 through 24 {
+  .flex-#{$num},
+  .f-#{$num} {
+    flex: $num;
+  }
+  .o-#{$num} {
+    opacity: $num * 0.1;
+  }
+  @each $short, $long in p padding, m margin, h height, lh line-height {
+    .#{$short}#{'' + $num} {
+      #{$long}: $num * 8px;
+    }
+    @if ($short == p or $short == m) {
+      .#{$short}t#{'' + $num} {
+        #{$long}-top: $num * 8px;
+      }
+      .#{$short}r#{'' + $num} {
+        #{$long}-right: $num * 8px;
+      }
+      .#{$short}b#{'' + $num} {
+        #{$long}-bottom: $num * 8px;
+      }
+      .#{$short}l#{'' + $num} {
+        #{$long}-left: $num * 8px;
+      }
+      .#{$short}lr#{'' + $num} {
+        #{$long}-left: $num * 8px;
+        #{$long}-right: $num * 8px;
+      }
+      .#{$short}tb#{'' + $num} {
+        #{$long}-top: $num * 8px;
+        #{$long}-bottom: $num * 8px;
+      }
+      .#{$short}t {
+        #{$long}-top: 8px;
+      }
+      .#{$short}r {
+        #{$long}-right: 8px;
+      }
+      .#{$short}b {
+        #{$long}-bottom: 8px;
+      }
+      .#{$short}l {
+        #{$long}-left: 8px;
+      }
+      .#{$short}lr {
+        #{$long}-left: 8px;
+        #{$long}-right: 8px;
+      }
+      .#{$short}tb {
+        #{$long}-top: 8px;
+        #{$long}-bottom: 8px;
+      }
+    }
+  }
+}
+.p {
+  padding: 8px;
+}
+.m {
+  margin: 8px;
+}
+
+.f {
+  display: flex;
+}
+.f-i {
+  display: inline-flex;
+}
+.f-c {
+  flex-direction: column;
+}
+.f-wrap,
+.f-w {
+  flex-wrap: wrap;
+}
+
+@for $index from -100 through 100 {
+  .ft-#{$index},
+  .fs-#{$index} {
+    font-size: $index + px;
+  }
+
+  .w-#{$index} {
+    width: $index + px;
+  }
+  .h-#{$index} {
+    height: $index + px;
+  }
+  .h-#{$index}\% {
+    height: $index * 1%;
+  }
+  .w-#{$index}\% {
+    width: $index * 1%;
+  }
+  .m-h-#{$index}\% {
+    min-height: $index * 1%;
+  }
+  .m-w-#{$index}\% {
+    min-width: $index * 1%;
+  }
+  .br-#{$index}\% {
+    border-radius: $index * 1%;
+  }
+  .l-h-#{$index}\% {
+    line-height: $index * 1%;
+  }
+  .l-h-#{$index} {
+    line-height: $index + px;
+  }
+  .br-#{$index} {
+    border-radius: $index + px;
+  }
+  .m-h-#{$index} {
+    min-height: $index + px;
+  }
+  .m-w-#{$index} {
+    min-width: $index + px;
+  }
+
+  // 缩写版，结果如: m-l-30
+  // 定义外边距
+  .m-#{$index} {
+    margin: $index + px;
+  }
+  .m-l-#{$index} {
+    margin-left: $index + px;
+  }
+  .m-t-#{$index} {
+    margin-top: $index + px;
+  }
+  .m-r-#{$index} {
+    margin-right: $index + px;
+  }
+  .m-b-#{$index} {
+    margin-bottom: $index + px;
+  }
+  .m-lr-#{$index} {
+    margin-left: $index + px;
+    margin-right: $index + px;
+  }
+  .m-tb-#{$index} {
+    margin-top: $index + px;
+    margin-bottom: $index + px;
+  }
+
+  // 定义内边距
+  .p-#{$index} {
+    padding: $index + px;
+  }
+  .p-l-#{$index} {
+    padding-left: $index + px;
+  }
+  .p-t-#{$index} {
+    padding-top: $index + px;
+  }
+  .p-r-#{$index} {
+    padding-right: $index + px;
+  }
+  .p-b-#{$index} {
+    padding-bottom: $index + px;
+  }
+  .p-lr-#{$index} {
+    padding-left: $index + px;
+    padding-right: $index + px;
+  }
+  .p-tb-#{$index} {
+    padding-top: $index + px;
+    padding-bottom: $index + px;
+  }
+
+  // 定义border
+  .bd-#{$index} {
+    border: $index + px solid var(--line-color);
+  }
+  .bd-l-#{$index} {
+    border-left: $index + px solid var(--line-color);
+  }
+  .bd-t-#{$index} {
+    border-top: $index + px solid var(--line-color);
+  }
+  .bd-r-#{$index} {
+    border-right: $index + px solid var(--line-color);
+  }
+  .bd-b-#{$index} {
+    border-bottom: $index + px solid var(--line-color);
+  }
+
+  // 定义上下左右 l-2 => left: 2px; t-10 => top: 10px;
+
+  .t-#{$index} {
+    top: $index + px;
+  }
+  .r-#{$index} {
+    right: $index + px;
+  }
+  .b-#{$index} {
+    bottom: $index + px;
+  }
+  .l-#{$index} {
+    left: $index + px;
+  }
+  .t-#{$index}\% {
+    top: $index * 1%;
+  }
+  .r-#{$index}\% {
+    right: $index * 1%;
+  }
+  .b-#{$index}\% {
+    bottom: $index * 1%;
+  }
+  .l-#{$index}\% {
+    left: $index * 1%;
+  }
+  .z-#{$index} {
+    z-index: $index;
+  }
+}
+
+@for $index from -1000 through 1000 {
+  @if $index >= 100 or $index < 0 {
+    @if $index % 2 == 0 or $index % 5 == 0 or $index == 1 {
+      .w-#{$index} {
+        width: $index + px;
+      }
+      .h-#{$index} {
+        height: $index + px;
+      }
+      .h-#{$index}\% {
+        height: $index * 1%;
+      }
+      .w-#{$index}\% {
+        width: $index * 1%;
+      }
+      .m-h-#{$index}\% {
+        min-height: $index * 1%;
+      }
+      .m-w-#{$index}\% {
+        min-width: $index * 1%;
+      }
+      .l-h-#{$index}\% {
+        line-height: $index * 1%;
+      }
+      .l-h-#{$index} {
+        line-height: $index + px;
+      }
+      .m-h-#{$index} {
+        min-height: $index + px;
+      }
+      .m-w-#{$index} {
+        min-width: $index + px;
+      }
+
+      // 缩写版，结果如: m-l-30
+      // 定义外边距
+      .m-#{$index} {
+        margin: $index + px;
+      }
+      .m-l-#{$index} {
+        margin-left: $index + px;
+      }
+      .m-t-#{$index} {
+        margin-top: $index + px;
+      }
+      .m-r-#{$index} {
+        margin-right: $index + px;
+      }
+      .m-b-#{$index} {
+        margin-bottom: $index + px;
+      }
+      .m-lr-#{$index} {
+        margin-left: $index + px;
+        margin-right: $index + px;
+      }
+      .m-tb-#{$index} {
+        margin-top: $index + px;
+        margin-bottom: $index + px;
+      }
+
+      // 定义内边距
+      .p-#{$index} {
+        padding: $index + px;
+      }
+      .p-l-#{$index} {
+        padding-left: $index + px;
+      }
+      .p-t-#{$index} {
+        padding-top: $index + px;
+      }
+      .p-r-#{$index} {
+        padding-right: $index + px;
+      }
+      .p-b-#{$index} {
+        padding-bottom: $index + px;
+      }
+      .p-lr-#{$index} {
+        padding-left: $index + px;
+        padding-right: $index + px;
+      }
+      .p-tb-#{$index} {
+        padding-top: $index + px;
+        padding-bottom: $index + px;
+      }
+
+      // 定义上下左右 l-2 => left: 2px; t-10 => top: 10px;
+
+      .t-#{$index} {
+        top: $index + px;
+      }
+      .r-#{$index} {
+        right: $index + px;
+      }
+      .b-#{$index} {
+        bottom: $index + px;
+      }
+      .l-#{$index} {
+        left: $index + px;
+      }
+      .t-#{$index}\% {
+        top: $index * 1%;
+      }
+      .r-#{$index}\% {
+        right: $index * 1%;
+      }
+      .b-#{$index}\% {
+        bottom: $index * 1%;
+      }
+      .l-#{$index}\% {
+        left: $index * 1%;
+      }
+      .z-#{$index} {
+        z-index: $index;
+      }
+    }
+  }
+}
+
+@each $short, $long in ct center, bt space-between, ar space-around, fe flex-end
+{
+  .f-#{$short} {
+    display: flex;
+    align-items: center;
+    justify-content: $long;
+  }
+}
+@each $short, $long in s flex-start, e flex-end, c center, b baseline {
+  .ai-#{$short} {
+    align-items: $long;
+  }
+}
+@each $short, $long in e flex-end, c center, b space-between, a space-around,
+  e space-evenly
+{
+  .jc-#{$short} {
+    justify-content: $long;
+  }
+}
+
+// overflow相关  visible hidden scroll auto
+@each $short, $long in v visible, h hidden, s scroll, a auto {
+  .o-#{$short} {
+    overflow: $long;
+  }
+}
+// 垂直对齐相关 vertical-align
+@each $short, $long in t top, b bottom, m middle, bl baseline, sb sub, sp super
+{
+  .v#{$short} {
+    vertical-align: $long;
+  }
+}
+// display显示相关
+@each $short, $long in b block, i inline, ib inline-block, f flex, n none {
+  .d-#{$short} {
+    display: $long;
+  }
+}
+// position相关
+@each $short, $long in r relative, a absolute, f fixed, s static {
+  .po-#{$short} {
+    position: $long;
+  }
+}
+
+@each $bold in 100, 200, 300, 400, 500, 600, 700, 800, 900 {
+  .fw-#{$bold},
+  .bold-#{$bold} {
+    font-weight: $bold;
+  }
+}
+
+.bd {
+  border: 1px solid var(--line-color);
+}
+
+.bs {
+  box-sizing: border-box;
+}
+.fw,
+.bold {
+  font-weight: 900;
+}
+
+.h-block {
+  height: 100%;
+}
+.w-block {
+  width: 100%;
+}
+.animate {
+  transition: all 0.2s linear;
+}
+
+.tl {
+  text-align: left;
+}
+.tc {
+  text-align: center;
+}
+.tr {
+  text-align: right;
+}
+.sd {
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+.ma {
+  margin: 0 auto;
+}
+
+.link {
+  cursor: pointer;
+  color: blue;
+}
+.cp {
+  cursor: pointer;
+}
+.ac {
+  color: blue;
+}
+
+//文本超出换行或隐藏，最多5行
+@for $i from 1 through 5 {
+  .line-#{$i} {
+    @if $i == '1' {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    } @else {
+      display: -webkit-box !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      -webkit-line-clamp: $i;
+      -webkit-box-orient: vertical !important;
+    }
+  }
+}

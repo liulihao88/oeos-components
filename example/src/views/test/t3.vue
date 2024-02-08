@@ -6,25 +6,17 @@
 
 <script>
 export default {
-  name: "T3",
-  components: {
-     
-  },
+  name: 'T3',
+  components: {},
   props: {},
   data() {
-    return {
-       
-    }
+    return {}
   },
   computed: {},
   watch: {},
   created() {},
   mounted() {},
-  methods: {
-
-  }
+  methods: {},
 }
 </script>
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

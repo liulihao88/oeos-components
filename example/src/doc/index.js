@@ -1,14 +1,13 @@
 import guideMd from './guide.md'
-console.log("guideMd", guideMd);
 
 export default {
-  guideMd
+  guideMd,
 }
 
 export const docMd = {
-  guide: guideMd
+  guide: guideMd,
 }
 
 export const docName = {
-  guide: '快速使用'
+  guide: '快速使用',
 }
