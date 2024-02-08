@@ -1,11 +1,17 @@
 {
   "name": "oeos-v3-components",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.5",
+  "private": false,
   "type": "module",
+  "main": "dist/oeos-v3-components-es.js",
+  "style": "dist/style.css",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:lib": "vite build --config ./build/lib.config.js",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write example/ packages/"
@@ -13,6 +19,7 @@
   "dependencies": {
     "element-plus": "^2.5.5",
     "pinia": "^2.1.7",
+    "rollup": "^4.9.6",
     "sass": "^1.70.0",
     "vue": "^3.4.15"
   },
@@ -25,5 +32,11 @@
     "prettier": "^3.0.3",
     "vite": "^5.0.11",
     "vite-plugin-md": "^0.21.5"
-  }
+  },
+  "keywords": [
+    "oeos",
+    "v3",
+    "components",
+    "cyrd"
+  ]
 }

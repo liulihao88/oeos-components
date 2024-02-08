@@ -97,7 +97,6 @@ function mClipboardSuccess(val) {}
     font-weight: 500;
     box-sizing: border-box;
     display: flex;
-    color: var(--white);
     &::before {
       position: absolute;
       top: 0;
@@ -110,11 +109,6 @@ function mClipboardSuccess(val) {}
       background-color: var(--lc, var(--blue)); // 左侧的竖条颜色
     }
     .title-text {
-      font-family:
-        PingFangSC-Medium,
-        PingFang SC;
-      color: var(--white);
-
       letter-spacing: 0;
       font-weight: 500;
     }

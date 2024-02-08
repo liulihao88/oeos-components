@@ -1,35 +1,15 @@
-# oeos-v3-components
+#### 1. 组件的使用
 
-This template should help get you started developing with Vue 3 in Vite.
+1. 在vue3项目的main.js里引入
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```js
+import oeosV3Componets from 'oeos-v3-components'
+app.use(oeosV3Componets)
 ```
 
-### Compile and Hot-Reload for Development
+2. 在任何一个.vue文件下, 可直接引入组件
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+```js
+<o-button>这是o-button</o-button>
+<o-title title="这是o-title"></o-title>
 ```
