@@ -1,27 +1,27 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
-
-// import marked from 'marked';
-// import cc, {docMd, docName} from './doc/index';
-// console.log(`%c 1194 5行 example/src/App.vue 111 `, 111);
-
-// console.log("docName", cc);
-// console.log("docMd", docMd);
-// console.log("docName", docName);
+import { clone } from 'pkg/utils/gFunc.js'
 
 const { proxy } = getCurrentInstance()
 function btnClick() {
   console.log('btnClick')
+  let arr = [1, 2, 3]
+  let copyArr = clone(arr)
+  console.log('copyArr', copyArr)
+  arr[1] = 4
+  console.log('copyArr', copyArr)
 }
+const a = ref(33)
 </script>
 
 <template>
   <div>
-    <div class="bg-blue cl-red">src/App.vue</div>
+    <div class="bg-blue cl-red" v-copy="'src/App.vue'">src/App.vue</div>
     <div></div>
     <o-button @click="btnClick" type="danger">咋的啦</o-button>
     <o-test></o-test>
     <o-empty description="没有数据啊我的哥"></o-empty>
+    <el-input v-model="a" v-number />
     <o-title title="测试中">
       <template #right>
         <div>

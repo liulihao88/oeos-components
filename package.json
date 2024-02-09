@@ -1,9 +1,10 @@
 {
   "name": "oeos-v3-components",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": false,
   "type": "module",
   "main": "dist/oeos-v3-components-es.js",
+  "module": "dist/oeos-v3-components-es.js",
   "style": "dist/style.css",
   "files": [
     "dist"
@@ -18,6 +19,7 @@
   },
   "dependencies": {
     "element-plus": "^2.5.5",
+    "lodash-es": "^4.17.21",
     "pinia": "^2.1.7",
     "rollup": "^4.9.6",
     "sass": "^1.70.0",

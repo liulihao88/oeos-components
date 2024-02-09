@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
-// import installComps from 'pkg/index'
-import installComps from '../dist/oeos-v3-components-es.js'
+import installComps from 'pkg/index'
+// import installComps from '../dist/oeos-v3-components-es.js'
+import '../dist/style.css'
 
 // 加入element-plus
 import ElementPlus from 'element-plus'
