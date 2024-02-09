@@ -1,15 +1,9 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
-import { clone } from 'pkg/utils/gFunc.js'
 
 const { proxy } = getCurrentInstance()
 function btnClick() {
   console.log('btnClick')
-  let arr = [1, 2, 3]
-  let copyArr = clone(arr)
-  console.log('copyArr', copyArr)
-  arr[1] = 4
-  console.log('copyArr', copyArr)
 }
 const a = ref(33)
 </script>

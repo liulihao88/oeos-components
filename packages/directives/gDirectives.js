@@ -1,12 +1,14 @@
-import { $toast } from 'pkg/utils/gFunc.js'
-import { clone } from 'pkg/utils/gFunc.js'
+import { $toast } from '../utils/gFunc.js'
+import { ElMessage } from 'element-plus'
+import { clone } from '../utils/gFunc.js'
 
 /**
  * 复制文本
  * <span v-copy="'生当作人杰'">咋回事</span>
  * import { $toast } from '/@/utils/gFunc.js';
  */
-export function copy(app) {
+export default function (app) {
+  console.log('app', app)
   function handleClick() {
     const input = document.createElement('input')
     input.value = this.copyData.toLocaleString()
@@ -15,20 +17,27 @@ export function copy(app) {
     document.execCommand('Copy')
     document.body.removeChild(input)
     $toast()({
-      duration: 400,
+      duration: 1000,
       message: `${input.value} 复制成功`,
       type: 'success',
     })
   }
   app.directive('copy', {
     mounted(el, binding) {
+      console.log('binding', binding)
+      console.log('el', el)
       el.copyData = binding.value
       el.addEventListener('click', handleClick)
     },
   })
-}
 
-export function number(app) {
+  app.directive('focus', {
+    mounted(el) {
+      el = el.nodeName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
+      el.focus()
+    },
+  })
+
   app.directive('number', {
     mounted(el) {
       console.log('el', el)
@@ -40,19 +49,6 @@ export function number(app) {
         el.value = el.value.replace(/[^0-9]/g, '')
         el.dispatchEvent(new Event('input'))
       })
-    },
-  })
-}
-
-/**
- * 自动聚焦
- * v-focus
- */
-export function focus(app) {
-  app.directive('focus', {
-    mounted(el) {
-      el = el.nodeName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
-      el.focus()
     },
   })
 }

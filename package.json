@@ -1,6 +1,6 @@
 {
   "name": "oeos-v3-components",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "private": false,
   "type": "module",
   "main": "dist/oeos-v3-components-es.js",
@@ -11,10 +11,11 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "pnpm build:lib && pnpm publish",
     "build:lib": "vite build --config ./build/lib.config.js",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "publish": "npm publish",
     "format": "prettier --write example/ packages/"
   },
   "dependencies": {
