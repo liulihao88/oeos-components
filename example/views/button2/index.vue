@@ -5,8 +5,7 @@ const { proxy } = getCurrentInstance()
 
 <template>
   <div>
-    <div>example/button/index.vue</div>
-    <o-button></o-button>
+    这是 button2
   </div>
 </template>
 

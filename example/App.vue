@@ -1,30 +1,65 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-
+import { ref, getCurrentInstance, computed, onMounted, shallowRef } from 'vue'
+import _ from 'lodash-es'
 const { proxy } = getCurrentInstance()
-function btnClick() {
-  console.log('btnClick')
+const modules = import.meta.glob('./views/**/*.vue')
+console.log('modules', modules)
+const componentList = shallowRef({})
+const componentNameList = ref([])
+async function importComps() {
+  for (const path in modules) {
+    const module = await modules[path]()
+    let splitName = path.replace(/^\.\/views\/(.*)\/(.*)+$/, '$1')
+    console.log('splitName', splitName)
+    let finalName =
+      'test' + (splitName.charAt(0).toUpperCase() + splitName.slice(1))
+    componentNameList.value.push(finalName)
+    componentList.value[finalName] = module.default || module
+  }
 }
-const a = ref(33)
+
+onMounted(() => {
+  importComps()
+})
 </script>
 
 <template>
-  <div>
-    <div class="bg-blue cl-red" v-copy="'src/App.vue'">src/App.vue</div>
-    <div></div>
-    <o-button @click="btnClick" type="danger">咋的啦</o-button>
-    <o-test></o-test>
-    <o-empty description="没有数据啊我的哥"></o-empty>
-    <el-input v-model="a" v-number />
-    <o-title title="测试中">
-      <template #right>
-        <div>
-          <o-button>这是按钮1</o-button>
-          <o-button type="success">这是按钮123321321</o-button>
-        </div>
-      </template>
-    </o-title>
+  <div class="box">
+    <div class="l">
+      <div v-for="(v, i) in componentNameList" :key="i">
+        <div>{{ v }}</div>
+      </div>
+    </div>
+    <div class="r">
+      <div v-for="(v, i) in componentList" class="comp-box" :key="i">
+        <component :is="v"></component>
+      </div>
+    </div>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.box {
+  width: 100%;
+  background-color: #fff;
+  .l {
+    flex: 1;
+    // overflow-y: scroll;
+    position: absolute;
+    width: 200px;
+  }
+  .r {
+    flex: 9;
+    background-color: lightblue;
+    position: relative;
+    margin-left: 200px;
+  }
+  .comp-box {
+    border: 1px solid #eee;
+    margin: 40px 0;
+    background-color: #aaa;
+    padding: 40px;
+    box-shadow: rgb(64 158 255 / 20%) 0 1px 10px;
+  }
+}
+</style>

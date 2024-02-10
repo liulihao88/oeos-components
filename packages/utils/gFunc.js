@@ -18,3 +18,13 @@ export function $toast() {
 export function clone(data) {
   return cloneDeep(data)
 }
+
+export function sleep(delay = 0, fn) {
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      fn && fn()
+      resolve()
+    }, delay),
+  )
+}
+
