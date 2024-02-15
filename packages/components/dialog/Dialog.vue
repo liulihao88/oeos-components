@@ -4,8 +4,8 @@
     :close-on-click-modal="$attrs['closeOnClickModal'] || false"
     :width="$attrs.width || '640px'"
     :class="!border && 'hide-title-border'"
-    v-loading="true"
     v-bind="$attrs"
+    @close="handleClose"
   >
     <template #header>
       <slot name="title">

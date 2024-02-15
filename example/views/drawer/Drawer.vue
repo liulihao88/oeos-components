@@ -8,7 +8,6 @@ function btnClick() {
 }
 const a = ref(33)
 const isShow = ref(false)
-// const confirmLoading = ref(false)
 const confirmLoading = ref(true)
 async function cusConfirm() {
   confirmLoading.value = true
@@ -20,16 +19,16 @@ async function cusConfirm() {
 
 <template>
   <div>
-    <o-dialog
-    ref="dialogRef"
-    title="App"
-    @confirm="cusConfirm"
-    :confirmAttrs="{
-      loading: confirmLoading,
-    }"
-    v-model="isShow"
-    ></o-dialog>
-    <o-button @click="btnClick" type="danger">打开dialog</o-button>
+    <o-drawer
+      ref="dialogRef"
+      title="App"
+      @confirm="cusConfirm"
+      :confirmAttrs="{
+        loading: confirmLoading,
+      }"
+      v-model="isShow"
+    ></o-drawer>
+    <o-button @click="btnClick" type="danger">打开drawer</o-button>
   </div>
 </template>
 
