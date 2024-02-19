@@ -1,12 +1,16 @@
 <script setup lang="ts">
+/** @使用方式
+<o-drawer
+  v-model="isShow"
+  title="测试dialog"
+  width="500"
+  :closeOnClickModal="true"
+></o-drawer>
+*/
 import { ref, getCurrentInstance, computed, useAttrs } from 'vue'
 const { proxy } = getCurrentInstance()
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
-  // title: {
-  //   type: String,
-  //   default: '4444444',
-  // },
   confirmText: {
     type: String,
     default: '提交',

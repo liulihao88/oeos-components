@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     :custom-class="getThemeClass"
-    :close-on-click-modal="$attrs['closeOnClickModal'] || false"
+    :close-on-click-modal="$attrs['closeOnClickModal'] !== false"
     :width="$attrs.width || '640px'"
     :class="!border && 'hide-title-border'"
     v-bind="$attrs"

@@ -21,13 +21,13 @@ async function cusConfirm() {
 <template>
   <div>
     <o-dialog
-    ref="dialogRef"
-    title="App"
-    @confirm="cusConfirm"
-    :confirmAttrs="{
-      loading: confirmLoading,
-    }"
-    v-model="isShow"
+      ref="dialogRef"
+      title="App"
+      @confirm="cusConfirm"
+      :confirmAttrs="{
+        loading: confirmLoading,
+      }"
+      v-model="isShow"
     ></o-dialog>
     <o-button @click="btnClick" type="danger">打开dialog</o-button>
   </div>

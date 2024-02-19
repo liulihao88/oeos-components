@@ -9,7 +9,6 @@ const comps = [Button, Empty, Title, Dialog, Drawer]
 const finalComps = comps.map((v) => {
   let baseName = v.__name ?? v.name
   let res = 'o' + baseName.charAt(0).toUpperCase() + baseName.slice(1)
-  console.log('res', res)
   return res
 })
 
