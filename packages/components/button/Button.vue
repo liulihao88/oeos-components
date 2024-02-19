@@ -6,7 +6,7 @@ function isTest53() {}
 
 <template>
   <el-button @click="isTest53">
-    不行啊
+    
     <slot></slot>
   </el-button>
 </template>

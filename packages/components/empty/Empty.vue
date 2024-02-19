@@ -4,13 +4,9 @@ const { proxy } = getCurrentInstance()
 const props = defineProps({
   description: {
     type: String,
-    defualt: '暂无数据',
+    default: '暂无数据',
   },
-  width: {
-    type: [String, Number],
-    default: 24,
-  },
-  height: {
+  size: {
     type: [String, Number],
     default: 24,
   },
@@ -36,15 +32,13 @@ function handleUnit(str) {
 <template>
   <el-empty :description="props.description">
     <template #image>
-      <div class="f-ar c-overscroll-contain">
-        <img
-          src="https://atts.w3cschool.cn/rabbit600x600.png"
-          :style="{
-            width: handleUnit(props.width),
-            height: handleUnit(props.height),
-          }"
-        />
-      </div>
+      <img
+        src="https://atts.w3cschool.cn/rabbit600x600.png"
+        :style="{
+          width: handleUnit(props.size),
+          height: handleUnit(props.size),
+        }"
+      />
     </template>
   </el-empty>
 </template>
