@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue';
-const { proxy } = getCurrentInstance();
-const props = defineProps({
-  
-})
+import { ref, getCurrentInstance } from 'vue'
+const { proxy } = getCurrentInstance()
+const props = defineProps({})
 </script>
 
 <template>
@@ -12,6 +10,4 @@ const props = defineProps({
   </div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
