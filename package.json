@@ -15,7 +15,7 @@
     "build:lib": "vite build --config ./build/lib.config.js",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "publish": "npm version patch && npm publish",
+    "release": "npm version patch && npm publish",
     "format": "prettier --write example/ packages/"
   },
   "dependencies": {
