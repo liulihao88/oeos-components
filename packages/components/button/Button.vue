@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-function isTest53() {
-}
+function isTest53() {}
 </script>
 
 <template>

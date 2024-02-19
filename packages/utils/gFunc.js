@@ -27,4 +27,3 @@ export function sleep(delay = 0, fn) {
     }, delay),
   )
 }
-
