@@ -3,6 +3,7 @@
 1. 在vue3项目的main.js里引入
 
 ```js
+import 'oeos-v3-components/dist/style.css'
 import oeosV3Componets from 'oeos-v3-components'
 app.use(oeosV3Componets)
 ```
