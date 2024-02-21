@@ -8,8 +8,16 @@ const props = defineProps({
   },
   size: {
     type: [String, Number],
-    default: 24,
+    default: 60,
   },
+  customStyle: {
+    type: Object,
+    default: () => {}
+  },
+  url: {
+    type: String,
+    default: 'https://atts.w3cschool.cn/rabbit600x600.png'
+  }
 })
 function handleUnit(str) {
   if (!str) {
@@ -24,19 +32,20 @@ function handleUnit(str) {
   return str + 'px'
 }
 /** @使用方式
- <g-empty description="您没有消费订单" width="48" height="48"></g-empty>
- large-empty.png
+ <o-empty description="您没有消费订单" size="48"></o-empty>
+  <o-empty class="w-100%" url="https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg" size="200" ></o-empty>
 */
 </script>
 
 <template>
-  <el-empty :description="props.description">
+  <el-empty :description="props.description" v-bind="$attrs">
     <template #image>
       <img
-        src="https://atts.w3cschool.cn/rabbit600x600.png"
+        :src="url"
         :style="{
           width: handleUnit(props.size),
           height: handleUnit(props.size),
+          ...props.customStyle,
         }"
       />
     </template>
@@ -44,14 +53,13 @@ function handleUnit(str) {
 </template>
 
 <style scoped lang="scss">
-:deep(.ep-empty__image) svg {
-  width: 60px;
-  height: 60px;
-}
 :deep(.ep-empty) {
   height: 100%;
 }
 :deep(.ep-empty__description p) {
   color: #666;
+}
+:deep(.el-empty__image) {
+  width: unset;
 }
 </style>

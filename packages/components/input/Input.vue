@@ -1,8 +1,7 @@
 <template>
-  <div v-bind="titleAttrs">你干啥</div>
   <el-input
     v-bind="$attrs"
-    :placeholder="handlellaceholder()"
+    :placeholder="handlePlaceholder()"
     class="kd-ipt"
     :clearable="$attrs.clearable !== false"
     :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
@@ -82,10 +81,14 @@ function mHandleWidth() {
   }
   return { width: props.width + 'px' }
 }
-function handlellaceholder() {
-  let res = attrs.disabled
-    ? props.disPlaceholder
-    : attrs.placeholder || '请输入'
+function handlePlaceholder() {
+  console.log(` attrs.disabled`, attrs.disabled)
+  console.log(` attrs.placeholder`, attrs.placeholder)
+  let res =
+    attrs.disabled === undefined
+      ? attrs.placeholder || '请输入'
+      : props.disPlaceholder
+  console.log(`res`, res)
   return res
 }
 // 是否显示showWordLimit属性
