@@ -23,6 +23,7 @@ const install = (app) => {
   })
 }
 
+export * from './utils/gFunc.js'
 export default {
   finalComps,
   install,
