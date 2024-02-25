@@ -161,7 +161,7 @@ function changeMulty(arr) {
       return false
     }
   })
-  emits('changeSelect', [arr, selectObj, selectLabel])
+  emits('changeSelect', [arr, selectLabel, selectObj])
 }
 // 有些场景， 下拉框不仅需要获取value, 还需要获取选择的对象或者label, el-select原生没有这个属性， 所以changeHandler就做了下处理， 返回的数组包含3个属性， 第一个value, 第二个选中对象， 第三个选中的label。
 function changeHandler(item) {
@@ -183,7 +183,7 @@ function changeHandler(item) {
   })[0]
   let selectLabel = selectObj[props.label]
 
-  emits('changeSelect', [item, selectObj, selectLabel])
+  emits('changeSelect', [item, selectLabel, selectObj])
 }
 
 // 处理只有在 往下拉的时候, 才请求事件的情况
