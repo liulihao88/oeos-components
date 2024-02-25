@@ -7,6 +7,7 @@ import Drawer from './components/drawer/Drawer.vue'
 import Select from './components/select/Select.vue'
 import DateRange from './components/dateRange/DateRange.vue'
 import Input from './components/input/Input.vue'
+import * as utils from './utils/gFunc.js'
 
 const comps = [Button, Empty, Title, Dialog, Drawer, Select, DateRange, Input]
 const finalComps = comps.map((v) => {
@@ -25,4 +26,5 @@ const install = (app) => {
 export default {
   finalComps,
   install,
+  utils,
 }
