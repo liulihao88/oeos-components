@@ -15,11 +15,7 @@ export default function (app) {
     input.select()
     document.execCommand('Copy')
     document.body.removeChild(input)
-    $toast()({
-      duration: 1000,
-      message: `${input.value} 复制成功`,
-      type: 'success',
-    })
+    $toast(`${input.value} 复制成功`, 's', { duration: 1000 })
   }
   app.directive('copy', {
     mounted(el, binding) {

@@ -1,8 +1,16 @@
 import { ElMessage } from 'element-plus'
 import { unref } from 'vue'
 import { cloneDeep } from 'lodash-es'
-// proxy.$toast('保存成功')
-// proxy.$toast('保存失败', 'error')
+
+/**
+ * proxy.$toast('保存成功')
+ * proxy.$toast('保存失败', 'error')
+ * 
+proxy.$toast({
+  message: 'andy',
+  type: 'warning',
+})
+ */
 export function $toast(message, type = 'success', otherParams = {}) {
   const map = {
     s: 'success',
@@ -11,6 +19,18 @@ export function $toast(message, type = 'success', otherParams = {}) {
     w: 'warning',
   }
   ElMessage.closeAll()
+  if (judgeType(message) === 'object') {
+    ElMessage(message)
+    return
+  }
+  if (judgeType(type) === 'object') {
+    ElMessage({
+      message: message,
+      type: 'success',
+      ...type,
+    })
+    return
+  }
   ElMessage({
     message: message,
     type: map[type] || type,
@@ -345,4 +365,46 @@ export function validate(type = 'required', rules = {}) {
     }
   }
   console.error(`校验类型${type}, 不在检验范围内, 请检查`)
+}
+
+/**
+ * 
+const { res, err } = await proxy.asyncWrapper(listTests, pickForm);
+if (err) {
+	return;
+}
+ */
+export async function asyncWrapper(func, ...args) {
+  try {
+    const res = await func(...args)
+    return { res }
+  } catch (err) {
+    return { err }
+  }
+}
+
+// 获取assets静态资源
+// let src = proxy.globalImageUrl('1.png');
+export function globalImageUrl(photoName) {
+  if (photoName.startsWith('http')) {
+    return photoName
+  }
+  if (photoName.indexOf('.') === -1) {
+    photoName = photoName + '.png'
+  }
+  return new URL(`../assets/images/${photoName}`, import.meta.url).href
+}
+
+/**
+ * 复制文本
+ * copy('这是要复制的文本');
+ *  */
+export const copy = (text) => {
+  const textarea = document.createElement('textarea')
+  textarea.value = text
+  textarea.style.position = 'fixed'
+  document.body.appendChild(textarea)
+  textarea.select()
+  document.execCommand('copy')
+  document.body.removeChild(textarea)
 }

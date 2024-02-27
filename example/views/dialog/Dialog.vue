@@ -7,7 +7,8 @@ function btnClick() {
   isShow.value = true
 }
 const a = ref(33)
-const isShow = ref(false)
+// const isShow = ref(false)
+const isShow = ref(true)
 // const confirmLoading = ref(false)
 const confirmLoading = ref(true)
 async function cusConfirm() {
@@ -23,12 +24,188 @@ async function cusConfirm() {
     <o-dialog
       ref="dialogRef"
       title="App"
+      :showClose="false"
       @confirm="cusConfirm"
       :confirmAttrs="{
         loading: confirmLoading,
       }"
       v-model="isShow"
-    ></o-dialog>
+    >
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+      <div>
+        我想跟过去说声抱歉
+      </div>
+    </o-dialog>
     <o-button @click="btnClick" type="danger">打开dialog</o-button>
   </div>
 </template>

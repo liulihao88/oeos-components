@@ -1,44 +1,48 @@
 <template>
-  <el-dialog
-    :custom-class="getThemeClass"
-    :close-on-click-modal="$attrs['closeOnClickModal'] !== false"
-    :width="$attrs.width || '640px'"
-    :class="!border && 'hide-title-border'"
-    v-bind="$attrs"
-    @close="handleClose"
-  >
-    <template #header>
-      <slot name="title">
-        <div>
-          <span>{{ props.title }}</span>
+  <div class="o-dialog">
+    <el-dialog
+      :custom-class="getThemeClass"
+      :close-on-click-modal="$attrs['closeOnClickModal'] !== false"
+      :width="$attrs.width || '640px'"
+      :class="!border && 'hide-title-border'"
+      v-bind="$attrs"
+      @close="handleClose"
+    >
+      <template #header>
+        <slot name="title">
+          <div>
+            <span>{{ props.title }}</span>
+          </div>
+        </slot>
+      </template>
+      <div class="dialog_slot_box">
+        <slot></slot>
+      </div>
+      <template #footer>
+        <div v-if="showFooter" slot="footer" class="dialog_footer">
+          <slot name="footer">
+            <el-button
+              v-if="showCancel"
+              :type="cancelAttrs.type || 'info'"
+              v-bind="cancelAttrs"
+              @click="handleClose"
+            >
+              {{ cancelText }}
+            </el-button>
+            <el-button
+              v-if="showConfirm"
+              id="kdDialogConfirmBtn"
+              :type="confirmAttrs.type || 'primary'"
+              v-bind="confirmAttrs"
+              @click="confirm"
+            >
+              {{ confirmText }}
+            </el-button>
+          </slot>
         </div>
-      </slot>
-    </template>
-    <div class="dialog_slot_box">
-      <slot></slot>
-    </div>
-    <div v-if="showFooter" class="dialog_footer">
-      <slot name="footer">
-        <el-button
-          v-if="showCancel"
-          :type="cancelAttrs.type || 'info'"
-          v-bind="cancelAttrs"
-          @click="handleClose"
-        >
-          {{ cancelText }}
-        </el-button>
-        <el-button
-          v-if="showConfirm"
-          id="kdDialogConfirmBtn"
-          :type="confirmAttrs.type || 'primary'"
-          v-bind="confirmAttrs"
-          @click="confirm"
-        >
-          {{ confirmText }}
-        </el-button>
-      </slot>
-    </div>
-  </el-dialog>
+      </template>
+    </el-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -143,3 +147,7 @@ function handleClose() {
   emits('update:modelValue', false)
 }
 </script>
+
+<style lang="scss" scoped>
+@import './dialog.scss';
+</style>

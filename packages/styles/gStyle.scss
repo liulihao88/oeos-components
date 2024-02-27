@@ -14,7 +14,7 @@
   --green2: #eaf8f2;
   --gray: #ebedf0;
   --gray2: #f7f8fa;
-  --line: #ebedf0;
+  --line: #e3e6eb;
 }
 @each $cl, $clVar in blue var(--blue), blue2 var(--blue2), 85 var(--85),
   65 var(--65), 45 var(--45), black var(--black), white var(--white),
