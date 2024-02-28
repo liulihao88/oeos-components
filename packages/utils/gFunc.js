@@ -130,7 +130,7 @@ export function notEmpty(v) {
 }
 
 // 将两个对象合并, 以第二个对象为准, 如果两个对象, 一个属性有值, 一个没值, name合并后有值; 如果两个属性都有值, 以第二个属性为准
-function merge(obj1, obj2) {
+export function merge(obj1, obj2) {
   let merged = { ...obj1, ...obj2 }
   for (let key in merged) {
     if (!isEmpty(obj1[key]) && !isEmpty(obj2[key])) {
