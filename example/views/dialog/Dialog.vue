@@ -7,8 +7,8 @@ function btnClick() {
   isShow.value = true
 }
 const a = ref(33)
-// const isShow = ref(false)
-const isShow = ref(true)
+const isShow = ref(false)
+// const isShow = ref(true)
 // const confirmLoading = ref(false)
 const confirmLoading = ref(true)
 async function cusConfirm() {
@@ -31,7 +31,7 @@ async function cusConfirm() {
       }"
       v-model="isShow"
     >
-      <div>
+      <div v-copy="'我啊'">
         我想跟过去说声抱歉
       </div>
       <div>
