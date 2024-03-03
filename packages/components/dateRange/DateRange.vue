@@ -76,6 +76,7 @@ const dateValue = ref([])
 
 <template>
   <div>
+    <el-button type="primary">这是el-button</el-button>
     <el-date-picker
       style="width: 440px"
       :shortcuts="shortcuts"

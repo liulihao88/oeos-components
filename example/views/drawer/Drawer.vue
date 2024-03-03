@@ -4,6 +4,8 @@ import { sleep } from 'pkg/utils/gFunc.js'
 
 const { proxy } = getCurrentInstance()
 function btnClick() {
+  console.log(`%c47 7行 example/views/drawer/Drawer.vue isShow.value`, 'background:#fff;color:red', isShow.value);
+  
   isShow.value = true
 }
 const a = ref(33)
@@ -30,7 +32,7 @@ async function cusConfirm() {
       }"
       v-model="isShow"
     ></o-drawer>
-    <o-button @click="btnClick" type="danger">打开drawer</o-button>
+    <el-button @click="btnClick" type="danger">打开drawer1</el-button>
   </div>
 </template>
 

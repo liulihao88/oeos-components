@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-function isTest53() {}
+const dateValue = ref()
 </script>
 
 <template>
-  你好啊
-  <el-button type="primary">测试118</el-button>
-  <el-button @click="isTest53">
-    <slot></slot>
-  </el-button>
+  <div>
+    <o-date-range v-model="dateValue"></o-date-range>
+  </div>
 </template>
 
 <style scoped lang="scss"></style>

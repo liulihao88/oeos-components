@@ -12,12 +12,12 @@ const props = defineProps({
   },
   customStyle: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
   url: {
     type: String,
-    default: 'https://atts.w3cschool.cn/rabbit600x600.png'
-  }
+    default: 'https://atts.w3cschool.cn/rabbit600x600.png',
+  },
 })
 function handleUnit(str) {
   if (!str) {
