@@ -29,7 +29,6 @@ onBeforeMount(() => {
   for (const modulesKey in modules) {
     const module = modules[modulesKey]
     // 找到example的组件，并加载
-    console.log(`module.default`, module.default);
     if (modulesKey.split('.vue')[0].endsWith(props.path)) {
       dynamicComponent.value = module.default
     }

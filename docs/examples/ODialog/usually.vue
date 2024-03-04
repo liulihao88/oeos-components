@@ -5,7 +5,7 @@ function btnClick() {
 }
 const a = ref(33)
 const isShow = ref(false)
-const confirmLoading = ref(false)
+const confirmLoading = ref(true)
 async function cusConfirm() {
   confirmLoading.value = true
   await sleep(2000)

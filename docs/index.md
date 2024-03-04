@@ -15,7 +15,7 @@ hero:
   actions:
     - theme: brand
       text: 安装指南
-      link: /components/button/index
+      link: /components/dialog/index
     - theme: brand
       text: 组件预览
       link: /components/TSelect/base.md

@@ -4,7 +4,7 @@ import App from './App.vue'
 import installComps, { utils } from 'pkg/index'
 console.log(`utils`, utils)
 // import installComps from '../dist/oeos-v3-components-es.js'
-import '../dist/style.css'
+// import '../dist/style.css'
 
 // 加入element-plus
 import ElementPlus from 'element-plus'
