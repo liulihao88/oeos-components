@@ -205,14 +205,14 @@ async function handleResChange(isOpen) {
 }
 
 /** @使用方式
-<g-select
+<o-select
   v-model="optionsId"
   label="name"
   value="id"
   :url="listWorkStyles"
   optionsExpression="list"
   :urlParams="urlParams"
-></g-select>
+></o-select>
 
 import { listWorkStyles } from '/@/api/aig/work_styles';
 

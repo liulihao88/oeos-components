@@ -14,8 +14,8 @@ npm install oeos-v3-components
 pnpm add oeos-v3-components
 ```
 
-
 ### 使用
+
 > #### 前提条件：使用项目必须全局注册 Element-plus组件库
 
 ```js
@@ -27,7 +27,51 @@ app.use(oeosV3Components)
 app.mount('#app')
 ```
 
+### 引入函数库方法
+
+```
+// 将oeos-v3-components下的公共函数赋值到全局
+import { utils } from 'oeos-v3-components'
+Object.keys(utils).forEach((v) => {
+  app.config.globalProperties[v] = utils[v]
+})
+
+// 按需引入
+import { $toast } from 'oeos-v3-components'
+$toast('我是成功提示')
+$toast('我是失败提示', 'e')
+
+// 方法列表
+$toast,
+setStorage,
+getStorage,
+clearStorage,
+isEmpty,
+notEmpty,
+merge,
+clone,
+uuid,
+judgeType,
+sleep,
+validate,
+asyncWrapper,
+globalImageUrl,
+copy,
+addThousandSeparator
+```
+
+### 自定义指令
+
+不必注册, 直接使用
+
+```
+v-copy
+v-number
+v-focus
+```
+
 ### docs文档结构目录
+
 ```
 ├─ examples               # VPDemo组件自动解析此文件夹下的所有.vue文件
 ├─ components             # .md文件
@@ -47,5 +91,3 @@ app.mount('#app')
 ├─ tsconfig.json          # typescript 全局配置
 └─ vite.config.ts         # vite 全局配置文件（支持tsx）
 ```
-
-

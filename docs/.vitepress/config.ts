@@ -32,6 +32,10 @@ export default defineConfig({
               link: '/components/dialog/base.md',
             },
             {
+              text: '测试组件',
+              link: '/components/test/base.md',
+            },
+            {
               text: 'dateRange组件',
               link: '/components/dateRange/base.md',
             },

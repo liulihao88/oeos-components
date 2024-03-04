@@ -27,9 +27,9 @@ function cancel() {
   popShow.value = false
 }
 /** @使用方式
-<g-popover title="">
-  <g-btn type="primary" >测试41</g-btn>
-</g-popover>
+<o-popover title="">
+  <o-btn type="primary" >测试41</o-btn>
+</o-popover>
 */
 </script>
 
@@ -45,16 +45,16 @@ function cancel() {
       <slot></slot>
     </template>
     <div class="f-bt">
-      <g-btn type="red" @click="confirm" :customStyle="{ padding: '9px 20px' }">
+      <o-btn type="red" @click="confirm" :customStyle="{ padding: '9px 20px' }">
         确定
-      </g-btn>
-      <g-btn
+      </o-btn>
+      <o-btn
         type="primary"
         @click="cancel"
         :customStyle="{ padding: '9px 20px' }"
       >
         取消
-      </g-btn>
+      </o-btn>
     </div>
   </el-popover>
 </template>
