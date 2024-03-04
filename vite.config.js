@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import markdown from 'vite-plugin-md'
 
 // https://vitejs.dev/config/
@@ -10,6 +11,7 @@ export default defineConfig({
     vue({
       include: [/\.vue$/, /\.md$/],
     }),
+    vueJsx(),
     markdown(),
   ],
   resolve: {

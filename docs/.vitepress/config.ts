@@ -83,7 +83,7 @@ export default {
     nav: [
       {
         text: '安装指南',
-        link: '/components/',
+        link: '/components/dialog',
       },
       { text: '基础组件', link: '/components/TSelect/base.md' },
       {
