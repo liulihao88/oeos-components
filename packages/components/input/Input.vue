@@ -12,7 +12,11 @@
     height="100px"
     :show-word-limit="handleShowWordLimit()"
     @focus="focusHandler($event)"
-  ></el-input>
+  >
+    <template v-if="$attrs.title" #prepend>
+      {{ $attrs.title }}
+    </template>
+  </el-input>
 </template>
 
 <script setup lang="ts">

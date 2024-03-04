@@ -69,8 +69,8 @@ onBeforeMount(() => {
   }
 }
 .example-component {
-  // min-height: 86px;
-  // padding: 1.5rem;
+  min-height: 86px;
+  padding: 1.5rem;
   background-color: var(--el-bg-color-page);
   &--spin {
     width: 36px;

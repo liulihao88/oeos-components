@@ -10,8 +10,7 @@ const options = ref([
 
 <template>
   <div>
-    <div>example/views/select/Select.vue</div>
-    <o-select v-model="selectVal" :options="options" width="900"></o-select>
+    <o-select v-model="selectVal" :options="options"></o-select>
   </div>
 </template>
 
