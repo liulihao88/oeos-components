@@ -67,7 +67,7 @@ watch(
   { deep: true, immediate: true },
 )
 
-const emit = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue'])
 function checkAllChange() {
   const optionAll = props.options.map((v) => v[props.value])
   if (
@@ -87,7 +87,7 @@ function groupChange(item, idx) {
 
 function emitValue(item) {
   allCheckList.value = item
-  emit('update:modelValue', allCheckList.value)
+  emits('update:modelValue', allCheckList.value)
 }
 </script>
 

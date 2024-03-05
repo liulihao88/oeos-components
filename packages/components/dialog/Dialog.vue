@@ -3,10 +3,12 @@
   <div class="o-dialog">
     <el-dialog
       :custom-class="getThemeClass"
-      :close-on-click-modal="$attrs['closeOnClickModal'] !== false"
-      :width="$attrs.width || '640px'"
       :class="!border && 'hide-title-border'"
-      v-bind="$attrs"
+      v-bind="{
+        width: '640px',
+        closeOnClickModal: true,
+        ...$attrs
+      }"
       @close="handleClose"
     >
       <template #header>
