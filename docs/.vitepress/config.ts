@@ -28,6 +28,10 @@ export default defineConfig({
           text: 'Basic基础组件',
           items: [
             {
+              text: 'checkAll组件',
+              link: '/components/checkAll/base.md',
+            },
+            {
               text: 'dialog组件',
               link: '/components/dialog/base.md',
             },
@@ -50,6 +54,10 @@ export default defineConfig({
             {
               text: 'input组件',
               link: '/components/input/base.md',
+            },
+            {
+              text: 'tooltip组件',
+              link: '/components/tooltip/base.md',
             },
           ],
         },

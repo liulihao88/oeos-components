@@ -1,76 +1,62 @@
 <template>
   <el-tooltip
+    class="tooltip"
     effect="dark"
-    :disabled="isShowTooltip"
-    :placement="placement"
-    popper-class="cus-tooltip"
+    :disabled="isDisabled"
     v-bind="$attrs"
   >
     <span
-      v-if="!slotShow"
-      class="hide-text"
+      @click="contentClick"
+      v-if="props.showSlot"
+      class="tooltip__text"
       :style="{ maxWidth: width }"
-      @mouseover="onMouseOver('str')"
+      @mouseover="onMouseOver"
     >
-      <span ref="str">{{ $attrs.content }}</span>
+      <span ref="contentRef">
+        {{ $attrs.content }}
+      </span>
     </span>
     <slot></slot>
   </el-tooltip>
 </template>
 
-<script>
-/**
-* @使用方法
-<o-tooltip :content="val.label" placement="top" width="60px"></o-tooltip>
-<o-tooltip content="再来一次" width="60px" slotShow placement="left" >
-  <div class="w-40 h-40 f-ar bg-white o-9 br-50%">
-    <img src="@/assets/images/logo.png" class="w-16 h-16" />
-  </div>
-</o-tooltip>
-*/
-export default {
-  name: 'KdTooltip',
-  components: {},
-  props: {
-    width: {
-      // 超过此宽度省略号显示
-      type: String,
-      default: () => {
-        return '100%'
-      },
-    },
-    slotShow: {
-      // 是否显示插槽
-      type: Boolean,
-      default: () => {
-        return false
-      },
-    },
-    placement: {
-      type: String,
-      default: 'top',
-    },
+<script setup lang="ts">
+import { ref, nextTick } from 'vue'
+
+const props = defineProps({
+  width: {
+    type: String,
+    default: '100%',
   },
-  data() {
-    return {
-      isShowTooltip: false,
-    }
+  showSlot: {
+    type: Boolean,
+    default: true,
   },
-  methods: {
-    onMouseOver(str) {
-      if (this.slotShow) return
-      // 内容超出，显示文字提示内容
-      const tag = this.$refs[str]
-      if (!tag) return
-      const parentWidth = tag.parentNode.offsetWidth // 获取元素父级可视宽度
-      const contentWidth = tag.offsetWidth // 获取元素可视宽度
-      this.isShowTooltip = contentWidth <= parentWidth
-    },
-  },
+})
+const contentRef = ref()
+const isDisabled = ref(false)
+function onMouseOver() {
+  if (!props.showSlot) {
+    return
+  }
+  // 内容超出，显示文字提示内容
+  const tag = contentRef.value
+  console.log(`tag`, tag)
+  if (!tag) return
+  const parentWidth = tag.parentNode.offsetWidth // 获取元素父级可视宽度
+  console.log(`tag.parentNode`, tag.parentNode)
+  console.log(`parentWidth`, parentWidth)
+  const contentWidth = tag.offsetWidth // 获取元素可视宽度
+  console.log(`contentWidth`, contentWidth)
+  isDisabled.value = contentWidth <= parentWidth
+}
+const emits = defineEmits(['click'])
+function contentClick() {
+  emits('click')
 }
 </script>
 <style lang="scss" scoped>
-.hide-text {
+.tooltip__text {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
