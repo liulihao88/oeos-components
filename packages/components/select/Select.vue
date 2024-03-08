@@ -82,7 +82,7 @@ const props = defineProps({
   // 是简单的options 还是复杂options。默认复杂
   type: {
     type: String,
-    default: '', // 简单选项'simple', 
+    default: '', // 简单选项'simple',
   },
   // 如果label显示多个参数的连接符
   connect: {
@@ -248,9 +248,10 @@ function changeHandler(item) {
   }
   if (!item) {
     emits('changeSelect', [])
-    emits('update:modelValue', [])
+    emits('update:modelValue', props.multiple ? [] : '')
     return
   }
+  console.log(`sOptions.value`, sOptions.value)
   let selectObj = sOptions.value.filter((v) => {
     if (props.type === 'simple') {
       return v === item
