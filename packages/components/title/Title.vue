@@ -12,8 +12,8 @@
 
 <script setup lang="ts">
 /**
-<g-title title="使用hooks1" t="100"></g-title>
-<g-title title="我说呢" sub-title="test/t2.vue"></g-title>
+<o-title title="使用hooks1" t="100"></o-title>
+<o-title title="我说呢" sub-title="test/t2.vue"></o-title>
 * 
 */
 import { ref, computed, getCurrentInstance } from 'vue'

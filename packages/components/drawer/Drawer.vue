@@ -105,7 +105,7 @@ function _handleClose() {
 </script>
 
 <template>
-  <div>
+  <div class="o-drawer">
     <el-drawer
       :wrapper-closable="mergeAttrs.wrapperClosable"
       :destroy-on-close="mergeAttrs.wrapperClosable !== false"
@@ -149,63 +149,66 @@ function _handleClose() {
 </template>
 
 <style scoped lang="scss">
-.el-drawer__header {
-  margin-bottom: 0;
-  height: 50px;
-  padding: 0;
-  color: var(--text-color);
-  font-weight: 500;
-  padding-left: 24px;
-  font-size: 14px;
-  border-bottom: 1px solid var(--line-color);
-  box-sizing: border-box;
-
-  > span {
+.o-drawer {
+  :deep(.el-drawer__header) {
+    margin-bottom: 0;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 12px;
+    background-color: #ebedf0;
     font-size: 14px;
-    padding-left: 24px;
+    border-bottom: 1px solid #e3e6eb;
+    box-sizing: border-box;
+
+    > span {
+      font-size: 14px;
+      padding-left: 24px;
+    }
+
+    > .el-drawer__close-btn {
+      font-size: 16px;
+      padding-right: 24px;
+    }
   }
 
-  > .el-drawer__close-btn {
-    font-size: 16px;
-    padding-right: 24px;
-  }
-}
-
-.drawer-main {
-  flex: 1;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-
-  .drawer-scrollbar {
+  .drawer-main {
     flex: 1;
     height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
 
-    .el-scrollbar__view {
-      width: 100%;
+    .drawer-scrollbar {
+      flex: 1;
       height: 100%;
+
+      .el-scrollbar__view {
+        width: 100%;
+        height: 100%;
+      }
+
+      .el-scrollbar__wrap {
+        overflow-x: hidden;
+      }
     }
 
-    .el-scrollbar__wrap {
-      overflow-x: hidden;
+    .content {
+      min-height: calc(100vh - 200px) !important;
+      overflow-y: auto;
+      padding: 24px;
     }
   }
 
-  .content {
-    padding: 24px;
+  .kd-drawer-footer {
+    height: 56px;
+    padding: 0 24px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    border-top: 1px solid var(--line-color);
   }
-}
-
-.kd-drawer-footer {
-  height: 56px;
-  padding: 0 24px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  box-sizing: border-box;
-  border-top: 1px solid var(--line-color);
 }
 </style>

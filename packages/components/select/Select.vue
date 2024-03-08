@@ -6,38 +6,63 @@
     <el-select
       ref="rightBox"
       class="right_box"
-      :filterable="$attrs.filterable !== false"
+      v-model="props.modelValue"
       :placeholder="handlePlaceholder()"
       popper-class="kd-custom-multiple-checkbox"
-      :clearable="$attrs.clearable !== false"
-      v-bind="$attrs"
-      @visible-change="handleResChange"
+      :multiple="multiple"
       @change="changeHandler"
+      v-bind="{
+        clearable: true,
+        filterable: true,
+        ...$attrs,
+      }"
     >
+      <template v-for="(index, name) in slots" v-slot:[name]="data">
+        <slot :name="name" v-bind="data" />
+      </template>
+      <el-checkbox
+        v-if="multiple"
+        :indeterminate="indeterminate"
+        v-model="selectChecked"
+        @change="selectAll"
+        class="all_checkbox"
+      >
+        全选
+      </el-checkbox>
       <el-option
         v-for="item in sOptions"
         :key="type === 'simple' ? item : item[props.value]"
         :label="type === 'simple' ? item : handleLabel(item)"
         :value="type === 'simple' ? item : item[props.value]"
         :disabled="optionDisabled(item)"
-      >
-        <el-checkbox
-          v-if="$attrs.multiple === true || $attrs.multiple === ''"
-          @click.prevent.native
-        >
-          {{ handleLabel(item) }}
-        </el-checkbox>
-      </el-option>
+      ></el-option>
     </el-select>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance, useAttrs, watch } from 'vue'
+import {
+  ref,
+  getCurrentInstance,
+  useAttrs,
+  watch,
+  useSlots,
+  nextTick,
+  computed,
+} from 'vue'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
-const emits = defineEmits(['changeSelect'])
+const emits = defineEmits(['changeSelect', 'update:modelValue'])
+const slots = useSlots()
 const props = defineProps({
+  modelValue: {
+    type: [Array, String, Number],
+  },
+  // 是否多选
+  multiple: {
+    type: Boolean,
+    default: false,
+  },
   title: {
     type: String,
     default: '',
@@ -108,7 +133,57 @@ watch(
     immediate: true,
   },
 )
+
 const isLoading = ref(false)
+
+const judgeSelect = computed(() => (itemValue) => {
+  if (props.modelValue && props.multiple) {
+    // console.log(`props.modelValue`, props.modelValue)
+    // console.log(`itemValue`, itemValue)
+    return props.modelValue.some((v) => {
+      // console.log(
+      //   `%c63 144行 packages/components/select/Select.vue v`,
+      //   'background:#fff;color:blue',
+      //   v,
+      // )
+      return v === itemValue
+    })
+  } else {
+    return false
+  }
+})
+// 设置半选
+const indeterminate = computed({
+  get() {
+    const _deval = props.modelValue
+    return _deval?.length !== props.options.length && _deval?.length !== 0
+  },
+  set(val) {
+    return val?.length !== props.options.length && val?.length !== 0
+  },
+})
+// 设置全选
+const selectChecked = computed({
+  get() {
+    const _deval = props.modelValue
+    return _deval?.length === props.options.length
+  },
+  set(val) {
+    return val?.length === props.options.length
+  },
+})
+// 点击全选
+const selectAll = (val: any) => {
+  const options = JSON.parse(JSON.stringify(props.options))
+  if (val) {
+    const selectedAllValue = options.map((item) => {
+      return item[props.value]
+    })
+    emits('update:modelValue', selectedAllValue)
+  } else {
+    emits('update:modelValue', [])
+  }
+}
 
 // 根据传入的width, 返回处理后的width
 function mHandleWidth() {
@@ -153,7 +228,7 @@ function handleLabel(item) {
 // 处理多选的返回情况
 function changeMulty(arr) {
   let selectLabel = []
-  const selectObj = sOptions.filter((v) => {
+  const selectObj = sOptions.value.filter((v) => {
     if (arr.includes(v[props.value])) {
       selectLabel.push(v[props.label])
       return true
@@ -162,6 +237,7 @@ function changeMulty(arr) {
     }
   })
   emits('changeSelect', [arr, selectLabel, selectObj])
+  emits('update:modelValue', arr)
 }
 // 有些场景， 下拉框不仅需要获取value, 还需要获取选择的对象或者label, el-select原生没有这个属性， 所以changeHandler就做了下处理， 返回的数组包含3个属性， 第一个value, 第二个选中对象， 第三个选中的label。
 function changeHandler(item) {
@@ -172,8 +248,10 @@ function changeHandler(item) {
   }
   if (!item) {
     emits('changeSelect', [])
+    emits('update:modelValue', props.multiple ? [] : '')
     return
   }
+  console.log(`sOptions.value`, sOptions.value)
   let selectObj = sOptions.value.filter((v) => {
     if (props.type === 'simple') {
       return v === item
@@ -184,35 +262,18 @@ function changeHandler(item) {
   let selectLabel = selectObj[props.label]
 
   emits('changeSelect', [item, selectLabel, selectObj])
-}
-
-// 处理只有在 往下拉的时候, 才请求事件的情况
-async function handleResChange(isOpen) {
-  if (proxy.isEmpty(props.url)) {
-    return
-  }
-  if (isOpen && proxy.isEmpty(sOptions.value)) {
-    isLoading.value = true
-    let { res, err } = await proxy.asyncWrapper(props.url, props.urlParams)
-    if (err) {
-      return
-    }
-    sOptions.value = proxy.isEmpty(props.optionsExpression)
-      ? res
-      : res[props.optionsExpression]
-    isLoading.value = false
-  }
+  emits('update:modelValue', item)
 }
 
 /** @使用方式
-<g-select
+<o-select
   v-model="optionsId"
   label="name"
   value="id"
   :url="listWorkStyles"
   optionsExpression="list"
   :urlParams="urlParams"
-></g-select>
+></o-select>
 
 import { listWorkStyles } from '/@/api/aig/work_styles';
 
@@ -258,7 +319,7 @@ const urlParams = proxy.translateToPageinfo({
     z-index: 10;
     width: 16px;
     height: 16px;
-    border: 1px solid var(--blue);
+    border: 1px solid blue;
     border-radius: 2px;
     color: #ffffff;
     top: 50%;
@@ -271,7 +332,7 @@ const urlParams = proxy.translateToPageinfo({
     height: 16px;
   }
   &.selected .el-checkbox__label {
-    color: var(--blue);
+    color: blue;
   }
   &.hover {
     background-color: #f5f7fd;
@@ -279,21 +340,24 @@ const urlParams = proxy.translateToPageinfo({
   }
   &.is-disabled {
     &.selected::after {
-      background: var(--gray);
-      border: 1px solid var(--gray);
+      background: gray;
+      border: 1px solid gray;
     }
     .el-checkbox,
     .el-checkbox__label,
     .el-checkbox__inner {
-      color: var(--gray);
-      border-color: var(--gray) !important;
+      color: gray;
+      border-color: gray !important;
     }
   }
 }
 :deep(.ep-input__wrapper) {
-  background: var(--primary);
+  background: blue;
   & .ep-input__inner {
     color: #fff !important;
   }
+}
+.all_checkbox {
+  margin-left: 20px;
 }
 </style>

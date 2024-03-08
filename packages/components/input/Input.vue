@@ -12,13 +12,17 @@
     height="100px"
     :show-word-limit="handleShowWordLimit()"
     @focus="focusHandler($event)"
-  ></el-input>
+  >
+    <template v-if="$attrs.title" #prepend>
+      {{ $attrs.title }}
+    </template>
+  </el-input>
 </template>
 
 <script setup lang="ts">
 /**
 * @使用方法
-<g-input
+<o-input
   title="想天下"
   @keyup.enter="close"
   v-model="aaa"
@@ -29,7 +33,7 @@
     style: {color: 'blue'}
   }"
   class="m-l-100"
-></g-input>
+></o-input>
 */
 import { ref, getCurrentInstance, computed, useAttrs } from 'vue'
 const { proxy } = getCurrentInstance()
@@ -82,13 +86,10 @@ function mHandleWidth() {
   return { width: props.width + 'px' }
 }
 function handlePlaceholder() {
-  console.log(` attrs.disabled`, attrs.disabled)
-  console.log(` attrs.placeholder`, attrs.placeholder)
   let res =
     attrs.disabled === undefined
       ? attrs.placeholder || '请输入'
       : props.disPlaceholder
-  console.log(`res`, res)
   return res
 }
 // 是否显示showWordLimit属性

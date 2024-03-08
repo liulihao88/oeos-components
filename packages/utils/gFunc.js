@@ -38,6 +38,52 @@ export function $toast(message, type = 'success', otherParams = {}) {
   })
 }
 
+export function setStorage(str, params, isLocal = true) {
+  let handleParams
+  if (typeof params === 'number' || typeof params === 'string') {
+    handleParams = params
+  } else {
+    handleParams = JSON.stringify(params)
+  }
+  if (isLocal) {
+    localStorage.setItem(str, handleParams)
+  } else {
+    sessionStorage.setItem(str, handleParams)
+  }
+}
+
+export function getStorage(data, isLocal = true) {
+  // 先获取localStorage数据, 如果没有再获取sessionStorage数据。 如果都没有， null;
+  let getLocalData = ''
+  let getSessionData = ''
+  // 如果isSessionFirst为true, 先判断sessionStorage, 后判断localStorage
+  if (isLocal) {
+    getLocalData = localStorage.getItem(data)
+  } else {
+    getSessionData = sessionStorage.getItem(data)
+  }
+  if (getLocalData) {
+    try {
+      if (typeof JSON.parse(getLocalData) !== 'number') {
+        getLocalData = JSON.parse(getLocalData)
+      }
+    } catch (e) {
+      // console.log('e', e);
+    }
+    return getLocalData
+  } else if (getSessionData) {
+    try {
+      if (typeof JSON.parse(getSessionData) !== 'number') {
+        getSessionData = JSON.parse(getSessionData)
+      }
+    } catch (e) {
+      // console.log('e2', e);
+    }
+    return getSessionData
+  }
+  return null
+}
+
 /**
  *
  * @param {*} str 需要清空的localStorage或sessionStorage, 如果不传清空所有
@@ -423,3 +469,22 @@ export const copy = (text) => {
   document.execCommand('copy')
   document.body.removeChild(textarea)
 }
+
+// 给数字加千分位
+export function addThousandSeparator(number) {
+  // 提取数字部分和单位部分
+  let matches = ('' + number).match(/^([\d,]+)(\D+)?$/)
+  if (!matches) {
+    return number // 如果没有找到匹配，则返回原始输入
+  }
+
+  let numericString = matches[1].replace(/\D/g, '') // 仅保留数字
+  let unit = matches[2] || '' // 单位部分，如果没有则为空字符串
+
+  // 添加千位分隔符
+  let numberWithSeparator = numericString.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+  // 拼接数字和单位，并返回结果
+  return numberWithSeparator + unit
+}
+
