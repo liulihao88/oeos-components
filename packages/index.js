@@ -10,6 +10,7 @@ import Tooltip from './components/tooltip/Tooltip.vue'
 import CheckAll from './components/checkAll/CheckAll.vue'
 import * as utils from './utils/gFunc.js'
 
+
 const comps = [
   Empty,
   Title,
