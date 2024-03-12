@@ -1,5 +1,5 @@
 import { ElMessage } from 'element-plus'
-import { unref } from 'vue'
+import { unref, isRef, toRaw } from 'vue'
 import { cloneDeep } from 'lodash-es'
 
 /**
@@ -488,3 +488,48 @@ export function addThousandSeparator(number) {
   return numberWithSeparator + unit
 }
 
+/*
+const str = ref(11)
+proxy.log(`str`, str, "5行 test/t3.vue");
+ */
+export function log(
+  variableStr,
+  variable,
+  otherInfo = '16行 src/views/test/t3.vue',
+) {
+  if (isRef(variable)) {
+    let unrefVariable = unref(variable)
+    _log(toRaw(unrefVariable))
+  } else {
+    _log(variable)
+  }
+  function _log(consoleData) {
+    if (
+      judgeType(consoleData) === 'object' ||
+      judgeType(consoleData) === 'array'
+    ) {
+      console.log(
+        `%c${variableStr} ${otherInfo}`,
+        'background:#fff; color: blue;font-size: 1.2em',
+        JSON.stringify(consoleData, null, '\t'),
+      )
+    } else {
+      console.log(
+        `%c${variableStr} ${otherInfo}`,
+        'background:#fff; color: blue;font-size: 1.2em',
+        consoleData,
+      )
+    }
+  }
+  function judgeType(type) {
+    if (typeof type === 'object') {
+      const objType = Object.prototype.toString
+        .call(type)
+        .slice(8, -1)
+        .toLowerCase()
+      return objType
+    } else {
+      return typeof type
+    }
+  }
+}
