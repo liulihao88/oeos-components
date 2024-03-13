@@ -6,10 +6,10 @@ import Drawer from './components/drawer/Drawer.vue'
 import Select from './components/select/Select.vue'
 import DateRange from './components/dateRange/DateRange.vue'
 import Input from './components/input/Input.vue'
+import InputLabel from './components/inputLabel/InputLabel.vue'
 import Tooltip from './components/tooltip/Tooltip.vue'
 import CheckAll from './components/checkAll/CheckAll.vue'
-import * as utils from './utils/gFunc.js'
-
+import * as utils from './utils'
 
 const comps = [
   Empty,
@@ -20,6 +20,7 @@ const comps = [
   DateRange,
   Tooltip,
   Input,
+  InputLabel,
   CheckAll,
 ]
 const finalComps = comps.map((v) => {
@@ -36,7 +37,7 @@ const install = (app) => {
 }
 
 export { utils }
-export * from './utils/gFunc.js'
+export * from './utils'
 export default {
   finalComps,
   install,

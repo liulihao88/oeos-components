@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, nextTick, onMounted } from 'vue'
-import { $toast } from '@/utils/gFunc.js'
+import { $toast } from '../utils'
 import { createMessage } from '@/components/customMessage/method'
 
 console.log(`createMessage`, createMessage)

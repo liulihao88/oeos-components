@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-import { $toast } from '@/utils/gFunc.js'
+import { $toast } from '@/utils'
 
 const arr = ref([
   { label: '小月月', value: 'xyy' },

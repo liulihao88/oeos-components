@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
-import { sleep } from '../../../packages/utils/gFunc.js'
+import { sleep } from '../../../packages/utils'
 
 const { proxy } = getCurrentInstance()
 const confirmLoading = ref(false)

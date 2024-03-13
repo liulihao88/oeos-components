@@ -10,7 +10,7 @@
 ></o-check-all>
 */
 import { ref, getCurrentInstance, watch } from 'vue'
-import { isEmpty } from '../../utils/gFunc.js'
+import { isEmpty } from '../../utils'
 
 const props = defineProps({
   options: {

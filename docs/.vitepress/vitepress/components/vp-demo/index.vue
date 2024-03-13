@@ -47,7 +47,7 @@
 import { computed, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useClipboard } from '@vueuse/core'
-import { getStorage, setStorage } from '../../../../../packages/utils/gFunc.js'
+import { getStorage, setStorage } from '../../../../../packages/utils'
 
 import Example from './vp-example.vue'
 import SourceCode from './vp-source-code.vue'

@@ -1,11 +1,11 @@
-import { $toast } from '../utils/gFunc.js'
+import { $toast } from '../utils'
 import { ElMessage } from 'element-plus'
-import { clone } from '../utils/gFunc.js'
+import { clone } from '../utils'
 
 /**
  * 复制文本
  * <span v-copy="'生当作人杰'">咋回事</span>
- * import { $toast } from '/@/utils/gFunc.js'
+ * import { $toast } from '/@/utils'
  */
 export default function (app) {
   function handleClick() {

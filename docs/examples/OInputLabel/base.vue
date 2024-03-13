@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-import { $toast } from '@/utils'
-
+const arr = ref([33, 55])
 </script>
 
 <template>
   <div>
-    <div>docs/examples/Otest/usually.vue</div>
+    <o-input-label v-model="arr"></o-input-label>
   </div>
 </template>
 
