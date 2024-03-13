@@ -16,16 +16,14 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      pkg: fileURLToPath(new URL('./packages', import.meta.url)),
-      exp: fileURLToPath(new URL('./exp', import.meta.url)),
+      '@': fileURLToPath(new URL('./packages', import.meta.url)),
     },
     // 类型： string[] 导入时想要省略的扩展名列表。
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.mjs'],
   },
   server: {
     host: '0.0.0.0',
-    port: 9999,
+    port: 9876,
     open: true,
     https: false,
   },

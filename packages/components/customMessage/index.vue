@@ -1,32 +1,32 @@
 <template>
-<Transition 
-  :name="transitionName"
-  @after-leave="destroyComponent"
-  @enter="updateHeight"
->
-<div
-  class="vk-message"
-  v-show="visible"
-  :class="{
-    [`vk-message--${type}`]: type,
-    'is-close': showClose
-  }"
-  role="alert"
-  ref="messageRef"
-  :style="cssStyle"
-  @mouseenter="clearTimer"
-  @mouseleave="startTimer"
-> 
-  <div class="vk-message__content">
-    <slot>
-      <RenderVnode :vNode="message" v-if="message" />
-    </slot>
-  </div>
-  <div class="vk-message__close" v-if="showClose">
-    <Icon @click.stop="visible = false" icon="xmark"/>
-  </div>
-</div>
-</Transition>
+  <Transition
+    :name="transitionName"
+    @after-leave="destroyComponent"
+    @enter="updateHeight"
+  >
+    <div
+      class="vk-message"
+      v-show="visible"
+      :class="{
+        [`vk-message--${type}`]: type,
+        'is-close': showClose,
+      }"
+      role="alert"
+      ref="messageRef"
+      :style="cssStyle"
+      @mouseenter="clearTimer"
+      @mouseleave="startTimer"
+    >
+      <div class="vk-message__content">
+        <slot>
+          <RenderVnode :vNode="message" v-if="message" />
+        </slot>
+      </div>
+      <div class="vk-message__close" v-if="showClose">
+        <Icon @click.stop="visible = false" icon="xmark" />
+      </div>
+    </div>
+  </Transition>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, watch, computed, nextTick } from 'vue'
@@ -39,7 +39,7 @@ const props = withDefaults(defineProps<MessageProps>(), {
   type: 'info',
   duration: 3000,
   offset: 20,
-  transitionName: 'fade-up'
+  transitionName: 'fade-up',
 })
 const visible = ref(false)
 const messageRef = ref<HTMLDivElement>()
@@ -56,7 +56,7 @@ const topOffset = computed(() => props.offset + lastOffset.value)
 const bottomOffset = computed(() => height.value + topOffset.value)
 const cssStyle = computed(() => ({
   top: topOffset.value + 'px',
-  zIndex: props.zIndex
+  zIndex: props.zIndex,
 }))
 let timer: any
 function startTimer() {
@@ -86,7 +86,7 @@ useEventListener(document, 'keydown', keydown)
 //     props.onDestory()
 //   }
 // })
-function destroyComponent () {
+function destroyComponent() {
   props.onDestory()
 }
 function updateHeight() {
@@ -94,10 +94,10 @@ function updateHeight() {
 }
 defineExpose({
   bottomOffset,
-  visible
+  visible,
 })
 </script>
 
 <style lang="scss" scoped>
-@import './style.css'
+@import './style.css';
 </style>

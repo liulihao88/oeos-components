@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue';
-const { proxy } = getCurrentInstance();
+import { ref, getCurrentInstance } from 'vue'
+const { proxy } = getCurrentInstance()
+import { $toast } from '@/utils/gFunc.js'
 
 </script>
 
@@ -10,6 +11,4 @@ const { proxy } = getCurrentInstance();
   </div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

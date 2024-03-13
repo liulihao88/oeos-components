@@ -5,12 +5,14 @@
   align-items: center;
   position: relative;
   fill: currentColor;
-  color: var(--vk-icon-color);
+  /* color: var(--vk-icon-color); */
+  color: blue;
   font-size: inherit;
 }
 
 @each $val in primary,info,success,warning,danger {
   .vk-icon--$(val) {
-    --vk-icon-color: var(--vk-color-$(val));
+    /* --vk-icon-color: var(--vk-color-$(val)); */
+    /* --vk-icon-color: yellow; */
   }
 }

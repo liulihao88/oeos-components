@@ -11,7 +11,7 @@ import * as echarts from 'echarts' // 引入echarts
 
 import { VPDemo } from '../vitepress'
 // 基于element-plus二次封装基础组件
-import oeosV3Components, { utils } from '../../../packages'
+import oeosV3Components, { utils } from '@/index.js'
 import '../../public/css/index.css'
 
 export default {
