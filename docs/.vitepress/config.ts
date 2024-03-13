@@ -17,8 +17,8 @@ export default defineConfig({
       },
       { text: '基础组件', link: '/components/dialog/base.md' },
       {
-        text: 'Gitee码云地址',
-        link: 'https://gitee.com/lihaoliu/oeos-v3-components',
+        text: 'GitLab项目地址',
+        link: 'https://39.104.162.143:3443/storage/oct-web-project-components-vue3/-/tree/develop',
       },
     ],
     // 主题级选项

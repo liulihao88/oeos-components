@@ -1,4 +1,11 @@
 <template>
+  <el-button
+    type="primary"
+    @click="toggleSourceVisible('refresh')"
+    class="code-toogle"
+  >
+    {{ sourceVisible === true ? '代码折叠' : '代码显示' }}
+  </el-button>
   <ClientOnly>
     <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
     <p text="sm" v-html="decodedDescription" />
@@ -37,9 +44,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { useClipboard, useToggle } from '@vueuse/core'
+import { useClipboard } from '@vueuse/core'
+import { getStorage, setStorage } from '../../../../../packages/utils/gFunc.js'
 
 import Example from './vp-example.vue'
 import SourceCode from './vp-source-code.vue'
@@ -55,11 +63,24 @@ const { copy, isSupported } = useClipboard({
   source: decodeURIComponent(props.rawSource),
   read: false,
 })
-
-const [sourceVisible, toggleSourceVisible] = useToggle(false)
+const sourceVisible = ref(true)
+sourceVisible.value = getStorage('codeToggle') || false
+const toggleSourceVisible = (isOpen) => {
+  if (isOpen === false) {
+    sourceVisible.value = isOpen
+  } else if (isOpen === 'refresh') {
+    console.log(`sourceVisible.value`, sourceVisible.value)
+    setStorage('codeToggle', !sourceVisible.value)
+    window.location.reload()
+    return
+  } else {
+    sourceVisible.value = !sourceVisible.value
+  }
+  setStorage('codeToggle', sourceVisible.value)
+}
 
 const decodedDescription = computed(() =>
-  decodeURIComponent(props.description!)
+  decodeURIComponent(props.description!),
 )
 
 const copyCode = async () => {
@@ -138,5 +159,10 @@ const copyCode = async () => {
       color: var(--el-color-primary);
     }
   }
+}
+.code-toogle {
+  position: fixed;
+  top: 20px;
+  z-index: 200;
 }
 </style>

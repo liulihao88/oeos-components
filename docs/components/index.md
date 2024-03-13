@@ -29,11 +29,11 @@ app.mount('#app')
 
 ### 引入函数库方法
 
-```
+```js
 // 将oeos-v3-components下的公共函数赋值到全局
 import { utils } from 'oeos-v3-components'
 Object.keys(utils).forEach((v) => {
-  app.config.globalProperties[v] = utils[v]
+app.config.globalProperties[v] = utils[v]
 })
 
 // 按需引入
@@ -42,7 +42,6 @@ $toast('我是成功提示')
 $toast('我是失败提示', 'e')
 
 // 方法列表
-$toast,
 setStorage,
 getStorage,
 clearStorage,
@@ -58,6 +57,7 @@ asyncWrapper,
 globalImageUrl,
 copy,
 addThousandSeparator
+$toast,
 ```
 
 ### 自定义指令

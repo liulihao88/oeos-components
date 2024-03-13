@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
+import { $toast } from '@/utils/gFunc.js'
 
 const arr = ref([
   { label: '小月月', value: 'xyy' },
@@ -12,7 +13,6 @@ const arr2 = proxy.clone(arr)
 
 <template>
   <div>
-    <div>docs/examples/Otest/base.vue</div>
     {{ arr }}
     <br />
     {{ arr2 }}
