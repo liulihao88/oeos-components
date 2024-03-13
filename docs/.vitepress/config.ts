@@ -1,15 +1,40 @@
 import { defineConfig } from 'vitepress'
 import { mdPlugin } from './config/plugins.ts'
+import { createAlgolia, GitLab } from './utils/settings.ts'
+
 export default defineConfig({
   // 站点级选项
-  title: 'oeos-v3-components组件文档',
-  lang: 'cn-ZH',
-  description:
-    '前端组件库文档, 使用vue3+typescript+element-plus构建, 主要是对element-plus的二次封装',
+  outDir: 'dist',
+  head: [
+    ['link', { rel: 'icon', type: 'image/x-icon', href: '/img/hero.jpg' }],
+    ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
+    [
+      'meta',
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1.0',
+      },
+    ],
+  ],
   lastUpdated: true,
+  useWebFonts: false,
+  cleanUrls: true,
+  title: 'Oeos-v3-components',
+  description: '一名前端二五仔的知识存储栈',
+  lang: 'zh-CN',
   themeConfig: {
-    siteTitle: 'oeos-v3-components组件文档',
     outline: 3,
+    algolia: createAlgolia(),
+    lastUpdatedText: '最近更新时间',
+    docFooter: { prev: '上一篇', next: '下一篇' },
+    editLink: {
+      pattern: `${GitLab}/docs/:path`,
+      text: '在 GitLab 上查看此页面',
+    },
+    footer: {
+      message: `创云融达前端组件库, <a target="_blank" style="color: var(--vp-c-brand)" href="${GitLab}">⭐欢迎访问</a>`,
+      copyright: ` 版权所有 © 2023-${new Date().getFullYear()}`,
+    },
     nav: [
       {
         text: '安装指南',
@@ -18,7 +43,7 @@ export default defineConfig({
       { text: '基础组件', link: '/components/dialog/base.md' },
       {
         text: 'GitLab项目地址',
-        link: 'https://39.104.162.143:3443/storage/oct-web-project-components-vue3/-/tree/develop',
+        link: GitLab,
       },
     ],
     // 主题级选项
@@ -68,6 +93,7 @@ export default defineConfig({
     headers: {
       level: [0, 0],
     },
+    lineNumbers: true,
     // light: #f9fafb, dark: --vp-code-block-bg
     theme: { light: 'github-light', dark: 'github-dark' },
     config: (md) => mdPlugin(md),

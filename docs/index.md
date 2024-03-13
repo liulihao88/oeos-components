@@ -10,7 +10,7 @@ hero:
   text: vue3基础组件
   tagline: Vue3 中基于Element-plus二次封装基础组件文档
   image:
-    src: /img/hero.jpg
+    src: /img/logo.svg
     alt: Oeos-v3-components
   actions:
     - theme: brand

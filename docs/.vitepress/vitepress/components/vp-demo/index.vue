@@ -163,6 +163,7 @@ const copyCode = async () => {
 .code-toogle {
   position: fixed;
   top: 20px;
+  right: 50%;
   z-index: 200;
 }
 </style>

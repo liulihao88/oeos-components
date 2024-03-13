@@ -4,6 +4,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import locale from 'element-plus/es/locale/lang/zh-cn'
+import { h } from 'vue'
 
 // 图标并进行全局注册
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
@@ -13,9 +14,16 @@ import { VPDemo } from '../vitepress'
 // 基于element-plus二次封装基础组件
 import oeosV3Components, { utils } from '../../../packages/index.js'
 import '/public/css/index.css'
+import Logo from './logo.vue'
+import './assets/styles/index.css'
 
 export default {
   ...DefaultTheme,
+  Layout() {
+    return h(DefaultTheme.Layout, null, {
+      'nav-bar-title-before': () => h(Logo),
+    })
+  },
   enhanceApp(ctx) {
     ctx.app.config.globalProperties.$echarts = echarts // 全局使用
     // 将oeos-v3-components下的公共函数赋值到全局
