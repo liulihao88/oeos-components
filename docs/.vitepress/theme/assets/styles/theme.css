@@ -28,9 +28,10 @@ h2[tabindex='-1'] {
 }
 
 /* navbar and home title */
-.VPNavBarTitle a,
+.VPNavBarTitle :not(.visible-text),
+/* .VPNavBarTitle a , */
 .VPHero .container .clip {
-  font-family: Comic Sans MS;
+font-family: Comic Sans MS;
   background-image: linear-gradient(
     to right,
     #eea2a2 0%,
@@ -43,6 +44,7 @@ h2[tabindex='-1'] {
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
   color: transparent !important;
+  
 }
 
 /* home hero logo bg */

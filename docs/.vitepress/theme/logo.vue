@@ -1,17 +1,33 @@
 <template>
-  <div class="nav-logo"></div>
+  <el-button
+    type="primary"
+    size="small"
+    @click.stop.prevent="toggleSourceVisible"
+    class="code-toogle"
+  >
+    <div class="visible-text">
+      {{ sourceVisible === true ? '代码折叠' : '代码显示' }}
+    </div>
+  </el-button>
 </template>
 
-<style lang="scss">
-.nav-logo {
-  width: 39px;
-  height: 24px;
-  font-size: 44px;
-  margin: 4px 6px 0 0;
-  background-image: url('./assets/images/nav-logo.png');
-  background-position: center;
-  background-size: contain;
-  vertical-align: middle;
-}
+<script lang="ts" setup>
+import { getStorage, setStorage } from '../../../packages/utils'
+import { ref } from 'vue'
 
+const sourceVisible = ref(false)
+sourceVisible.value = getStorage('codeVisible') || false
+const toggleSourceVisible = () => {
+  setStorage('codeVisible', !sourceVisible.value)
+  window.location.reload()
+}
+</script>
+
+<style lang="scss">
+.code-toogle {
+  position: fixed;
+  top: 20px;
+  right: 50%;
+  z-index: 200;
+}
 </style>

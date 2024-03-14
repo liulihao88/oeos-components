@@ -1,11 +1,4 @@
 <template>
-  <el-button
-    type="primary"
-    @click="toggleSourceVisible('refresh')"
-    class="code-toogle"
-  >
-    {{ sourceVisible === true ? '代码折叠' : '代码显示' }}
-  </el-button>
   <ClientOnly>
     <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
     <p text="sm" v-html="decodedDescription" />
@@ -64,19 +57,13 @@ const { copy, isSupported } = useClipboard({
   read: false,
 })
 const sourceVisible = ref(true)
-sourceVisible.value = getStorage('codeToggle') || false
+sourceVisible.value = getStorage('codeVisible') || false
 const toggleSourceVisible = (isOpen) => {
   if (isOpen === false) {
     sourceVisible.value = isOpen
-  } else if (isOpen === 'refresh') {
-    console.log(`sourceVisible.value`, sourceVisible.value)
-    setStorage('codeToggle', !sourceVisible.value)
-    window.location.reload()
-    return
   } else {
     sourceVisible.value = !sourceVisible.value
   }
-  setStorage('codeToggle', sourceVisible.value)
 }
 
 const decodedDescription = computed(() =>
@@ -159,11 +146,5 @@ const copyCode = async () => {
       color: var(--el-color-primary);
     }
   }
-}
-.code-toogle {
-  position: fixed;
-  top: 20px;
-  right: 50%;
-  z-index: 200;
 }
 </style>
