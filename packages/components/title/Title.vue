@@ -12,8 +12,8 @@
 
 <script setup lang="ts">
 /**
-<o-title title="使用hooks1" t="100"></o-title>
-<o-title title="我说呢" sub-title="test/t2.vue"></o-title>
+<g-title title="使用hooks1" t="100"></g-title>
+<g-title title="我说呢" sub-title="test/t2.vue"></g-title>
 * 
 */
 import { ref, computed, getCurrentInstance } from 'vue'
@@ -85,22 +85,18 @@ function mClipboardSuccess(val) {}
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  height: 30px;
   justify-content: space-between;
-  margin: 24px 0;
-
   .o-left-title {
     width: 100%;
-    height: 12px;
-    line-height: 12px;
     padding-left: 8px;
+    align-items: center;
     position: relative;
     font-weight: 500;
     box-sizing: border-box;
     display: flex;
     &::before {
       position: absolute;
-      top: 0;
-      bottom: 0;
       left: 0;
       content: '';
       width: 2px;
