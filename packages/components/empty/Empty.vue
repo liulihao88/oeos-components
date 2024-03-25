@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
+import group_null from '@/assets/images/group_null.png'
+import { $toast } from '@/utils/index.js'
+// $toast("保存成功");
 const { proxy } = getCurrentInstance()
 const props = defineProps({
   description: {
@@ -14,9 +17,11 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
-  url: {
+  src: {
     type: String,
-    default: 'https://atts.w3cschool.cn/rabbit600x600.png',
+    default: () => {
+      return group_null
+    },
   },
 })
 function handleUnit(str) {
@@ -33,15 +38,15 @@ function handleUnit(str) {
 }
 /** @使用方式
  <o-empty description="您没有消费订单" size="48"></o-empty>
-  <o-empty class="w-100%" url="https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg" size="200" ></o-empty>
+  <o-empty class="w-100%" src="https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg" size="200" ></o-empty>
 */
 </script>
 
 <template>
-  <el-empty :description="props.description" v-bind="$attrs">
+  <el-empty v-bind="{ ...$attrs, ...props }">
     <template #image>
       <img
-        :src="url"
+        :src="src"
         :style="{
           width: handleUnit(props.size),
           height: handleUnit(props.size),

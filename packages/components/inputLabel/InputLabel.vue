@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, getCurrentInstance } from 'vue'
 import { $toast, isEmpty } from '../../utils'
+import { CircleClose } from '@element-plus/icons-vue'
 const currentval = ref('')
 const labelarr = ref([])
 
@@ -93,8 +94,8 @@ defineExpose({
 </script>
 
 <template>
-  <div class="inputbox">
-    <div class="arrbox">
+  <div class="o-input-box">
+    <div class="o-input-box__content">
       <div
         v-for="(item, index) in labelarr"
         :key="index"
@@ -118,19 +119,23 @@ defineExpose({
         type="text"
       />
     </div>
-    <div class="clear-all" v-if="labelarr.length > 0" @click="clearAll">x</div>
+    <CircleClose
+      class="o-input-label__clear"
+      v-if="labelarr.length > 0"
+      @click="clearAll"
+    ></CircleClose>
   </div>
 </template>
 
 <style scoped lang="scss">
-.inputbox {
+.o-input-box {
   background-color: white;
   font-size: 12px;
   position: relative;
   border: 1px solid #dcdee2;
   border-radius: 6px;
   margin-bottom: 18px;
-  padding: 6px 1px 1px 6px;
+  padding: 6px 20px 6px 6px;
   text-align: left;
   font-size: 0;
   width: 100% !important;
@@ -145,8 +150,6 @@ defineExpose({
     margin: 0;
     width: auto !important;
     max-width: inherit;
-    // width: 800px;
-    // min-width: 80px;
     vertical-align: top;
     height: 30px;
     color: #34495e;
@@ -155,10 +158,8 @@ defineExpose({
   }
 }
 
-.arrbox {
+.o-input-box__content {
   border-radius: 6px;
-  margin-bottom: 10px;
-  padding: 6px 1px 1px 6px;
   text-align: left;
   font-size: 0;
 }
@@ -226,15 +227,16 @@ defineExpose({
   line-height: 27px;
 }
 
-:deep(.el-form-item__content .inputbox) {
+:deep(.el-form-item__content .o-input-box) {
   width: 100% !important;
   max-width: 100% !important;
 }
-.clear-all {
+.o-input-label__clear {
   position: absolute;
-  right: 20px;
-  font-size: 20px;
-  bottom: calc(50% - 10px);
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  bottom: calc(50% - 8px);
   cursor: pointer;
   &:hover {
     color: red;

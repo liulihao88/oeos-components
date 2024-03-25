@@ -73,6 +73,10 @@ export default defineConfig({
               link: '/components/drawer/base.md',
             },
             {
+              text: 'empty组件',
+              link: '/components/empty/base.md',
+            },
+            {
               text: 'select组件',
               link: '/components/select/base.md',
             },
@@ -88,6 +92,7 @@ export default defineConfig({
               text: 'tooltip组件',
               link: '/components/tooltip/base.md',
             },
+           
           ],
         },
       ],

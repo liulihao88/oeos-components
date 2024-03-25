@@ -20,6 +20,7 @@ onMounted(() => {
 <template>
   <div>
     <div>example/views/test/t111111111.vue</div>
+    <o-empty></o-empty>
   </div>
 </template>
 
