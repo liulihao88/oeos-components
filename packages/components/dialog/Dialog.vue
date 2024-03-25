@@ -118,17 +118,6 @@ const getThemeClass = computed(() => {
 })
 
 function confirm() {
-  console.log(
-    `%c 3351 115行 packages/components/dialog/Dialog.vue proxy `,
-    proxy,
-  )
-
-  console.log(`attrs`, attrs)
-  console.log(`attrs.name`, attrs.name)
-  console.log(`attrs.cc`, attrs.cc)
-  console.log(`attrs.onCc`, attrs.onCc)
-  console.log(`attrs.onConfirm`, attrs.onConfirm)
-
   if (attrs.onConfirm) {
     attrs.onConfirm()
   } else {

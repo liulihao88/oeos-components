@@ -5,8 +5,11 @@ function btnClick() {
 }
 const a = ref(33)
 const isShow = ref(false)
-const confirmLoading = ref(true)
+const confirmLoading = ref(false)
 async function cusConfirm() {
+  console.log(
+    `***** 点我作甚  10行 docs/examples/ODialog/usually.vue  15:06:26`,
+  )
   confirmLoading.value = true
   await sleep(2000)
   confirmLoading.value = false

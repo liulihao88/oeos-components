@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 import group_null from '@/assets/images/group_null.png'
-import { $toast } from '@/utils/index.js'
-// $toast("保存成功");
 const { proxy } = getCurrentInstance()
 const props = defineProps({
   description: {

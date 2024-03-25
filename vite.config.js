@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import markdown from 'vite-plugin-md'
+import { codeInspectorPlugin } from 'code-inspector-plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,6 +14,9 @@ export default defineConfig({
     }),
     vueJsx(),
     markdown(),
+    codeInspectorPlugin({
+      bundler: 'vite',
+    }),
   ],
   resolve: {
     alias: {
