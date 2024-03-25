@@ -19,7 +19,7 @@ const sourceVisible = ref(false)
 sourceVisible.value = getStorage('codeVisible') || false
 const toggleSourceVisible = () => {
   setStorage('codeVisible', !sourceVisible.value)
-  window.location.reload()
+  location.reload()
 }
 </script>
 

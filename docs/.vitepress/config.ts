@@ -57,12 +57,12 @@ export default defineConfig({
               link: '/components/checkAll/base.md',
             },
             {
-              text: 'dialog组件',
-              link: '/components/dialog/base.md',
-            },
-            {
               text: '测试组件',
               link: '/components/test/base.md',
+            },
+            {
+              text: 'dialog组件',
+              link: '/components/dialog/base.md',
             },
             {
               text: 'dateRange组件',
@@ -75,6 +75,10 @@ export default defineConfig({
             {
               text: 'empty组件',
               link: '/components/empty/base.md',
+            },   
+            {
+              text: 'radio组件',
+              link: '/components/radio/base.md',
             },
             {
               text: 'select组件',
@@ -92,7 +96,6 @@ export default defineConfig({
               text: 'tooltip组件',
               link: '/components/tooltip/base.md',
             },
-           
           ],
         },
       ],

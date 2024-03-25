@@ -1,27 +1,29 @@
 import registerDirectives from './directives/gDirectives.js'
-import Empty from './components/empty/Empty.vue'
-import Title from './components/title/Title.vue'
+import CheckAll from './components/checkAll/CheckAll.vue'
 import Dialog from './components/dialog/Dialog.vue'
 import Drawer from './components/drawer/Drawer.vue'
-import Select from './components/select/Select.vue'
 import DateRange from './components/dateRange/DateRange.vue'
+import Empty from './components/empty/Empty.vue'
 import Input from './components/input/Input.vue'
 import InputLabel from './components/inputLabel/InputLabel.vue'
+import Radio from './components/radio/Radio.vue'
+import Select from './components/select/Select.vue'
+import Title from './components/title/Title.vue'
 import Tooltip from './components/tooltip/Tooltip.vue'
-import CheckAll from './components/checkAll/CheckAll.vue'
 import * as utils from './utils'
 
 const comps = [
-  Empty,
-  Title,
+  CheckAll,
   Dialog,
   Drawer,
-  Select,
   DateRange,
-  Tooltip,
+  Empty,
+  Radio,
+  Select,
   Input,
   InputLabel,
-  CheckAll,
+  Tooltip,
+  Title,
 ]
 const finalComps = comps.map((v) => {
   let baseName = v.__name ?? v.name
