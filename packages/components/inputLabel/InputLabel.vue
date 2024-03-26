@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, getCurrentInstance } from 'vue'
 import { $toast, isEmpty } from '../../utils'
+
 import { CircleClose } from '@element-plus/icons-vue'
 const currentval = ref('')
 const labelarr = ref([])
@@ -16,6 +17,20 @@ const props = defineProps({
   isComplex: {
     type: Boolean,
     default: false,
+  },
+  regexp: {
+    tupe: RegExp,
+    default: '',
+  },
+  message: {
+    tupe: String,
+    default: '输入有误',
+  },
+  inputAttrs: {
+    type: Object,
+    default: () => {
+      return {}
+    },
   },
 })
 
@@ -50,6 +65,14 @@ function removeitem(index, item) {
 }
 // input回车加入labelarr中
 function addlabel() {
+  console.log(`props.regexp`, props.regexp)
+  console.log(`currentval.value`, currentval.value)
+  if (props.regexp) {
+    if (!props.regexp.test(currentval.value)) {
+      return $toast(props.message, 'e')
+    }
+  }
+
   if (!currentval.value) {
     return false
   }
@@ -94,7 +117,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="o-input-box">
+  <div class="o-input-box cl-blue">
     <div class="o-input-box__content">
       <div
         v-for="(item, index) in labelarr"
@@ -110,8 +133,9 @@ defineExpose({
         <i v-else class="spanclose" @click="removeitem(index, item)"></i>
       </div>
       <o-input
-        placeholder="输入后回车"
-        width="100"
+        v-bind="inputAttrs"
+        :placeholder="props.inputAttrs.placeholder || '输入后回车'"
+        :width="props.inputAttrs.width || 100"
         v-model="currentval"
         @keyup.enter="addlabel"
         clearable

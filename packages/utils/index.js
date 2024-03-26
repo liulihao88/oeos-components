@@ -353,6 +353,7 @@ confirmRegPwd: [
   proxy.validate('same', { value: toRef(form.value, 'regPwd') }),
 ],
 */
+
 export function validate(type = 'required', rules = {}) {
   const trigger = rules.trigger || ['blur', 'change']
   const typeMaps = [
@@ -363,7 +364,10 @@ export function validate(type = 'required', rules = {}) {
     'between',
     'same',
     'length',
+    'ip',
+    'port',
   ]
+  // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
   if (!typeMaps.includes(type)) {
     return {
       required: true,
@@ -427,6 +431,40 @@ export function validate(type = 'required', rules = {}) {
       trigger: trigger,
     }
   }
+  if (type === 'ip') {
+    const validatePhone = (rule, value, callback) => {
+      let ipReg =
+        /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
+      let validFlag = ipReg.test(value)
+      console.log(`validFlag`, validFlag)
+      if (!validFlag) {
+        callback(new Error('请输入正确的ip地址'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      validator: validatePhone,
+      trigger: trigger,
+    }
+  }
+  if (type === 'port') {
+    const validatePhone = (rule, value, callback) => {
+      let ipReg =
+        /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/
+      let validFlag = ipReg.test(value)
+      console.log(`validFlag`, validFlag)
+      if (!validFlag) {
+        callback(new Error('请输入1-65535之间的端口号'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      validator: validatePhone,
+      trigger: trigger,
+    }
+  }
   if (type === 'between') {
     let min = rules.min || 1
     let max = rules.max || 10
@@ -462,18 +500,6 @@ export function validate(type = 'required', rules = {}) {
       trigger: [blur, trigger],
     }
   }
-  if (type === 'length') {
-    let min = rules.min ?? 1
-    let max = rules.max ?? 5
-    return {
-      min: min,
-      max: max,
-      message:
-        rules.message || `长度最短为${min}个字符, 长度最大为${max}个字符`,
-      trigger: trigger,
-    }
-  }
-  console.error(`校验类型${type}, 不在检验范围内, 请检查`)
 }
 
 /**
