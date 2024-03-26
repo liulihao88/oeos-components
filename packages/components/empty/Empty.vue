@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
-import group_null from '@/assets/images/group_null.png'
+import group_null from '../../assets/images/group_null.png'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
   description: {
