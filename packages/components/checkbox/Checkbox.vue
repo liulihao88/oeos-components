@@ -9,13 +9,20 @@
   :checkboxDisabled="judgeDisabled"
 ></o-checkbox>
 */
-import { ref, getCurrentInstance, watch } from 'vue'
+import { ref, getCurrentInstance, watch, computed } from 'vue'
 import { isEmpty } from '../../utils'
-
+import type { PropType } from 'vue'
 const props = defineProps({
   options: {
     type: Object,
-    default: () => {},
+    default: () => {
+      return {}
+    },
+  },
+  type: {
+    type: String as PropType<'check' | 'button'>,
+    validator: (value: string) => ['check', 'button'].includes(value),
+    default: 'check',
   },
   modelValue: {
     type: Array,
@@ -37,13 +44,18 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-  checkboxAttrs: {
+  subAttrs: {
     type: Object,
     default: () => {},
   },
   checkboxDisabled: {
     type: Function,
     default: () => {},
+  },
+  // 自定义label显示多个参数的函数
+  customLabel: {
+    type: [Function, String],
+    default: '',
   },
 })
 const checkAll = ref(false)
@@ -56,7 +68,7 @@ watch(
     if (isEmpty(newValue)) {
       isIndeterminate.value = false
       checkAll.value = false
-    } else if (newValue.length === props.options.length) {
+    } else if (newValue.length === props.options?.length) {
       isIndeterminate.value = false
       checkAll.value = true
     } else {
@@ -81,13 +93,29 @@ function checkAllChange() {
     emitValue([])
   }
 }
+const checkType = computed(() => {
+  const obj = {
+    check: 'el-checkbox',
+    button: 'el-checkbox-button',
+  }
+  return obj[props.type] ?? 'el-checkbox'
+})
 function groupChange(item, idx) {
   emitValue(item)
 }
 
 function emitValue(item) {
+  console.log(`item`, item)
   allCheckList.value = item
   emits('update:modelValue', allCheckList.value)
+}
+function handleLabel(item, index) {
+  // 如果customLabel是函数就执行customLabel的函数去处理label显示
+  if (typeof props.customLabel === 'function') {
+    return props.customLabel(item, index)
+  } else {
+    return item[props.label]
+  }
 }
 </script>
 
@@ -99,19 +127,30 @@ function emitValue(item) {
       :indeterminate="isIndeterminate"
       @change="checkAllChange"
       v-if="showAll"
+      v-bind="$attrs"
     >
       全选
     </el-checkbox>
-    <el-checkbox-group v-model="props.modelValue" @change="groupChange">
-      <el-checkbox
-        v-bind="props.checkboxAttrs"
-        v-for="(item, index) in props.options"
-        :key="index"
-        :label="item[props.value]"
-        :disabled="props.checkboxDisabled(item)"
-      >
-        {{ item[props.label] }}
-      </el-checkbox>
+    <el-checkbox-group
+      v-model="props.modelValue"
+      @change="groupChange"
+      v-bind="$attrs"
+    >
+      <slot>
+        <component
+          :is="checkType"
+          v-bind="subAttrs"
+          v-for="(item, index) in props.options"
+          :key="index"
+          :label="item[props.value]"
+          :disabled="props.checkboxDisabled(item)"
+        >
+          <slot :name="item.slot" v-bind="item">
+            <!-- {{ item[props.label] }} -->
+            {{ handleLabel(item, index) }}
+          </slot>
+        </component>
+      </slot>
     </el-checkbox-group>
   </div>
 </template>

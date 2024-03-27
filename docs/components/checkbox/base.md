@@ -3,11 +3,24 @@
 ### 基础用法
 
 :::demo 这是checkbox的最基础用法
-Ocheckbox/base
+OCheckbox/base
 :::
 
 ### 通常用法
 
 :::demo
-Ocheckbox/usually
+OCheckbox/usually
+:::
+
+
+### 多属性用法
+
+:::demo
+OCheckbox/multyAttrs
+:::
+
+### slot的用法
+
+:::demo
+OCheckbox/slot
 :::
