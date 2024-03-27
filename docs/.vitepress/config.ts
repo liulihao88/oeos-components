@@ -60,14 +60,18 @@ export default defineConfig({
               text: '开发计划',
               link: '/components/plan/base.md',
             },
+            {
+              text: '函数库文件',
+              link: '/components/utils/base.md',
+            },
           ],
         },
         {
           text: 'Basic基础组件',
           items: [
             {
-              text: 'checkAll组件',
-              link: '/components/checkAll/base.md',
+              text: 'checkbox组件',
+              link: '/components/checkbox/base.md',
             },
             {
               text: '测试组件',

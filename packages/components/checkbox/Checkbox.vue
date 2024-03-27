@@ -1,13 +1,13 @@
 <script setup lang="ts">
 /** @使用方式
-<o-check-all
+<o-checkbox
   v-model="formData.categoryIds"
   :options="tableData.data"
   value="id"
   :showAll="false"
   label="name"
   :checkboxDisabled="judgeDisabled"
-></o-check-all>
+></o-checkbox>
 */
 import { ref, getCurrentInstance, watch } from 'vue'
 import { isEmpty } from '../../utils'
@@ -92,10 +92,10 @@ function emitValue(item) {
 </script>
 
 <template>
-  <div class="check-all">
+  <div class="checkbox">
     <el-checkbox
       v-model="checkAll"
-      class="check-all__all"
+      class="checkbox__all"
       :indeterminate="isIndeterminate"
       @change="checkAllChange"
       v-if="showAll"
@@ -117,9 +117,9 @@ function emitValue(item) {
 </template>
 
 <style scoped lang="scss">
-.check-all {
+.checkbox {
   display: flex;
-  .check-all__all {
+  .checkbox__all {
     padding-right: 24px;
   }
 }

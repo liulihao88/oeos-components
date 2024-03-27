@@ -1,5 +1,5 @@
 import registerDirectives from './directives/gDirectives.js'
-import CheckAll from './components/checkAll/CheckAll.vue'
+import Checkbox from './components/checkbox/Checkbox.vue'
 import Dialog from './components/dialog/Dialog.vue'
 import Drawer from './components/drawer/Drawer.vue'
 import DateRange from './components/dateRange/DateRange.vue'
@@ -13,7 +13,7 @@ import Tooltip from './components/tooltip/Tooltip.vue'
 import * as utils from './utils'
 
 const comps = [
-  CheckAll,
+  Checkbox,
   Dialog,
   Drawer,
   DateRange,

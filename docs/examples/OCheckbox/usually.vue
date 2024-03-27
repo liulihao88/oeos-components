@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-const checkAllValue = ref()
+const checkboxValue = ref()
 const options = ref([
   { name: '小月月11111111', id: 'xyy' },
   { name: '小鑫鑫22222222', id: 'xxx' },
@@ -10,12 +10,12 @@ const options = ref([
 
 <template>
   <div>
-    <o-check-all
-      v-model="checkAllValue"
+    <o-checkbox
+      v-model="checkboxValue"
       :options="options"
       label="name"
       value="id"
-    ></o-check-all>
+    ></o-checkbox>
   </div>
 </template>
 
