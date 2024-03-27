@@ -179,9 +179,9 @@ const selectAll = (val: any) => {
     const selectedAllValue = options.map((item) => {
       return item[props.value]
     })
-    emits('update:modelValue', selectedAllValue)
+    changeMulty(selectedAllValue)
   } else {
-    emits('update:modelValue', [])
+    changeMulty([])
   }
 }
 

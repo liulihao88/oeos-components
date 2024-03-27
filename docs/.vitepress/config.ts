@@ -50,6 +50,15 @@ export default defineConfig({
     sidebar: {
       '/components': [
         {
+          text: '说明文档',
+          items: [
+            {
+              text: '开发计划',
+              link: '/components/plan/base.md',
+            },
+          ],
+        },
+        {
           text: 'Basic基础组件',
           items: [
             {
@@ -75,7 +84,7 @@ export default defineConfig({
             {
               text: 'empty组件',
               link: '/components/empty/base.md',
-            },   
+            },
             {
               text: 'radio组件',
               link: '/components/radio/base.md',
