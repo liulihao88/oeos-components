@@ -18,7 +18,7 @@
   </el-radio-group>
 </template>
 
-<script setup lang="ts" name="ORadio">
+<script setup lang="ts">
 import { computed, ref, getCurrentInstance } from 'vue'
 import type { PropType } from 'vue'
 const { proxy } = getCurrentInstance()

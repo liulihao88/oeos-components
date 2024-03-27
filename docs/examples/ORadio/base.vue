@@ -1,5 +1,7 @@
 <template>
-  <o-radio v-model="value" :options="options" />
+ <div>
+   <o-radio v-model="value" :options="options" />
+ </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'

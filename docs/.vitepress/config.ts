@@ -4,7 +4,7 @@ import { createAlgolia, GitLab } from './utils/settings.ts'
 
 export default defineConfig({
   // 站点级选项
-  outDir: 'dist',
+  base: '/',
   head: [
     ['link', { rel: 'icon', type: 'image/x-icon', href: '/img/hero.jpg' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
@@ -52,6 +52,10 @@ export default defineConfig({
         {
           text: '说明文档',
           items: [
+            {
+              text: '安装指南',
+              link: '/components/',
+            },
             {
               text: '开发计划',
               link: '/components/plan/base.md',
