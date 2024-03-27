@@ -42,8 +42,8 @@ dependencies:
     specifier: ^5.5.0
     version: 5.5.0
   element-plus:
-    specifier: ^2.4.2
-    version: 2.5.5(vue@3.4.15)
+    specifier: ^2.6.2
+    version: 2.6.2(vue@3.4.15)
   escape-html:
     specifier: ^1.0.3
     version: 1.0.3
@@ -2282,8 +2282,8 @@ packages:
     resolution: {integrity: sha512-+2OAGjUx68xElQhydpcbqH50hE8Vs2K6TkAeLhICYfndb67CVH0UsZaijmRUE3rHlIxU1u0jxwhgVe6fK3YANA==}
     dev: false
 
-  /element-plus@2.5.5(vue@3.4.15):
-    resolution: {integrity: sha512-yGU/MruLOWI0ImQPFCyFM4cXtHtILJNAi0hhLImcxjRukjgQLYNkvcvbwqNgBUt808KSeKF9MyxENFyBQLTg+Q==}
+  /element-plus@2.6.2(vue@3.4.15):
+    resolution: {integrity: sha512-WFMv1v83l437Xu+GeeM+ytxd9VUQpR4418BowvTVIPYItsoj6yK0ITIuSv19iCesF405FbAOaCIHXhJch0ilFA==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:

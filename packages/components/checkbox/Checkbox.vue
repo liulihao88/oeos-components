@@ -16,7 +16,7 @@ const props = defineProps({
   options: {
     type: Object,
     default: () => {
-      return {}
+      return []
     },
   },
   type: {
@@ -65,10 +65,17 @@ const allCheckList = ref([])
 watch(
   () => props.modelValue,
   (newValue) => {
-    if (isEmpty(newValue)) {
+    // 一些不在options里的值, 需要考虑进来, 进行过滤
+    let pureValue = newValue.filter((v) => {
+      console.log(`v`, v)
+      return props.options.some((val) => {
+        return val[props.value] === v
+      })
+    })
+    if (isEmpty(pureValue)) {
       isIndeterminate.value = false
       checkAll.value = false
-    } else if (newValue.length === props.options?.length) {
+    } else if (pureValue.length === props.options.length) {
       isIndeterminate.value = false
       checkAll.value = true
     } else {
@@ -142,11 +149,11 @@ function handleLabel(item, index) {
           v-bind="subAttrs"
           v-for="(item, index) in props.options"
           :key="index"
-          :label="item[props.value]"
+          :value="item[props.value]"
+          :label="item[props.label]"
           :disabled="props.checkboxDisabled(item)"
         >
           <slot :name="item.slot" v-bind="item">
-            <!-- {{ item[props.label] }} -->
             {{ handleLabel(item, index) }}
           </slot>
         </component>
