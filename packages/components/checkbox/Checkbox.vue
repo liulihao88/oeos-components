@@ -66,12 +66,18 @@ watch(
   () => props.modelValue,
   (newValue) => {
     // 一些不在options里的值, 需要考虑进来, 进行过滤
-    let pureValue = newValue.filter((v) => {
-      console.log(`v`, v)
-      return props.options.some((val) => {
-        return val[props.value] === v
+    let pureValue = []
+    if (isEmpty(newValue) || typeof newValue === 'string') {
+      pureValue = []
+    } else {
+      pureValue = newValue.filter((v) => {
+        console.log(`v`, v)
+        return props.options.some((val) => {
+          return val[props.value] === v
+        })
       })
-    })
+    }
+
     if (isEmpty(pureValue)) {
       isIndeterminate.value = false
       checkAll.value = false

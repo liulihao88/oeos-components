@@ -36,7 +36,7 @@ const options = ref([
   { label: 'Option 3', value: 3, slot: 'mySlot' },
 ])
 
-const value2 = ref('广州')
+const value2 = ref(3)
 function change(value, ...a) {
   console.log(`value`, value)
   console.log(`2282 38行 docs/examples/ORadio/slot.vue a `, a)

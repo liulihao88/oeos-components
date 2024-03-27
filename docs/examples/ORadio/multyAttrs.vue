@@ -1,17 +1,17 @@
 <template>
- <div>
-   <o-radio
-     v-model="value"
-     :options="options"
-     value="id"
-     label="name"
-     type="button"
-     size="small"
-     border
-     @change="change"
-     :props="{ disabled: 'isDis' }"
-   />
- </div>
+  <div>
+    <o-radio
+      v-model="value"
+      :options="options"
+      value="id"
+      label="name"
+      type="button"
+      size="small"
+      border
+      @change="change"
+      :subAttrs="{ disabled: 'isDis' }"
+    />
+  </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'

@@ -21,6 +21,7 @@ function change(checkValue) {
       v-model="checkboxValue"
       :options="options"
       label="name"
+      :showAll="false"
       size="small"
       type="button"
       value="id"

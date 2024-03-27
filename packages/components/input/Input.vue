@@ -14,7 +14,9 @@
     @focus="focusHandler($event)"
   >
     <template v-if="$attrs.title" #prepend>
-      {{ $attrs.title }}
+      <div v-bind="titleAttrs">
+        {{ $attrs.title }}
+      </div>
     </template>
   </el-input>
 </template>
@@ -23,7 +25,7 @@
 /**
 * @使用方法
 <o-input
-  title="想天下"
+  title="名字"
   @keyup.enter="close"
   v-model="aaa"
   width="200"

@@ -6,12 +6,13 @@
         v-bind="item"
         :is="radioType"
         :key="index"
-        :label="item[optionsProps.value]"
+        :label="item[props.label]"
+        :value="item[props.value]"
         :border="border"
-        :disabled="item[optionsProps.disabled]"
+        :disabled="item[subAttrs.disabled]"
       >
         <slot :name="item.slot" v-bind="item">
-          {{ item[optionsProps.label] }}
+          {{ item[props.label] }}
         </slot>
       </component>
     </slot>
@@ -23,7 +24,7 @@ import { computed, ref, getCurrentInstance } from 'vue'
 import type { PropType } from 'vue'
 const { proxy } = getCurrentInstance()
 import type { RadioItem } from './radio'
-const radioProps = defineProps({
+const props = defineProps({
   type: {
     type: String as PropType<'radio' | 'button'>,
     validator: (value: string) => ['radio', 'button'].includes(value),
@@ -45,9 +46,11 @@ const radioProps = defineProps({
     type: [String, Number],
     default: 'label',
   },
-  props: {
+  subAttrs: {
     type: Object,
-    default: () => ({}),
+    default: () => {
+      return {}
+    },
   },
 })
 const radioType = computed(() => {
@@ -55,14 +58,6 @@ const radioType = computed(() => {
     radio: 'el-radio',
     button: 'el-radio-button',
   }
-  return obj[radioProps.type] ?? 'el-radio'
-})
-const optionsProps = ref({
-  ...{
-    value: radioProps.value,
-    label: radioProps.label,
-    disabled: 'disabled',
-  },
-  ...radioProps.props,
+  return obj[props.type] ?? 'el-radio'
 })
 </script>

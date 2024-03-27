@@ -10,13 +10,18 @@ const iptValue = ref()
 <template>
   <div>
     <o-input
-      title="想天下"
+      title="名字"
       v-model="iptValue"
       width="500"
+      placeholder="请输入名字"
       size="default"
       :titleAttrs="{
         onClick: close,
-        style: { color: 'blue' },
+        style: {
+          color: 'blue',
+          fontSize: '10px',
+          fontWeight: 'bold',
+        },
       }"
       class="m-l-100 bg-red"
     ></o-input>
