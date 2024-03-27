@@ -18,7 +18,9 @@
     "format": "prettier --write example/ packages/",
     "docsdev": "vitepress dev docs",
     "docsbuild": "vitepress build docs",
-    "docsserve": "vitepress serve docs"
+    "docsserve": "vitepress serve docs",
+    "deploy": "sh -x deploy.sh",
+    "deploy-no-build": "sh -x deploy.sh -k"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
