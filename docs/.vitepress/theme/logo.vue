@@ -12,6 +12,7 @@
 
   <el-button
     type="primary"
+    v-if="isDev"
     size="small"
     @click.stop.prevent="copyUrl"
     class="code-toogle dev-copy"
@@ -21,8 +22,9 @@
 </template>
 
 <script lang="ts" setup>
-import { getStorage, setStorage } from '../../../packages/utils'
+import { getStorage, setStorage, copy } from '@/utils'
 import { ref } from 'vue'
+const isDev = ref(import.meta.env.DEV)
 
 const sourceVisible = ref(false)
 sourceVisible.value = getStorage('codeVisible') || false
@@ -31,6 +33,7 @@ const toggleSourceVisible = () => {
   location.reload()
 }
 const copyUrl = () => {
+  console.log(`import.meta.env.DEV`, import.meta.env.DEV)
   let pathname = location.pathname
   console.log(`pathname`, pathname)
   if (!pathname || pathname === '/') {
@@ -38,12 +41,7 @@ const copyUrl = () => {
   }
   let vueStr = pathname.replace('/components/', '') + '.vue'
   console.log(`vueStr`, vueStr)
-
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(vueStr)
-  } else {
-    console.log('浏览器不支持')
-  }
+  copy(vueStr, true, 'success', { duration: 500 })
 }
 </script>
 

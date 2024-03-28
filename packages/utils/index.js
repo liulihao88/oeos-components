@@ -534,7 +534,7 @@ export function globalImageUrl(photoName) {
  * 复制文本
  * copy('这是要复制的文本');
  *  */
-export const copy = (text) => {
+export const copy = (text, showToast = true, ...otherParams) => {
   const textarea = document.createElement('textarea')
   textarea.value = text
   textarea.style.position = 'fixed'
@@ -542,6 +542,12 @@ export const copy = (text) => {
   textarea.select()
   document.execCommand('copy')
   document.body.removeChild(textarea)
+  console.log(`import.meta.env.DEV3333`, import.meta.env.DEV)
+  if (showToast) {
+    console.log(`3334 546行 packages/utils/index.js otherParams `, otherParams)
+
+    $toast(text, ...otherParams)
+  }
 }
 
 // 给数字加千分位

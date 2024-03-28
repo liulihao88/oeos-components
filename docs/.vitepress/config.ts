@@ -57,7 +57,7 @@ export default defineConfig({
               link: '/components/',
             },
             {
-              text: '开发计划',
+              text: '新开发计划',
               link: '/components/plan/base.md',
             },
             {
