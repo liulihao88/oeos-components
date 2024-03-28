@@ -6,7 +6,7 @@ export default defineConfig({
   // 站点级选项
   base: '/',
   head: [
-    ['link', { rel: 'icon', type: 'image/x-icon', href: '/img/hero.jpg' }],
+    ['link', { rel: 'icon', type: 'image/x-icon', href: '/img/logo.svg' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     [
       'meta',
@@ -20,7 +20,7 @@ export default defineConfig({
   useWebFonts: false,
   cleanUrls: true,
   title: 'Oeos-v3-components',
-  description: '一名前端二五仔的知识存储栈',
+  description: 'andy凌云出品必属精品',
   lang: 'zh-CN',
   themeConfig: {
     outline: 3,
