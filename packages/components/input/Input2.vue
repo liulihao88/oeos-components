@@ -1,27 +1,24 @@
 <template>
-  <el-tooltip :content="$attrs.modelValue" :disabled="hideTooltip">
-    <el-input
-      v-bind="$attrs"
-      :placeholder="handlePlaceholder()"
-      class="kd-ipt"
-      :clearable="$attrs.clearable !== false"
-      :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
-      :style="{ ...mHandleWidth() }"
-      :maxlength="handleMaxLength"
-      :rows="$attrs.rows || 2"
-      resize="none"
-      height="100px"
-      :show-word-limit="handleShowWordLimit()"
-      @focus="focusHandler($event)"
-      @mouseover.native="inputOnMouseOver($event)"
-    >
-      <template v-if="$attrs.title" #prepend>
-        <div v-bind="titleAttrs">
-          {{ $attrs.title }}
-        </div>
-      </template>
-    </el-input>
-  </el-tooltip>
+  <el-input
+    v-bind="$attrs"
+    :placeholder="handlePlaceholder()"
+    class="kd-ipt"
+    :clearable="$attrs.clearable !== false"
+    :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
+    :style="{ ...mHandleWidth() }"
+    :maxlength="handleMaxLength"
+    :rows="$attrs.rows || 2"
+    resize="none"
+    height="100px"
+    :show-word-limit="handleShowWordLimit()"
+    @focus="focusHandler($event)"
+  >
+    <template v-if="$attrs.title" #prepend>
+      <div v-bind="titleAttrs">
+        {{ $attrs.title }}
+      </div>
+    </template>
+  </el-input>
 </template>
 
 <script setup lang="ts">
@@ -40,7 +37,7 @@
   class="m-l-100"
 ></o-input>
 */
-import { ref, getCurrentInstance, computed, useAttrs, watch } from 'vue'
+import { ref, getCurrentInstance, computed, useAttrs } from 'vue'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const props = defineProps({
@@ -66,7 +63,6 @@ const props = defineProps({
     default: '',
   },
 })
-const hideTooltip = ref(true)
 const handleMaxLength = computed(() => {
   if (attrs.type === 'textarea') {
     return attrs.maxlength || 1000
@@ -83,13 +79,19 @@ function mHandleWidth() {
   if (!props.width) {
     return {}
   }
-  if (typeof props.width === 'string' && (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)) {
+  if (
+    typeof props.width === 'string' &&
+    (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)
+  ) {
     return { width: props.width }
   }
   return { width: props.width + 'px' }
 }
 function handlePlaceholder() {
-  let res = attrs.disabled === undefined ? attrs.placeholder || '请输入' : props.disPlaceholder
+  let res =
+    attrs.disabled === undefined
+      ? attrs.placeholder || '请输入'
+      : props.disPlaceholder
   return res
 }
 // 是否显示showWordLimit属性
@@ -106,14 +108,6 @@ function handleShowWordLimit() {
 function focusHandler(evt) {
   if (attrs.type === 'password') {
     evt.currentTarget.select()
-  }
-}
-function inputOnMouseOver(event) {
-  const target = event.target
-  if (target.offsetWidth + 10 < target.scrollWidth) {
-    hideTooltip.value = false
-  } else {
-    hideTooltip.value = true
   }
 }
 </script>
