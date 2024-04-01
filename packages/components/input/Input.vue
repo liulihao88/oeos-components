@@ -1,27 +1,29 @@
 <template>
-  <el-tooltip :content="$attrs.modelValue" :disabled="hideTooltip">
-    <el-input
-      v-bind="$attrs"
-      :placeholder="handlePlaceholder()"
-      class="kd-ipt"
-      :clearable="$attrs.clearable !== false"
-      :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
-      :style="{ ...mHandleWidth() }"
-      :maxlength="handleMaxLength"
-      :rows="$attrs.rows || 2"
-      resize="none"
-      height="100px"
-      :show-word-limit="handleShowWordLimit()"
-      @focus="focusHandler($event)"
-      @mouseover.native="inputOnMouseOver($event)"
-    >
-      <template v-if="$attrs.title" #prepend>
-        <div v-bind="titleAttrs">
-          {{ $attrs.title }}
-        </div>
-      </template>
-    </el-input>
-  </el-tooltip>
+  <div class="o-input">
+    <el-tooltip :content="$attrs.modelValue" :disabled="hideTooltip">
+      <el-input
+        v-bind="$attrs"
+        :placeholder="handlePlaceholder()"
+        class="kd-ipt"
+        :clearable="$attrs.clearable !== false"
+        :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
+        :style="{ ...mHandleWidth() }"
+        :maxlength="handleMaxLength"
+        :rows="$attrs.rows || 2"
+        resize="none"
+        height="100px"
+        :show-word-limit="handleShowWordLimit()"
+        @focus="focusHandler($event)"
+        @mouseover.native="inputOnMouseOver($event)"
+      >
+        <template v-if="$attrs.title" #prepend>
+          <div v-bind="titleAttrs">
+            {{ $attrs.title }}
+          </div>
+        </template>
+      </el-input>
+    </el-tooltip>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -83,13 +85,19 @@ function mHandleWidth() {
   if (!props.width) {
     return {}
   }
-  if (typeof props.width === 'string' && (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)) {
+  if (
+    typeof props.width === 'string' &&
+    (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)
+  ) {
     return { width: props.width }
   }
   return { width: props.width + 'px' }
 }
 function handlePlaceholder() {
-  let res = attrs.disabled === undefined ? attrs.placeholder || '请输入' : props.disPlaceholder
+  let res =
+    attrs.disabled === undefined
+      ? attrs.placeholder || '请输入'
+      : props.disPlaceholder
   return res
 }
 // 是否显示showWordLimit属性
@@ -118,4 +126,8 @@ function inputOnMouseOver(event) {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.o-input {
+  width: 100%;
+}
+</style>
