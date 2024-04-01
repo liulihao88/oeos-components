@@ -27,7 +27,7 @@
         @change="selectAll"
         class="all_checkbox"
       >
-        全选
+        <div class="m-tb-8">全选</div>
       </el-checkbox>
       <el-option
         v-for="item in sOptions"
@@ -41,15 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  getCurrentInstance,
-  useAttrs,
-  watch,
-  useSlots,
-  nextTick,
-  computed,
-} from 'vue'
+import { ref, getCurrentInstance, useAttrs, watch, useSlots, nextTick, computed } from 'vue'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue'])
@@ -156,6 +148,9 @@ const judgeSelect = computed(() => (itemValue) => {
 const indeterminate = computed({
   get() {
     const _deval = props.modelValue
+    if (!_deval) {
+      return false
+    }
     return _deval?.length !== props.options.length && _deval?.length !== 0
   },
   set(val) {
@@ -190,18 +185,13 @@ function mHandleWidth() {
   if (!props.width) {
     return {}
   }
-  if (
-    typeof props.width === 'string' &&
-    (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)
-  ) {
+  if (typeof props.width === 'string' && (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)) {
     return { width: props.width }
   }
   return { width: props.width + 'px' }
 }
 function handlePlaceholder() {
-  let res = attrs.disabled
-    ? props.disPlaceholder
-    : attrs.placeholder || '请选择'
+  let res = attrs.disabled ? props.disPlaceholder : attrs.placeholder || '请选择'
   return res
 }
 // 将label作为多个值连接起来。 比如 admin/管理员, 这是两个属性拼接出来的
@@ -358,6 +348,12 @@ const urlParams = proxy.translateToPageinfo({
   }
 }
 .all_checkbox {
-  margin-left: 20px;
+  // margin-left: 20px;
+  display: block;
+  padding: 6px 0px 6px 20px;
+  &:hover {
+    background-color: #f5f7fa;
+  }
 }
+
 </style>
