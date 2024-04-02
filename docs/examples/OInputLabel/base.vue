@@ -11,7 +11,7 @@ for (let i = 0; i < 100; i++) {
 
 <template>
   <div>
-    <o-input-label v-model="arr"></o-input-label>
+    <o-input-label v-model="arr" ></o-input-label>
   </div>
 </template>
 

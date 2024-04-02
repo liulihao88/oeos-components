@@ -1,6 +1,10 @@
 <template>
-  <div class="o-input" v-bind="subAttrs">
-    <el-tooltip :content="$attrs.modelValue" :disabled="hideTooltip">
+  <div class="o-input" v-bind="subAttrs" :style="{ ...mHandleWidth() }">
+    <el-tooltip
+      :content="$attrs.modelValue"
+      :disabled="hideTooltip"
+      v-bind="tooltipAttrs"
+    >
       <el-input
         v-bind="$attrs"
         :placeholder="handlePlaceholder()"
@@ -73,6 +77,12 @@ const props = defineProps({
       return {}
     },
   },
+  tooltipAttrs: {
+    type: Object,
+    default: () => {
+      return {}
+    },
+  },
 })
 const hideTooltip = ref(true)
 const handleMaxLength = computed(() => {
@@ -135,6 +145,7 @@ function inputOnMouseOver(event) {
 <style lang="scss" scoped>
 .o-input {
   width: 100%;
+  display: inline-block;
 }
 
 // el-input的宽度会随着鼠标移入显示clearable而改变, 所以加下面这两行代码

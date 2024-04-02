@@ -2,7 +2,7 @@
 
 ### 基础用法
 
-:::demo
+:::demo 默认input组件是占满全屏的
 OInput/base
 :::
 

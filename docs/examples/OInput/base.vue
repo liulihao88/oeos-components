@@ -7,15 +7,10 @@ const iptValue = ref(
 
 <template>
   <div>
-    <o-input
-      v-model="iptValue"
-      style="width: 200px; display: inline-block"
-    ></o-input>
-    <o-input
-      class="w-100 d-ib"
-      v-model="iptValue"
-      style="width: 200px; display: inline-block"
-    ></o-input>
+    <o-input v-model="iptValue"></o-input>
+    <o-input v-model="iptValue" width="100"></o-input>
+    <o-input v-model="iptValue" :clearble="false"></o-input>
+    <o-input v-model="iptValue" title="title"></o-input>
   </div>
 </template>
 

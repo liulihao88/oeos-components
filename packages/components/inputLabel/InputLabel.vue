@@ -135,12 +135,11 @@ defineExpose({
       <o-input
         v-bind="inputAttrs"
         :placeholder="props.inputAttrs.placeholder || '输入后回车'"
-        :width="props.inputAttrs.width || 100"
+        :width="props.inputAttrs.width || 120"
         v-model="currentval"
-        style="width: 200px; display: inline-block"
+        style="display: inline-block"
         @keyup.enter="addlabel"
         clearable
-        class="input"
         type="text"
       />
     </div>
@@ -165,28 +164,15 @@ defineExpose({
   font-size: 0;
   width: 100% !important;
   margin-bottom: 0;
-  .input {
-    font-size: 14px;
-    border: none !important;
-    box-shadow: none;
-    outline: none;
-    background-color: transparent;
-    padding: 0;
-    margin: 0;
-    width: auto !important;
-    max-width: inherit;
-    vertical-align: top;
-    height: 30px;
-    color: #34495e;
-    margin: 2px;
-    line-height: 30px;
-  }
 }
 
 .o-input-box__content {
   border-radius: 6px;
   text-align: left;
   font-size: 0;
+  .o-input {
+    width: unset;
+  }
 }
 .spanbox {
   line-height: 30px;
