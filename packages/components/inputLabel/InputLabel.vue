@@ -137,6 +137,7 @@ defineExpose({
         :placeholder="props.inputAttrs.placeholder || '输入后回车'"
         :width="props.inputAttrs.width || 100"
         v-model="currentval"
+        style="width: 200px; display: inline-block"
         @keyup.enter="addlabel"
         clearable
         class="input"

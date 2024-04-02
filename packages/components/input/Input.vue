@@ -1,5 +1,5 @@
 <template>
-  <div class="o-input">
+  <div class="o-input" v-bind="subAttrs">
     <el-tooltip :content="$attrs.modelValue" :disabled="hideTooltip">
       <el-input
         v-bind="$attrs"
@@ -67,6 +67,12 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  subAttrs: {
+    type: Object,
+    default: () => {
+      return {}
+    },
+  },
 })
 const hideTooltip = ref(true)
 const handleMaxLength = computed(() => {
@@ -118,7 +124,7 @@ function focusHandler(evt) {
 }
 function inputOnMouseOver(event) {
   const target = event.target
-  if (target.offsetWidth + 10 < target.scrollWidth) {
+  if (target.offsetWidth + 4 < target.scrollWidth) {
     hideTooltip.value = false
   } else {
     hideTooltip.value = true
@@ -129,5 +135,13 @@ function inputOnMouseOver(event) {
 <style lang="scss" scoped>
 .o-input {
   width: 100%;
+}
+
+// el-input的宽度会随着鼠标移入显示clearable而改变, 所以加下面这两行代码
+:deep(.el-input__suffix:not(.el-select .el-input__suffix)) {
+  margin-left: -22px;
+}
+:deep(.el-input__inner:not(.el-select .el-input__inner)) {
+  padding-right: 22px;
 }
 </style>
