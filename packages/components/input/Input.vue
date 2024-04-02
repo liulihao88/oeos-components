@@ -155,4 +155,7 @@ function inputOnMouseOver(event) {
 :deep(.el-input__inner:not(.el-select .el-input__inner)) {
   padding-right: 22px;
 }
+:deep(.el-textarea__inner) {
+  padding-bottom: 20px;
+}
 </style>
