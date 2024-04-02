@@ -10,17 +10,20 @@
 ></o-checkbox>
 */
 import { ref, getCurrentInstance, watch, computed } from 'vue'
-import { isEmpty } from '../../utils'
-import type { PropType } from 'vue'
+const { proxy } = getCurrentInstance()
 const props = defineProps({
+  type: {
+    type: String,
+    default: '',
+  },
   options: {
     type: Object,
     default: () => {
       return []
     },
   },
-  type: {
-    type: String as PropType<'check' | 'button'>,
+  showType: {
+    type: String,
     validator: (value: string) => ['check', 'button'].includes(value),
     default: 'check',
   },
@@ -65,20 +68,20 @@ const allCheckList = ref([])
 watch(
   () => props.modelValue,
   (newValue) => {
-    // 一些不在options里的值, 需要考虑进来, 进行过滤
+    // 一些不在options里的值, 需要考虑进来, 进行过滤. 这里还要考虑type===simple的情况
     let pureValue = []
-    if (isEmpty(newValue) || typeof newValue === 'string') {
+    if (proxy.isEmpty(newValue) || typeof newValue === 'string') {
       pureValue = []
     } else {
       pureValue = newValue.filter((v) => {
-        console.log(`v`, v)
         return props.options.some((val) => {
-          return val[props.value] === v
+          let res = props.type === 'simple' ? val === v : val[props.value]
+          return res
         })
       })
     }
 
-    if (isEmpty(pureValue)) {
+    if (proxy.isEmpty(pureValue)) {
       isIndeterminate.value = false
       checkAll.value = false
     } else if (pureValue.length === props.options.length) {
@@ -94,7 +97,10 @@ watch(
 
 const emits = defineEmits(['update:modelValue'])
 function checkAllChange() {
-  const optionAll = props.options.map((v) => v[props.value])
+  const optionAll = props.options.map((v) => {
+    let res = props.type === 'simple' ? v : v[props.value]
+    return res
+  })
   if (
     isIndeterminate.value ||
     (checkAll.value === false && isIndeterminate.value === true)
@@ -111,14 +117,13 @@ const checkType = computed(() => {
     check: 'el-checkbox',
     button: 'el-checkbox-button',
   }
-  return obj[props.type] ?? 'el-checkbox'
+  return obj[props.showType] ?? 'el-checkbox'
 })
 function groupChange(item, idx) {
   emitValue(item)
 }
 
 function emitValue(item) {
-  console.log(`item`, item)
   allCheckList.value = item
   emits('update:modelValue', allCheckList.value)
 }
@@ -127,7 +132,8 @@ function handleLabel(item, index) {
   if (typeof props.customLabel === 'function') {
     return props.customLabel(item, index)
   } else {
-    return item[props.label]
+    let res = props.type === 'simple' ? item : item[props.label]
+    return res
   }
 }
 </script>
@@ -155,11 +161,14 @@ function handleLabel(item, index) {
           v-bind="subAttrs"
           v-for="(item, index) in props.options"
           :key="index"
-          :value="item[props.value]"
-          :label="item[props.label]"
+          :value="props.type === 'simple' ? item : item[props.value]"
+          :label="props.type === 'simple' ? item : item[props.label]"
           :disabled="props.checkboxDisabled(item)"
         >
-          <slot :name="item.slot" v-bind="item">
+          <slot
+            :name="props.type === 'simple' ? item : item.slot"
+            v-bind="props.type === 'simple' ? {} : item"
+          >
             {{ handleLabel(item, index) }}
           </slot>
         </component>

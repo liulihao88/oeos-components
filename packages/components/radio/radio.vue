@@ -2,7 +2,7 @@
   <el-radio-group v-bind="$attrs">
     <slot>
       <component
-        v-for="(item, index) in options"
+        v-for="(item, index) in parseOptions"
         v-bind="item"
         :is="radioType"
         :key="index"
@@ -26,6 +26,11 @@ const { proxy } = getCurrentInstance()
 import type { RadioItem } from './radio'
 const props = defineProps({
   type: {
+    type: String,
+    validator: (value: string) => ['boolean', 'simple'].includes(value),
+    default: '',
+  },
+  showType: {
     type: String as PropType<'radio' | 'button'>,
     validator: (value: string) => ['radio', 'button'].includes(value),
     default: 'radio',
@@ -58,6 +63,23 @@ const radioType = computed(() => {
     radio: 'el-radio',
     button: 'el-radio-button',
   }
-  return obj[props.type] ?? 'el-radio'
+  return obj[props.showType] ?? 'el-radio'
+})
+const parseOptions = computed(() => {
+  if (props.type === 'boolean') {
+    return [
+      { label: true, value: true },
+      { label: false, value: false },
+    ]
+  }
+  if (props.type === 'simple' && props.options.length > 0) {
+    return props.options.map((v) => {
+      return {
+        label: v,
+        value: v,
+      }
+    })
+  }
+  return props.options
 })
 </script>

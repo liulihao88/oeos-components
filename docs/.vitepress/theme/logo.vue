@@ -19,6 +19,16 @@
   >
     <div class="visible-text">复制路径(仅本地)</div>
   </el-button>
+
+  <el-button
+    type="primary"
+    v-if="isDev"
+    size="small"
+    @click.stop.prevent="copyMdUrl"
+    class="code-toogle dev-md-copy"
+  >
+    <div class="visible-text">复制md路径(仅本地)</div>
+  </el-button>
 </template>
 
 <script lang="ts" setup>
@@ -43,6 +53,17 @@ const copyUrl = () => {
   console.log(`vueStr`, vueStr)
   copy(vueStr, true, 'success', { duration: 500 })
 }
+const copyMdUrl = () => {
+  console.log(`import.meta.env.DEV`, import.meta.env.DEV)
+  let pathname = location.pathname
+  console.log(`pathname`, pathname)
+  if (!pathname || pathname === '/') {
+    return
+  }
+  let vueStr = pathname.replace('/components/', '') + '.md'
+  console.log(`vueStr`, vueStr)
+  copy(vueStr, true, 'success', { duration: 500 })
+}
 </script>
 
 <style lang="scss">
@@ -53,6 +74,9 @@ const copyUrl = () => {
   z-index: 200;
 }
 .dev-copy {
-  right: calc(50% - 150px);
+  right: calc(50% - 120px);
+}
+.dev-md-copy{
+  right: calc(50% - 256px);
 }
 </style>

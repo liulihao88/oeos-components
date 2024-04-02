@@ -12,6 +12,12 @@ ORadio/base
 ORadio/usually
 :::
 
+### 使用type
+
+:::demo 这里更改了type属性, 可以有很多种自定义options的变换, 属于自定义的扩展
+ORadio/type
+:::
+
 ### 多个属性的用法
 
 :::demo

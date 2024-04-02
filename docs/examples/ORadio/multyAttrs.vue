@@ -5,7 +5,7 @@
       :options="options"
       value="id"
       label="name"
-      type="button"
+      showType="button"
       size="small"
       border
       @change="change"

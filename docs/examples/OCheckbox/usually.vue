@@ -7,6 +7,9 @@ const options = ref([
   { name: '小鑫鑫22222222', id: 'xxx' },
   { name: '小瑞瑞', id: 'xrr' },
 ])
+
+const simpleValue = ref(['7'])
+const simpleOptions = ['1', '2', '3', '4', '5']
 </script>
 
 <template>
@@ -16,6 +19,11 @@ const options = ref([
       :options="options"
       label="name"
       value="id"
+    ></o-checkbox>
+    <o-checkbox
+      v-model="simpleValue"
+      :options="simpleOptions"
+      type="simple"
     ></o-checkbox>
   </div>
 </template>

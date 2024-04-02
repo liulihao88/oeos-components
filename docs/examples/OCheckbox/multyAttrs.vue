@@ -23,7 +23,7 @@ function change(checkValue) {
       label="name"
       :showAll="false"
       size="small"
-      type="button"
+      showType="button"
       value="id"
       :checkboxDisabled="(item) => item.id === 'xrr'"
     ></o-checkbox>
