@@ -133,12 +133,10 @@ defineExpose({
         <i v-else class="spanclose" @click="removeitem(index, item)"></i>
       </div>
       <o-input
-        v-bind="inputAttrs"
         :placeholder="props.inputAttrs.placeholder || '输入后回车'"
         :width="props.inputAttrs.width || 120"
         v-model="currentval"
-        style="display: inline-block"
-        @keyup.enter="addlabel"
+        @keyup.enter.stop="addlabel"
         clearable
         type="text"
       />
@@ -172,6 +170,7 @@ defineExpose({
   font-size: 0;
   .o-input {
     width: unset;
+    margin: 2px;
   }
 }
 .spanbox {
