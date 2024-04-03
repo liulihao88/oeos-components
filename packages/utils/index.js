@@ -190,8 +190,26 @@ export function merge(obj1, obj2) {
   return merged
 }
 
-export function clone(data) {
-  return cloneDeep(data)
+/**
+ * 深克隆对象
+ * @param {*} data, 传递的数据
+ * @param {*} times, 复制的次数, 仅对数组生效
+ * @returns 深克隆数据
+ * clone(123) => 123
+ * clone([1,2, {name: 'andy'}], 2) => [1, 2, {name: 'andy'}, 1, 2, {name: 'andy'}]
+ */
+export function clone(data, times = 1) {
+  // Check if the data is not an array
+  if (judgeType(data) !== 'array') {
+    // If not an array, return a deep clone of the data
+    return cloneDeep(data)
+  }
+  const clonedData = cloneDeep(data)
+  const result = []
+  for (let i = 0; i < times; i++) {
+    result.push(...clonedData)
+  }
+  return result
 }
 
 /**
@@ -256,16 +274,24 @@ export function parseTime(
 export function uuid(
   type = '',
   length = 4,
-  { emailStr = '@qq.com', timeStr = '{m}-{d} {h}:{i}:{s}', startStr = '' } = {},
+  {
+    emailStr = '@qq.com',
+    timeStr = '{m}-{d} {h}:{i}:{s}',
+    startStr = '',
+    optionsIndex = '',
+  } = {},
 ) {
   let randomStr = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
   let res = type
   // 如果传的第一个参数的数组， 说明是下拉框。 下拉框获取的是数组的第一项的值
   if (judgeType(type) === 'array') {
+    let randNum = random(0, type.length - 1)
+    // 如果length传空, 说明数组里是基本数据类型, 那直接返回数组里的值
     if (!length) {
-      return type[0]
+      return type[optionsIndex ?? randNum]
     }
-    return type[0][length === 4 ? 'value' : length]
+    // 否则返回数组里对象里的值
+    return type[optionsIndex ?? randNum][length === 4 ? 'value' : length]
   }
   // 如果是手机号, 生成随机手机号
   if (type === 'phone') {
@@ -612,4 +638,15 @@ export function log(
       return typeof type
     }
   }
+}
+
+/**
+ * 生成指定范围内的随机整数
+ *
+ * @param min 最小值，默认为0
+ * @param max 最大值，默认为10
+ * @returns 返回生成的随机整数
+ */
+export function random(min = 0, max = 10) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
