@@ -174,7 +174,6 @@ defineExpose({
   }
 }
 .spanbox {
-  line-height: 30px;
   margin: 2px;
   padding: 0 10px;
   background-color: #1abc9c;
@@ -210,7 +209,6 @@ defineExpose({
   font-style: normal;
 }
 .disbox {
-  line-height: 30px;
   margin: 2px;
   padding: 0 10px;
   background-color: var(--gray);
@@ -234,7 +232,6 @@ defineExpose({
   content: 'x';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 27px;
 }
 
 :deep(.el-form-item__content .o-input-box) {
