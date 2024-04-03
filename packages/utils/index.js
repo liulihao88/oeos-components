@@ -278,7 +278,7 @@ export function uuid(
     emailStr = '@qq.com',
     timeStr = '{m}-{d} {h}:{i}:{s}',
     startStr = '',
-    optionsIndex = '',
+    optionsIndex = null,
   } = {},
 ) {
   let randomStr = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
