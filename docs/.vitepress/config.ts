@@ -74,6 +74,10 @@ export default defineConfig({
               link: '/components/checkbox/base.md',
             },
             {
+              text: 'chooseArea组件',
+              link: '/components/chooseArea/base.md',
+            },
+            {
               text: '测试组件',
               link: '/components/test/base.md',
             },

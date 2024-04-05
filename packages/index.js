@@ -1,5 +1,6 @@
 import registerDirectives from './directives/gDirectives.js'
 import Checkbox from './components/checkbox/Checkbox.vue'
+import ChooseArea from './components/ChooseArea/chooseArea.vue'
 import Dialog from './components/dialog/Dialog.vue'
 import Drawer from './components/drawer/Drawer.vue'
 import DateRange from './components/dateRange/DateRange.vue'
@@ -14,6 +15,7 @@ import * as utils from './utils'
 
 const comps = [
   Checkbox,
+  ChooseArea,
   Dialog,
   Drawer,
   DateRange,

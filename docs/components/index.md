@@ -2,15 +2,21 @@
 
 ::: tip 提示
 
-oeos-v3-components 是基于 vue3 + ts + Element-plus 再次封装的基础组件, 适用于创云公司内部的前端项目开发
+oeos-v3-components 是基于 vue3 + ts + Element-plus 再次封装的基础组件, 适用于创云融达公司内部的前端项目开发
 
 :::
 
 ### 安装
 
+> npm
+
 ```bash:no-line-numbers
 npm install oeos-v3-components
-&
+```
+
+> pnpm
+
+```bash:no-line-numbers
 pnpm add oeos-v3-components
 ```
 

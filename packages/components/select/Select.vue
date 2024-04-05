@@ -278,6 +278,7 @@ const urlParams = proxy.translateToPageinfo({
 .kd-select {
   display: inline-flex;
   width: 316px;
+  vertical-align: bottom;
   .left_box {
     background: #fff;
     vertical-align: middle;
