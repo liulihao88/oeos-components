@@ -4,7 +4,9 @@
       :percentage="percentageVal"
       v-bind="{ ...originAttrs, ...$attrs }"
       :color="$attrs.color || customColorMethod"
-    />
+    >
+      <slot></slot>
+    </el-progress>
   </div>
 </template>
 
@@ -25,7 +27,7 @@ const props = defineProps({
   // 是否开启动画
   isAnimation: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 })
 
@@ -57,7 +59,9 @@ const customColorMethod = (percentage: number) => {
 watch(
   () => props.percentage,
   (val) => {
-    animation()
+    if (props.isAnimation) {
+      animation()
+    }
   },
   {
     immediate: true,
