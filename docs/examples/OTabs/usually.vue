@@ -14,14 +14,9 @@ const navList = [
     label: '高级定时任务',
     value: 'task',
   },
-  {
-    label: '服务部署设置',
-    value: 'deploy',
-  },
 ]
 const navName = ref('task')
-function tabChange(value, ...rest) {
-  console.log(`rest`, rest)
+function tabChange(value) {
   console.log(`value`, value)
 }
 </script>
@@ -35,8 +30,8 @@ function tabChange(value, ...rest) {
     ></o-tabs>
 
     <div v-if="navName === 'sys'">系统服务</div>
-    <div v-if="navName === 'base'">base服务</div>
-    <div v-if="navName === 'deploy'">部署设置</div>
+    <div v-if="navName === 'base'">基础服务</div>
+    <div v-if="navName === 'task'">高级定时</div>
   </div>
 </template>
 

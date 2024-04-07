@@ -41,10 +41,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance, useAttrs, watch, useSlots, nextTick, computed } from 'vue'
+import {
+  ref,
+  getCurrentInstance,
+  useAttrs,
+  watch,
+  useSlots,
+  nextTick,
+  computed,
+} from 'vue'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
-const emits = defineEmits(['changeSelect', 'update:modelValue'])
+const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])
 const slots = useSlots()
 const props = defineProps({
   modelValue: {
@@ -185,13 +193,18 @@ function mHandleWidth() {
   if (!props.width) {
     return {}
   }
-  if (typeof props.width === 'string' && (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)) {
+  if (
+    typeof props.width === 'string' &&
+    (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)
+  ) {
     return { width: props.width }
   }
   return { width: props.width + 'px' }
 }
 function handlePlaceholder() {
-  let res = attrs.disabled ? props.disPlaceholder : attrs.placeholder || '请选择'
+  let res = attrs.disabled
+    ? props.disPlaceholder
+    : attrs.placeholder || '请选择'
   return res
 }
 // 将label作为多个值连接起来。 比如 admin/管理员, 这是两个属性拼接出来的
@@ -226,8 +239,9 @@ function changeMulty(arr) {
       return false
     }
   })
-  emits('changeSelect', [arr, selectLabel, selectObj])
+  emits('changeSelect', arr, selectLabel, selectObj)
   emits('update:modelValue', arr)
+  emits('change', arr)
 }
 // 有些场景， 下拉框不仅需要获取value, 还需要获取选择的对象或者label, el-select原生没有这个属性， 所以changeHandler就做了下处理， 返回的数组包含3个属性， 第一个value, 第二个选中对象， 第三个选中的label。
 function changeHandler(item) {
@@ -237,7 +251,7 @@ function changeHandler(item) {
     return
   }
   if (!item) {
-    emits('changeSelect', [])
+    emits('changeSelect', props.multiple ? [] : '')
     emits('update:modelValue', props.multiple ? [] : '')
     return
   }
@@ -251,7 +265,7 @@ function changeHandler(item) {
   })[0]
   let selectLabel = selectObj[props.label]
 
-  emits('changeSelect', [item, selectLabel, selectObj])
+  emits('changeSelect', item, selectLabel, selectObj)
   emits('update:modelValue', item)
 }
 
@@ -356,5 +370,4 @@ const urlParams = proxy.translateToPageinfo({
     background-color: #f5f7fa;
   }
 }
-
 </style>

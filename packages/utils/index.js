@@ -650,3 +650,11 @@ export function log(
 export function random(min = 0, max = 10) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
+
+/**
+ * 驼峰转换下划线
+ * @param { String } name
+ */
+export function toLine(name) {
+  return name.replace(/([A-Z])/g, '_$1').toLowerCase()
+}

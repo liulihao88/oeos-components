@@ -11,6 +11,10 @@ const optionsId = ref(['1', '3'])
 function changeSelect(value, label, itemObj) {
   console.log(`value, label, itemObj`, value, label, itemObj)
 }
+function change(...rest) {
+  console.log(`rest`, rest);
+  console.log("change");
+}
 </script>
 
 <template>
@@ -20,6 +24,7 @@ function changeSelect(value, label, itemObj) {
       multiple
       value="id"
       @changeSelect="changeSelect"
+      @change="change"
       :options="stepList"
     ></o-select>
   </div>
