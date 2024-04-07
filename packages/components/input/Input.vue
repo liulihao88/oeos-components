@@ -1,7 +1,7 @@
 <template>
   <div class="o-input" v-bind="subAttrs" :style="{ ...mHandleWidth() }">
     <el-tooltip
-      :content="$attrs.modelValue"
+      :content="'' + $attrs.modelValue"
       :disabled="hideTooltip"
       v-bind="tooltipAttrs"
     >
