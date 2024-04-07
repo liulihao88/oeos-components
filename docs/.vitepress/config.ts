@@ -98,6 +98,10 @@ export default defineConfig({
               link: '/components/empty/base.md',
             },
             {
+              text: 'progress组件',
+              link: '/components/progress/base.md',
+            },
+            {
               text: 'radio组件',
               link: '/components/radio/base.md',
             },

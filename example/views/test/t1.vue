@@ -1,26 +1,23 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance, nextTick, onMounted } from 'vue'
-import { $toast } from '../utils'
-import { createMessage } from '@/components/customMessage/method'
-
-console.log(`createMessage`, createMessage)
+import { ref, getCurrentInstance } from 'vue'
+export {
+  isArray,
+  isFunction,
+  isObject,
+  isString,
+  isDate,
+  isPromise,
+  isSymbol,
+} from '@vue/shared'
 const { proxy } = getCurrentInstance()
-const props = defineProps({})
 
-onMounted(() => {
-  createMessage({
-    message: 'hello world again',
-    duration: 0,
-    type: 'success',
-    showClose: true,
-  })
-})
+console.log(`isArray([])`, isArray([]))
+console.log(`isObject([])`, isObject([]))
 </script>
 
 <template>
   <div>
-    <div>example/views/test/t111111111.vue</div>
-    <o-empty></o-empty>
+    <div>example/views/test/t1.vue</div>
   </div>
 </template>
 
