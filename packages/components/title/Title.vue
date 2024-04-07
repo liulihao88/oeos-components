@@ -1,6 +1,6 @@
 <template>
   <div class="o-title" :style="{ ...margin }" v-bind="$attrs">
-    <div ref="titleRef" class="o-left-title">
+    <div ref="titleRef" class="o-title__left">
       <div>
         <span class="title-text">{{ title }}</span>
       </div>
@@ -12,8 +12,8 @@
 
 <script setup lang="ts">
 /**
-<g-title title="使用hooks1" t="100"></g-title>
-<g-title title="我说呢" sub-title="test/t2.vue"></g-title>
+<o-title title="使用hooks1" t="100"></o-title>
+<o-title title="我说呢" sub-title="test/t2.vue"></o-title>
 * 
 */
 import { ref, computed, getCurrentInstance } from 'vue'
@@ -87,7 +87,7 @@ function mClipboardSuccess(val) {}
   align-items: center;
   height: 30px;
   justify-content: space-between;
-  .o-left-title {
+  .o-title__left {
     width: 100%;
     padding-left: 8px;
     align-items: center;

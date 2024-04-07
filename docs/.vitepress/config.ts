@@ -118,6 +118,10 @@ export default defineConfig({
               link: '/components/inputLabel/base.md',
             },
             {
+              text: 'tabs组件',
+              link: '/components/tabs/base.md',
+            },
+            {
               text: 'tooltip组件',
               link: '/components/tooltip/base.md',
             },

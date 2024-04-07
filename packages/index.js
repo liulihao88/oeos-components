@@ -10,6 +10,7 @@ import InputLabel from './components/inputLabel/InputLabel.vue'
 import Progress from './components/progress/Progress.vue'
 import Radio from './components/radio/Radio.vue'
 import Select from './components/select/Select.vue'
+import Tabs from './components/tabs/Tabs.vue'
 import Title from './components/title/Title.vue'
 import Tooltip from './components/tooltip/Tooltip.vue'
 import * as utils from './utils'
@@ -26,6 +27,7 @@ const comps = [
   Select,
   Input,
   InputLabel,
+  Tabs,
   Tooltip,
   Title,
 ]
