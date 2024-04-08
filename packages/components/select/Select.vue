@@ -1,14 +1,14 @@
 <template>
-  <div class="kd-select" :style="{ ...mHandleWidth() }">
-    <div v-if="props.title" class="left_box">
+  <div class="o-select" :style="{ ...mHandleWidth() }">
+    <div v-if="props.title" class="o-select__title">
       {{ props.title }}
     </div>
     <el-select
       ref="rightBox"
-      class="right_box"
-      v-model="props.modelValue"
+      class="o-select__select"
+      v-model="childSelectedValue"
       :placeholder="handlePlaceholder()"
-      popper-class="kd-custom-multiple-checkbox"
+      popper-class="o-select__multiple-checkbox"
       :multiple="multiple"
       @change="changeHandler"
       v-bind="{
@@ -21,11 +21,11 @@
         <slot :name="name" v-bind="data" />
       </template>
       <el-checkbox
-        v-if="multiple"
         :indeterminate="indeterminate"
         v-model="selectChecked"
+        v-if="multiple"
         @change="selectAll"
-        class="all_checkbox"
+        class="o-select__all-select"
       >
         <div class="m-tb-8">全选</div>
       </el-checkbox>
@@ -41,15 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  getCurrentInstance,
-  useAttrs,
-  watch,
-  useSlots,
-  nextTick,
-  computed,
-} from 'vue'
+import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed } from 'vue'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])
@@ -134,23 +126,14 @@ watch(
   },
 )
 
-const isLoading = ref(false)
-
-const judgeSelect = computed(() => (itemValue) => {
-  if (props.modelValue && props.multiple) {
-    // console.log(`props.modelValue`, props.modelValue)
-    // console.log(`itemValue`, itemValue)
-    return props.modelValue.some((v) => {
-      // console.log(
-      //   `%c63 144行 packages/components/select/Select.vue v`,
-      //   'background:#fff;color:blue',
-      //   v,
-      // )
-      return v === itemValue
-    })
-  } else {
-    return false
-  }
+// vue3 v-model简写
+const childSelectedValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    emits('update:modelValue', val)
+  },
 })
 // 设置半选
 const indeterminate = computed({
@@ -193,18 +176,13 @@ function mHandleWidth() {
   if (!props.width) {
     return {}
   }
-  if (
-    typeof props.width === 'string' &&
-    (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)
-  ) {
+  if (typeof props.width === 'string' && (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)) {
     return { width: props.width }
   }
   return { width: props.width + 'px' }
 }
 function handlePlaceholder() {
-  let res = attrs.disabled
-    ? props.disPlaceholder
-    : attrs.placeholder || '请选择'
+  let res = attrs.disabled ? props.disPlaceholder : attrs.placeholder || '请选择'
   return res
 }
 // 将label作为多个值连接起来。 比如 admin/管理员, 这是两个属性拼接出来的
@@ -240,22 +218,23 @@ function changeMulty(arr) {
     }
   })
   emits('changeSelect', arr, selectLabel, selectObj)
-  emits('update:modelValue', arr)
   emits('change', arr)
+  emits('update:modelValue', arr)
 }
 // 有些场景， 下拉框不仅需要获取value, 还需要获取选择的对象或者label, el-select原生没有这个属性， 所以changeHandler就做了下处理， 返回的数组包含3个属性， 第一个value, 第二个选中对象， 第三个选中的label。
 function changeHandler(item) {
+  console.log(`item`, item)
   // 如果val是数组, 证明是多选
   if (Array.isArray(item)) {
     changeMulty(item)
     return
   }
   if (!item) {
-    emits('changeSelect', props.multiple ? [] : '')
-    emits('update:modelValue', props.multiple ? [] : '')
+    emits('changeSelect', '')
+    emits('update:modelValue', '')
+    emits('change', '')
     return
   }
-  console.log(`sOptions.value`, sOptions.value)
   let selectObj = sOptions.value.filter((v) => {
     if (props.type === 'simple') {
       return v === item
@@ -267,6 +246,7 @@ function changeHandler(item) {
 
   emits('changeSelect', item, selectLabel, selectObj)
   emits('update:modelValue', item)
+  emits('change', item)
 }
 
 /** @使用方式
@@ -289,11 +269,11 @@ const urlParams = proxy.translateToPageinfo({
 </script>
 
 <style lang="scss" scoped>
-.kd-select {
+.o-select {
   display: inline-flex;
   width: 316px;
   vertical-align: bottom;
-  .left_box {
+  .o-select__title {
     background: #fff;
     vertical-align: middle;
     position: relative;
@@ -312,13 +292,13 @@ const urlParams = proxy.translateToPageinfo({
   :deep(.el-input__inner) {
     border-radius: 0px 2px 2px 0 !important;
   }
-  .right_box {
+  .o-select__select {
     flex-grow: 1;
     display: inline-block;
   }
 }
 
-.kd-custom-multiple-checkbox.is-multiple .el-select-dropdown__item {
+.o-select__multiple-checkbox.is-multiple .el-select-dropdown__item {
   &.selected::after {
     left: 21px;
     z-index: 10;
@@ -362,8 +342,7 @@ const urlParams = proxy.translateToPageinfo({
     color: #fff !important;
   }
 }
-.all_checkbox {
-  // margin-left: 20px;
+.o-select__all-select {
   display: block;
   padding: 6px 0px 6px 20px;
   &:hover {

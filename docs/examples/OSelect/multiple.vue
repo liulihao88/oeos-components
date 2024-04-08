@@ -9,11 +9,12 @@ const stepList = [
 ]
 const optionsId = ref(['1', '3'])
 function changeSelect(value, label, itemObj) {
+  console.log('changeSelect==');
   console.log(`value, label, itemObj`, value, label, itemObj)
 }
 function change(...rest) {
+  console.log("change??");
   console.log(`rest`, rest);
-  console.log("change");
 }
 </script>
 
