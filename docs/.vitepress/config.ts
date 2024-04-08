@@ -127,6 +127,15 @@ export default defineConfig({
             },
           ],
         },
+        {
+          text: 'Complex复杂组件',
+          items: [
+            {
+              text: 'form组件',
+              link: '/components/form/base.md',
+            },
+          ],
+        },
       ],
     },
   },

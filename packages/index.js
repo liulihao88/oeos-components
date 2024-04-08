@@ -5,6 +5,7 @@ import Dialog from './components/dialog/Dialog.vue'
 import Drawer from './components/drawer/Drawer.vue'
 import DateRange from './components/dateRange/DateRange.vue'
 import Empty from './components/empty/Empty.vue'
+import Form from './components/form/Form.vue'
 import Input from './components/input/Input.vue'
 import InputLabel from './components/inputLabel/InputLabel.vue'
 import Progress from './components/progress/Progress.vue'
@@ -22,6 +23,7 @@ const comps = [
   Drawer,
   DateRange,
   Empty,
+  Form,
   Progress,
   Radio,
   Select,

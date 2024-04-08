@@ -136,6 +136,10 @@ watch(
 // vue3 v-model简写
 const childSelectedValue = computed({
   get() {
+    // 如果是多选, 且props.modelValue是空, 那么返回空数组.
+    if (proxy.isEmpty(props.modelValue) && props.multiple) {
+      return []
+    }
     return props.modelValue
   },
   set(val) {
@@ -216,12 +220,10 @@ function changeMulty(item) {
       return false
     }
   })
-
   _commonEmits(item, selectLabel, selectObj)
 }
 // 有些场景， 下拉框不仅需要获取value, 还需要获取选择的对象或者label, el-select原生没有这个属性， 所以changeHandler就做了下处理， 返回的数组包含3个属性， 第一个value, 第二个选中对象， 第三个选中的label。
 function changeHandler(item) {
-  console.log(`item`, item)
   // 如果val是数组, 证明是多选
   if (Array.isArray(item)) {
     changeMulty(item)
@@ -239,7 +241,6 @@ function changeHandler(item) {
     }
   })[0]
   let selectLabel = selectObj[props.label]
-
   _commonEmits(item, selectLabel, selectObj)
 }
 function _commonEmits(item, selectLabel, selectObj) {

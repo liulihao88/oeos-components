@@ -41,13 +41,9 @@ function onMouseOver() {
   }
   // 内容超出，显示文字提示内容
   const tag = contentRef.value
-  console.log(`tag`, tag)
   if (!tag) return
   const parentWidth = tag.parentNode.offsetWidth // 获取元素父级可视宽度
-  console.log(`tag.parentNode`, tag.parentNode)
-  console.log(`parentWidth`, parentWidth)
   const contentWidth = tag.offsetWidth // 获取元素可视宽度
-  console.log(`contentWidth`, contentWidth)
   isDisabled.value = contentWidth <= parentWidth
 }
 const emits = defineEmits(['click'])
