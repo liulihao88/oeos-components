@@ -41,7 +41,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed } from 'vue'
+import {
+  ref,
+  getCurrentInstance,
+  useAttrs,
+  watch,
+  useSlots,
+  computed,
+} from 'vue'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])
@@ -176,13 +183,18 @@ function mHandleWidth() {
   if (!props.width) {
     return {}
   }
-  if (typeof props.width === 'string' && (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)) {
+  if (
+    typeof props.width === 'string' &&
+    (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)
+  ) {
     return { width: props.width }
   }
   return { width: props.width + 'px' }
 }
 function handlePlaceholder() {
-  let res = attrs.disabled ? props.disPlaceholder : attrs.placeholder || '请选择'
+  let res = attrs.disabled
+    ? props.disPlaceholder
+    : attrs.placeholder || '请选择'
   return res
 }
 // 将label作为多个值连接起来。 比如 admin/管理员, 这是两个属性拼接出来的
@@ -207,19 +219,18 @@ function handleLabel(item) {
 }
 
 // 处理多选的返回情况
-function changeMulty(arr) {
+function changeMulty(item) {
   let selectLabel = []
   const selectObj = sOptions.value.filter((v) => {
-    if (arr.includes(v[props.value])) {
+    if (item.includes(v[props.value])) {
       selectLabel.push(v[props.label])
       return true
     } else {
       return false
     }
   })
-  emits('changeSelect', arr, selectLabel, selectObj)
-  emits('change', arr)
-  emits('update:modelValue', arr)
+
+  _commonEmits(item, selectLabel, selectObj)
 }
 // 有些场景， 下拉框不仅需要获取value, 还需要获取选择的对象或者label, el-select原生没有这个属性， 所以changeHandler就做了下处理， 返回的数组包含3个属性， 第一个value, 第二个选中对象， 第三个选中的label。
 function changeHandler(item) {
@@ -230,9 +241,7 @@ function changeHandler(item) {
     return
   }
   if (!item) {
-    emits('changeSelect', '')
-    emits('update:modelValue', '')
-    emits('change', '')
+    _commonEmits('', '', '')
     return
   }
   let selectObj = sOptions.value.filter((v) => {
@@ -244,6 +253,9 @@ function changeHandler(item) {
   })[0]
   let selectLabel = selectObj[props.label]
 
+  _commonEmits(item, selectLabel, selectObj)
+}
+function _commonEmits(item, selectLabel, selectObj) {
   emits('changeSelect', item, selectLabel, selectObj)
   emits('update:modelValue', item)
   emits('change', item)

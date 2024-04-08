@@ -18,7 +18,7 @@ function optionDisabled(item) {
 <template>
   <div>
     <o-select
-      title="集大成者"
+      title="大部分常用属性"
       v-model="selectVal"
       :options="options"
       label="name"

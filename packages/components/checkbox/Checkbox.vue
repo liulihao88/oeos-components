@@ -161,8 +161,8 @@ function handleLabel(item, index) {
           v-bind="subAttrs"
           v-for="(item, index) in props.options"
           :key="index"
-          :value="props.type === 'simple' ? item : item[props.value]"
-          :label="props.type === 'simple' ? item : item[props.label]"
+          :value="props.type === 'simple' ? item : item[props.value!]"
+          :label="props.type === 'simple' ? item : item[props.label!]"
           :disabled="props.checkboxDisabled(item)"
         >
           <slot

@@ -6,10 +6,10 @@
         v-bind="item"
         :is="radioType"
         :key="index"
-        :label="item[props.label]"
-        :value="item[props.value]"
+        :label="item[props.label!]"
+        :value="item[props.value!]"
         :border="border"
-        :disabled="item[subAttrs.disabled]"
+        :disabled="item[subAttrs.disabled!]"
       >
         <slot :name="item.slot" v-bind="item">
           {{ item[props.label] }}
@@ -27,7 +27,7 @@ import type { RadioItem } from './radio'
 const props = defineProps({
   type: {
     type: String,
-    validator: (value: string) => ['boolean', 'simple'].includes(value),
+    validator: (value: string) => ['boolean', 'simple', ''].includes(value),
     default: '',
   },
   showType: {
@@ -48,7 +48,7 @@ const props = defineProps({
     default: 'value',
   },
   label: {
-    type: [String, Number],
+    type: [String, Number, Boolean],
     default: 'label',
   },
   subAttrs: {
