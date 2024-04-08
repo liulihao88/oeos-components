@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, getCurrentInstance } from 'vue'
-import { $toast, isEmpty } from '../../utils'
+const { proxy } = getCurrentInstance()
 
 import { CircleClose } from '@element-plus/icons-vue'
 const currentval = ref('')
@@ -42,10 +42,10 @@ watch(
     if (mVal && mVal.length > 0) {
       labelarr.value = []
       for (let i = 0; i < mVal.length; i++) {
-        if (!props.isComplex && !isEmpty(mVal[i])) {
+        if (!props.isComplex && proxy.notEmpty(mVal[i])) {
           labelarr.value.push(mVal[i])
         } else {
-          if (!isEmpty(mVal[i]) && !isEmpty(mVal[i]?.name)) {
+          if (proxy.notEmpty(mVal[i]) && proxy.notEmpty(mVal[i]?.name)) {
             labelarr.value.push(mVal[i])
           }
         }
@@ -69,7 +69,7 @@ function addlabel() {
   console.log(`currentval.value`, currentval.value)
   if (props.regexp) {
     if (!props.regexp.test(currentval.value)) {
-      return $toast(props.message, 'e')
+      return proxy.$toast(props.message, 'e')
     }
   }
 
@@ -100,7 +100,7 @@ function addlabel() {
     currentval.value = ''
     emit('update:modelValue', labelarr.value)
   } else {
-    $toast('重复项不允许添加', 'e')
+    proxy.$toast('重复项不允许添加', 'e')
   }
 }
 

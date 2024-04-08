@@ -9,7 +9,7 @@ const port = ref()
     <el-form-item label="" prop="" >
       <o-input-label
         v-model="port"
-        :inputAttrs="{ placeholder: '请输入数字后回车', width: 300 }"
+        :inputAttrs="{ placeholder: '请输入数字后回车', width: 320 }"
         :regexp="
           /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/
         "

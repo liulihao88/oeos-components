@@ -1,5 +1,9 @@
 <template>
-  <div class="o-input" v-bind="subAttrs" :style="{ ...mHandleWidth() }">
+  <div
+    class="o-input"
+    v-bind="subAttrs"
+    :style="{ ...proxy.processWidth(props.width) }"
+  >
     <el-tooltip
       :content="'' + $attrs.modelValue"
       :disabled="hideTooltip"
@@ -11,7 +15,7 @@
         class="kd-ipt"
         :clearable="$attrs.clearable !== false"
         :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
-        :style="{ ...mHandleWidth() }"
+        :style="{ ...proxy.processWidth(props.width) }"
         :maxlength="handleMaxLength"
         :rows="$attrs.rows || 2"
         resize="none"
@@ -93,22 +97,6 @@ const handleMaxLength = computed(() => {
   }
 })
 
-// 根据传入的width, 返回处理后的width
-function mHandleWidth() {
-  if (props.block) {
-    return { width: '100%' }
-  }
-  if (!props.width) {
-    return {}
-  }
-  if (
-    typeof props.width === 'string' &&
-    (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)
-  ) {
-    return { width: props.width }
-  }
-  return { width: props.width + 'px' }
-}
 function handlePlaceholder() {
   let res =
     attrs.disabled === undefined

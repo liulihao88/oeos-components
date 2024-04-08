@@ -1,5 +1,5 @@
 <template>
-  <div class="o-select" :style="{ ...mHandleWidth() }">
+  <div class="o-select" :style="{ ...proxy.processWidth(props.width) }">
     <div v-if="props.title" class="o-select__title">
       {{ props.title }}
     </div>
@@ -178,19 +178,6 @@ const selectAll = (val: any) => {
   }
 }
 
-// 根据传入的width, 返回处理后的width
-function mHandleWidth() {
-  if (!props.width) {
-    return {}
-  }
-  if (
-    typeof props.width === 'string' &&
-    (props.width.indexOf('px') !== -1 || props.width.indexOf('%') !== -1)
-  ) {
-    return { width: props.width }
-  }
-  return { width: props.width + 'px' }
-}
 function handlePlaceholder() {
   let res = attrs.disabled
     ? props.disPlaceholder
