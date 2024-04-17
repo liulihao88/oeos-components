@@ -36,64 +36,9 @@ function sleep(delay = 0, fn = () => {}) {
     }"
     v-model="isShow"
   >
-    <div v-copy="'我是复制的文本'" class="bg-blue fs-50">这里可以复制</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
-    <div>超长文本</div>
+    <div v-for="(v, i) in 40" :key="i">
+      <div>超长文本</div>
+    </div>
   </o-dialog>
 </template>
 
