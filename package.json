@@ -20,6 +20,7 @@
     "docsbuild": "vitepress build docs",
     "docsserve": "vitepress serve docs",
     "deploy": "sh -x deploy.sh",
+    "release-deploy": "pnpm release && pnpm deploy",
     "deploy-no-build": "sh -x deploy.sh -k"
   },
   "dependencies": {
