@@ -16,7 +16,6 @@ const props = defineProps({
 
 // placeholder的显示
 const getPlaceholder = (row: any) => {
-  // console.log(77, row.date)
   if (row.comp && typeof row.comp == 'string') {
     if (row.comp.includes('input')) {
       return '请输入' + row.label
@@ -36,7 +35,7 @@ function innerSubmit() {
 }
 
 defineExpose({
-  validate2: validate,
+  validate: validate,
 })
 </script>
 

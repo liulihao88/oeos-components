@@ -3,41 +3,40 @@
     type="primary"
     size="small"
     @click.stop.prevent="toggleSourceVisible"
-    class="code-toogle"
+    class="prod-toogle"
   >
     <div class="visible-text">
       {{ sourceVisible === true ? '代码折叠' : '代码显示' }}
     </div>
   </el-button>
 
-  <el-button
-    type="primary"
-    v-if="isDev"
-    size="small"
-    @click.stop.prevent="copyUrl"
-    class="code-toogle dev-copy"
-  >
-    <div class="visible-text">复制路径(仅本地)</div>
-  </el-button>
+  <div class="code-toogle" v-if="isDev">
+    <el-button
+      type="primary"
+      size="small"
+      @click.stop.prevent="copyUrl"
+      class="dev-copy"
+    >
+      <div class="visible-text">复制路径(仅本地)</div>
+    </el-button>
 
-  <el-button
-    type="primary"
-    v-if="isDev"
-    size="small"
-    @click.stop.prevent="copyMdUrl"
-    class="code-toogle dev-md-copy"
-  >
-    <div class="visible-text">复制md路径(仅本地)</div>
-  </el-button>
-  <el-button
-    type="primary"
-    v-if="isDev"
-    size="small"
-    @click.stop.prevent="copyPackageUrl"
-    class="code-toogle dev-package-copy"
-  >
-    <div class="visible-text">复制package路径(仅本地)</div>
-  </el-button>
+    <el-button
+      type="primary"
+      size="small"
+      @click.stop.prevent="copyMdUrl"
+      class="dev-md-copy"
+    >
+      <div class="visible-text">复制md路径(仅本地)</div>
+    </el-button>
+    <el-button
+      type="primary"
+      size="small"
+      @click.stop.prevent="copyPackageUrl"
+      class="dev-package-copy"
+    >
+      <div class="visible-text">复制package路径(仅本地)</div>
+    </el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -91,16 +90,22 @@ const copyPackageUrl = () => {
 .code-toogle {
   position: fixed;
   top: 20px;
-  right: 58%;
+  right: 40%;
   z-index: 200;
 }
-.dev-copy {
-  right: calc(58% - 120px);
+.prod-toogle {
+  position: fixed;
+  top: 50px;
+  right: 50%;
+  z-index: 200;
 }
-.dev-md-copy {
-  right: calc(58% - 256px);
-}
-.dev-package-copy {
-  right: calc(58% - 420px);
-}
+// .dev-copy {
+//   right: calc(58% - 120px);
+// }
+// .dev-md-copy {
+//   right: calc(58% - 256px);
+// }
+// .dev-package-copy {
+//   right: calc(58% - 420px);
+// }
 </style>

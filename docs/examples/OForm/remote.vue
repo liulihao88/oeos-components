@@ -4,7 +4,7 @@ const { proxy } = getCurrentInstance()
 const model = ref({
   account: '', // *用户账号
   password: null, // *用户密码
-  sex: 'sex2',
+  sex: '',
   name: '',
 })
 const cusRules = {
@@ -43,9 +43,6 @@ const fieldList = [
     label: '爱好',
     prop: 'hobby',
     comp: 'o-select',
-    // itemAttrs: {
-    //   rules: cusRules.hobby,
-    // },
     attrs: {
       label: 'name',
       multiple: true,
@@ -61,6 +58,7 @@ const fieldList = [
     label: '性别单选',
     prop: 'sex',
     comp: 'o-radio',
+    value: 'sex2',
     attrs: {
       options: [
         { label: '小月月', value: 'sex1' },
