@@ -1,58 +1,52 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-const selectedOptions = ref([])
-const options = [
+const form = ref({})
+const rules = [
   {
-    value: 'beijing',
-    label: '北京',
-    children: [
-      {
-        value: 'dongcheng',
-        label: '东城区',
-      },
-      {
-        value: 'xicheng',
-        label: '西城区',
-      },
-      {
-        value: 'chaoyang',
-        label: '朝阳区',
-      },
-    ],
-  },
-  {
-    value: 'shanghai',
-    label: '上海',
-    children: [
-      {
-        value: 'huangpu',
-        label: '黄浦区',
-      },
-      {
-        value: 'xuhui',
-        label: '徐汇区',
-      },
-      {
-        value: 'jingan',
-        label: '静安区',
-      },
-    ],
+    required: true,
+    message: '请填写名称',
+    trigger: ['blur', 'change'],
   },
 ]
-function handleCascaderChange(value) {
-  console.log(value)
+const lengthRules = [
+  {
+    required: true,
+    message: '请填写名称',
+    trigger: ['blur', 'change'],
+  },
+  {
+    min: 3,
+    message: '最短是3',
+    trigger: ['blur', 'change'],
+  },
+  {
+    max: 5,
+    message: '最长是5',
+    trigger: ['blur', 'change'],
+  },
+]
+const formRef = ref()
+async function isTest34() {
+  await proxy.validForm(formRef)
+}
+function clearForm() {
+  formRef.value.resetFields();
 }
 </script>
 
 <template>
   <div>
-    <el-cascader
-      v-model="selectedOptions"
-      :options="options"
-      @change="handleCascaderChange"
-      placeholder="请选择省市区"
-    ></el-cascader>
+    <el-button type="primary" @click="isTest34">测试82</el-button>
+    <el-button type="primary" @click="clearForm">清空表单</el-button>
+    <el-form ref="formRef" :model="form">
+      <el-form-item label="名称" prop="name" :rules="rules">
+        <o-input v-model="form.name" />
+      </el-form-item>
+      <el-form-item label="最短3,最长5" prop="length" :rules="lengthRules">
+        <o-input v-model="form.length" />
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 

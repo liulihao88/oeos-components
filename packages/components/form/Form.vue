@@ -30,12 +30,30 @@ const oFormRef = ref()
 async function validate() {
   await proxy.validForm(oFormRef)
 }
+function resetFields() {
+  oFormRef.value.resetFields()
+}
 function innerSubmit() {
   validate()
+}
+function mergeRules(rules) {
+  if (proxy.isEmpty(rules)) {
+    return ''
+  }
+  let defaultRulesObj = {
+    message: '请输入',
+    trigger: ['blur', 'change'],
+  }
+  let mergeRules = rules.map((v) => {
+    return Object.assign({}, defaultRulesObj, v)
+  })
+  console.log(`mergeRules`, mergeRules)
+  return mergeRules
 }
 
 defineExpose({
   validate: validate,
+  resetFields: resetFields,
 })
 </script>
 
@@ -52,6 +70,7 @@ defineExpose({
         :prop="v.prop"
         :label="v.label"
         v-bind="v.itemAttrs"
+        :rules="mergeRules(v.rules)"
       >
         <!-- 将 Element Plus 表格的默认 slot 传递给您的组件 -->
         <template #label>
@@ -71,11 +90,13 @@ defineExpose({
             v-model="model[v.prop!]"
             :is="v.comp || 'o-input'"
             :placeholder="getPlaceholder(v)"
+            :rules="v.rules"
             v-bind="{ clearable: true, filterable: true, ...v.attrs }"
           ></component>
         </template>
       </el-form-item>
 
+      <el-button type="primary" @click="clearForm">内部清空表单</el-button>
       <el-button type="primary" @click="innerSubmit">组件内部提交</el-button>
     </el-form>
   </div>
