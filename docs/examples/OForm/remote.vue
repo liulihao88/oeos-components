@@ -64,8 +64,7 @@ const fieldList = [
     attrs: {
       label: 'name',
       multiple: true,
-      // style: { width: '100%' },
-      width: '100',
+      style: { width: '100%' },
       value: 'id',
       options: [
         { name: '唱', id: '11' },
