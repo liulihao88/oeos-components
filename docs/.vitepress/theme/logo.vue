@@ -59,7 +59,7 @@ const copyUrl = () => {
   }
   let vueStr = pathname.replace('/components/', '') + '.vue'
   console.log(`vueStr`, vueStr)
-  copy(vueStr, true, 'success', { duration: 500 })
+  copy(vueStr, { duration: 500 })
 }
 const copyMdUrl = () => {
   console.log(`import.meta.env.DEV`, import.meta.env.DEV)
@@ -70,7 +70,7 @@ const copyMdUrl = () => {
   }
   let mdStr = pathname.replace('/components/', '') + '.md'
   console.log(`mdStr`, mdStr)
-  copy(mdStr, true, 'success', { duration: 500 })
+  copy(mdStr, { duration: 500 })
 }
 const copyPackageUrl = () => {
   console.log(`import.meta.env.DEV`, import.meta.env.DEV)
@@ -82,7 +82,7 @@ const copyPackageUrl = () => {
   const reg = /\/[^/]*$/
   let pkgStr = 'packages' + pathname.replace(reg, '') + '.vue'
   console.log(`pkgStr`, pkgStr)
-  copy(pkgStr, true, 'success', { duration: 500 })
+  copy(pkgStr, { duration: 500 })
 }
 </script>
 

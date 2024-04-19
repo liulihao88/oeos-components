@@ -558,9 +558,12 @@ export function globalImageUrl(photoName) {
 
 /**
  * 复制文本
+ * 
  * copy('这是要复制的文本');
+ * copy('这是要复制的文本', {duration: 500});
+ *
  *  */
-export const copy = (text, showToast = true, ...otherParams) => {
+export const copy = (text, ...otherParams) => {
   const textarea = document.createElement('textarea')
   textarea.value = text
   textarea.style.position = 'fixed'
@@ -568,11 +571,12 @@ export const copy = (text, showToast = true, ...otherParams) => {
   textarea.select()
   document.execCommand('copy')
   document.body.removeChild(textarea)
-  console.log(`import.meta.env.DEV3333`, import.meta.env.DEV)
-  if (showToast) {
-    console.log(`3334 546行 packages/utils/index.js otherParams `, otherParams)
-
-    $toast(text, ...otherParams)
+  if (!otherParams.hideToast) {
+    if (otherParams.customText) {
+      $toast(customText, ...otherParams)
+    } else {
+      $toast(text + '复制成功', ...otherParams)
+    }
   }
 }
 
@@ -652,11 +656,26 @@ export function random(min = 0, max = 10) {
 }
 
 /**
- * 驼峰转换下划线
- * @param { String } name
+ * 将文本转换为带有连接符的行文本
+ *
+ * @param text 要转换的文本
+ * @param connect 连接符，默认为'-'
+ * @returns 返回转换后的行文本
+ * toLine('NameAndy') // name-andy
+ * toLine('nameAndy') // name-andy
+ * toLine('_nameAndy') // _name-andy
  */
-export function toLine(name) {
-  return name.replace(/([A-Z])/g, '_$1').toLowerCase()
+export function toLine(text, connect = '-') {
+  let translateText = text
+    .replace(/([A-Z])/g, (match, p1, offset, origin) => {
+      if (offset === 0) {
+        return `${match.toLocaleLowerCase()}`
+      } else {
+        return `${connect}${match.toLocaleLowerCase()}`
+      }
+    })
+    .toLocaleLowerCase()
+  return translateText
 }
 
 // console.log(processWidth(200)) // { width: '200px' }

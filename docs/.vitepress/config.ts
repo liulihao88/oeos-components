@@ -110,6 +110,10 @@ export default defineConfig({
               link: '/components/select/base.md',
             },
             {
+              text: 'icon组件',
+              link: '/components/icon/base.md',
+            },
+            {
               text: 'input组件',
               link: '/components/input/base.md',
             },
