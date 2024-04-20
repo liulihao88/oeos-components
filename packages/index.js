@@ -1,4 +1,4 @@
-import { toLine } from '@/utils/index.js'
+import { toLine } from './utils/index.js'
 
 import registerDirectives from './directives/gDirectives.js'
 import Checkbox from './components/checkbox/Checkbox.vue'
