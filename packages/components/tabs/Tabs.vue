@@ -1,6 +1,6 @@
 <template>
   <div class="t_tabs">
-    <el-tabs v-bind="$attrs">
+    <el-tabs v-bind="$attrs" v-model="tabsValue">
       <el-tab-pane
         v-for="tab in props.options"
         :key="tab[props.value]"
@@ -14,7 +14,12 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useAttrs, ref, computed } from 'vue'
+const attrs = useAttrs()
 const props: any = defineProps({
+  modelValue: {
+    type: String,
+  },
   options: {
     type: Array,
     default: () => {
@@ -32,6 +37,16 @@ const props: any = defineProps({
   subAttrs: {
     type: Object,
     default: () => {},
+  },
+})
+const emits = defineEmits(['update:modelValue'])
+
+const tabsValue = computed({
+  get() {
+    return props.modelValue || props.options[0]?.[props.value]
+  },
+  set(val) {
+    emits('update:modelValue', val)
   },
 })
 </script>
