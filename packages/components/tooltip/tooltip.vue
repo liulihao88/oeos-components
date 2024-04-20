@@ -57,5 +57,6 @@ function contentClick() {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  vertical-align: bottom;
 }
 </style>

@@ -23,14 +23,11 @@ const iptValue = ref()
           fontWeight: 'bold',
         },
       }"
-      class="m-l-100 bg-red"
     ></o-input>
 
     <o-input title="密码框" type="password" v-model="iptValue"></o-input>
 
     <o-input type="textarea" v-model="iptValue"></o-input>
-
-    
   </div>
 </template>
 

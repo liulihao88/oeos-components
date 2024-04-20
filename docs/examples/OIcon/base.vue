@@ -11,13 +11,15 @@ function isTest13() {
 
 <template>
   <div>
-    <o-icon
-      name="delete"
-      color="blue"
-      @click="tt"
-      disabled
-      content="删除"
-    ></o-icon>
+    <div>
+      <o-icon
+        name="delete"
+        color="blue"
+        class="po-r l-200 m-l-200"
+        @click="tt"
+        content="删除"
+      ></o-icon>
+    </div>
     <o-icon
       name="refresh"
       content="刷新"
@@ -28,14 +30,14 @@ function isTest13() {
     <o-icon name="check"></o-icon>
     <o-icon name="close" class="is-loading"></o-icon>
     <o-icon name="download"></o-icon>
-    <o-icon name="arrow-right" color="blue" ></o-icon>
+    <o-icon name="arrow-right" color="blue"></o-icon>
     <o-icon name="plus" color="red" size="2em"></o-icon>
     <o-icon name="loading" class="is-loading"></o-icon>
     <o-icon name="AddLocation" class="is-loading"></o-icon>
     <o-icon name="addLocation" class="is-loading"></o-icon>
     <o-icon name="add-location" class="is-loading"></o-icon>
     <br />
-    <el-button  @click="isTest13" disabled type="danger">测试18</el-button>
+    <el-button @click="isTest13" disabled type="danger">测试18</el-button>
     <el-button type="primary" @click="isTest13" disabled>测试18</el-button>
     <el-button type="primary" @click="isTest13">测试18</el-button>
     <el-button type="primary" @click="isTest13">测试18</el-button>
