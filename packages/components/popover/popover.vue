@@ -1,62 +1,86 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
+/**
+ * <g-popover @confirm="confirm" trigger="click"></g-popover>
+ */
+import { ref, getCurrentInstance, onMounted } from 'vue'
 const { proxy } = getCurrentInstance()
-const props = defineProps({
-  visible: {
-    type: Boolean,
-  },
-})
-const popShow = ref(false)
-const emits = defineEmits(['update:visible', 'confirm'])
-
-const popperStyle = {
-  background: '#2f2b36',
-  boxShadow: '0px 2px 4px 0px rgba(2, 1, 2, 0.4)',
-  borderRadius: '12px',
-  border: 'none',
+const isPopoverVisible = ref(false)
+// const isPopoverVisible = ref(true)
+const togglePopover = () => {
+  isPopoverVisible.value = true
 }
-function confirm() {
-  console.log(
-    `***** 44444444444  19行 src/components/autoImportComponents/gPopOver.vue  16:05:19`,
-  )
+const handleShow = () => {
+  onMounted(() => {
+    document.addEventListener('click', closePopoverOnClickOutside)
+  })
+}
 
-  popShow.value = false
+const closePopoverOnClickOutside = (event) => {
+  if (!document.querySelector('.el-popover').contains(event.target)) {
+    close()
+  }
+}
+const emits = defineEmits(['confirm', 'cancel'])
+function confirm() {
+  close()
   emits('confirm')
 }
-function cancel() {
-  popShow.value = false
+function close() {
+  isPopoverVisible.value = false
 }
-/** @使用方式
-<o-popover title="">
-  <o-btn type="primary" >测试41</o-btn>
-</o-popover>
-*/
+function cancel() {
+  close()
+  emits('cancel')
+}
+const props = defineProps({
+  title: {
+    type: String,
+    default: '删除',
+  },
+  width: {
+    type: [String, Number],
+    default: 200,
+  },
+  content: {
+    type: String,
+    default: '确定删除? ',
+  },
+})
+
+defineExpose({
+  close,
+});
 </script>
 
 <template>
   <el-popover
-    :title="$attrs.title || '确定删除?'"
-    :width="200"
-    v-model:visible="popShow"
-    :trigger="$attrs.trigger || 'hover'"
-    :popper-style="popperStyle"
+    class="o-popover"
+    :title="title"
+    :width="width"
+    v-bind="$attrs"
+    @show="handleShow"
+    v-model:visible="isPopoverVisible"
   >
-    <template #reference>
-      <slot></slot>
+    <slot name="content">
+      <div class="o-popover__content">{{ content }}</div>
+    </slot>
+    <slot name="footer">
+      <div style="text-align: right; margin: 0">
+        <el-button size="small" type="info" @click="cancel">取消</el-button>
+        <el-button size="small" type="primary" @click="confirm">确定</el-button>
+      </div>
+    </slot>
+    <template v-slot:reference>
+      <slot v-if="$slots.default"></slot>
+      <el-button class="m-2" type="primary" v-else>删除</el-button>
     </template>
-    <div class="f-bt">
-      <o-btn type="red" @click="confirm" :customStyle="{ padding: '9px 20px' }">
-        确定
-      </o-btn>
-      <o-btn
-        type="primary"
-        @click="cancel"
-        :customStyle="{ padding: '9px 20px' }"
-      >
-        取消
-      </o-btn>
-    </div>
   </el-popover>
 </template>
 
-<style lang="scss"></style>
+<style scoped lang="scss">
+.o-popover {
+}
+.o-popover__content {
+  margin-bottom: 12px;
+}
+</style>

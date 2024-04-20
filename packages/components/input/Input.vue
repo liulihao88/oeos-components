@@ -6,13 +6,14 @@
   >
     <el-tooltip
       :content="'' + $attrs.modelValue"
-      :disabled="hideTooltip"
+      :disabled="inWidth || hideTooltip"
       v-bind="tooltipAttrs"
     >
       <el-input
-        v-bind="$attrs"
+        v-bind="{ ...$attrs }"
         :placeholder="handlePlaceholder()"
         class="kd-ipt"
+        :showPassword="showPassword"
         :clearable="$attrs.clearable !== false"
         :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
         :style="{ ...proxy.processWidth(props.width) }"
@@ -87,8 +88,12 @@ const props = defineProps({
       return {}
     },
   },
+  hideTooltip: {
+    type: Boolean,
+    default: false,
+  },
 })
-const hideTooltip = ref(true)
+const inWidth = ref(true)
 const handleMaxLength = computed(() => {
   if (attrs.type === 'textarea') {
     return attrs.maxlength || 1000
@@ -123,11 +128,17 @@ function focusHandler(evt) {
 function inputOnMouseOver(event) {
   const target = event.target
   if (target.offsetWidth + 4 < target.scrollWidth) {
-    hideTooltip.value = false
+    inWidth.value = false
   } else {
-    hideTooltip.value = true
+    inWidth.value = true
   }
 }
+const showPassword = computed(() => {
+  if (attrs.type === 'password' && attrs.showPassword !== false) {
+    return true
+  }
+  return false
+})
 </script>
 
 <style lang="scss" scoped>

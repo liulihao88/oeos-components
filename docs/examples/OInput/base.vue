@@ -12,8 +12,9 @@ const textareaValue = ref(
   <div>
     <o-input v-model="iptValue"></o-input>
     <o-input v-model="iptValue" width="100"></o-input>
+    <o-input v-model="iptValue" width="100"></o-input>
     <o-input v-model="iptValue" :clearble="false"></o-input>
-    <o-input v-model="iptValue" title="title"></o-input>
+    <o-input v-model="iptValue" title="title" hideTooltip></o-input>
     <o-input v-model="textareaValue" type="textarea"></o-input>
   </div>
 </template>
