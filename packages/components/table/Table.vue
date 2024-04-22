@@ -18,6 +18,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  showIndex: {
+    type: Boolean,
+    default: true,
+  },
 })
 const emits = defineEmits(['update'])
 const finalColumns = ref([])
@@ -115,24 +119,25 @@ defineExpose({})
 
 <template>
   <div class="o-table">
+    {{ $attrs }}
+    <!-- {{ $props }} -->
     <el-table
       :data="props.data"
       v-bind="$attrs"
       border
-      stripe
       :header-cell-style="{
         background: '#f7f8fa',
         color: 'rgba(39,48,75,0.85)',
         height: '50px',
       }"
     >
+      <slot></slot>
+      <el-table-column type="index" width="30" v-if="showIndex" />
       <template v-for="(v, i) in finalColumns" :key="i">
         <el-table-column
           v-if="v.type"
           :key="v.type"
           v-bind="{ ...v }"
-          :selectable="v.selectableFn"
-          :reserve-selection="v.type === 'selection'"
         ></el-table-column>
         <el-table-column
           v-bind="{ ...{ fixed: 'right', width: 200 }, ...v }"
@@ -230,14 +235,18 @@ defineExpose({})
               @click="v.handler(scope.row, scope)"
             >
               <span>
-                {{ v.filter ? v.filter(scope.row, scope) : scope.row[v.prop] }}
+                {{
+                  v.filter
+                    ? v.filter(scope.row, scope)
+                    : scope.row[v.prop] || '-'
+                }}
               </span>
             </span>
             <span v-else-if="v.filter">
               {{ v.filter(scope.row, scope) }}
             </span>
             <span v-else>
-              {{ scope.row[v.prop] }}
+              {{ scope.row[v.prop] || '-' }}
             </span>
           </template>
         </el-table-column>

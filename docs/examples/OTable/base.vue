@@ -124,6 +124,7 @@ init()
     <el-button type="primary" @click="init">新增数据</el-button>
     {{ total }}
     <o-table :columns="columns" :total="total" :data="data" ref="tableRef">
+      <el-table-column type="index" width="50"></el-table-column>
       <template #endTime="{ scope, row }">我是slot</template>
     </o-table>
   </div>

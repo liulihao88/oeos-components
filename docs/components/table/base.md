@@ -6,6 +6,12 @@
 OTable/base
 :::
 
+### 多选
+
+:::demo
+OTable/select
+:::
+
 ### 通常用法
 
 :::demo
