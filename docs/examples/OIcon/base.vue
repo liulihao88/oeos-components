@@ -11,19 +11,27 @@ function isTest13() {
 
 <template>
   <div>
-    <div>
       <o-icon
         name="delete"
-        color="blue"
-        class="po-r l-200 m-l-200"
+        class="po-a l-200 m-l-200"
+        size="100"
         @click="tt"
         content="删除"
       ></o-icon>
-    </div>
     <o-icon
       name="refresh"
       content="刷新"
       @click="tt"
+      color="var(--blue)"
+      size="50"
+      placement="right"
+    ></o-icon>
+    <o-icon
+      name="refresh"
+      content="刷新"
+      @click="tt"
+      class="cl-blue"
+      size="50"
       placement="right"
     ></o-icon>
     <o-icon name="edit" content="编辑" size="30"></o-icon>

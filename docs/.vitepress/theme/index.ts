@@ -9,7 +9,6 @@ import { h } from 'vue'
 // 图标并进行全局注册
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as echarts from 'echarts' // 引入echarts
-import '../../../packages/styles/gStyle.scss'
 
 import { VPDemo } from '../vitepress'
 // 基于element-plus二次封装基础组件

@@ -50,17 +50,19 @@ function handleUnit(str) {
           height: handleUnit(props.size),
           ...props.customStyle,
         }"
+
       />
     </template>
   </el-empty>
 </template>
 
 <style scoped lang="scss">
-:deep(.ep-empty) {
+:deep(.el-empty) {
   height: 100%;
 }
-:deep(.ep-empty__description p) {
+:deep(.el-empty__description p) {
   color: #666;
+  color: var(--red);
 }
 :deep(.el-empty__image) {
   width: unset;

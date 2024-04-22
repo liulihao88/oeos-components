@@ -1,3 +1,4 @@
+import './styles/gStyle.scss'
 import { toLine } from './utils/index.js'
 
 import registerDirectives from './directives/gDirectives.js'

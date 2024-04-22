@@ -119,8 +119,6 @@ defineExpose({})
 
 <template>
   <div class="o-table">
-    {{ $attrs }}
-    <!-- {{ $props }} -->
     <el-table
       :data="props.data"
       v-bind="$attrs"

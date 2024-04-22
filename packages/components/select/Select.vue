@@ -336,9 +336,9 @@ const urlParams = proxy.translateToPageinfo({
     }
   }
 }
-:deep(.ep-input__wrapper) {
+:deep(.el-input__wrapper) {
   background: blue;
-  & .ep-input__inner {
+  & .el-input__inner {
     color: #fff !important;
   }
 }
