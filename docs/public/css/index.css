@@ -25,38 +25,9 @@
   border: none;
   background-color: var(--el-bg-color);
 }
-.vp-doc .t_detail table {
-  border-collapse: separate;
-  text-indent: initial;
-  border-spacing: 2px;
+.vp-doc table{
+  display: table !important;
   margin: 0;
-  overflow-x: inherit;
-}
-.vp-doc .t_detail tr:nth-child(2n) {
-  background-color: var(--el-bg-color);
-}
-
-.vp-doc .t-table tr {
-  border-top: none;
-}
-.vp-doc .t-table th,
-.vp-doc .t-table td {
-  border: none;
-  background-color: var(--el-bg-color);
-}
-.vp-doc .t-table table {
-  border-collapse: separate;
-  text-indent: initial;
-  border-spacing: 2px;
-  margin: 0;
-  overflow-x: inherit;
-}
-.vp-doc .t-table tr:nth-child(2n) {
-  background-color: var(--el-bg-color);
-}
-
-.vp-doc .t-table tr {
-  border-top: none;
 }
 .VPContent .VPDoc .container .content {
   padding: 0;
@@ -76,7 +47,3 @@
 .vp-doc ul, .vp-doc ol {
   padding-left: 0;
 }
-
-/* pre{
-  background: transparent;
-} */

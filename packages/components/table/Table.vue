@@ -180,7 +180,7 @@ defineExpose({})
                     >
                       <template v-if="val.reConfirm === true">
                         <o-popover
-                          trigger="click"
+                          trigger="hover"
                           @confirm="val.handler?.(scope.row, scope)"
                         >
                           <el-button

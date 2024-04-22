@@ -31,6 +31,7 @@ const columns = [
   {
     label: '结束时间',
     prop: 'endTime',
+    useSlot: true,
   },
   {
     label: '状态',
@@ -123,9 +124,7 @@ init()
     <el-button type="primary" @click="init">新增数据</el-button>
     {{ total }}
     <o-table :columns="columns" :total="total" :data="data" ref="tableRef">
-      <!-- <template #endTime="{ scope, row }">
-        {{ row.endTime }}
-      </template> -->
+      <template #endTime="{ scope, row }">我是slot</template>
     </o-table>
   </div>
 </template>
