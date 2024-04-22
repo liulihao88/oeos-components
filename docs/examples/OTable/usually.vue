@@ -119,7 +119,7 @@ init()
 </script>
 
 <template>
-  <div style="width: 800px">
+  <div>
     <el-button type="primary" @click="init">新增数据</el-button>
     {{ total }}
     <o-table :columns="columns" :total="total" :data="data" ref="tableRef">

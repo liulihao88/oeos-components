@@ -15,6 +15,7 @@ import Popover from './components/popover/Popover.vue'
 import Progress from './components/progress/Progress.vue'
 import Radio from './components/radio/Radio.vue'
 import Select from './components/select/Select.vue'
+import Table from './components/table/Table.vue'
 import Tabs from './components/tabs/Tabs.vue'
 import Title from './components/title/Title.vue'
 import Tooltip from './components/tooltip/Tooltip.vue'
@@ -36,6 +37,7 @@ const comps = [
   Icon,
   Input,
   InputLabel,
+  Table,
   Tabs,
   Tooltip,
   Title,

@@ -142,6 +142,10 @@ export default defineConfig({
               text: 'form组件',
               link: '/components/form/base.md',
             },
+            {
+              text: 'table组件',
+              link: '/components/table/base.md',
+            },
           ],
         },
       ],
