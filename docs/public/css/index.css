@@ -25,7 +25,7 @@
   border: none;
   background-color: var(--el-bg-color);
 }
-.vp-doc table{
+.vp-doc table {
   display: table !important;
   margin: 0;
 }
@@ -44,6 +44,7 @@
 .VPContent .VPDoc.has-aside .content-container {
   max-width: 1200px;
 }
-.vp-doc ul, .vp-doc ol {
+.vp-doc ul,
+.vp-doc ol {
   padding-left: 0;
 }

@@ -2,7 +2,7 @@
 
 ### 基础用法
 
-:::demo 
+:::demo
 OProgress/base
 :::
 

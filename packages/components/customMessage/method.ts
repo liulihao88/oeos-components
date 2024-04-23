@@ -30,11 +30,10 @@ export const createMessage = (props: CreateMessageProps) => {
     onDestory: destory,
   }
   const vnode = h(MessageConstructor, newProps)
-  console.log(`vnode`, vnode);
-  console.log(`container`, container);
+  console.log(`vnode`, vnode)
+  console.log(`container`, container)
   render(vnode, container)
-  
-  
+
   //非空断言操作符
   document.body.appendChild(container.firstElementChild)
   const vm = vnode.component
@@ -45,7 +44,7 @@ export const createMessage = (props: CreateMessageProps) => {
     props: newProps,
     destory: manualDestroy,
   }
-  console.log(`instance`, instance);
+  console.log(`instance`, instance)
   instances.push(instance)
   return instance
 }

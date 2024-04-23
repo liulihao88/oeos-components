@@ -49,7 +49,7 @@ const props = defineProps({
 
 defineExpose({
   close,
-});
+})
 </script>
 
 <template>

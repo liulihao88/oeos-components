@@ -94,8 +94,7 @@ const handleSelectionChange = (val, ...a) => {
       @selection-change="handleSelectionChange"
       :data="data"
       ref="tableRef"
-    >
-    </o-table>
+    ></o-table>
   </div>
 </template>
 

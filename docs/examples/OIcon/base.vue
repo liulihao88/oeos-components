@@ -11,29 +11,9 @@ function isTest13() {
 
 <template>
   <div>
-      <o-icon
-        name="delete"
-        class="po-a l-200 m-l-200"
-        size="100"
-        @click="tt"
-        content="删除"
-      ></o-icon>
-    <o-icon
-      name="refresh"
-      content="刷新"
-      @click="tt"
-      color="var(--blue)"
-      size="50"
-      placement="right"
-    ></o-icon>
-    <o-icon
-      name="refresh"
-      content="刷新"
-      @click="tt"
-      class="cl-blue"
-      size="50"
-      placement="right"
-    ></o-icon>
+    <o-icon name="delete" class="po-a l-200 m-l-200" cc="1" size="100" @click="tt" content="删除"></o-icon>
+    <o-icon name="refresh" content="刷新" @click="tt" color="var(--blue)" size="50" placement="right"></o-icon>
+    <o-icon name="refresh" content="刷新" @click="tt" class="cl-blue" size="50" placement="right"></o-icon>
     <o-icon name="edit" content="编辑" size="30"></o-icon>
     <o-icon name="check"></o-icon>
     <o-icon name="close" class="is-loading"></o-icon>

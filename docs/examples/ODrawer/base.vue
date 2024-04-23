@@ -9,9 +9,7 @@ function btnClick() {
 <template>
   <div>
     <el-button @click="btnClick" type="primary">打开drawer</el-button>
-    <o-drawer title="baseDrawer" v-model="isShow">
-      我是drawer的基础用法
-    </o-drawer>
+    <o-drawer title="baseDrawer" v-model="isShow">我是drawer的基础用法</o-drawer>
   </div>
 </template>
 

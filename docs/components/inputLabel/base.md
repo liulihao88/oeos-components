@@ -6,7 +6,8 @@
 OInputLabel/base
 :::
 
-### 通常用法 
-:::demo 可以在输入的时候做一些输入规则的校验 
+### 通常用法
+
+:::demo 可以在输入的时候做一些输入规则的校验
 OInputLabel/usually
 :::

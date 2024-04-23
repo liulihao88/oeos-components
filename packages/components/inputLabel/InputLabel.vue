@@ -119,17 +119,9 @@ defineExpose({
 <template>
   <div class="o-input-box cl-blue">
     <div class="o-input-box__content">
-      <div
-        v-for="(item, index) in labelarr"
-        :key="index"
-        :class="item.isDelete === 0 ? 'disbox' : 'spanbox'"
-      >
+      <div v-for="(item, index) in labelarr" :key="index" :class="item.isDelete === 0 ? 'disbox' : 'spanbox'">
         <span>{{ item.name || item }}</span>
-        <i
-          class="spanclose"
-          style="cursor: not-allowed"
-          v-if="item.isDelete === 0"
-        ></i>
+        <i class="spanclose" style="cursor: not-allowed" v-if="item.isDelete === 0"></i>
         <i v-else class="spanclose" @click="removeitem(index, item)"></i>
       </div>
       <o-input
@@ -141,11 +133,7 @@ defineExpose({
         type="text"
       />
     </div>
-    <CircleClose
-      class="o-input-label__clear"
-      v-if="labelarr.length > 0"
-      @click="clearAll"
-    ></CircleClose>
+    <CircleClose class="o-input-label__clear" v-if="labelarr.length > 0" @click="clearAll"></CircleClose>
   </div>
 </template>
 

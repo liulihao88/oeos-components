@@ -132,11 +132,7 @@ defineExpose({})
       <slot></slot>
       <el-table-column type="index" width="30" v-if="showIndex" />
       <template v-for="(v, i) in finalColumns" :key="i">
-        <el-table-column
-          v-if="v.type"
-          :key="v.type"
-          v-bind="{ ...v }"
-        ></el-table-column>
+        <el-table-column v-if="v.type" :key="v.type" v-bind="{ ...v }"></el-table-column>
         <el-table-column
           v-bind="{ ...{ fixed: 'right', width: 200 }, ...v }"
           v-else-if="v.baseBtns && v.baseBtns.length > 0"
@@ -144,10 +140,7 @@ defineExpose({})
           <template #default="scope">
             <template v-for="(val, idx) in v.baseBtns" :key="idx">
               <template v-if="val.reConfirm === true">
-                <o-popover
-                  trigger="click"
-                  @confirm="val.handler?.(scope.row, scope)"
-                >
+                <o-popover trigger="click" @confirm="val.handler?.(scope.row, scope)">
                   <el-button
                     v-if="!val.confirmInfo"
                     v-bind="{ ...val }"
@@ -176,23 +169,14 @@ defineExpose({})
                 <o-icon name="more"></o-icon>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item
-                      v-for="(val, idx) in v.hideBtns"
-                      :key="idx"
-                      :hide-on-click="false"
-                    >
+                    <el-dropdown-item v-for="(val, idx) in v.hideBtns" :key="idx" :hide-on-click="false">
                       <template v-if="val.reConfirm === true">
-                        <o-popover
-                          trigger="hover"
-                          @confirm="val.handler?.(scope.row, scope)"
-                        >
+                        <o-popover trigger="hover" @confirm="val.handler?.(scope.row, scope)">
                           <el-button
                             v-if="!val.confirmInfo"
                             v-bind="{ ...val }"
                             link
-                            :disabled="
-                              parseDisabled(val.disabled, scope.row, scope)
-                            "
+                            :disabled="parseDisabled(val.disabled, scope.row, scope)"
                           >
                             ??{{ operatorBtnFn(val.content, scope.row) }}
                           </el-button>
@@ -203,9 +187,7 @@ defineExpose({})
                           v-if="!val.confirmInfo"
                           v-bind="{ ...val }"
                           link
-                          :disabled="
-                            parseDisabled(val.disabled, scope.row, scope)
-                          "
+                          :disabled="parseDisabled(val.disabled, scope.row, scope)"
                           @click="val.handler?.(scope.row, scope)"
                         >
                           {{ operatorBtnFn(val.content, scope.row) }}
@@ -221,23 +203,10 @@ defineExpose({})
 
         <el-table-column v-bind="{ ...v }" v-else>
           <template #default="scope">
-            <slot
-              v-if="v.useSlot"
-              :name="v.prop"
-              :row="scope.row"
-              :scope="scope"
-            ></slot>
-            <span
-              v-else-if="v.handler"
-              class="linked"
-              @click="v.handler(scope.row, scope)"
-            >
+            <slot v-if="v.useSlot" :name="v.prop" :row="scope.row" :scope="scope"></slot>
+            <span v-else-if="v.handler" class="linked" @click="v.handler(scope.row, scope)">
               <span>
-                {{
-                  v.filter
-                    ? v.filter(scope.row, scope)
-                    : scope.row[v.prop] || '-'
-                }}
+                {{ v.filter ? v.filter(scope.row, scope) : scope.row[v.prop] || '-' }}
               </span>
             </span>
             <span v-else-if="v.filter">

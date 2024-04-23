@@ -4,7 +4,7 @@
   --vk-message-padding: 15px 19px;
   --vk-message-close-size: 16px;
   --vk-message-close-icon-color: red;
-  --vk-message-close-hover-color:pink;
+  --vk-message-close-hover-color: pink;
 }
 .vk-message {
   width: fit-content;
@@ -30,7 +30,7 @@
     cursor: pointer;
   }
 }
-@each $val in info,success,warning,danger { 
+@each $val in info, success, warning, danger {
   .vk-message--$(val) {
     --vk-message-bg-color: blue;
     --vk-message-border-color: red;

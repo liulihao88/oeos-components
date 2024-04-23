@@ -15,7 +15,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "release": "pnpm build && npm version patch && npm publish",
-    "format": "prettier --write example/ packages/",
+    "format": "prettier --write example/ packages/ docs/",
     "docsdev": "vitepress dev docs",
     "docsbuild": "vitepress build docs",
     "docsserve": "vitepress serve docs",

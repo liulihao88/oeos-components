@@ -94,11 +94,7 @@ async function testSubmit() {
       <template #password-label>我是password啊</template>
       <template #hobby-label>我是hobby啊</template>
       <template #name>
-        <o-input
-          v-model="model.name"
-          placeholder="我是slot的name"
-          width="300"
-        />
+        <o-input v-model="model.name" placeholder="我是slot的name" width="300" />
       </template>
     </o-form>
     <el-button type="primary" @click="testSubmit">测试提交</el-button>

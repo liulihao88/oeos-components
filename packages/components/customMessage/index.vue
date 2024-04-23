@@ -1,9 +1,5 @@
 <template>
-  <Transition
-    :name="transitionName"
-    @after-leave="destroyComponent"
-    @enter="updateHeight"
-  >
+  <Transition :name="transitionName" @after-leave="destroyComponent" @enter="updateHeight">
     <div
       class="vk-message"
       v-show="visible"

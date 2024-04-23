@@ -5,10 +5,7 @@ const { proxy } = getCurrentInstance()
 
 <template>
   <div>
-    <o-empty
-      description="我是空白的"
-      src="https://atts.w3cschool.cn/rabbit600x600.png"
-    ></o-empty>
+    <o-empty description="我是空白的" src="https://atts.w3cschool.cn/rabbit600x600.png"></o-empty>
   </div>
 </template>
 

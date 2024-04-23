@@ -12,7 +12,6 @@ OCheckbox/base
 OCheckbox/usually
 :::
 
-
 ### 多属性用法
 
 :::demo

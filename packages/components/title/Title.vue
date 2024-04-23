@@ -66,10 +66,7 @@ const margin = computed(() => {
 })
 
 function mHandleUnit(inner) {
-  if (
-    typeof inner === 'string' &&
-    (inner.indexOf('px') !== -1 || inner.indexOf('%') !== -1)
-  ) {
+  if (typeof inner === 'string' && (inner.indexOf('px') !== -1 || inner.indexOf('%') !== -1)) {
     return inner
   }
   return inner + 'px'

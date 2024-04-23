@@ -93,10 +93,7 @@ export function getStorage(data, isLocal = true) {
  * clearStorage('loginId')
  * clearStorage('', {exceptSessions: ['loginId']});
  */
-export function clearStorage(
-  str = '',
-  { exceptSessions = [], exceptLocals = [] } = {},
-) {
+export function clearStorage(str = '', { exceptSessions = [], exceptLocals = [] } = {}) {
   let sessionList = {}
   let localList = {}
   if (exceptSessions.length > 0) {
@@ -227,10 +224,7 @@ export function clone(data, times = 1) {
  * parseTime(new Date()); //2018-11-11 17:13:21
  * parseTime(new Date().getTime()); //2018-11-11 17:13:21
  */
-export function parseTime(
-  time = new Date(),
-  cFormat = '{y}-{m}-{d} {h}:{i}:{s}',
-) {
+export function parseTime(time = new Date(), cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
   let date
   if (typeof time === 'object') {
     date = time
@@ -274,12 +268,7 @@ export function parseTime(
 export function uuid(
   type = '',
   length = 4,
-  {
-    emailStr = '@qq.com',
-    timeStr = '{m}-{d} {h}:{i}:{s}',
-    startStr = '',
-    optionsIndex = null,
-  } = {},
+  { emailStr = '@qq.com', timeStr = '{m}-{d} {h}:{i}:{s}', startStr = '', optionsIndex = null } = {},
 ) {
   let randomStr = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
   let res = type
@@ -295,19 +284,7 @@ export function uuid(
   }
   // 如果是手机号, 生成随机手机号
   if (type === 'phone') {
-    let prefixArray = new Array(
-      '130',
-      '131',
-      '132',
-      '133',
-      '135',
-      '136',
-      '137',
-      '138',
-      '170',
-      '187',
-      '189',
-    )
+    let prefixArray = new Array('130', '131', '132', '133', '135', '136', '137', '138', '170', '187', '189')
     let i = parseInt(10 * Math.random())
     let res = prefixArray[i]
     for (var j = 0; j < 8; j++) {
@@ -350,10 +327,7 @@ export function uuid(
  */
 export function judgeType(type) {
   if (typeof type === 'object') {
-    const objType = Object.prototype.toString
-      .call(type)
-      .slice(8, -1)
-      .toLowerCase()
+    const objType = Object.prototype.toString.call(type).slice(8, -1).toLowerCase()
     return objType
   } else {
     return typeof type
@@ -382,17 +356,7 @@ confirmRegPwd: [
 
 export function validate(type = 'required', rules = {}) {
   const trigger = rules.trigger || ['blur', 'change']
-  const typeMaps = [
-    'required',
-    'pwd',
-    'number',
-    'mobile',
-    'between',
-    'same',
-    'length',
-    'ip',
-    'port',
-  ]
+  const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'same', 'length', 'ip', 'port']
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
   if (!typeMaps.includes(type)) {
     return {
@@ -414,12 +378,7 @@ export function validate(type = 'required', rules = {}) {
     const validateName = (rule, value, callback) => {
       let validFlag = /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value)
       if (!validFlag) {
-        callback(
-          new Error(
-            rules.message ||
-              '密码需由中文、英文、数字、下划线组成，且不能以下划线开头和结尾',
-          ),
-        )
+        callback(new Error(rules.message || '密码需由中文、英文、数字、下划线组成，且不能以下划线开头和结尾'))
       } else {
         callback()
       }
@@ -459,8 +418,7 @@ export function validate(type = 'required', rules = {}) {
   }
   if (type === 'ip') {
     const validatePhone = (rule, value, callback) => {
-      let ipReg =
-        /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
+      let ipReg = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
       let validFlag = ipReg.test(value)
       console.log(`validFlag`, validFlag)
       if (!validFlag) {
@@ -476,8 +434,7 @@ export function validate(type = 'required', rules = {}) {
   }
   if (type === 'port') {
     const validatePhone = (rule, value, callback) => {
-      let ipReg =
-        /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/
+      let ipReg = /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/
       let validFlag = ipReg.test(value)
       console.log(`validFlag`, validFlag)
       if (!validFlag) {
@@ -558,7 +515,7 @@ export function globalImageUrl(photoName) {
 
 /**
  * 复制文本
- * 
+ *
  * copy('这是要复制的文本');
  * copy('这是要复制的文本', {duration: 500});
  *
@@ -602,11 +559,7 @@ export function addThousandSeparator(number) {
 const str = ref(11)
 proxy.log(`str`, str, "5行 test/t3.vue");
  */
-export function log(
-  variableStr,
-  variable,
-  otherInfo = '16行 src/views/test/t3.vue',
-) {
+export function log(variableStr, variable, otherInfo = '16行 src/views/test/t3.vue') {
   if (isRef(variable)) {
     let unrefVariable = unref(variable)
     _log(toRaw(unrefVariable))
@@ -614,29 +567,19 @@ export function log(
     _log(variable)
   }
   function _log(consoleData) {
-    if (
-      judgeType(consoleData) === 'object' ||
-      judgeType(consoleData) === 'array'
-    ) {
+    if (judgeType(consoleData) === 'object' || judgeType(consoleData) === 'array') {
       console.log(
         `%c${variableStr} ${otherInfo}`,
         'background:#fff; color: blue;font-size: 1.2em',
         JSON.stringify(consoleData, null, '\t'),
       )
     } else {
-      console.log(
-        `%c${variableStr} ${otherInfo}`,
-        'background:#fff; color: blue;font-size: 1.2em',
-        consoleData,
-      )
+      console.log(`%c${variableStr} ${otherInfo}`, 'background:#fff; color: blue;font-size: 1.2em', consoleData)
     }
   }
   function judgeType(type) {
     if (typeof type === 'object') {
-      const objType = Object.prototype.toString
-        .call(type)
-        .slice(8, -1)
-        .toLowerCase()
+      const objType = Object.prototype.toString.call(type).slice(8, -1).toLowerCase()
       return objType
     } else {
       return typeof type
@@ -694,10 +637,7 @@ export function processWidth(initValue, isBase = false) {
     return isBase ? value : {}
   } else if (typeof value === 'string' && !isNaN(value)) {
     res = value + 'px'
-  } else if (
-    typeof value === 'string' &&
-    /^[0-9]+(\.[0-9]+)?(px|%|em|rem|vw|vh|ch)*$/.test(value)
-  ) {
+  } else if (typeof value === 'string' && /^[0-9]+(\.[0-9]+)?(px|%|em|rem|vw|vh|ch)*$/.test(value)) {
     res = value
   } else {
     console.warn(`${value} is Invalid unit provided`)

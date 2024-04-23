@@ -59,11 +59,7 @@ defineExpose({
 
 <template>
   <div>
-    <el-form
-      ref="oFormRef"
-      :model="model"
-      v-bind="{ 'label-width': 'auto', ...$attrs }"
-    >
+    <el-form ref="oFormRef" :model="model" v-bind="{ 'label-width': 'auto', ...$attrs }">
       <el-form-item
         v-for="(v, i) in fieldList"
         :key="i"

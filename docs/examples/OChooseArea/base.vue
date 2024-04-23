@@ -21,11 +21,7 @@ watch(
 
 <template>
   <div class="box">
-    <o-choose-area
-      @change="result"
-      v-model="areaValue"
-      width="300"
-    ></o-choose-area>
+    <o-choose-area @change="result" v-model="areaValue" width="300"></o-choose-area>
   </div>
 </template>
 

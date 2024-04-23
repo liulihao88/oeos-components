@@ -1,14 +1,6 @@
 <template>
-  <div
-    class="o-input"
-    v-bind="subAttrs"
-    :style="{ ...proxy.processWidth(props.width) }"
-  >
-    <el-tooltip
-      :content="'' + $attrs.modelValue"
-      :disabled="inWidth || hideTooltip"
-      v-bind="tooltipAttrs"
-    >
+  <div class="o-input" v-bind="subAttrs" :style="{ ...proxy.processWidth(props.width) }">
+    <el-tooltip :content="'' + $attrs.modelValue" :disabled="inWidth || hideTooltip" v-bind="tooltipAttrs">
       <el-input
         v-bind="{ ...$attrs }"
         :placeholder="handlePlaceholder()"
@@ -103,10 +95,7 @@ const handleMaxLength = computed(() => {
 })
 
 function handlePlaceholder() {
-  let res =
-    attrs.disabled === undefined
-      ? attrs.placeholder || '请输入'
-      : props.disPlaceholder
+  let res = attrs.disabled === undefined ? attrs.placeholder || '请输入' : props.disPlaceholder
   return res
 }
 // 是否显示showWordLimit属性

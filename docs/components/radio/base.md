@@ -24,7 +24,6 @@ ORadio/type
 ORadio/multyAttrs
 :::
 
-
 ### slot的用法
 
 :::demo

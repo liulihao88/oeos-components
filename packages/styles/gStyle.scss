@@ -1,5 +1,6 @@
 :root {
-  --blue: blue;
+  --primary: #365edf;
+  --blue: #365edf;
   --blue2: #f5f7fd;
   --85: rgba(39, 48, 75, 0.85);
   --65: rgba(39, 48, 75, 0.65);
@@ -16,11 +17,9 @@
   --gray2: #f7f8fa;
   --line: #e3e6eb;
 }
-@each $cl, $clVar in blue var(--blue), blue2 var(--blue2), 85 var(--85),
-  65 var(--65), 45 var(--45), black var(--black), white var(--white),
-  red var(--red), red2 var(--red2), yellow var(--yellow), yellow2 var(--yellow2),
-  green var(--green), green2 var(--green2), gray var(--gray), gray2 var(--gray2),
-  line var(--line)
+@each $cl, $clVar in blue var(--blue), blue2 var(--blue2), 85 var(--85), 65 var(--65), 45 var(--45), black var(--black),
+  white var(--white), red var(--red), red2 var(--red2), yellow var(--yellow), yellow2 var(--yellow2), green var(--green),
+  green2 var(--green2), gray var(--gray), gray2 var(--gray2), line var(--line)
 {
   .cl-#{'' + $cl} {
     color: $clVar;
@@ -92,20 +91,6 @@
 }
 .m {
   margin: 8px;
-}
-
-.f {
-  display: flex;
-}
-.f-i {
-  display: inline-flex;
-}
-.f-c {
-  flex-direction: column;
-}
-.f-wrap,
-.f-w {
-  flex-wrap: wrap;
 }
 
 @for $index from -100 through 100 {
@@ -368,22 +353,59 @@
   }
 }
 
-@each $short, $long in ct center, bt space-between, ar space-around, fe flex-end
-{
-  .f-#{$short} {
+// flex布局
+//类名  .f-ct-st
+$justify: (
+  st: flex-start,
+  ct: center,
+  ed: flex-end,
+  bt: space-between,
+  ar: space-around,
+  lt: left,
+  rt: right,
+  un: unset,
+  nm: normal,
+);
+$align: (
+  st: flex-start,
+  ct: center,
+  ed: flex-end,
+  un: unset,
+  nm: normal,
+);
+@each $justifyKey, $justifyVal in $justify {
+  .f-#{$justifyKey} {
     display: flex;
+    justify-content: #{$justifyVal};
     align-items: center;
-    justify-content: $long;
   }
+  @each $alignKey, $alignVal in $align {
+    .f-#{$justifyKey}-#{$alignKey} {
+      display: flex;
+      justify-content: #{$justifyVal};
+      align-items: #{$alignVal};
+    }
+  }
+}
+.f {
+  display: flex;
+}
+.f-i {
+  display: inline-flex;
+}
+.f-c {
+  flex-direction: column;
+}
+.f-wrap,
+.f-w {
+  flex-wrap: wrap;
 }
 @each $short, $long in s flex-start, e flex-end, c center, b baseline {
   .ai-#{$short} {
     align-items: $long;
   }
 }
-@each $short, $long in e flex-end, c center, b space-between, a space-around,
-  e space-evenly
-{
+@each $short, $long in e flex-end, c center, b space-between, a space-around, e space-evenly {
   .jc-#{$short} {
     justify-content: $long;
   }
@@ -396,8 +418,7 @@
   }
 }
 // 垂直对齐相关 vertical-align
-@each $short, $long in t top, b bottom, m middle, bl baseline, sb sub, sp super
-{
+@each $short, $long in t top, b bottom, m middle, bl baseline, sb sub, sp super {
   .v#{$short} {
     vertical-align: $long;
   }
@@ -462,13 +483,13 @@
 
 .link {
   cursor: pointer;
-  color: blue;
+  color: var(--blue);
 }
 .cp {
   cursor: pointer;
 }
 .ac {
-  color: blue;
+  color: var(--blue);
 }
 
 //文本超出换行或隐藏，最多5行

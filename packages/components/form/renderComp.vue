@@ -4,10 +4,10 @@ export default defineComponent({
   name: 'RenderComp',
   props: {
     render: Function,
-    item: Object
+    item: Object,
   },
   render(ctx) {
     return ctx.render(ctx?.item)
-  }
+  },
 })
 </script>

@@ -101,10 +101,7 @@ function checkAllChange() {
     let res = props.type === 'simple' ? v : v[props.value]
     return res
   })
-  if (
-    isIndeterminate.value ||
-    (checkAll.value === false && isIndeterminate.value === true)
-  ) {
+  if (isIndeterminate.value || (checkAll.value === false && isIndeterminate.value === true)) {
     emitValue(optionAll)
   } else if (checkAll.value === true && isIndeterminate.value === false) {
     emitValue(optionAll)
@@ -150,11 +147,7 @@ function handleLabel(item, index) {
     >
       全选
     </el-checkbox>
-    <el-checkbox-group
-      v-model="props.modelValue"
-      @change="groupChange"
-      v-bind="$attrs"
-    >
+    <el-checkbox-group v-model="props.modelValue" @change="groupChange" v-bind="$attrs">
       <slot>
         <component
           :is="checkType"
@@ -165,10 +158,7 @@ function handleLabel(item, index) {
           :label="props.type === 'simple' ? item : item[props.label!]"
           :disabled="props.checkboxDisabled(item)"
         >
-          <slot
-            :name="props.type === 'simple' ? item : item.slot"
-            v-bind="props.type === 'simple' ? {} : item"
-          >
+          <slot :name="props.type === 'simple' ? item : item.slot" v-bind="props.type === 'simple' ? {} : item">
             {{ handleLabel(item, index) }}
           </slot>
         </component>

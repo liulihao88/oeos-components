@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import {
-  ref,
-  getCurrentInstance,
-  computed,
-  onMounted,
-  shallowRef,
-  watch,
-} from 'vue'
+import { ref, getCurrentInstance, computed, onMounted, shallowRef, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 console.log(`%c 12行 example/App.vue router`, 'color:blue', router)
@@ -23,8 +16,7 @@ async function importComps() {
   for (const path in modules) {
     const module = await modules[path]()
     let splitName = path.replace(/^\.\/views\/(.*)\/(.*)+$/, '$1')
-    let finalName =
-      'o' + (splitName.charAt(0).toUpperCase() + splitName.slice(1))
+    let finalName = 'o' + (splitName.charAt(0).toUpperCase() + splitName.slice(1))
     componentNameList.value.push(finalName)
     componentList.value[finalName] = module.default || module
   }
@@ -68,12 +60,7 @@ onMounted(() => {
       </div>
     </div>
     <div class="r">
-      <div
-        v-for="(v, i, idx) in componentList"
-        :id="componentNameList[idx]"
-        class="comp-box"
-        :key="i"
-      >
+      <div v-for="(v, i, idx) in componentList" :id="componentNameList[idx]" class="comp-box" :key="i">
         <div class="fs-30 fw-800">
           {{ componentNameList[idx] }}
         </div>

@@ -76,14 +76,10 @@ watch(
     city.value = newVal[1] ?? ''
     area.value = newVal[2] ?? ''
     if (province.value) {
-      cityList.value = address.find(
-        (item) => province.value === item.code,
-      )!.children
+      cityList.value = address.find((item) => province.value === item.code)!.children
     }
     if (city.value) {
-      areaList.value = cityList.value.find(
-        (item) => city.value === item.code,
-      )!.children!
+      areaList.value = cityList.value.find((item) => city.value === item.code)!.children!
     }
   },
   {
@@ -97,9 +93,7 @@ watch(
     // 防止空数据
     if (newVal) {
       // 获取子级数据
-      cityList.value = address.find(
-        (item) => province.value === item.code,
-      )!.children
+      cityList.value = address.find((item) => province.value === item.code)!.children
     }
     // 重置前面的数据
     city.value = ''
@@ -111,7 +105,6 @@ watch(
   },
 )
 
-
 // 监听选择城市
 watch(
   () => city.value,
@@ -119,9 +112,7 @@ watch(
     // 防止空数据
     if (newVal) {
       // 获取子级数据
-      areaList.value = cityList.value.find(
-        (item) => city.value === item.code,
-      )!.children!
+      areaList.value = cityList.value.find((item) => city.value === item.code)!.children!
     }
     // 重置前面的数据
     area.value = ''

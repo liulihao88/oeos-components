@@ -12,12 +12,8 @@ const shortcuts = [
   {
     text: '昨天',
     value: () => {
-      const start = new Date(
-        new Date(new Date().toLocaleDateString()).getTime() - oneDay,
-      )
-      const yesEnd = new Date(
-        new Date(new Date().toLocaleDateString()).getTime() - 1,
-      )
+      const start = new Date(new Date(new Date().toLocaleDateString()).getTime() - oneDay)
+      const yesEnd = new Date(new Date(new Date().toLocaleDateString()).getTime() - 1)
       return [start, yesEnd]
     },
   },
@@ -28,9 +24,7 @@ const shortcuts = [
       const nowTemp = new Date().getTime() // 当前时间戳-1673325323605
       const nextMonth = nowTemp + oneDay * new Date().getDate() // 保证是下个月1676090190150
       const end = new Date()
-      const start = new Date(
-        new Date(new Date().toLocaleDateString()).setDate(1),
-      )
+      const start = new Date(new Date(new Date().toLocaleDateString()).setDate(1))
       return [start, end]
     },
   },

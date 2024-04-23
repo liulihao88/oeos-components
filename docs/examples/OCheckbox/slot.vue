@@ -17,10 +17,7 @@
     ></o-checkbox>
   </div>
   <div>
-    <h4>
-      默认插槽(由于默认插槽, 是取的label作为值, 所以无法跟全选联通,
-      必须将全选隐藏)
-    </h4>
+    <h4>默认插槽(由于默认插槽, 是取的label作为值, 所以无法跟全选联通, 必须将全选隐藏)</h4>
     <o-checkbox v-model="value2" size="small" :showAll="false">
       <el-checkbox label="上海" />
       <el-checkbox label="北京" />

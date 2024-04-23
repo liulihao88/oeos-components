@@ -30,7 +30,7 @@ async function cusConfirm() {
       v-model="isShow"
     >
       这是内容
-  </o-drawer>
+    </o-drawer>
     <el-button @click="btnClick" type="danger">打开drawer</el-button>
   </div>
 </template>

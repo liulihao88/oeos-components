@@ -11,12 +11,7 @@ const options = ref([
 
 <template>
   <div>
-    <o-select
-      v-model="selectVal"
-      :options="options"
-      label="name"
-      value="id"
-    ></o-select>
+    <o-select v-model="selectVal" :options="options" label="name" value="id"></o-select>
   </div>
 </template>
 

@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash-es'
 /**
  * proxy.$toast('保存成功')
  * proxy.$toast('保存失败', 'error')
- * 
+ *
 proxy.$toast({
   message: 'andy',
   type: 'warning',
@@ -504,7 +504,7 @@ export function validate(type = 'required', rules = {}) {
 }
 
 /**
- * 
+ *
 const { res, err } = await proxy.asyncWrapper(listTests, pickForm);
 if (err) {
 	return;

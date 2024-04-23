@@ -26,10 +26,7 @@ function handleUnit(str) {
   if (!str) {
     return ''
   }
-  if (
-    typeof str === 'string' &&
-    (str.indexOf('px') !== -1 || str.indexOf('%') !== -1)
-  ) {
+  if (typeof str === 'string' && (str.indexOf('px') !== -1 || str.indexOf('%') !== -1)) {
     return str
   }
   return str + 'px'
@@ -50,7 +47,6 @@ function handleUnit(str) {
           height: handleUnit(props.size),
           ...props.customStyle,
         }"
-
       />
     </template>
   </el-empty>

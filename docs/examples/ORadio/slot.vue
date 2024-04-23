@@ -10,14 +10,7 @@
     </div>
     <div>
       <h4>默认插槽</h4>
-      <o-radio
-        v-model="value2"
-        size="large"
-        @change="change2"
-        id="value"
-        name="value"
-        value="value"
-      >
+      <o-radio v-model="value2" size="large" @change="change2" id="value" name="value" value="value">
         <el-radio :value="1" label="上海1" />
         <el-radio :value="2" label="北京" disabled />
         <el-radio :value="3" label="广州" />

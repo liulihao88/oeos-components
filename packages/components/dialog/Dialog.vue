@@ -1,4 +1,3 @@
-
 <template>
   <div class="o-dialog">
     <el-dialog
@@ -7,7 +6,7 @@
       v-bind="{
         width: '640px',
         closeOnClickModal: true,
-        ...$attrs
+        ...$attrs,
       }"
       @close="handleClose"
     >
@@ -24,12 +23,7 @@
       <template #footer>
         <div v-if="showFooter" slot="footer" class="dialog_footer">
           <slot name="footer">
-            <el-button
-              v-if="showCancel"
-              :type="cancelAttrs.type || 'info'"
-              v-bind="cancelAttrs"
-              @click="handleClose"
-            >
+            <el-button v-if="showCancel" :type="cancelAttrs.type || 'info'" v-bind="cancelAttrs" @click="handleClose">
               {{ cancelText }}
             </el-button>
             <el-button
@@ -126,10 +120,7 @@ function confirm() {
 }
 function judgeType(type) {
   if (typeof type === 'object') {
-    const objType = Object.prototype.toString
-      .call(type)
-      .slice(8, -1)
-      .toLowerCase()
+    const objType = Object.prototype.toString.call(type).slice(8, -1).toLowerCase()
     return objType
   } else {
     return typeof type

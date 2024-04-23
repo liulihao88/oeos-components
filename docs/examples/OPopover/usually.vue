@@ -8,13 +8,7 @@ function confirm() {
 
 <template>
   <div>
-    <o-popover
-      title="自定义title"
-      content="自定义content"
-      @confirm="confirm"
-      trigger="click"
-      width="500"
-    >
+    <o-popover title="自定义title" content="自定义content" @confirm="confirm" trigger="click" width="500">
       <el-button type="danger">自定义popover</el-button>
     </o-popover>
   </div>

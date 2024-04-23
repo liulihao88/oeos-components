@@ -13,11 +13,7 @@ function copyIcon(name) {
   <div class="icon-box">
     <template v-for="(v, i) in icons" :key="i">
       <div class="box-inner" @click="copyIcon(v.name)">
-        <o-icon
-          :name="`${proxy.toLine(v.name)}`"
-          size="30"
-          class="item"
-        ></o-icon>
+        <o-icon :name="`${proxy.toLine(v.name)}`" size="30" class="item"></o-icon>
         <div>{{ v.name }}</div>
         <!-- <o-tooltip :content="v.name"></o-tooltip> -->
       </div>

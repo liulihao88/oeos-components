@@ -41,14 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  getCurrentInstance,
-  useAttrs,
-  watch,
-  useSlots,
-  computed,
-} from 'vue'
+import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed } from 'vue'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])
@@ -183,9 +176,7 @@ const selectAll = (val: any) => {
 }
 
 function handlePlaceholder() {
-  let res = attrs.disabled
-    ? props.disPlaceholder
-    : attrs.placeholder || '请选择'
+  let res = attrs.disabled ? props.disPlaceholder : attrs.placeholder || '请选择'
   return res
 }
 // 将label作为多个值连接起来。 比如 admin/管理员, 这是两个属性拼接出来的

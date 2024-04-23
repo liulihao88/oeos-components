@@ -19,6 +19,7 @@ OSelect/multiple
 :::
 
 ### 集成绝大部分属性和方法
+
 :::demo
 OSelect/all
 :::

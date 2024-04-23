@@ -1,10 +1,5 @@
 <template>
-  <el-tooltip
-    class="tooltip"
-    effect="dark"
-    :disabled="isDisabled"
-    v-bind="$attrs"
-  >
+  <el-tooltip class="tooltip" effect="dark" :disabled="isDisabled" v-bind="$attrs">
     <span
       @click="contentClick"
       v-if="props.showSlot"
