@@ -57,8 +57,7 @@ function handleUnit(str) {
   height: 100%;
 }
 :deep(.el-empty__description p) {
-  color: #666;
-  color: var(--red);
+  color: var(--65);
 }
 :deep(.el-empty__image) {
   width: unset;
