@@ -4,7 +4,7 @@ import { createAlgolia, GitLab } from './utils/settings.ts'
 
 export default defineConfig({
   // 站点级选项
-  base: '/',
+  base: '/oeos-components/',
   head: [
     ['link', { rel: 'icon', type: 'image/x-icon', href: '/img/logo.svg' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
