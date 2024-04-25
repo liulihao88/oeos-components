@@ -19,11 +19,11 @@ export function $toast(message, type = 'success', otherParams = {}) {
     w: 'warning',
   }
   ElMessage.closeAll()
-  if (judgeType(message) === 'object') {
+  if (getType(message) === 'object') {
     ElMessage(message)
     return
   }
-  if (judgeType(type) === 'object') {
+  if (getType(type) === 'object') {
     ElMessage({
       message: message,
       type: 'success',
@@ -172,7 +172,7 @@ export function notEmpty(v) {
   return !isEmpty(v)
 }
 
-// 将两个对象合并, 以第二个对象为准, 如果两个对象, 一个属性有值, 一个没值, name合并后有值; 如果两个属性都有值, 以第二个属性为准
+// 将两个对象合并, 以第二个对象为准, 如果两个对象, 一个属性有值, 一个没值, 合并后有值; 如果两个属性都有值, 以第二个属性为准
 export function merge(obj1, obj2) {
   let merged = { ...obj1, ...obj2 }
   for (let key in merged) {
@@ -197,7 +197,7 @@ export function merge(obj1, obj2) {
  */
 export function clone(data, times = 1) {
   // Check if the data is not an array
-  if (judgeType(data) !== 'array') {
+  if (getType(data) !== 'array') {
     // If not an array, return a deep clone of the data
     return cloneDeep(data)
   }
@@ -273,7 +273,7 @@ export function uuid(
   let randomStr = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
   let res = type
   // 如果传的第一个参数的数组， 说明是下拉框。 下拉框获取的是数组的第一项的值
-  if (judgeType(type) === 'array' && type.length > 0) {
+  if (getType(type) === 'array' && type.length > 0) {
     let randNum = random(0, type.length - 1)
     // 如果length传空, 说明数组里是基本数据类型, 那直接返回数组里的值
     if (!length) {
@@ -318,14 +318,14 @@ export function uuid(
 /**
  * 判断传入参数的类型
  * @param {*} type
- * judgeType(new RegExp()) regexp
- * judgeType(new Date()) date
- * judgeType([]) array
- * judgeType({}) object
- * judgeType(null) null
- * judgeType(123) number
+ * getType(new RegExp()) regexp
+ * getType(new Date()) date
+ * getType([]) array
+ * getType({}) object
+ * getType(null) null
+ * getType(123) number
  */
-export function judgeType(type) {
+export function getType(type) {
   if (typeof type === 'object') {
     const objType = Object.prototype.toString.call(type).slice(8, -1).toLowerCase()
     return objType
@@ -567,7 +567,7 @@ export function log(variableStr, variable, otherInfo = '16行 src/views/test/t3.
     _log(variable)
   }
   function _log(consoleData) {
-    if (judgeType(consoleData) === 'object' || judgeType(consoleData) === 'array') {
+    if (getType(consoleData) === 'object' || getType(consoleData) === 'array') {
       console.log(
         `%c${variableStr} ${otherInfo}`,
         'background:#fff; color: blue;font-size: 1.2em',
@@ -577,7 +577,7 @@ export function log(variableStr, variable, otherInfo = '16行 src/views/test/t3.
       console.log(`%c${variableStr} ${otherInfo}`, 'background:#fff; color: blue;font-size: 1.2em', consoleData)
     }
   }
-  function judgeType(type) {
+  function getType(type) {
     if (typeof type === 'object') {
       const objType = Object.prototype.toString.call(type).slice(8, -1).toLowerCase()
       return objType

@@ -2,7 +2,6 @@
 import { ElMessage } from 'element-plus'
 import { unref, isRef, toRaw } from 'vue'
 import { cloneDeep } from 'lodash-es'
-
 /**
  * proxy.$toast('保存成功')
  * proxy.$toast('保存失败', 'error')
@@ -20,11 +19,11 @@ export function $toast(message, type = 'success', otherParams = {}) {
     w: 'warning',
   }
   ElMessage.closeAll()
-  if (judgeType(message) === 'object') {
+  if (getType(message) === 'object') {
     ElMessage(message)
     return
   }
-  if (judgeType(type) === 'object') {
+  if (getType(type) === 'object') {
     ElMessage({
       message: message,
       type: 'success',
@@ -94,10 +93,7 @@ export function getStorage(data, isLocal = true) {
  * clearStorage('loginId')
  * clearStorage('', {exceptSessions: ['loginId']});
  */
-export function clearStorage(
-  str = '',
-  { exceptSessions = [], exceptLocals = [] } = {},
-) {
+export function clearStorage(str = '', { exceptSessions = [], exceptLocals = [] } = {}) {
   let sessionList = {}
   let localList = {}
   if (exceptSessions.length > 0) {
@@ -191,8 +187,26 @@ export function merge(obj1, obj2) {
   return merged
 }
 
-export function clone(data) {
-  return cloneDeep(data)
+/**
+ * 深克隆对象
+ * @param {*} data, 传递的数据
+ * @param {*} times, 复制的次数, 仅对数组生效
+ * @returns 深克隆数据
+ * clone(123) => 123
+ * clone([1,2, {name: 'andy'}], 2) => [1, 2, {name: 'andy'}, 1, 2, {name: 'andy'}]
+ */
+export function clone(data, times = 1) {
+  // Check if the data is not an array
+  if (getType(data) !== 'array') {
+    // If not an array, return a deep clone of the data
+    return cloneDeep(data)
+  }
+  const clonedData = cloneDeep(data)
+  const result = []
+  for (let i = 0; i < times; i++) {
+    result.push(...clonedData)
+  }
+  return result
 }
 
 /**
@@ -210,10 +224,7 @@ export function clone(data) {
  * parseTime(new Date()); //2018-11-11 17:13:21
  * parseTime(new Date().getTime()); //2018-11-11 17:13:21
  */
-export function parseTime(
-  time = new Date(),
-  cFormat = '{y}-{m}-{d} {h}:{i}:{s}',
-) {
+export function parseTime(time = new Date(), cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
   let date
   if (typeof time === 'object') {
     date = time
@@ -257,32 +268,23 @@ export function parseTime(
 export function uuid(
   type = '',
   length = 4,
-  { emailStr = '@qq.com', timeStr = '{m}-{d} {h}:{i}:{s}', startStr = '' } = {},
+  { emailStr = '@qq.com', timeStr = '{m}-{d} {h}:{i}:{s}', startStr = '', optionsIndex = null } = {},
 ) {
   let randomStr = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
   let res = type
   // 如果传的第一个参数的数组， 说明是下拉框。 下拉框获取的是数组的第一项的值
-  if (judgeType(type) === 'array') {
+  if (getType(type) === 'array' && type.length > 0) {
+    let randNum = random(0, type.length - 1)
+    // 如果length传空, 说明数组里是基本数据类型, 那直接返回数组里的值
     if (!length) {
-      return type[0]
+      return type[optionsIndex ?? randNum]
     }
-    return type[0][length === 4 ? 'value' : length]
+    // 否则返回数组里对象里的值
+    return type[optionsIndex ?? randNum][length === 4 ? 'value' : length]
   }
   // 如果是手机号, 生成随机手机号
   if (type === 'phone') {
-    let prefixArray = new Array(
-      '130',
-      '131',
-      '132',
-      '133',
-      '135',
-      '136',
-      '137',
-      '138',
-      '170',
-      '187',
-      '189',
-    )
+    let prefixArray = new Array('130', '131', '132', '133', '135', '136', '137', '138', '170', '187', '189')
     let i = parseInt(10 * Math.random())
     let res = prefixArray[i]
     for (var j = 0; j < 8; j++) {
@@ -316,19 +318,16 @@ export function uuid(
 /**
  * 判断传入参数的类型
  * @param {*} type
- * judgeType(new RegExp()) regexp
- * judgeType(new Date()) date
- * judgeType([]) array
- * judgeType({}) object
- * judgeType(null) null
- * judgeType(123) number
+ * getType(new RegExp()) regexp
+ * getType(new Date()) date
+ * getType([]) array
+ * getType({}) object
+ * getType(null) null
+ * getType(123) number
  */
-export function judgeType(type) {
+export function getType(type) {
   if (typeof type === 'object') {
-    const objType = Object.prototype.toString
-      .call(type)
-      .slice(8, -1)
-      .toLowerCase()
+    const objType = Object.prototype.toString.call(type).slice(8, -1).toLowerCase()
     return objType
   } else {
     return typeof type
@@ -357,17 +356,7 @@ confirmRegPwd: [
 
 export function validate(type = 'required', rules = {}) {
   const trigger = rules.trigger || ['blur', 'change']
-  const typeMaps = [
-    'required',
-    'pwd',
-    'number',
-    'mobile',
-    'between',
-    'same',
-    'length',
-    'ip',
-    'port',
-  ]
+  const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'same', 'length', 'ip', 'port']
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
   if (!typeMaps.includes(type)) {
     return {
@@ -389,12 +378,7 @@ export function validate(type = 'required', rules = {}) {
     const validateName = (rule, value, callback) => {
       let validFlag = /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value)
       if (!validFlag) {
-        callback(
-          new Error(
-            rules.message ||
-              '密码需由中文、英文、数字、下划线组成，且不能以下划线开头和结尾',
-          ),
-        )
+        callback(new Error(rules.message || '密码需由中文、英文、数字、下划线组成，且不能以下划线开头和结尾'))
       } else {
         callback()
       }
@@ -434,8 +418,7 @@ export function validate(type = 'required', rules = {}) {
   }
   if (type === 'ip') {
     const validatePhone = (rule, value, callback) => {
-      let ipReg =
-        /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
+      let ipReg = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
       let validFlag = ipReg.test(value)
       console.log(`validFlag`, validFlag)
       if (!validFlag) {
@@ -451,8 +434,7 @@ export function validate(type = 'required', rules = {}) {
   }
   if (type === 'port') {
     const validatePhone = (rule, value, callback) => {
-      let ipReg =
-        /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/
+      let ipReg = /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/
       let validFlag = ipReg.test(value)
       console.log(`validFlag`, validFlag)
       if (!validFlag) {
@@ -533,9 +515,12 @@ export function globalImageUrl(photoName) {
 
 /**
  * 复制文本
+ *
  * copy('这是要复制的文本');
+ * copy('这是要复制的文本', {duration: 500});
+ *
  *  */
-export const copy = (text) => {
+export const copy = (text, ...otherParams) => {
   const textarea = document.createElement('textarea')
   textarea.value = text
   textarea.style.position = 'fixed'
@@ -543,6 +528,13 @@ export const copy = (text) => {
   textarea.select()
   document.execCommand('copy')
   document.body.removeChild(textarea)
+  if (!otherParams.hideToast) {
+    if (otherParams.customText) {
+      $toast(customText, ...otherParams)
+    } else {
+      $toast(text + '复制成功', ...otherParams)
+    }
+  }
 }
 
 // 给数字加千分位
@@ -567,11 +559,7 @@ export function addThousandSeparator(number) {
 const str = ref(11)
 proxy.log(`str`, str, "5行 test/t3.vue");
  */
-export function log(
-  variableStr,
-  variable,
-  otherInfo = '16行 src/views/test/t3.vue',
-) {
+export function log(variableStr, variable, otherInfo = '16行 src/views/test/t3.vue') {
   if (isRef(variable)) {
     let unrefVariable = unref(variable)
     _log(toRaw(unrefVariable))
@@ -579,33 +567,85 @@ export function log(
     _log(variable)
   }
   function _log(consoleData) {
-    if (
-      judgeType(consoleData) === 'object' ||
-      judgeType(consoleData) === 'array'
-    ) {
+    if (getType(consoleData) === 'object' || getType(consoleData) === 'array') {
       console.log(
         `%c${variableStr} ${otherInfo}`,
         'background:#fff; color: blue;font-size: 1.2em',
         JSON.stringify(consoleData, null, '\t'),
       )
     } else {
-      console.log(
-        `%c${variableStr} ${otherInfo}`,
-        'background:#fff; color: blue;font-size: 1.2em',
-        consoleData,
-      )
+      console.log(`%c${variableStr} ${otherInfo}`, 'background:#fff; color: blue;font-size: 1.2em', consoleData)
     }
   }
-  function judgeType(type) {
+  function getType(type) {
     if (typeof type === 'object') {
-      const objType = Object.prototype.toString
-        .call(type)
-        .slice(8, -1)
-        .toLowerCase()
+      const objType = Object.prototype.toString.call(type).slice(8, -1).toLowerCase()
       return objType
     } else {
       return typeof type
     }
   }
+}
+
+/**
+ * 生成指定范围内的随机整数
+ *
+ * @param min 最小值，默认为0
+ * @param max 最大值，默认为10
+ * @returns 返回生成的随机整数
+ */
+export function random(min = 0, max = 10) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+/**
+ * 将文本转换为带有连接符的行文本
+ *
+ * @param text 要转换的文本
+ * @param connect 连接符，默认为'-'
+ * @returns 返回转换后的行文本
+ * toLine('NameAndy') // name-andy
+ * toLine('nameAndy') // name-andy
+ * toLine('_nameAndy') // _name-andy
+ */
+export function toLine(text, connect = '-') {
+  let translateText = text
+    .replace(/([A-Z])/g, (match, p1, offset, origin) => {
+      if (offset === 0) {
+        return `${match.toLocaleLowerCase()}`
+      } else {
+        return `${connect}${match.toLocaleLowerCase()}`
+      }
+    })
+    .toLocaleLowerCase()
+  return translateText
+}
+
+// console.log(processWidth(200)) // { width: '200px' }
+// console.log(processWidth('200', true)) // 200px
+// console.log(processWidth('200.33px')) // { width: '200.33px' }
+// console.log(processWidth('')) // {}
+export function processWidth(initValue, isBase = false) {
+  let value = unref(initValue)
+  let res = ''
+  if (!value) {
+    return isBase ? value : {}
+  } else if (typeof value === 'number') {
+    value = String(value)
+  }
+  if (value === '') {
+    return isBase ? value : {}
+  } else if (typeof value === 'string' && !isNaN(value)) {
+    res = value + 'px'
+  } else if (typeof value === 'string' && /^[0-9]+(\.[0-9]+)?(px|%|em|rem|vw|vh|ch)*$/.test(value)) {
+    res = value
+  } else {
+    console.warn(`${value} is Invalid unit provided`)
+    return value
+  }
+  if (isBase) {
+    return res
+  }
+  return { width: res }
 }
 ```
