@@ -8,9 +8,7 @@ const props = defineProps({
     default: '',
   },
 })
-function handleCascaderChange(value) {
-  console.log(value)
-}
+function handleCascaderChange(value) {}
 const optionsProps = {
   label: 'name',
   value: 'code',

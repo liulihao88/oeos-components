@@ -64,12 +64,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://liulihao88.github.io/oeos-components/"
+    "url": "https://github.com/liulihao88/oeos-components"
   },
+  "homepage": "https://liulihao88.github.io/oeos-components/",
   "keywords": [
     "oeos",
-    "v3",
+    "vue3",
+    "element-plus",
     "components",
-    "cyrd"
+    "cyrd",
+    "创云融达",
+    "llh",
   ]
 }

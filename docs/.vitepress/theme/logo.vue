@@ -1,39 +1,19 @@
 <template>
-  <el-button
-    type="primary"
-    size="small"
-    @click.stop.prevent="toggleSourceVisible"
-    class="prod-toogle"
-  >
+  <el-button type="primary" size="small" @click.stop.prevent="toggleSourceVisible" class="prod-toogle" v-if="!isHome">
     <div class="visible-text">
       {{ sourceVisible === true ? '代码折叠' : '代码显示' }}
     </div>
   </el-button>
 
   <div class="code-toogle" v-if="isDev">
-    <el-button
-      type="primary"
-      size="small"
-      @click.stop.prevent="copyUrl"
-      class="dev-copy"
-    >
+    <el-button type="primary" size="small" @click.stop.prevent="copyUrl" class="dev-copy">
       <div class="visible-text">复制路径(仅本地)</div>
     </el-button>
 
-    <el-button
-      type="primary"
-      size="small"
-      @click.stop.prevent="copyMdUrl"
-      class="dev-md-copy"
-    >
+    <el-button type="primary" size="small" @click.stop.prevent="copyMdUrl" class="dev-md-copy">
       <div class="visible-text">复制md路径(仅本地)</div>
     </el-button>
-    <el-button
-      type="primary"
-      size="small"
-      @click.stop.prevent="copyPackageUrl"
-      class="dev-package-copy"
-    >
+    <el-button type="primary" size="small" @click.stop.prevent="copyPackageUrl" class="dev-package-copy">
       <div class="visible-text">复制package路径(仅本地)</div>
     </el-button>
   </div>
@@ -41,7 +21,7 @@
 
 <script lang="ts" setup>
 import { getStorage, setStorage, copy } from '@/utils'
-import { ref } from 'vue'
+import { ref, onUnmounted } from 'vue'
 const isDev = ref(import.meta.env.DEV)
 
 const sourceVisible = ref(false)
@@ -51,39 +31,44 @@ const toggleSourceVisible = () => {
   location.reload()
 }
 const copyUrl = () => {
-  console.log(`import.meta.env.DEV`, import.meta.env.DEV)
   let pathname = location.pathname
-  console.log(`pathname`, pathname)
   if (!pathname || pathname === '/') {
     return
   }
   let vueStr = pathname.replace('/components/', '') + '.vue'
-  console.log(`vueStr`, vueStr)
   copy(vueStr, { duration: 500 })
 }
 const copyMdUrl = () => {
-  console.log(`import.meta.env.DEV`, import.meta.env.DEV)
   let pathname = location.pathname
-  console.log(`pathname`, pathname)
   if (!pathname || pathname === '/') {
     return
   }
   let mdStr = pathname.replace('/components/', '') + '.md'
-  console.log(`mdStr`, mdStr)
   copy(mdStr, { duration: 500 })
 }
 const copyPackageUrl = () => {
-  console.log(`import.meta.env.DEV`, import.meta.env.DEV)
   let pathname = location.pathname
-  console.log(`pathname`, pathname)
   if (!pathname || pathname === '/') {
     return
   }
   const reg = /\/[^/]*$/
   let pkgStr = 'packages' + pathname.replace(reg, '') + '.vue'
-  console.log(`pkgStr`, pkgStr)
   copy(pkgStr, { duration: 500 })
 }
+
+const isHome = ref(true)
+const timer = ref()
+timer.value = setInterval(() => {
+  console.log('Current pathname:', window.location.pathname)
+  let pathname = window.location.pathname
+  if (window.location.pathname === '/oeos-components/') {
+    return (isHome.value = true)
+  }
+  isHome.value = false
+}, 1000)
+onUnmounted(() => {
+  clearInterval(timer.value)
+})
 </script>
 
 <style lang="scss">

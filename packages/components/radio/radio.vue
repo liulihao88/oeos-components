@@ -12,7 +12,7 @@
         :disabled="item[subAttrs.disabled!]"
       >
         <slot :name="item.slot" v-bind="item">
-          {{ item[props.label] }}
+          {{ item[props.label!] }}
         </slot>
       </component>
     </slot>

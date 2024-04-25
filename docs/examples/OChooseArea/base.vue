@@ -4,19 +4,8 @@ const { proxy } = getCurrentInstance()
 function result(res) {
   console.log(`res`, res)
 }
-// const areaValue = ref([])
 const areaValue = ref(['12', '1201', '120101'])
 areaValue.value = ['13', '1305', '130506']
-watch(
-  areaValue,
-  (val) => {
-    console.log(`84 8行 docs/examples/OChooseArea/base.vue val} `, val)
-  },
-  {
-    deep: true,
-    immediate: true,
-  },
-)
 </script>
 
 <template>

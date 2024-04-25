@@ -2,7 +2,7 @@
 
 ::: tip 提示
 
-oeos-components 是基于 vue3 + ts + Element-plus 再次封装的基础组件, 适用于创云融达公司内部的前端项目开发
+oeos-components 是基于 Vue3 + Element-plus 再次封装的基础组件, 适用于创云融达信息技术(天津)有限公司内部的前端项目开发
 
 :::
 
@@ -26,10 +26,10 @@ pnpm add oeos-components
 
 ```js
 // main.ts
-import oeosV3Components from 'oeos-components'
+import oeosComponents from 'oeos-components'
 import 'oeos-components/dist/style.css'
 const app = createApp(App)
-app.use(oeosV3Components)
+app.use(oeosComponents)
 app.mount('#app')
 ```
 

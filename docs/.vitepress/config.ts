@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { mdPlugin } from './config/plugins.ts'
-import { createAlgolia, GitLab } from './utils/settings.ts'
+import { createAlgolia, Github } from './utils/settings.ts'
 
 export default defineConfig({
   // 站点级选项
@@ -19,7 +19,7 @@ export default defineConfig({
   lastUpdated: true,
   useWebFonts: false,
   cleanUrls: true,
-  title: 'Oeos-v3-components',
+  title: 'Oeos-Components',
   description: 'andy凌云出品必属精品',
   lang: 'zh-CN',
   themeConfig: {
@@ -28,11 +28,11 @@ export default defineConfig({
     lastUpdatedText: '最近更新时间',
     docFooter: { prev: '上一篇', next: '下一篇' },
     editLink: {
-      pattern: `${GitLab}/docs/:path`,
-      text: '在 GitLab 上查看此页面',
+      pattern: `${Github}/docs/:path`,
+      text: '在 Github 上查看此页面',
     },
     footer: {
-      message: `创云融达前端组件库, <a target="_blank" style="color: var(--vp-c-brand)" href="${GitLab}">⭐欢迎访问</a>`,
+      message: `创云融达前端组件库, <a target="_blank" style="color: var(--vp-c-brand)" href="${Github}">⭐欢迎访问</a>`,
       copyright: ` 版权所有 © 2023-${new Date().getFullYear()}`,
     },
     nav: [
@@ -42,8 +42,8 @@ export default defineConfig({
       },
       { text: '基础组件', link: '/components/dialog/base.md' },
       {
-        text: 'GitLab项目地址',
-        link: GitLab,
+        text: 'Github项目地址',
+        link: Github,
       },
     ],
     // 主题级选项
