@@ -56,7 +56,7 @@ const copyPackageUrl = () => {
   copy(pkgStr, { duration: 500 })
 }
 
-const isHome = ref(true)
+const isHome = ref(false)
 const timer = ref()
 timer.value = setInterval(() => {
   console.log('Current pathname:', window.location.pathname)
