@@ -2,7 +2,7 @@
 
 ::: tip 提示
 
-oeos-v3-components 是基于 vue3 + ts + Element-plus 再次封装的基础组件, 适用于创云融达公司内部的前端项目开发
+oeos-components 是基于 vue3 + ts + Element-plus 再次封装的基础组件, 适用于创云融达公司内部的前端项目开发
 
 :::
 
@@ -11,13 +11,13 @@ oeos-v3-components 是基于 vue3 + ts + Element-plus 再次封装的基础组�
 > npm
 
 ```bash:no-line-numbers
-npm install oeos-v3-components
+npm install oeos-components
 ```
 
 > pnpm
 
 ```bash:no-line-numbers
-pnpm add oeos-v3-components
+pnpm add oeos-components
 ```
 
 ### 使用
@@ -26,8 +26,8 @@ pnpm add oeos-v3-components
 
 ```js
 // main.ts
-import oeosV3Components from 'oeos-v3-components'
-import 'oeos-v3-components/dist/style.css'
+import oeosV3Components from 'oeos-components'
+import 'oeos-components/dist/style.css'
 const app = createApp(App)
 app.use(oeosV3Components)
 app.mount('#app')
@@ -36,14 +36,14 @@ app.mount('#app')
 ### 引入函数库方法
 
 ```js
-// 将oeos-v3-components下的公共函数赋值到全局
-import { utils } from 'oeos-v3-components'
+// 将oeos-components下的公共函数赋值到全局
+import { utils } from 'oeos-components'
 Object.keys(utils).forEach((v) => {
 app.config.globalProperties[v] = utils[v]
 })
 
 // 按需引入
-import { $toast } from 'oeos-v3-components'
+import { $toast } from 'oeos-components'
 $toast('我是成功提示')
 $toast('我是失败提示', 'e')
 

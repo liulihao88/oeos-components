@@ -1,10 +1,10 @@
 {
-  "name": "oeos-v3-components",
+  "name": "oeos-components",
   "version": "0.0.64",
   "private": false,
   "type": "module",
-  "main": "dist/oeos-v3-components-es.js",
-  "module": "dist/oeos-v3-components-es.js",
+  "main": "dist/oeos-components-es.js",
+  "module": "dist/oeos-components-es.js",
   "style": "dist/style.css",
   "files": [
     "dist"

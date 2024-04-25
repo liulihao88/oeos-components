@@ -3,8 +3,8 @@
 1. 在vue3项目的main.js里引入
 
 ```js
-import 'oeos-v3-components/dist/style.css'
-import oeosV3Componets from 'oeos-v3-components'
+import 'oeos-components/dist/style.css'
+import oeosV3Componets from 'oeos-components'
 app.use(oeosV3Componets)
 ```
 
@@ -19,15 +19,15 @@ app.use(oeosV3Componets)
 
 ```js
 // 如果想将所有函数挂载至全局使用
-import { utils } from 'oeos-v3-components'
-// 将oeos-v3-components下的公共函数赋值到全局
+import { utils } from 'oeos-components'
+// 将oeos-components下的公共函数赋值到全局
 Object.keys(utils).forEach((v) => {
   app.config.globalProperties[v] = utils[v]
 })
 然后通过`proxy.$toast('哈哈')`, 这种方式去使用函数
 
 // 如果想单独的引用某个函数
-import { $toast } from 'oeos-v3-components'
+import { $toast } from 'oeos-components'
 $toast('嘿嘿')
 ```
 
@@ -39,5 +39,3 @@ v-copy
 v-number
 v-focus
 ```
-
-
