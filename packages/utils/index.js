@@ -652,3 +652,7 @@ export function processWidth(initValue, isBase = false) {
 export function test2() {
   return '我就想试试'
 }
+
+export function test3() {
+  return 'test3'
+}
