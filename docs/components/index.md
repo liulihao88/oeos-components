@@ -2,7 +2,7 @@
 
 ::: tip 提示
 
-oeos-components 是基于 Vue3 + Element-plus 再次封装的基础组件, 适用于创云融达信息技术(天津)有限公司内部的前端项目开发
+oeos-components 是基于 Vue3 + Element-plus 再次封装的基础组件, 适用于前端项目开发
 
 :::
 
