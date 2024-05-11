@@ -1,22 +1,6 @@
-/**
- * 将文本转换为带有连接符的行文本
- *
- * @param text 要转换的文本
- * @param connect 连接符，默认为'-'
- * @returns 返回转换后的行文本
- * toLine('NameAndy') // name-andy
- * toLine('nameAndy') // name-andy
- * toLine('_nameAndy') // _name-andy
- */
-export function toLine(text, connect = '-') {
-  let translateText = text
-    .replace(/([A-Z])/g, (match, p1, offset, origin) => {
-      if (offset === 0) {
-        return `${match.toLocaleLowerCase()}`
-      } else {
-        return `${connect}${match.toLocaleLowerCase()}`
-      }
-    })
-    .toLocaleLowerCase()
-  return translateText
+function formatWeek(date = new Date()) {
+  const days = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+  return days[date.getDay()]
 }
+
+console.log(`formatWeek()`, formatWeek())

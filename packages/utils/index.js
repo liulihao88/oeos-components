@@ -538,7 +538,7 @@ export const copy = (text, ...otherParams) => {
 }
 
 // 给数字加千分位
-export function addThousandSeparator(number) {
+export function formatThousands(number) {
   // 提取数字部分和单位部分
   let matches = ('' + number).match(/^([\d,]+)(\D+)?$/)
   if (!matches) {
@@ -559,7 +559,7 @@ export function addThousandSeparator(number) {
 const str = ref(11)
 proxy.log(`str`, str, "5行 test/t3.vue");
  */
-export function log(variableStr, variable, otherInfo = '16行 src/views/test/t3.vue') {
+export function log(variableStr, variable, otherInfo = '') {
   if (isRef(variable)) {
     let unrefVariable = unref(variable)
     _log(toRaw(unrefVariable))
