@@ -1,6 +1,11 @@
 import './styles/gStyle.scss'
 import { toLine } from './utils/index.js'
 
+// 全局注册vue-tippy
+import 'tippy.js/dist/tippy.css'
+import 'tippy.js/themes/light.css'
+import VueTippy from 'vue-tippy'
+
 import registerDirectives from './directives/gDirectives.js'
 import Checkbox from './components/checkbox/Checkbox.vue'
 import ChooseArea from './components/ChooseArea/chooseArea.vue'
@@ -17,6 +22,7 @@ import Progress from './components/progress/Progress.vue'
 import Radio from './components/radio/Radio.vue'
 import Select from './components/select/Select.vue'
 import Table from './components/table/Table.vue'
+import Text from './components/text/Text.vue'
 import Tabs from './components/tabs/Tabs.vue'
 import Title from './components/title/Title.vue'
 import Tooltip from './components/tooltip/Tooltip.vue'
@@ -39,6 +45,7 @@ const comps = [
   Input,
   InputLabel,
   Table,
+  Text,
   Tabs,
   Tooltip,
   Title,
@@ -57,6 +64,7 @@ const install = (app) => {
   for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(`el-icon-${toLine(key)}`, component)
   }
+  app.use(VueTippy)
 }
 
 export { utils }

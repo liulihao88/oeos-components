@@ -59,7 +59,6 @@ const copyPackageUrl = () => {
 const isHome = ref(false)
 const timer = ref()
 timer.value = setInterval(() => {
-  console.log('Current pathname:', window.location.pathname)
   let pathname = window.location.pathname
   if (window.location.pathname === '/oeos-components/') {
     return (isHome.value = true)

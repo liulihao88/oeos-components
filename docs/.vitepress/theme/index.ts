@@ -16,6 +16,8 @@ import oeosV3Components, { utils } from '../../../packages/index.js'
 import '/public/css/index.css'
 import Logo from './logo.vue'
 import './assets/styles/index.css'
+import VueTippy from 'vue-tippy'
+
 
 export default {
   ...DefaultTheme,
@@ -40,6 +42,7 @@ export default {
     })
     // 全局注册基础组件
     ctx.app.use(oeosV3Components)
+    ctx.app.use(VueTippy)
 
     ctx.app.component('Demo', VPDemo)
     DefaultTheme.enhanceApp(ctx)
