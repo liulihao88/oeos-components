@@ -20,7 +20,7 @@ export default defineConfig({
   useWebFonts: false,
   cleanUrls: true,
   title: 'Oeos-Components',
-  description: 'andy凌云出品必属精品',
+  description: '创云融达',
   lang: 'zh-CN',
   themeConfig: {
     outline: 3,
@@ -32,7 +32,7 @@ export default defineConfig({
       text: '在 Github 上查看此页面',
     },
     footer: {
-      message: `andy凌云前端组件库, <a target="_blank" style="color: var(--vp-c-brand)" href="${Github}">⭐欢迎访问</a>`,
+      message: `创云融达前端组件库, <a target="_blank" style="color: var(--vp-c-brand)" href="${Github}">⭐欢迎访问</a>`,
       copyright: ` 版权所有 © 2023-${new Date().getFullYear()}`,
     },
     nav: [
