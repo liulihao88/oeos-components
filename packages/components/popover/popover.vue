@@ -43,7 +43,7 @@ const props = defineProps({
   },
   content: {
     type: String,
-    default: '确定删除? ',
+    required: true,
   },
 })
 
@@ -65,6 +65,7 @@ defineExpose({
       <div class="o-popover__content">{{ content }}</div>
     </slot>
     <slot name="footer">
+    
       <div style="text-align: right; margin: 0">
         <el-button size="small" type="info" @click="cancel">取消</el-button>
         <el-button size="small" type="primary" @click="confirm">确定</el-button>

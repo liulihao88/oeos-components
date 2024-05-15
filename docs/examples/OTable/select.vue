@@ -18,12 +18,12 @@ const columns = [
   {
     label: 'I wan',
     prop: 'name',
+    width: 120,
     handler: handleDetail,
   },
   {
     label: '负责人',
     prop: 'owner',
-    width: 200,
     sortable: true,
     handler: handleDetail2,
   },
@@ -34,6 +34,7 @@ const columns = [
   {
     label: '状态',
     prop: 'status',
+    width: 100,
     filter: (row) => {
       return row.status === 0 ? '进行中' : '已完成'
     },

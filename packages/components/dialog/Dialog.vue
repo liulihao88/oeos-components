@@ -6,6 +6,7 @@
       v-bind="{
         width: '640px',
         closeOnClickModal: true,
+        draggable: true,
         ...$attrs,
       }"
       @close="handleClose"
