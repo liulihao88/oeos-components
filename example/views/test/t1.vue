@@ -5,10 +5,10 @@ const { proxy } = getCurrentInstance()
 
 <template>
   <div>
-    <o-popover @confirm="confirm" content="您确认删除当前行吗? ">
-      <!-- <el-button type="danger">自定义popover</el-button> -->
+    <o-popconfirm @confirm="confirm" content="您确认删除当前行吗? ">
+      <!-- <el-button type="danger">自定义popconfirm</el-button> -->
       你好
-    </o-popover>
+    </o-popconfirm>
   </div>
 </template>
 

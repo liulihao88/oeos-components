@@ -1,19 +1,19 @@
-# popover组件
+# popconfirm组件
 
 ### 基础用法
 
 :::demo
-OPopover/base
+OPopconfirm/base
 :::
 
 ### 通常用法
 
 :::demo
-OPopover/usually
+OPopconfirm/usually
 :::
 
 ### 插槽
 
 :::demo
-OPopover/slot
+OPopconfirm/slot
 :::

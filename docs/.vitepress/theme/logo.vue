@@ -32,10 +32,11 @@ const toggleSourceVisible = () => {
 }
 const copyUrl = () => {
   let pathname = location.pathname
+  console.log(`57 pathname`, pathname);
   if (!pathname || pathname === '/') {
     return
   }
-  let vueStr = pathname.replace('/components/', '') + '.vue'
+  let vueStr = pathname.replace('/oeos-components/components/', '') + '.vue'
   copy(vueStr, { duration: 500 })
 }
 const copyMdUrl = () => {
@@ -43,7 +44,7 @@ const copyMdUrl = () => {
   if (!pathname || pathname === '/') {
     return
   }
-  let mdStr = pathname.replace('/components/', '') + '.md'
+  let mdStr = pathname.replace('/oeos-components/components/', '') + '.md'
   copy(mdStr, { duration: 500 })
 }
 const copyPackageUrl = () => {

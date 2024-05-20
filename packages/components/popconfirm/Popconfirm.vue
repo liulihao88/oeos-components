@@ -54,7 +54,7 @@ defineExpose({
 
 <template>
   <el-popover
-    class="o-popover"
+    class="o-popconfirm"
     :title="title"
     :width="width"
     v-bind="$attrs"
@@ -62,7 +62,7 @@ defineExpose({
     v-model:visible="isPopoverVisible"
   >
     <slot name="content">
-      <div class="o-popover__content">{{ content }}</div>
+      <div class="o-popconfirm__content">{{ content }}</div>
     </slot>
     <slot name="footer">
     
@@ -79,9 +79,9 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-.o-popover {
+.o-popconfirm {
 }
-.o-popover__content {
+.o-popconfirm__content {
   margin-bottom: 12px;
 }
 </style>

@@ -13,7 +13,7 @@ function cusConfirm() {
 
 <template>
   <div>
-    <o-popover trigger="click" @confirm="confirm" title="" ref="popoverRef">
+    <o-popconfirm trigger="click" @confirm="confirm" title="" ref="popoverRef">
       <template #content>我是slot的content</template>
       <template #footer>
         <div>我是slot的footer</div>
@@ -23,7 +23,7 @@ function cusConfirm() {
         <o-icon name="delete"></o-icon>
         你好啊
       </el-button>
-    </o-popover>
+    </o-popconfirm>
   </div>
 </template>
 

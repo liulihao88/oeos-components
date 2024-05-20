@@ -17,7 +17,7 @@ import Form from './components/form/Form.vue'
 import Icon from './components/icon/Icon.vue'
 import Input from './components/input/Input.vue'
 import InputLabel from './components/inputLabel/InputLabel.vue'
-import Popover from './components/popover/Popover.vue'
+import Popconfirm from './components/popconfirm/Popconfirm.vue'
 import Progress from './components/progress/Progress.vue'
 import Radio from './components/radio/Radio.vue'
 import Select from './components/select/Select.vue'
@@ -37,7 +37,7 @@ const comps = [
   DateRange,
   Empty,
   Form,
-  Popover,
+  Popconfirm,
   Progress,
   Radio,
   Select,

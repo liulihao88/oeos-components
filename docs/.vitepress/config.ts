@@ -98,8 +98,8 @@ export default defineConfig({
               link: '/components/empty/base.md',
             },
             {
-              text: 'popover组件',
-              link: '/components/popover/base.md',
+              text: 'popconfirm组件',
+              link: '/components/popconfirm/base.md',
             },
             {
               text: 'progress组件',
