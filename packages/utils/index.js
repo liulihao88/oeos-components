@@ -272,6 +272,9 @@ export function uuid(
 ) {
   let randomStr = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
   let res = type
+  if (isRef(type)) {
+    type = unref(type)
+  }
   // 如果传的第一个参数的数组， 说明是下拉框。 下拉框获取的是数组的第一项的值
   if (getType(type) === 'array' && type.length > 0) {
     let randNum = random(0, type.length - 1)
