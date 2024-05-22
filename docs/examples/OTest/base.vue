@@ -1,20 +1,9 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
-function confirm() {
-  console.log('confirm')
-}
+const isLoading = ref(true)
+const loadingText = 'andy凌云志'
 </script>
 
 <template>
-  <div>
-    <button v-tippy="{ content: 'Hi!' }">Tippy!</button>
-    <button v-tippy="'Hello!'">Tippy!</button>
-    <o-popconfirm @confirm="confirm" content="您确认删除当前行吗? ">
-      <!-- <el-button type="danger">自定义popconfirm</el-button> -->
-      <!-- 你好 -->
-    </o-popconfirm>
-  </div>
+  <div v-cus-loading:[loadingText]="isLoading" class="h-300">我说呢</div>
 </template>
-
-<style scoped lang="scss"></style>

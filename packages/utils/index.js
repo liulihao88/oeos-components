@@ -652,6 +652,33 @@ export function processWidth(initValue, isBase = false) {
   return { width: res }
 }
 
+/**
+ * 只有对正整数或者字符串正整数才进行单位的转换, 
+ * 否则返回原始数据
+ * 
+ */
+export function formatBytes(bytes) {
+  let isPositiveInteger = false
+  if (Number.isInteger(bytes) && bytes > 0) {
+    isPositiveInteger = true
+  }
+  if (typeof bytes === 'string' && /^\d+$/.test(bytes) && parseInt(bytes) > 0) {
+    isPositiveInteger = true
+  }
+  if (!isPositiveInteger) {
+    return bytes
+  }
+  if (!bytes) {
+    return bytes
+  }
+  if (bytes === 0) return '0 B'
+  const k = 1024
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+}
+
+
 export function test2() {
   return '我就想试试'
 }
