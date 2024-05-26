@@ -114,35 +114,39 @@ function _handleClose() {
       v-bind="$attrs"
       @close="_handleClose"
     >
+      <template #header>
+        <slot name="header">
+          {{ attrs.title }}
+        </slot>
+      </template>
       <div class="drawer-main">
         <el-scrollbar class="drawer-scrollbar">
           <div class="content">
             <slot></slot>
           </div>
         </el-scrollbar>
-
-        <div v-if="showFooter" class="kd-drawer-footer">
-          <slot name="footer">
-            <el-button
-              v-if="showConfirm"
-              id="kdDrawerConfirmBtn"
-              :type="confirmAttrs.type || 'primary'"
-              v-bind="confirmAttrs"
-              class="mr"
-              @click="confirm"
-            >
-              {{ mergeAttrs.confirmText }}
-            </el-button>
-            <el-button
-              v-if="mergeAttrs.showCancel"
-              :type="cancelAttrs.type || 'info'"
-              v-bind="cancelAttrs"
-              @click="handleClose"
-            >
-              {{ cancelText }}
-            </el-button>
-          </slot>
-        </div>
+      </div>
+      <div v-if="showFooter" class="kd-drawer-footer">
+        <slot name="footer">
+          <el-button
+            v-if="showConfirm"
+            id="kdDrawerConfirmBtn"
+            :type="confirmAttrs.type || 'primary'"
+            v-bind="confirmAttrs"
+            class="mr"
+            @click="confirm"
+          >
+            {{ mergeAttrs.confirmText }}
+          </el-button>
+          <el-button
+            v-if="mergeAttrs.showCancel"
+            :type="cancelAttrs.type || 'info'"
+            v-bind="cancelAttrs"
+            @click="handleClose"
+          >
+            {{ cancelText }}
+          </el-button>
+        </slot>
       </div>
     </el-drawer>
   </div>
@@ -159,7 +163,6 @@ function _handleClose() {
     font-size: 14px;
     border-bottom: 1px solid #e3e6eb;
     box-sizing: border-box;
-
     > span {
       font-size: 14px;
       padding-left: 24px;
@@ -168,18 +171,23 @@ function _handleClose() {
     > .el-drawer__close-btn {
       font-size: 16px;
       padding-right: 24px;
+      display: flex;
+      justify-content: flex-end;
     }
+  }
+  :deep(.el-drawer__body) {
+    padding: 0;
   }
 
   .drawer-main {
     flex: 1;
-    height: 100%;
+    height: calc(100% - 50px);
+    padding: 24px;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-
     .drawer-scrollbar {
       flex: 1;
       height: 100%;
@@ -202,13 +210,13 @@ function _handleClose() {
   }
 
   .kd-drawer-footer {
-    height: 56px;
+    height: 50px;
     padding: 0 24px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     box-sizing: border-box;
-    border-top: 1px solid var(--line-color);
+    border-top: 1px solid var(--line);
   }
 }
 </style>
