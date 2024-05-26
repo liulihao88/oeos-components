@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
+const { proxy } = getCurrentInstance()
 function btnClick() {
   isShow.value = true
 }
@@ -9,6 +10,7 @@ const confirmLoading = ref(false)
 async function cusConfirm() {
   console.log(`***** 点我作甚  10行 docs/examples/ODialog/usually.vue  15:06:26`)
   confirmLoading.value = true
+  proxy.$toast('保存成功', {duration: 0})
   await sleep(2000)
   confirmLoading.value = false
   isShow.value = false

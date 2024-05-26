@@ -1,4 +1,4 @@
-import './styles/gStyle.scss'
+import './styles/index.scss'
 import { toLine } from './utils/index.js'
 
 // 全局注册vue-tippy
