@@ -92,8 +92,8 @@ defineExpose({
         </template>
       </el-form-item>
 
-      <el-button type="primary" @click="clearForm">内部清空表单</el-button>
-      <el-button type="primary" @click="innerSubmit">组件内部提交</el-button>
+      <!-- <el-button type="primary" @click="clearForm">内部清空表单</el-button> -->
+      <!-- <el-button type="primary" @click="innerSubmit">组件内部提交</el-button> -->
     </el-form>
   </div>
 </template>

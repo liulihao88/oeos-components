@@ -11,3 +11,9 @@ ODialog/base
 :::demo
 ODialog/usually
 :::
+
+## 插槽
+
+:::demo
+ODialog/slot
+:::

@@ -12,9 +12,9 @@
       @close="handleClose"
     >
       <template #header>
-        <slot name="title">
-          <div>
-            <span>{{ props.title }}</span>
+        <slot name="header">
+          <div class="dddddddddd">
+            <span>{{ $attrs.title }}</span>
           </div>
         </slot>
       </template>
@@ -22,8 +22,8 @@
         <slot></slot>
       </div>
       <template #footer>
-        <div v-if="showFooter" slot="footer" class="dialog_footer">
-          <slot name="footer">
+        <slot name="footer">
+          <div class="dialog_footer">
             <el-button v-if="showCancel" :type="cancelAttrs.type || 'info'" v-bind="cancelAttrs" @click="handleClose">
               {{ cancelText }}
             </el-button>
@@ -36,23 +36,20 @@
             >
               {{ confirmText }}
             </el-button>
-          </slot>
-        </div>
+          </div>
+        </slot>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance, computed, useAttrs } from 'vue'
+import { ref, getCurrentInstance, computed, useAttrs, useSlots, watch } from 'vue'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
+const slots = useSlots()
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
-  title: {
-    type: String,
-    default: '', // 弹框标题名称
-  },
   theme: {
     type: String,
     default: '', // 弹框样式: 默认空, norm norm16 simple
@@ -69,11 +66,8 @@ const props = defineProps({
     type: String,
     default: '确认',
   },
-
-  showFooter: {
-    type: Boolean,
-    default: true, // 是否显示底部操作按钮
-  },
+  // 是否显示底部操作按钮 :footer="null"
+  footer: Object,
   showCancel: {
     type: Boolean,
     default: true,
