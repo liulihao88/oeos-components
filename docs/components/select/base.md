@@ -1,6 +1,6 @@
 # select下拉框组件
 
-### 基础用法
+## 基础用法
 
 :::demo
 OSelect/base

@@ -152,6 +152,19 @@ export default defineConfig({
             },
           ],
         },
+        {
+          text: '自定义指令',
+          items: [
+            {
+              text: 'throttle节流',
+              link: '/components/directives/throttle.md',
+            },
+            {
+              text: 'table组件',
+              link: '/components/table/base.md',
+            },
+          ],
+        },
       ],
     },
   },

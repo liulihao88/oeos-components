@@ -1,6 +1,6 @@
 # icon图标
 
-### 基础用法
+## 基础用法
 
 :::demo
 OIcon/base
