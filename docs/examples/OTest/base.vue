@@ -1,30 +1,20 @@
+<script setup lang="ts">
+import { ref, getCurrentInstance } from 'vue'
+const { proxy } = getCurrentInstance()
+console.log(`67 proxy.formatBytes('321321321')`, proxy.formatBytes('321321321'))
+console.log(`67 proxy.formatBytes(321321321)`, proxy.formatBytes(32132132222222221))
+console.log(`67 proxy.formatBytes(-1)`, proxy.formatBytes(-1))
+console.log(`67 proxy.formatBytes('-1')`, proxy.formatBytes('-1'))
+console.log(`67 proxy.formatBytes(0)`, proxy.formatBytes(0))
+console.log(`67 proxy.formatBytesConvert('20 KB')`, proxy.formatBytesConvert('20 KB'))
+console.log(`67 proxy.formatBytesConvert('11120PB')`, proxy.formatBytesConvert('20 PB'))
+console.log(`6711 proxy.formatBytesConvert('11120PB')`, proxy.formatBytesConvert('男人'))
+</script>
+
 <template>
-  <!-- <div v-tt.scroll="[handleEvent, 4100]"  class="h-300 o-a"> -->
-  <div v-tt.click.scroll.500="() => handleEvent(123)" class="h-300 o-a cp">
-    Scroll or click me
-    <el-button type="primary" v-tt="handleEvent" @click.stop>测试25</el-button>
-    <h1>
-      2024-05-28 11:17:06I want to set some random text, if you like it , please tell me. good wish for you! thank you
-      so much. have a nice day!
-    </h1>
-    <h1>
-      2024-05-28 11:17:06I want to set some random text, if you like it , please tell me. good wish for you! thank you
-      so much. have a nice day!
-    </h1>
-    <h1>
-      2024-05-28 11:17:06I want to set some random text, if you like it , please tell me. good wish for you! thank you
-      so much. have a nice day!
-    </h1>
-    <h1>
-      2024-05-28 11:17:06I want to set some random text, if you like it , please tell me. good wish for you! thank you
-      so much. have a nice day!
-    </h1>
+  <div>
+    <div>docs/examples/OTest/base.vue</div>
   </div>
 </template>
 
-<script setup lang="ts">
-function handleEvent(evt) {
-  console.log(`72 evt`, evt)
-  console.log('handleEvent1111')
-}
-</script>
+<style scoped lang="scss"></style>

@@ -160,8 +160,8 @@ export default defineConfig({
               link: '/components/directives/throttle.md',
             },
             {
-              text: 'table组件',
-              link: '/components/table/base.md',
+              text: 'debounce防抖',
+              link: '/components/directives/debounce.md',
             },
           ],
         },

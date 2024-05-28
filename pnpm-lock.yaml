@@ -29,6 +29,9 @@ importers:
       '@vitejs/plugin-vue-jsx':
         specifier: ^3.1.0
         version: 3.1.0(vite@5.0.12(@types/node@20.11.16)(sass@1.70.0))(vue@3.4.15(typescript@5.3.3))
+      '@vue/shared':
+        specifier: ^3.4.27
+        version: 3.4.27
       '@vueuse/core':
         specifier: ^10.9.0
         version: 10.9.0(vue@3.4.15(typescript@5.3.3))
@@ -1012,6 +1015,9 @@ packages:
 
   '@vue/shared@3.4.21':
     resolution: {integrity: sha512-PuJe7vDIi6VYSinuEbUIQgMIRZGgM8e4R+G+/dQTk0X1NEdvgvvgv7m+rfmDH1gZzyA1OjjoWskvHlfRNfQf3g==}
+
+  '@vue/shared@3.4.27':
+    resolution: {integrity: sha512-DL3NmY2OFlqmYYrzp39yi3LDkKxa5vZVwxWdQ3rG0ekuWscHraeIbnI8t+aZK7qhYqEqWKTUdijadunb9pnrgA==}
 
   '@vueuse/core@10.9.0':
     resolution: {integrity: sha512-/1vjTol8SXnx6xewDEKfS0Ra//ncg4Hb0DaZiwKf7drgfMsKFExQ+FnnENcN6efPen+1kIzhLQoGSy0eDUVOMg==}
@@ -3135,6 +3141,8 @@ snapshots:
   '@vue/shared@3.4.15': {}
 
   '@vue/shared@3.4.21': {}
+
+  '@vue/shared@3.4.27': {}
 
   '@vueuse/core@10.9.0(vue@3.4.15(typescript@5.3.3))':
     dependencies:

@@ -1,6 +1,6 @@
 import { $toast } from '../utils'
 import { ElMessage } from 'element-plus'
-import { clone, isEmpty } from '../utils'
+import { clone, isEmpty, throttle, debounce } from '../utils'
 /**
  * 复制文本
  * <span v-copy="'生当作人杰'">咋回事</span>
@@ -43,18 +43,6 @@ export default function (app) {
     },
   })
 
-  const throttle = (func, delay) => {
-    let lastCall = 0
-    return (...args) => {
-      const now = new Date().getTime()
-      if (now - lastCall < delay) {
-        return
-      }
-      lastCall = now
-      func(...args)
-    }
-  }
-
   /**
    * v-throttle="throttleMethod"
    * v-throttle.500="throttleMethod"
@@ -67,10 +55,10 @@ export default function (app) {
         console.error('Directive value must be a function')
         return
       }
-      let deley = 1000
+      let delay = 1000
       for (let key in binding.modifiers) {
         if (!isNaN(Number(key)) && typeof Number(key) === 'number') {
-          deley = Number(key)
+          delay = Number(key)
         } else {
           if (el.method === undefined) {
             el.method = {}
@@ -84,7 +72,7 @@ export default function (app) {
           click: true,
         }
       }
-      const throttledFn = throttle(binding.value, deley)
+      const throttledFn = throttle(binding.value, delay)
       el._ThrottleDirective = throttledFn
       for (const key in el.method) {
         el.addEventListener(key, throttledFn)
@@ -98,6 +86,52 @@ export default function (app) {
         el.removeEventListener(key, el._ThrottleDirective)
       }
       delete el._ThrottleDirective
+    },
+  })
+
+  /**
+   * v-debounce="throttleMethod"
+   * v-debounce.500="throttleMethod"
+   * v-debounce.scroll.500="throttleMethod"
+   * v-debounce="($event)=>throttleMethod($event, '其他参数')"
+   */
+  app.directive('debounce', {
+    mounted(el, binding) {
+      if (typeof binding.value !== 'function') {
+        console.error('Directive value must be a function')
+        return
+      }
+      let delay = 1000
+      for (let key in binding.modifiers) {
+        if (!isNaN(Number(key)) && typeof Number(key) === 'number') {
+          delay = Number(key)
+        } else {
+          if (el.method === undefined) {
+            el.method = {}
+          }
+          el.method[key] = true
+        }
+      }
+      // 如果没有传递任何方法, 那么给添加默认的click事件
+      if (isEmpty(el.method)) {
+        el.method = {
+          click: true,
+        }
+      }
+      const debouncedFn = debounce(binding.value, delay)
+      el._DebounceDirective = debouncedFn
+      for (const key in el.method) {
+        el.addEventListener(key, debouncedFn)
+      }
+    },
+    unmounted(el, binding) {
+      if (!el._DebounceDirective) {
+        return
+      }
+      for (const key in el.method) {
+        el.removeEventListener(key, el._DebounceDirective)
+      }
+      delete el._DebounceDirective
     },
   })
 }

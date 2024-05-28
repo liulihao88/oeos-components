@@ -1,6 +1,8 @@
 import { ElMessage } from 'element-plus'
 import { unref, isRef, toRaw } from 'vue'
 import { cloneDeep } from 'lodash-es'
+// export * as types from './types.ts'
+import { isStringNumber, isNumber } from './types.ts'
 
 /**
  * proxy.$toast('保存成功')
@@ -653,36 +655,102 @@ export function processWidth(initValue, isBase = false) {
 }
 
 /**
- * 只有对正整数或者字符串正整数才进行单位的转换, 
+ * 只有对正整数或者字符串正整数才进行单位的转换,
  * 否则返回原始数据
- * 
+ *
  */
 export function formatBytes(bytes) {
-  let isPositiveInteger = false
-  if (Number.isInteger(bytes) && bytes > 0) {
-    isPositiveInteger = true
-  }
-  if (typeof bytes === 'string' && /^\d+$/.test(bytes) && parseInt(bytes) > 0) {
-    isPositiveInteger = true
-  }
-  if (!isPositiveInteger) {
+  if (isStringNumber(bytes) || isNumber(bytes)) {
+    bytes = Number(bytes)
+  } else {
     return bytes
   }
-  if (!bytes) {
+  if (bytes < 0 || !bytes) {
     return bytes
   }
-  if (bytes === 0) return '0 B'
+
   const k = 1024
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
+export function formatBytesConvert(bytes) {
+  if (isStringNumber(bytes) || isNumber(bytes)) {
+    return bytes
+  }
+  if (!bytes) {
+    return bytes
+  }
+  const bytesRegex = /^(\d+(?:\.\d+)?)\s*([BKMGTPEZY]?B)$/i
+  const units = {
+    B: 1,
+    KB: 1024,
+    MB: 1024 ** 2,
+    GB: 1024 ** 3,
+    TB: 1024 ** 4,
+    PB: 1024 ** 5,
+    EB: 1024 ** 6,
+    ZB: 1024 ** 7,
+    YB: 1024 ** 8,
+  }
 
+  const match = bytes.match(bytesRegex)
+  if (!match) {
+    console.warn("Invalid bytes format. Please provide a valid bytes string, like '100GB'.")
+    return
+  }
 
-export function test2() {
-  return '我就想试试'
+  const size = parseFloat(match[1])
+  const unit = match[2].toUpperCase()
+
+  if (!units.hasOwnProperty(unit)) {
+    console.warn(
+      "Invalid bytes unit. Please provide a valid unit, like 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', or 'YB'.",
+    )
+    return
+  }
+
+  return size * units[unit]
 }
 
-export function test3() {
-  return 'test31122233344455566'
+export function throttle(fn, delay = 1000) {
+  // last为上一次触发毁掉的时间，timer是定时器
+  console.log('进来啦')
+  let last = 0
+  let timer = null
+  // 将throttle处理结果当做函数返回
+  return function () {
+    // 保留调用时的this上下文
+    let context = this
+    // 保留调用时传入的参数
+    let args = arguments
+    // 记录本次触发回调的时间
+    let now = +new Date()
+    // 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值
+    if (now - last < delay) {
+      // 如果时间间隔小于设定的时间间隔阈值,则为本次触发操作设立一个新的定时器
+      clearTimeout(timer)
+      timer = setTimeout(function () {
+        last = now
+        fn.apply(context, args)
+      }, delay)
+    } else {
+      // 如果时间间隔超出了设定的时间间隔阈值，那就不等了，无论如何要反馈给用户一次响应
+      last = now
+      fn.apply(context, args)
+    }
+  }
+}
+
+export function debounce(fn, delay = 1000) {
+  let timer = null
+  return function () {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      fn.apply(this, arguments)
+      timer = null
+    }, delay)
+  }
 }
