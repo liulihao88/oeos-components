@@ -7,7 +7,6 @@ import 'tippy.js/themes/light.css'
 import VueTippy from 'vue-tippy'
 
 import registerDirectives from './directives/gDirectives.js'
-import cusLoading from './directives/cusLoading/cusLoading.js'
 import Checkbox from './components/checkbox/Checkbox.vue'
 import ChooseArea from './components/ChooseArea/chooseArea.vue'
 import Dialog from './components/dialog/Dialog.vue'
@@ -59,7 +58,6 @@ const finalComps = comps.map((v) => {
 
 const install = (app) => {
   registerDirectives(app)
-  app.directive('cus-loading', cusLoading)
   finalComps.forEach((v, i) => {
     app.component(v, comps[i])
   })

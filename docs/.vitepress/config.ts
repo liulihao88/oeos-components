@@ -163,6 +163,10 @@ export default defineConfig({
               text: 'debounce防抖',
               link: '/components/directives/debounce.md',
             },
+            {
+              text: 'cus-loading和cus-empty',
+              link: '/components/directives/cusLoadingEmpty.md',
+            },
           ],
         },
       ],

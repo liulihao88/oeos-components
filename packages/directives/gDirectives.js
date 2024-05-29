@@ -1,12 +1,17 @@
 import { $toast } from '../utils'
 import { ElMessage } from 'element-plus'
 import { clone, isEmpty, throttle, debounce } from '../utils'
+import CusLoading from './cusLoading/cusLoading.js'
+import CusEmpty from './cusEmpty/cusEmpty.js'
 /**
  * 复制文本
  * <span v-copy="'生当作人杰'">咋回事</span>
  * import { $toast } from '/@/utils'
  */
+
 export default function (app) {
+  app.directive('cusLoading', CusLoading)
+  app.directive('cusEmpty', CusEmpty)
   function handleClick() {
     const input = document.createElement('input')
     input.value = this.copyData.toLocaleString()

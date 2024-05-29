@@ -8,7 +8,7 @@ const isLoading = ref(false)
 init()
 async function init() {
   isLoading.value = true
-  await proxy.sleep(2000)
+  await proxy.sleep(3000)
   isLoading.value = false
 }
 </script>
@@ -20,7 +20,6 @@ async function init() {
   <div v-cus-empty:[emptyText]="true" class="h-200">
     <div>docs/examples/OTest/base.vue</div>
   </div>
-  <div>我就不信了弟弟</div>
   <div v-cus-loading="isLoading" v-cus-empty="list.length === 0 && !isLoading" class="h-200"></div>
 </template>
 

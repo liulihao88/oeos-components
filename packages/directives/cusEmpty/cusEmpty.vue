@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-const loadingText = ref('正在载入...')
+import { processWidth } from '../../utils'
+import group_null from '../../assets/images/group_null.png'
+const loadingText = ref('暂无数据')
 const setLoadingText = (val) => {
   loadingText.value = val
 }
@@ -14,7 +16,12 @@ defineExpose({
 <template>
   <div class="cus-loading">
     <div class="cus-loading-content">
-      <img src="./loading.png" class="w-24 h-24" />
+      <img
+        :src="group_null"
+        :style="{
+          width: '40px',
+        }"
+      />
       <p class="desc">{{ loadingText }}</p>
     </div>
   </div>
@@ -33,19 +40,8 @@ defineExpose({
     align-items: center;
     .desc {
       line-height: 20px;
-      color: #fff;
+      color: var(--45);
     }
-    img {
-      animation: spin 2s linear infinite;
-    }
-  }
-}
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
   }
 }
 </style>
