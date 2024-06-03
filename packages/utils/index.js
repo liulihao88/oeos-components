@@ -198,6 +198,9 @@ export function merge(obj1, obj2) {
  * clone([1,2, {name: 'andy'}], 2) => [1, 2, {name: 'andy'}, 1, 2, {name: 'andy'}]
  */
 export function clone(data, times = 1) {
+  if (isRef(data)) {
+    data = unref(data)
+  }
   // Check if the data is not an array
   if (getType(data) !== 'array') {
     // If not an array, return a deep clone of the data
