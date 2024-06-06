@@ -1,22 +1,28 @@
 <template>
-  <el-tooltip class="tooltip" effect="dark" :disabled="isDisabled" v-bind="$attrs">
+  <el-tooltip class="tooltip" effect="dark" :disabled="handleDisabled">
     <span
       @click="contentClick"
       v-if="props.showSlot"
       class="tooltip__text"
       :style="{ maxWidth: width }"
       @mouseover="onMouseOver"
+      v-bind="$attrs"
     >
       <span ref="contentRef">
-        {{ $attrs.content }}
+        <slot>
+          {{ $attrs.content }}
+        </slot>
       </span>
     </span>
-    <slot></slot>
   </el-tooltip>
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, useSlots, computed, getCurrentInstance, useAttrs } from 'vue'
+import { isBoolean } from 'lodash-es'
+const slots = useSlots()
+const attrs = useAttrs()
+const { proxy } = getCurrentInstance()
 
 const props = defineProps({
   width: {
@@ -30,6 +36,19 @@ const props = defineProps({
 })
 const contentRef = ref()
 const isDisabled = ref(false)
+const handleDisabled = computed(() => {
+  console.log(`72 attrs.disabled`, attrs.disabled)
+  if (attrs.disabled) {
+    return attrs.disabled
+  }
+  if (!attrs.content) {
+    return true
+  }
+  if (slots.default) {
+    return false
+  }
+  return isDisabled.value
+})
 function onMouseOver() {
   if (!props.showSlot) {
     return

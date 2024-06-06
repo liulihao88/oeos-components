@@ -13,33 +13,27 @@ function isTest13() {
   <div>
     <o-icon name="delete" class="po-a l-200 m-r-20" cc="1" size="20" @click="tt" content="删除"></o-icon>
     <o-icon name="refresh" content="刷新" @click="tt" color="var(--blue)" size="50" placement="right"></o-icon>
-    <o-icon name="refresh" content="刷新" @click="tt" class="cl-blue" size="50" placement="right"></o-icon>
+    <o-icon name="refresh" content="刷新" class="cl-blue"></o-icon>
     <o-icon name="edit" content="编辑" size="30"></o-icon>
     <o-icon name="check"></o-icon>
     <o-icon name="close" class="is-loading"></o-icon>
     <o-icon name="download"></o-icon>
-    <o-icon name="arrow-right" color="blue"></o-icon>
-    <o-icon name="plus" color="red" size="2em"></o-icon>
-    <o-icon name="loading" class="is-loading"></o-icon>
-    <o-icon name="AddLocation" class="is-loading"></o-icon>
-    <o-icon name="addLocation" class="is-loading"></o-icon>
-    <o-icon name="add-location" class="is-loading"></o-icon>
+    <o-icon name="arrow-up"></o-icon>
+    <o-icon name="arrow-right"></o-icon>
+    <o-icon name="arrow-down"></o-icon>
+    <o-icon name="arrow-left"></o-icon>
+    <o-icon name="plus"></o-icon>
+    <o-icon name="circle-close"></o-icon>
+    <o-icon name="close"></o-icon>
+    <o-icon name="more"></o-icon>
+    <o-icon name="zoom-in"></o-icon>
+    <o-icon name="zoom-out"></o-icon>
+
+    <div>支持首字母大写, 驼峰, 中划线命名</div>
+    <o-icon name="AddLocation"></o-icon>
+    <o-icon name="addLocation"></o-icon>
+    <o-icon name="add-location"></o-icon>
     <br />
-    <el-button @click="isTest13" disabled type="danger">测试18</el-button>
-    <el-button type="primary" @click="isTest13" disabled>测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
-    <el-button type="primary" @click="isTest13">测试18</el-button>
   </div>
 </template>
 

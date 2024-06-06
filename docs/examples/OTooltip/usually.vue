@@ -10,10 +10,20 @@ function handleClick() {
   <div>
     <o-tooltip
       content="这里是需要显示的文本内容，当文本超出时会显示完整内容"
-      width="1200px"
-      placement="right"
+      width="200px"
+      placement="bottom"
+      class=""
       @click="handleClick"
     ></o-tooltip>
+    <div>
+      <o-tooltip
+        content="这里没超出就不显示tooltip"
+        width="200px"
+        placement="bottom"
+        class=""
+        @click="handleClick"
+      ></o-tooltip>
+    </div>
   </div>
 </template>
 

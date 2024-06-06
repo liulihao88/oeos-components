@@ -8,8 +8,14 @@
 OTooltip/base
 :::
 
-### 通常用法
+### 插槽用法
+
+:::demo
+OTooltip/slot
+:::
+
+<!-- ### 通常用法
 
 :::demo
 OTooltip/usually
-:::
+::: -->
