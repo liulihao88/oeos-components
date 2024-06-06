@@ -2,7 +2,7 @@
 
 ## 基础用法
 
-:::demo
+:::demo 之所以, options为空, 加红色边框, 是为了减少不必要的点击后才知道数据为空的操作
 OSelect/base
 :::
 
@@ -17,6 +17,19 @@ OSelect/usually
 :::demo
 OSelect/multiple
 :::
+
+### 调用change方法
+
+:::demo 主动调用select的change方法, 主要的使用场景是本地开发的时候, 给select加默认值
+OSelect/change
+:::
+
+### 遍历调用change方法
+
+:::demo 主动调用select的change方法, 主要的使用场景是本地开发的时候, 给遍历的select加默认值
+OSelect/multyChange
+:::
+
 
 ### 集成绝大部分属性和方法
 

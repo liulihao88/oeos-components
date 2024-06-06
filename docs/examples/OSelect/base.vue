@@ -12,8 +12,8 @@ const options = ref([
   <div>
     <o-select v-model="selectVal" :options="options"></o-select>
     <o-select v-model="selectVal" disabled :options="options"></o-select>
-    <o-select v-model="selectVal" :disabled="true" :options="options"></o-select>
-    <o-select v-model="selectVal" :options="options"></o-select>
+    <o-select v-model="selectVal" :options="[]"></o-select>
+    <o-select v-model="selectVal" :options="[]" :emptyColor="false"></o-select>
   </div>
 </template>
 

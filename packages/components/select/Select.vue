@@ -4,8 +4,9 @@
       {{ props.title }}
     </div>
     <el-select
-      ref="rightBox"
+      ref="selectRef"
       class="o-select__select"
+      :class="sOptions.length === 0 && emptyColor ? 'o-select__empty' : ''"
       v-model="childSelectedValue"
       :placeholder="handlePlaceholder()"
       popper-class="o-select__multiple-checkbox"
@@ -110,6 +111,10 @@ const props = defineProps({
   optionsExpression: {
     type: String,
     default: '',
+  },
+  emptyColor: {
+    type: Boolean,
+    default: true,
   },
 })
 
@@ -264,6 +269,7 @@ const urlParams = proxy.translateToPageinfo({
   display: inline-flex;
   width: 316px;
   vertical-align: bottom;
+
   .o-select__title {
     background: #fff;
     vertical-align: middle;
@@ -286,6 +292,11 @@ const urlParams = proxy.translateToPageinfo({
   .o-select__select {
     flex-grow: 1;
     display: inline-block;
+  }
+  .o-select__empty {
+    :deep(.el-select__wrapper) {
+      box-shadow: 0 0 0 1px var(--red) inset;
+    }
   }
 }
 
@@ -335,9 +346,13 @@ const urlParams = proxy.translateToPageinfo({
 }
 .o-select__all-select {
   display: block;
-  padding: 6px 0px 6px 20px;
+  padding: 0px 0px 0px 20px;
+  background-color: #f5f7fa;
   &:hover {
     background-color: #f5f7fa;
   }
+}
+.o-select__all-select:hover + .el-select-dropdown__item {
+  background-color: unset;
 }
 </style>
