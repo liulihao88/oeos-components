@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance, watch } from 'vue'
+import { ref, getCurrentInstance, watch, computed } from 'vue'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
   data: {
@@ -10,10 +10,6 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-  total: {
-    type: Number,
-    default: 0,
-  },
   showPage: {
     type: Boolean,
     default: true,
@@ -22,6 +18,12 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  total: {
+    type: Number,
+  },
+})
+const tableTotal = computed(() => {
+  return props.total || props.data.length
 })
 const emits = defineEmits(['update'])
 const finalColumns = ref([])
@@ -74,12 +76,12 @@ watch(
   },
 )
 // isShow 或者 content支持 函数或字符串两种写法。
-const operatorBtnFn = (cont, row = '') => {
+const operatorBtnFn = (cont, row = '', scope = '') => {
   if (typeof cont === 'function') {
     if (!row) {
       return true
     }
-    return cont(row)
+    return cont(row, scope)
   } else {
     if (cont === undefined) {
       return true
@@ -147,7 +149,7 @@ defineExpose({})
                     link
                     :disabled="parseDisabled(val.disabled, scope.row, scope)"
                   >
-                    ??{{ operatorBtnFn(val.content, scope.row) }}
+                    ??{{ operatorBtnFn(val.content, scope.row, scope) }}
                   </el-button>
                 </o-popconfirm>
               </template>
@@ -159,7 +161,7 @@ defineExpose({})
                   :disabled="parseDisabled(val.disabled, scope.row, scope)"
                   @click="val.handler?.(scope.row, scope)"
                 >
-                  {{ operatorBtnFn(val.content, scope.row) }}
+                  {{ operatorBtnFn(val.content, scope.row, scope) }}
                 </el-button>
               </template>
             </template>
@@ -178,7 +180,7 @@ defineExpose({})
                             link
                             :disabled="parseDisabled(val.disabled, scope.row, scope)"
                           >
-                            ??{{ operatorBtnFn(val.content, scope.row) }}
+                            ??{{ operatorBtnFn(val.content, scope.row, scope) }}
                           </el-button>
                         </o-popconfirm>
                       </template>
@@ -190,7 +192,7 @@ defineExpose({})
                           :disabled="parseDisabled(val.disabled, scope.row, scope)"
                           @click="val.handler?.(scope.row, scope)"
                         >
-                          {{ operatorBtnFn(val.content, scope.row) }}
+                          {{ operatorBtnFn(val.content, scope.row, scope) }}
                         </el-button>
                       </template>
                     </el-dropdown-item>
@@ -224,7 +226,7 @@ defineExpose({})
       <div class="page-wrap">
         <div class="page-left">
           <span>共</span>
-          <span class="m-lr-5">{{ total }}</span>
+          <span class="m-lr-5">{{ tableTotal }}</span>
           <span>项数据</span>
         </div>
         <el-pagination
@@ -234,7 +236,7 @@ defineExpose({})
           :page-size="pageSize"
           :page-sizes="[10, 30, 50, 100]"
           layout="prev, pager, next, sizes, jumper"
-          :total="total"
+          :total="tableTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         ></el-pagination>

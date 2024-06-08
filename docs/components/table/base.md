@@ -17,3 +17,10 @@ OTable/select
 :::demo
 OTable/usually
 :::
+
+### 编辑
+
+:::demo
+OTable/edit
+:::
+

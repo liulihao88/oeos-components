@@ -1,6 +1,8 @@
 <template>
   <div>
-    <o-radio v-model="value" :options="options" value="id" label="name" />
+    <o-radio v-model="value" :options="options" value="id" label="name"  />
+    <br />
+    <o-radio v-model="value" :options="options" value="id" label="name" showType="button" size="small" />
   </div>
 </template>
 <script setup lang="ts">
