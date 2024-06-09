@@ -53,11 +53,6 @@ const updateTable = () => {
       baseBtns: baseBtns, // 显示的按钮
       hideBtns: hideBtns, // 隐藏在...中的按钮
       maxBtns: item.maxBtns || 2, // 最大显示按钮个数，超出后显示...
-      // prop: item.prop,
-      // label: item.label,
-      // useSlot: item.useSlot,
-      // filter: item.filter,
-      // handler: item.handler,
     }
     console.log(`item`, item)
     let res = Object.assign({}, defaultItems, item)
@@ -131,13 +126,13 @@ defineExpose({})
         height: '50px',
       }"
     >
-      <slot></slot>
-      <el-table-column type="index" width="30" v-if="showIndex" />
+      <slot />
+      <el-table-column v-if="showIndex" type="index" width="50" />
       <template v-for="(v, i) in finalColumns" :key="i">
-        <el-table-column v-if="v.type" :key="v.type" v-bind="{ ...v }"></el-table-column>
+        <el-table-column v-if="v.type" :key="v.type" v-bind="{ ...v }" />
         <el-table-column
-          v-bind="{ ...{ fixed: 'right', width: 200 }, ...v }"
           v-else-if="v.baseBtns && v.baseBtns.length > 0"
+          v-bind="{ ...{ fixed: 'right', width: 200 }, ...v }"
         >
           <template #default="scope">
             <template v-for="(val, idx) in v.baseBtns" :key="idx">
@@ -159,7 +154,8 @@ defineExpose({})
                   v-bind="{ ...val }"
                   link
                   :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                  @click="val.handler?.(scope.row, scope)"
+                  class="linked"
+                  @click.stop="val.handler?.(scope.row, scope)"
                 >
                   {{ operatorBtnFn(val.content, scope.row, scope) }}
                 </el-button>
@@ -168,7 +164,7 @@ defineExpose({})
 
             <template v-if="v.hideBtns.length > 0">
               <el-dropdown class="m-l-12 m-t-4" trigger="click">
-                <o-icon name="more"></o-icon>
+                <o-icon name="more" />
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item v-for="(val, idx) in v.hideBtns" :key="idx" :hide-on-click="false">
@@ -189,8 +185,9 @@ defineExpose({})
                           v-if="!val.confirmInfo"
                           v-bind="{ ...val }"
                           link
+                          class="linked"
                           :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                          @click="val.handler?.(scope.row, scope)"
+                          @click.stop="val.handler?.(scope.row, scope)"
                         >
                           {{ operatorBtnFn(val.content, scope.row, scope) }}
                         </el-button>
@@ -203,16 +200,14 @@ defineExpose({})
           </template>
         </el-table-column>
 
-        <el-table-column v-bind="{ ...v }" v-else>
+        <el-table-column v-else v-bind="{ ...v }">
           <template #default="scope">
-            <slot v-if="v.useSlot" :name="v.prop" :row="scope.row" :scope="scope"></slot>
-            <span v-else-if="v.handler" class="linked" @click="v.handler(scope.row, scope)">
-              <span>
-                {{ v.filter ? v.filter(scope.row, scope) : scope.row[v.prop] || '-' }}
-              </span>
+            <slot v-if="v.useSlot" :name="v.prop" :row="scope.row" :scope="scope" />
+            <span v-else-if="v.handler" class="linked" @click.stop="v.handler(scope.row, scope)">
+              <span>{{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : scope.row[v.prop] || '-' }}??</span>
             </span>
             <span v-else-if="v.filter">
-              {{ v.filter(scope.row, scope) }}
+              {{ v.filter(scope.row[v.prop], scope.row, scope) }}
             </span>
             <span v-else>
               {{ scope.row[v.prop] || '-' }}
@@ -239,7 +234,7 @@ defineExpose({})
           :total="tableTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-        ></el-pagination>
+        />
       </div>
     </div>
   </div>
@@ -247,31 +242,36 @@ defineExpose({})
 
 <style scoped lang="scss">
 .linked {
+  color: var(--blue);
   cursor: pointer;
-  color: blue;
 }
+
 .o-table {
   .page-wrap {
+    box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border: 1px solid #ebedf0;
-    border-top-style: none;
+    justify-content: space-between;
     height: 64px;
     padding: 0 24px;
-    box-sizing: border-box;
     font-size: 12px;
+    border: 1px solid #ebedf0;
+    border-top-style: none;
   }
+
   .page-wrap .page-left {
-    color: rgba(39, 48, 75, 0.85);
+    color: rgb(39 48 75 / 85%);
   }
+
   :deep(.el-table th) {
     box-sizing: border-box;
   }
+
   :deep(.el-table th .cell) {
-    white-space: nowrap;
     line-height: inherit;
+    white-space: nowrap;
   }
+
   :deep(.el-table th .cell:hover) {
     white-space: normal;
   }

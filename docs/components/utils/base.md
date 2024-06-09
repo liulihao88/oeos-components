@@ -215,16 +215,16 @@ export function clone(data, times = 1) {
  * ② java8格式的日期和有效的日期都可以转换成定义的日期格式
  * @param {Date, string}  都有默认参数
  * @example
- * parseTime() // 2020-07-17 09:53:07
- * parseTime('2018-02-13T06:17') // 2018-02-13 06:17:00
- * parseTime('2020/03/02 06:02') // 2020-03-02 06:02:00
- * parseTime(1541927611000); //2018-11-11 17:13:21
- * parseTime(1541927611000, "{y}年{m}月{d}日 {h}时{m}分{s}秒"); // 2018年11月11日 17时11分31秒
- * parseTime(1541927611, "{y}/{m}/{d} {h}:{m}:{s}"); // 2018/11/11 17:11:31
- * parseTime(new Date()); //2018-11-11 17:13:21
- * parseTime(new Date().getTime()); //2018-11-11 17:13:21
+ * formatTime() // 2020-07-17 09:53:07
+ * formatTime('2018-02-13T06:17') // 2018-02-13 06:17:00
+ * formatTime('2020/03/02 06:02') // 2020-03-02 06:02:00
+ * formatTime(1541927611000); //2018-11-11 17:13:21
+ * formatTime(1541927611000, "{y}年{m}月{d}日 {h}时{m}分{s}秒"); // 2018年11月11日 17时11分31秒
+ * formatTime(1541927611, "{y}/{m}/{d} {h}:{m}:{s}"); // 2018/11/11 17:11:31
+ * formatTime(new Date()); //2018-11-11 17:13:21
+ * formatTime(new Date().getTime()); //2018-11-11 17:13:21
  */
-export function parseTime(time = new Date(), cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
+export function formatTime(time = new Date(), cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
   let date
   if (typeof time === 'object') {
     date = time
@@ -298,7 +298,7 @@ export function uuid(
   }
   // 如果是时间, 生成时间字符串
   if (type === 'time') {
-    return uuid(startStr, length) + ' ' + parseTime(new Date(), timeStr)
+    return uuid(startStr, length) + ' ' + formatTime(new Date(), timeStr)
   }
   // 如果是数字, 生成除了0的随机数字
   if (type === 'number') {
