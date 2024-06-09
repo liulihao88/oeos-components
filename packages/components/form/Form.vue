@@ -41,14 +41,16 @@ function mergeRules(rules) {
     return ''
   }
   let defaultRulesObj = {
-    message: '请输入',
     trigger: ['blur', 'change'],
   }
-  let mergeRules = rules.map((v) => {
-    return Object.assign({}, defaultRulesObj, v)
+  let mRules = rules.map((v) => {
+    let mergeObj = Object.assign({}, defaultRulesObj, v)
+    if (!mergeObj.validator && !mergeObj.message) {
+      mergeObj.message = '请输入'
+    }
+    return mergeObj
   })
-  console.log(`mergeRules`, mergeRules)
-  return mergeRules
+  return mRules
 }
 
 defineExpose({
@@ -91,9 +93,6 @@ defineExpose({
           ></component>
         </template>
       </el-form-item>
-
-      <!-- <el-button type="primary" @click="clearForm">内部清空表单</el-button> -->
-      <!-- <el-button type="primary" @click="innerSubmit">组件内部提交</el-button> -->
     </el-form>
   </div>
 </template>
