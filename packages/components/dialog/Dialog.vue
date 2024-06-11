@@ -14,7 +14,7 @@
       <template #header>
         <slot name="header">
           <div class="dddddddddd">
-            <span>{{ $attrs.title }}</span>
+            <span>{{ title }}</span>
           </div>
         </slot>
       </template>
@@ -50,6 +50,10 @@ const attrs = useAttrs()
 const slots = useSlots()
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
+  title: {
+    type: String,
+    default: '提示',
+  },
   theme: {
     type: String,
     default: '', // 弹框样式: 默认空, norm norm16 simple

@@ -45,6 +45,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  reConfirm: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 defineExpose({
@@ -53,29 +57,32 @@ defineExpose({
 </script>
 
 <template>
-  <el-popover
-    class="o-popconfirm"
-    :title="title"
-    :width="width"
-    v-bind="$attrs"
-    @show="handleShow"
-    v-model:visible="isPopoverVisible"
-  >
-    <slot name="content">
-      <div class="o-popconfirm__content">{{ content }}</div>
-    </slot>
-    <slot name="footer">
-    
-      <div style="text-align: right; margin: 0">
-        <el-button size="small" type="info" @click="cancel">取消</el-button>
-        <el-button size="small" type="primary" @click="confirm">确定</el-button>
-      </div>
-    </slot>
-    <template v-slot:reference>
-      <slot v-if="$slots.default"></slot>
-      <el-button class="m-2" type="primary" v-else>删除</el-button>
-    </template>
-  </el-popover>
+  <template v-if="reConfirm">
+    <el-popover
+      class="o-popconfirm"
+      :title="title"
+      :width="width"
+      v-bind="$attrs"
+      @show="handleShow"
+      v-model:visible="isPopoverVisible"
+    >
+      <slot name="content">
+        <div class="o-popconfirm__content">{{ content }}</div>
+      </slot>
+      <slot name="footer">
+        <div style="text-align: right; margin: 0">
+          <el-button size="small" type="info" @click="cancel">取消</el-button>
+          <el-button size="small" type="primary" @click="confirm">确定</el-button>
+        </div>
+      </slot>
+      <template v-slot:reference>
+        <slot></slot>
+      </template>
+    </el-popover>
+  </template>
+  <template v-else>
+    <slot></slot>
+  </template>
 </template>
 
 <style scoped lang="scss">

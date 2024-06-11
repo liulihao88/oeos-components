@@ -1,4 +1,4 @@
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { unref, isRef, toRaw } from 'vue'
 import { cloneDeep } from 'lodash-es'
 // export * as types from './types.ts'
@@ -756,4 +756,28 @@ export function debounce(fn, delay = 1000) {
       timer = null
     }, delay)
   }
+}
+
+/**
+ * proxy.confirm('内容')
+ * proxy.confirm('哈哈', { icon: 'el-icon-plus' })
+ * close-on-click-modal: 是否可通过点击遮罩层关闭 MessageBox 默认true
+ * lock-scroll: 是否在 MessageBox 出现时将 body 滚动锁定. 默认true
+ */
+export function confirm(message, options) {
+  const baseOptions = {
+    title: '提示',
+    draggable: true,
+    showCancelButton: false,
+  }
+  let mergeOptions = Object.assign({}, baseOptions, options)
+  return new Promise((r, j) => {
+    ElMessageBox.confirm(message, mergeOptions)
+      .then(() => {
+        r()
+      })
+      .catch(() => {
+        j()
+      })
+  })
 }
