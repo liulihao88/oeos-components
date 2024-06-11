@@ -15,7 +15,7 @@ proxy.$toast({
  */
 export function $toast(message, type = 'success', otherParams = {}) {
   const map = {
-    s: 'success',
+    s: 'success', 
     i: 'info',
     e: 'error',
     w: 'warning',
