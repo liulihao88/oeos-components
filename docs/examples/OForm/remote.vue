@@ -114,7 +114,7 @@ function clearForm() {
 
 <template>
   <div>
-    <o-form :model="model" :fieldList="fieldList" ref="gFormRef">
+    <o-form :model="model" :fieldList="fieldList" ref="gFormRef" label-width="100">
       <template #password-label>我是password啊</template>
       <template #name>
         <o-input v-model="model.name" placeholder="我是slot的name" width="300" />

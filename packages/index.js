@@ -1,5 +1,5 @@
 import './styles/index.scss'
-import { toLine } from './utils/index.js'
+import { toLine } from './utils/index.ts'
 
 // 全局注册vue-tippy
 import 'tippy.js/dist/tippy.css'

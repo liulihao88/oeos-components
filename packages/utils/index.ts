@@ -1,21 +1,21 @@
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { unref, isRef, toRaw } from 'vue'
 import { cloneDeep } from 'lodash-es'
-// export * as types from './types.ts'
-import { isStringNumber, isNumber } from './types.ts'
+import { isStringNumber, isNumber } from './types.js'
 
 /**
  * proxy.$toast('保存成功')
- * proxy.$toast('保存失败', 'error')
  * 
-proxy.$toast({
+ * proxy.$toast('保存失败', 'e')
+ * 
+ * proxy.$toast({
   message: 'andy',
   type: 'warning',
 })
  */
-export function $toast(message, type = 'success', otherParams = {}) {
+export function $toast(message, type: string | object = 'success', otherParams: object = {}) {
   const map = {
-    s: 'success', 
+    s: 'success',
     i: 'info',
     e: 'error',
     w: 'warning',
@@ -29,58 +29,54 @@ export function $toast(message, type = 'success', otherParams = {}) {
     ElMessage({
       message: message,
       type: 'success',
-      ...type,
+      ...(type as object),
     })
     return
   }
   ElMessage({
     message: message,
-    type: map[type] || type,
+    type: map[type as string] || type,
     ...otherParams,
   })
 }
 
-export function setStorage(str, params, isLocal = true) {
+export function setStorage(storageName: string, params: any, isSession = false) {
   let handleParams
   if (typeof params === 'number' || typeof params === 'string') {
     handleParams = params
   } else {
     handleParams = JSON.stringify(params)
   }
-  if (isLocal) {
-    localStorage.setItem(str, handleParams)
+  if (isSession) {
+    sessionStorage.setItem(storageName, handleParams)
   } else {
-    sessionStorage.setItem(str, handleParams)
+    localStorage.setItem(storageName, handleParams)
   }
 }
 
-export function getStorage(data, isLocal = true) {
+export function getStorage(data, isSession = false) {
   // 先获取localStorage数据, 如果没有再获取sessionStorage数据。 如果都没有， null;
   let getLocalData = ''
   let getSessionData = ''
   // 如果isSessionFirst为true, 先判断sessionStorage, 后判断localStorage
-  if (isLocal) {
-    getLocalData = localStorage.getItem(data)
-  } else {
+  if (isSession) {
     getSessionData = sessionStorage.getItem(data)
+  } else {
+    getLocalData = localStorage.getItem(data)
   }
   if (getLocalData) {
     try {
       if (typeof JSON.parse(getLocalData) !== 'number') {
         getLocalData = JSON.parse(getLocalData)
       }
-    } catch (e) {
-      // console.log('e', e);
-    }
+    } catch (e) {}
     return getLocalData
   } else if (getSessionData) {
     try {
       if (typeof JSON.parse(getSessionData) !== 'number') {
         getSessionData = JSON.parse(getSessionData)
       }
-    } catch (e) {
-      // console.log('e2', e);
-    }
+    } catch (e) {}
     return getSessionData
   }
   return null
@@ -93,49 +89,65 @@ export function getStorage(data, isLocal = true) {
  * @example
  * clearStorage()
  * clearStorage('loginId')
- * clearStorage('', {exceptSessions: ['loginId']});
+ * clearStorage(['loginId', 'token'])
+ * clearStorage({ exclude: ['loginId', 'token'] })
  */
-export function clearStorage(str = '', { exceptSessions = [], exceptLocals = [] } = {}) {
-  let sessionList = {}
-  let localList = {}
-  if (exceptSessions.length > 0) {
-    exceptSessions.forEach((v) => {
-      sessionList[v] = getStorage(v, true)
-    })
-  }
-  if (exceptLocals.length > 0) {
-    exceptLocals.forEach((v) => {
-      localList[v] = getStorage(v)
-    })
-  }
-  if (!str) {
+export function clearStorage(str: string | [] | object = '') {
+  if (isEmpty(str)) {
     sessionStorage.clear()
     localStorage.clear()
-  } else {
-    sessionStorage.removeItem(str)
-    localStorage.removeItem(str)
   }
-  for (const key in sessionList) {
-    const value = sessionList[key]
-    setStorage(key, value)
+  if (notEmpty(str) && getType(str) !== 'object') {
+    let strArr = Array.isArray(str) ? str : [str]
+    for (let i = 0; i < strArr.length; i++) {
+      sessionStorage.removeItem(strArr[i])
+      localStorage.removeItem(strArr[i])
+    }
   }
-  for (const key in localList) {
-    const value = localList[key]
-    setStorage(key, value, true)
+  if (_isObjectWithExclude(str)) {
+    if (notEmpty(str.exclude) && getType(str) === 'object') {
+      let sessionStorageObj = {}
+      let localStorageObj = {}
+      for (const key in str.exclude) {
+        if (Object.prototype.hasOwnProperty.call(str.exclude, key)) {
+          const name = str.exclude[key]
+          if (getStorage(name)) {
+            localStorageObj[name] = getStorage(name)
+          }
+          if (getStorage(name, true)) {
+            sessionStorageObj[name] = getStorage(name, true)
+          }
+        }
+      }
+      sessionStorage.clear()
+      localStorage.clear()
+      for (const key in sessionStorageObj) {
+        setStorage(key, sessionStorageObj[key], true)
+      }
+      for (const key in localStorageObj) {
+        setStorage(key, localStorageObj[key])
+      }
+    }
   }
+}
+// 自定义类型守卫函数
+function _isObjectWithExclude(obj: object | string | []): obj is { exclude: { [key: string]: string } } {
+  return typeof obj === 'object' && obj !== null && 'exclude' in obj && typeof obj.exclude === 'object'
 }
 
 // await proxy.validForm(formRef);
-export function validForm(ref, { errorText = '表单校验有误, 请检查' } = {}) {
+export function validForm(ref, { message = '表单校验错误, 请检查' } = {}) {
   return new Promise((resolve, reject) => {
     unref(ref).validate((valid, status) => {
+      console.log(`41 status`, status)
       if (valid) {
-        resolve()
+        resolve(status)
       } else {
-        if (errorText) {
-          $toast(errorText, 'e')
+        if (message) {
+          let errorText = Object.keys(status)
+          $toast(message + errorText.join(','), 'e')
         }
-        reject()
+        reject(status)
       }
     })
   })
@@ -145,24 +157,26 @@ export function validForm(ref, { errorText = '表单校验有误, 请检查' } =
  * 判断变量是否空值
  * undefined, null, '', '   ', false, 0, [], {} 均返回true，否则返回false
  */
-export function isEmpty(sendData) {
-  let v = unref(sendData)
-  switch (typeof v) {
+export function isEmpty(data: any): boolean {
+  if (isRef(data)) {
+    data = unref(data)
+  }
+  switch (typeof data) {
     case 'undefined':
       return true
     case 'string':
-      if (v.trim().length === 0) return true
+      if (data.trim().length === 0) return true
       break
     case 'boolean':
-      if (!v) return true
+      if (!data) return true
       break
     case 'number':
-      if (0 === v) return true
+      if (0 === data) return true
       break
     case 'object':
-      if (null === v) return true
-      if (undefined !== v.length && v.length === 0) return true
-      for (var k in v) {
+      if (null === data) return true
+      if (undefined !== data.length && data.length === 0) return true
+      for (var k in data) {
         return false
       }
       return true
@@ -170,12 +184,14 @@ export function isEmpty(sendData) {
   return false
 }
 // 非空
-export function notEmpty(v) {
+export function notEmpty(v: any): boolean {
   return !isEmpty(v)
 }
 
-// 将两个对象合并, 以第二个对象为准, 如果两个对象, 一个属性有值, 一个没值, 合并后有值; 如果两个属性都有值, 以第二个属性为准
-export function merge(obj1, obj2) {
+/**
+ *  将两个对象合并, 以第二个对象为准, 如果两个对象, 一个属性有值, 一个没值, 合并后有值; 如果两个属性都有值, 以第二个属性为准
+ *  */
+export function merge(obj1: object, obj2: object): object {
   let merged = { ...obj1, ...obj2 }
   for (let key in merged) {
     if (!isEmpty(obj1[key]) && !isEmpty(obj2[key])) {
@@ -351,20 +367,25 @@ export function sleep(delay = 0, fn) {
   )
 }
 
-/** @使用方式
-name: [proxy.validate(), proxy.validate('name', { message: '你干嘛哈哈' })],
-between: [proxy.validate(), proxy.validate('between', { max: 99 })],
-number: [proxy.validate(), proxy.validate('number')],
-length: [proxy.validate('length'), proxy.validate()],
-phone: [proxy.validate(), proxy.validate('phone')],
+/** @使用方式 
+ * 1. 在el-form中使用
+name: [ proxy.validate('name', { message: '你干嘛哈哈' })],
+between: [ proxy.validate('between', { max: 99 })],
+number: [ proxy.validate('number')],
+length: [proxy.validate('length')],
+phone: [ proxy.validate('phone')],
+custom: [proxy.validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })]
 confirmRegPwd: [
   proxy.validate('same', { value: toRef(form.value, 'regPwd') }),
 ],
+ * 2. 在函数中使用, 返回boolean
+ let ip = proxy.validate('ip', 122322, true)
+ let custom = proxy.validate('custom', { value: -123, reg: /^-\d+\.?\d{0,2}$/ }, true)
 */
 
-export function validate(type = 'required', rules = {}) {
-  const trigger = rules.trigger || ['blur', 'change']
-  const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'same', 'length', 'ip', 'port']
+export function validate(type = 'required', rules = {}, pureValid = false) {
+  let trigger = rules.trigger || ['blur', 'change']
+  const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'same', 'length', 'ip', 'port', 'custom']
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
   if (!typeMaps.includes(type)) {
     return {
@@ -376,7 +397,7 @@ export function validate(type = 'required', rules = {}) {
   if (type === 'required') {
     return {
       required: true,
-      message: rules.message || '请输入 ',
+      message: rules.message ?? '请输入 ',
       trigger: trigger,
     }
   }
@@ -397,64 +418,26 @@ export function validate(type = 'required', rules = {}) {
     }
   }
   if (type === 'number') {
-    const validateNumber = (rule, value, callback) => {
-      let validFlag = /^[0-9]+$/.test(value)
-      if (!validFlag) {
-        callback(new Error('请输入数字'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      validator: validateNumber,
-      trigger: trigger,
-    }
+    return _validValue(rules, '请输入正整数', pureValid, /^[0-9]+$/)
   }
   if (type === 'mobile') {
-    const validatePhone = (rule, value, callback) => {
-      let validFlag = new RegExp('^[1][0-9]{10}$').test(value)
-      if (!validFlag) {
-        callback(new Error('请输入正确的手机号'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      validator: validatePhone,
-      trigger: trigger,
-    }
+    return _validValue(rules, '请输入正确的手机号', pureValid, /^[1][0-9]{10}$/)
   }
   if (type === 'ip') {
-    const validatePhone = (rule, value, callback) => {
-      let ipReg = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
-      let validFlag = ipReg.test(value)
-      console.log(`validFlag`, validFlag)
-      if (!validFlag) {
-        callback(new Error('请输入正确的ip地址'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      validator: validatePhone,
-      trigger: trigger,
-    }
+    return _validValue(
+      rules,
+      '请输入正确的ip地址',
+      pureValid,
+      /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
+    )
   }
   if (type === 'port') {
-    const validatePhone = (rule, value, callback) => {
-      let ipReg = /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/
-      let validFlag = ipReg.test(value)
-      console.log(`validFlag`, validFlag)
-      if (!validFlag) {
-        callback(new Error('请输入1-65535之间的端口号'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      validator: validatePhone,
-      trigger: trigger,
-    }
+    return _validValue(
+      rules,
+      '请输入1-65535的端口号',
+      pureValid,
+      /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/,
+    )
   }
   if (type === 'between') {
     let min = rules.min || 1
@@ -488,8 +471,36 @@ export function validate(type = 'required', rules = {}) {
     }
     return {
       validator: validateSame,
-      trigger: [blur, trigger],
+      trigger: trigger,
     }
+  }
+  if (type === 'custom') {
+    //  _validValue(rules, '请输入正确的手机号', pureValid, /^[1][0-9]{10}$/)
+    if(pureValid){
+      return _validValue(rules.value, rules.message, pureValid, rules.reg)
+    }else{
+      return _validValue(rules, rules.message, pureValid, rules.reg)
+    }
+  }
+}
+function _validValue(rules, msg, pureValid, reg) {
+  console.log(`03 reg`, reg);
+  if (pureValid === true) {
+    return reg.test(rules)
+  }
+  const validatePhone = (rule, value, callback) => {
+    console.log(`54 reg`, reg);
+    let validFlag = reg.test(value)
+    if (!validFlag) {
+      callback(new Error(rules.message ?? msg))
+    } else {
+      callback()
+    }
+  }
+  return {
+    validator: validatePhone,
+    required: true,
+    trigger: rules.trigger || ['blur', 'change'],
   }
 }
 
@@ -528,7 +539,7 @@ export function globalImageUrl(photoName) {
  * copy('这是要复制的文本', {duration: 500});
  *
  *  */
-export const copy = (text, ...otherParams) => {
+export const copy = (text, ...toastParams) => {
   const textarea = document.createElement('textarea')
   textarea.value = text
   textarea.style.position = 'fixed'
@@ -536,12 +547,8 @@ export const copy = (text, ...otherParams) => {
   textarea.select()
   document.execCommand('copy')
   document.body.removeChild(textarea)
-  if (!otherParams.hideToast) {
-    if (otherParams.customText) {
-      $toast(customText, ...otherParams)
-    } else {
-      $toast(text + '复制成功', ...otherParams)
-    }
+  if (!toastParams.hideToast) {
+    $toast(text + '复制成功', ...toastParams)
   }
 }
 
