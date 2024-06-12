@@ -1,9 +1,7 @@
 <template>
   <div class="o-title" :style="{ ...margin }" v-bind="$attrs">
-    <div ref="titleRef" class="o-title__left">
-      <div>
-        <span class="title-text">{{ title }}</span>
-      </div>
+    <div class="o-title__left">
+      <span class="title-text">{{ title }}</span>
       <slot></slot>
     </div>
     <slot name="right"></slot>
@@ -53,27 +51,18 @@ const margin = computed(() => {
   } else {
     let obj = {}
     if (t) {
-      obj.marginTop = mHandleUnit(t)
+      obj.marginTop = proxy.processWidth(t, true)
     }
     if (b) {
-      obj.marginBottom = mHandleUnit(b)
+      obj.marginBottom = proxy.processWidth(b, true)
     }
     if (l) {
-      obj.marginLeft = mHandleUnit(l)
+      obj.marginLeft = proxy.processWidth(l, true)
     }
     return obj
   }
 })
-
-function mHandleUnit(inner) {
-  if (typeof inner === 'string' && (inner.indexOf('px') !== -1 || inner.indexOf('%') !== -1)) {
-    return inner
-  }
-  return inner + 'px'
-}
-
 // copy成功的提示文案
-function mClipboardSuccess(val) {}
 </script>
 
 <style scoped lang="scss">

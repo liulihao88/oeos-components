@@ -11,7 +11,7 @@ const props = defineProps({
     type: [String, Number],
     default: 60,
   },
-  customStyle: {
+  imgAttrs: {
     type: Object,
     default: () => {},
   },
@@ -22,15 +22,6 @@ const props = defineProps({
     },
   },
 })
-function handleUnit(str) {
-  if (!str) {
-    return ''
-  }
-  if (typeof str === 'string' && (str.indexOf('px') !== -1 || str.indexOf('%') !== -1)) {
-    return str
-  }
-  return str + 'px'
-}
 /** @使用方式
  <o-empty description="您没有消费订单" size="48"></o-empty>
   <o-empty class="w-100%" src="https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg" size="200" ></o-empty>
@@ -43,9 +34,9 @@ function handleUnit(str) {
       <img
         :src="src"
         :style="{
-          width: handleUnit(props.size),
-          height: handleUnit(props.size),
-          ...props.customStyle,
+          width: proxy.processWidth(props.size, true),
+          height: proxy.processWidth(props.size, true),
+          ...props.imgAttrs,
         }"
       />
     </template>

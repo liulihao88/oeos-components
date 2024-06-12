@@ -134,6 +134,10 @@ export default defineConfig({
               link: '/components/text/base.md',
             },
             {
+              text: 'title组件',
+              link: '/components/title/base.md',
+            },
+            {
               text: 'tooltip组件',
               link: '/components/tooltip/base.md',
             },
