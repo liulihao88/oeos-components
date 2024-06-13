@@ -6,7 +6,7 @@
     <el-select
       ref="selectRef"
       class="o-select__select"
-      :class="sOptions.length === 0 && emptyColor ? 'o-select__empty' : ''"
+      :class="proxy.isEmpty(sOptions) && emptyColor ? 'o-select__empty' : ''"
       v-model="childSelectedValue"
       :placeholder="handlePlaceholder()"
       popper-class="o-select__multiple-checkbox"

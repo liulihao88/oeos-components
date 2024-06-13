@@ -5,7 +5,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import markdown from 'vite-plugin-md'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
 
-// https://vitejs.dev/config/ 
+// https://vitejs.dev/config/
 export default defineConfig({
   assetsInclude: ['**/*.md'],
   plugins: [
@@ -18,6 +18,16 @@ export default defineConfig({
       bundler: 'vite',
     }),
   ],
+  build: {
+    minify: 'terser',
+    terserOptions: {
+      // 生产环境移除console
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./packages', import.meta.url)),
