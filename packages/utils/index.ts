@@ -136,7 +136,7 @@ function _isObjectWithExclude(obj: object | string | []): obj is { exclude: { [k
 }
 
 // await proxy.validForm(formRef);
-export function validForm(ref, { message = '表单校验错误, 请检查' } = {}) {
+export function validForm(ref, { message = '表单校验错误, 请检查', detail = true } = {}) {
   return new Promise((resolve, reject) => {
     unref(ref).validate((valid, status) => {
       console.log(`41 status`, status)
@@ -145,7 +145,11 @@ export function validForm(ref, { message = '表单校验错误, 请检查' } = {
       } else {
         if (message) {
           let errorText = Object.keys(status)
-          $toast(message + errorText.join(','), 'e')
+          let toastMessage = message
+          if (detail) {
+            toastMessage = message + errorText.join(',')
+          }
+          $toast(toastMessage, 'e')
         }
         reject(status)
       }
@@ -476,20 +480,20 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
   }
   if (type === 'custom') {
     //  _validValue(rules, '请输入正确的手机号', pureValid, /^[1][0-9]{10}$/)
-    if(pureValid){
+    if (pureValid) {
       return _validValue(rules.value, rules.message, pureValid, rules.reg)
-    }else{
+    } else {
       return _validValue(rules, rules.message, pureValid, rules.reg)
     }
   }
 }
 function _validValue(rules, msg, pureValid, reg) {
-  console.log(`03 reg`, reg);
+  console.log(`03 reg`, reg)
   if (pureValid === true) {
     return reg.test(rules)
   }
   const validatePhone = (rule, value, callback) => {
-    console.log(`54 reg`, reg);
+    console.log(`54 reg`, reg)
     let validFlag = reg.test(value)
     if (!validFlag) {
       callback(new Error(rules.message ?? msg))

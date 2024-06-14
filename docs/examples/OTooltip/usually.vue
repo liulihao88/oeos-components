@@ -14,6 +14,9 @@ function handleClick() {
       placement="bottom"
       class=""
       @click="handleClick"
+      :tooltipAttrs="{
+        effect: 'light',
+      }"
     ></o-tooltip>
     <div>
       <o-tooltip
