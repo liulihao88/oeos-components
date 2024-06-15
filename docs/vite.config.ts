@@ -16,6 +16,16 @@ export default defineConfig({
     // 类型： string[] 导入时想要省略的扩展名列表。
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.mjs'],
   },
+  build: {
+    minify: 'terser',
+    terserOptions: {
+      // 生产环境移除console
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+  },
   server: {
     host: '0.0.0.0',
     port: 9998,
