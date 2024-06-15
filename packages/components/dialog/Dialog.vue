@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance, computed, useAttrs, useSlots, watch } from 'vue'
+import { ref, getCurrentInstance, computed, useAttrs, useSlots, watch, onBeforeUnmount, onMounted } from 'vue'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const slots = useSlots()
@@ -128,8 +128,47 @@ function getType(type) {
 function handleClose() {
   emits('update:modelValue', false)
 }
+
+function onkeypress({ code }: KeyboardEvent) {
+  if (code === 'Enter') {
+    confirm()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keypress', onkeypress)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keypress', onkeypress)
+})
 </script>
 
 <style lang="scss" scoped>
-@import './dialog.scss';
+.o-dialog {
+  :deep(.el-dialog__header) {
+    padding: 8px 16px;
+    border-bottom: 1px solid #e3e6eb;
+  }
+  :deep(.el-dialog) {
+    padding: 0 !important;
+  }
+  :deep(.el-dialog__body) {
+    padding: 16px;
+    .dialog_slot_box {
+      min-height: 300px;
+      max-height: calc(100vh - 30vh - 100px);
+      overflow-y: auto;
+    }
+  }
+  :deep(.el-dialog__footer) {
+    border-top: 1px solid #e3e6eb;
+    padding: 0 16px;
+    height: 50px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+}
 </style>

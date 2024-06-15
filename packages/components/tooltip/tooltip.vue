@@ -45,7 +45,6 @@ const props = defineProps({
 const contentRef = ref()
 const isDisabled = ref(false)
 const handleDisabled = computed(() => {
-  console.log(`72 attrs.disabled`, attrs.disabled)
   if (attrs.disabled) {
     return attrs.disabled
   }
