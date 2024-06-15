@@ -136,14 +136,14 @@ function _isObjectWithExclude(obj: object | string | []): obj is { exclude: { [k
 }
 
 // await proxy.validForm(formRef);
-export function validForm(ref, { message = '表单校验错误, 请检查', detail = true } = {}) {
+export function validForm(ref, { message = '表单校验错误, 请检查', detail = true, showMessage = true } = {}) {
   return new Promise((resolve, reject) => {
     unref(ref).validate((valid, status) => {
       console.log(`41 status`, status)
       if (valid) {
         resolve(status)
       } else {
-        if (message) {
+        if (message && showMessage) {
           let errorText = Object.keys(status)
           let toastMessage = message
           if (detail) {
