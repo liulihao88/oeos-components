@@ -19,6 +19,14 @@ export default defineConfig({
     }),
   ],
   build: {
+    minify: 'terser',
+    terserOptions: {
+      // 生产环境移除console
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
   },
   resolve: {
     alias: {
