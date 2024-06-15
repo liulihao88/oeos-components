@@ -19,12 +19,12 @@ export default defineConfig({
     }),
   ],
   build: {
-    minify: 'terser',
+    minify: 'terser', // 启用terser压缩
     terserOptions: {
       // 生产环境移除console
       compress: {
-        drop_console: true,
-        drop_debugger: true,
+        drop_console: true, // 删除所有 console
+        drop_debugger: true, // 删除 debugger
       },
     },
   },
