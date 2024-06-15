@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
 import pkg from './package.json'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+const { buildInfos } = require('./packages/utils/buildInfo.ts')
 
 export default defineConfig({
   build: {
@@ -30,6 +31,9 @@ export default defineConfig({
         },
       },
     },
+  },
+  define: {
+    __buildInfos__: JSON.stringify(buildInfos), // 将构建信息作为全局变量注入
   },
   plugins: [
     vue({
