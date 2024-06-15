@@ -8,15 +8,14 @@ function handleClick() {
 
 <template>
   <div>
+    
     <o-tooltip
-      content="这里是需要显示的文本内容，当文本超出时会显示完整内容"
+      content="这是白色主题，当文本超出时会显示完整内容"
       width="200px"
       placement="bottom"
       class=""
       @click="handleClick"
-      :tooltipAttrs="{
-        effect: 'light',
-      }"
+      effect="light"
     ></o-tooltip>
     <div>
       <o-tooltip

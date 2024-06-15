@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip class="tooltip" v-bind="tooltipAttrs" :disabled="handleDisabled">
+  <el-tooltip class="tooltip" :disabled="handleDisabled" :effect="effect" v-bind="tooltipAttrs">
     <span
       @click="contentClick"
       v-if="props.showSlot"
@@ -14,6 +14,7 @@
         </slot>
       </span>
     </span>
+    <slot name="content"></slot>
   </el-tooltip>
 </template>
 
@@ -32,6 +33,9 @@ const props = defineProps({
   showSlot: {
     type: Boolean,
     default: true,
+  },
+  effect: {
+    default: 'dark',
   },
   tooltipAttrs: {
     type: Object,
