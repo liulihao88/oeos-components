@@ -1,29 +1,13 @@
-import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
+import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import markdown from 'vite-plugin-md'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
-const { buildInfos } = require('./packages/utils/buildInfo.ts')
-console.log(`91 buildInfos`, buildInfos);
+import pkg from './package.json'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  assetsInclude: ['**/*.md'],
-  plugins: [
-    vue({
-      include: [/\.vue$/, /\.md$/],
-    }),
-    vueJsx(),
-    markdown(),
-    codeInspectorPlugin({
-      bundler: 'vite',
-    }),
-  ],
-  define: {
-    __buildInfos__: JSON.stringify(buildInfos), // 将构建信息作为全局变量注入
-  },
   build: {
+    outDir: 'dist',
     minify: 'terser', // 启用terser压缩
     terserOptions: {
       // 生产环境移除console
@@ -32,14 +16,30 @@ export default defineConfig({
         drop_debugger: true, // 删除 debugger
       },
     },
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./packages', import.meta.url)),
+    lib: {
+      entry: resolve(__dirname, './packages/index.js'),
+      name: pkg.name,
+      fileName: (format) => `${pkg.name}-${format}.js`,
     },
-    // 类型： string[] 导入时想要省略的扩展名列表。
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.mjs'],
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        // UMD模式下位那些外部化的依赖提供一个全局的变量
+        globals: {
+          vue: 'Vue',
+        },
+      },
+    },
   },
+  plugins: [
+    vue({
+      include: [/\.vue$/],
+    }),
+    vueJsx(),
+    codeInspectorPlugin({
+      bundler: 'vite',
+    }),
+  ],
   server: {
     host: '0.0.0.0',
     port: 9876,
