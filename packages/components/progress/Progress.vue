@@ -17,7 +17,7 @@ const props = defineProps({
   // 进度条百分比
   percentage: {
     type: Number,
-    default: 0,
+    required: true,
   },
   // 动画时间
   animationTime: {

@@ -1,8 +1,8 @@
 # tooltip文字提示组件
+https://element-plus.org/zh-CN/component/tooltip.html
 
 > 文字超出才显示tooltip, 否则不显示
 
-[更多tooltip文档](https://element-plus.org/zh-CN/component/tooltip.html)
 
 ## 基础用法
 

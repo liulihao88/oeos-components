@@ -1,4 +1,6 @@
-# select下拉框组件
+# progress进度条
+
+https://element-plus.org/zh-CN/component/progress.html
 
 ## 基础用法
 
@@ -6,4 +8,8 @@
 OProgress/base
 :::
 
-### 通常用法
+### 自定义颜色
+
+:::demo
+OProgress/color
+:::

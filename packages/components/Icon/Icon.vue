@@ -26,7 +26,6 @@ const props = defineProps({
 })
 const emits = defineEmits(['click'])
 function handleClick() {
-  console.log('handleClick')
   if (props.disabled) return
   emits('click')
 }
