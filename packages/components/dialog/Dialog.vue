@@ -130,10 +130,7 @@ function handleClose() {
 }
 
 function onkeypress({ code }: KeyboardEvent) {
-  if (attrs.modelValue !== true) {
-    return
-  }
-  if (code === 'Enter') {
+  if (attrs.modelValue !== true && code === 'Enter') {
     confirm()
   }
 }
