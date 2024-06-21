@@ -73,8 +73,14 @@ export default function (app) {
       }
       // 如果没有传递任何方法, 那么给添加默认的click事件
       if (isEmpty(el.method)) {
-        el.method = {
-          click: true,
+        if (el.nodeName === 'INPUT' || el.getElementsByTagName('input').length > 0) {
+          el.method = {
+            input: true,
+          }
+        } else {
+          el.method = {
+            click: true,
+          }
         }
       }
       const throttledFn = throttle(binding.value, delay)
@@ -117,10 +123,16 @@ export default function (app) {
           el.method[key] = true
         }
       }
-      // 如果没有传递任何方法, 那么给添加默认的click事件
+      // 如果没有传递任何方法, 那么给添加默认的click事件, 如果是input输入框, 那么默认加input事件
       if (isEmpty(el.method)) {
-        el.method = {
-          click: true,
+        if (el.nodeName === 'INPUT' || el.getElementsByTagName('input').length > 0) {
+          el.method = {
+            input: true,
+          }
+        } else {
+          el.method = {
+            click: true,
+          }
         }
       }
       const debouncedFn = debounce(binding.value, delay)

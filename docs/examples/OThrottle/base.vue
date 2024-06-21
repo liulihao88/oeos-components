@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-import { throttle } from 'lodash-es'
 function baseThrottle() {
   console.log('baseThrottle')
 }
@@ -10,10 +9,16 @@ function throttle3000() {
   console.log('throttle3000')
   console.timeEnd('3000毫秒throttle')
 }
+function inputChange() {
+  console.log(`inputValue.value`, inputValue.value)
+}
+const inputValue = ref()
 </script>
 
 <template>
   <div>
+    <el-input v-throttle="inputChange" v-model="inputValue" />
+    <o-input v-model="inputValue" v-throttle="inputChange" />
     <div class="mb3 bg-white p" v-throttle="baseThrottle">默认1000毫秒</div>
     <el-button v-throttle.3000="throttle3000">这是3000毫秒的</el-button>
   </div>
