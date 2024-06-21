@@ -249,7 +249,10 @@ export function clone(data, times = 1) {
  * formatTime(new Date()); //2018-11-11 17:13:21
  * formatTime(new Date().getTime()); //2018-11-11 17:13:21
  */
-export function formatTime(time = new Date(), cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
+export function formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
+  if (!time) {
+    return time
+  }
   let date
   if (typeof time === 'object') {
     date = time
