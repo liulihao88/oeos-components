@@ -136,6 +136,7 @@ function _isObjectWithExclude(obj: object | string | []): obj is { exclude: { [k
 }
 
 // await proxy.validForm(formRef);
+// await proxy.validForm(formRef, {showMessage: false})
 export function validForm(ref, { message = '表单校验错误, 请检查', detail = true, showMessage = true } = {}) {
   return new Promise((resolve, reject) => {
     unref(ref).validate((valid, status) => {

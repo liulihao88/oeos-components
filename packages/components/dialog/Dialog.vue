@@ -117,14 +117,7 @@ function confirm() {
     handleClose()
   }
 }
-function getType(type) {
-  if (typeof type === 'object') {
-    const objType = Object.prototype.toString.call(type).slice(8, -1).toLowerCase()
-    return objType
-  } else {
-    return typeof type
-  }
-}
+
 function handleClose() {
   emits('update:modelValue', false)
 }

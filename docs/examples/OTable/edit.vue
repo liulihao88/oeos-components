@@ -72,17 +72,8 @@ const form = ref({
 })
 const formRef = ref(null)
 const submitForm = async () => {
-  await proxy.validForm(formRef)
+  await proxy.validForm(formRef, {detail: false})
   proxy.$toast('编辑成功')
-  // if (!formRef) return
-  // return await formRef.value?.validate((valid: any) => {
-  //   if (valid) {
-  //     console.log('submit!')
-  //   } else {
-  //     console.log('error submit!')
-  //     return false
-  //   }
-  // })
 }
 </script>
 
@@ -102,13 +93,10 @@ const submitForm = async () => {
         </template>
 
         <template #age="{ scope, row }">
-          <template v-if="row.isEdit">
+          <template v-if="scope.$index !== -1">
             <el-form-item :prop="'data.' + scope.$index + '.age'" :rules="formRules.age" class="">
               <o-input v-model="form.data[scope.$index].age" size="small" />
             </el-form-item>
-          </template>
-          <template v-else>
-            {{ row.age }}
           </template>
         </template>
       </o-table>
