@@ -4,18 +4,12 @@ import vue from '@vitejs/plugin-vue'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
 import pkg from './package.json'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import terser from '@rollup/plugin-terser'
 
 export default defineConfig({
   build: {
     outDir: 'dist',
     minify: 'terser', // 启用terser压缩
-    terserOptions: {
-      // 生产环境移除console
-      compress: {
-        drop_console: true, // 删除所有 console
-        drop_debugger: true, // 删除 debugger
-      },
-    },
     lib: {
       entry: resolve(__dirname, './packages/index.js'),
       name: pkg.name,
@@ -42,6 +36,14 @@ export default defineConfig({
     codeInspectorPlugin({
       bundler: 'vite',
     }),
+    terser(
+      {
+        compress: {
+          drop_console: ["info", "log", "warning"], // 删除console
+        },
+      }
+    }
+    ),
   ],
   server: {
     host: '0.0.0.0',
