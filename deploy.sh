@@ -15,7 +15,7 @@ if [ -z "$1" ]; then
     commit_message="$1"
 else
     # 使用提供的提交消息
-    commit_message="update"
+    commit_message="更新"
 fi
 
 # 提交打包静态网站到 github-pages 分支
