@@ -1,6 +1,6 @@
 <template>
   <div class="po-f r-400">
-    版本: ({{ pkgVersion }})
+    <!-- 版本: ({{ pkgVersion }}) -->
   </div>
   <el-button type="primary" size="small" @click.stop.prevent="toggleSourceVisible" class="prod-toogle" v-if="!isHome">
     <div class="visible-text">
@@ -26,11 +26,11 @@
 import { getStorage, setStorage, copy } from '@/utils'
 import { ref, onUnmounted, onMounted } from 'vue'
 const isDev = ref(import.meta.env.DEV)
-import pkg from '../../../package.json'
+// import pkg from '../../../package.json'
 
 const toggleRef = ref(null)
 
-const pkgVersion = ref(pkg.version)
+// const pkgVersion = ref(pkg.version)
 
 const sourceVisible = ref(false)
 sourceVisible.value = getStorage('codeVisible') || false
