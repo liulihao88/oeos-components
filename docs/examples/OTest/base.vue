@@ -29,6 +29,7 @@ const columns = [
 
 <template>
   <div>
+    234432132132``
     <o-table :columns="columns" :data="data" ref="tableRef"></o-table>
   </div>
 </template>
