@@ -58,9 +58,7 @@ const updateTable = () => {
       hideBtns: hideBtns, // 隐藏在...中的按钮
       maxBtns: item.maxBtns || 2, // 最大显示按钮个数，超出后显示...
     }
-    console.log(`item`, item)
     let res = Object.assign({}, defaultItems, item)
-    console.log(`res`, res)
     return res
   })
 }
