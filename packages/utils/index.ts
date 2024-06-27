@@ -14,6 +14,8 @@ import { isStringNumber, isNumber } from './types.js'
 })
  */
 export function $toast(message, type: string | object = 'success', otherParams: object = {}) {
+  console.log(`***** 哈哈哈测试 17行 packages/utils/index.ts`)
+  
   const map = {
     s: 'success',
     i: 'info',

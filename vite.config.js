@@ -9,11 +9,9 @@ import terser from '@rollup/plugin-terser'
 export default defineConfig({
   build: {
     outDir: 'dist',
-    minify: 'terser', // 启用terser压缩
     lib: {
       entry: resolve(__dirname, './packages/index.js'),
       name: pkg.name,
-      exports: 'named',
       fileName: (format) => `${pkg.name}-${format}.js`,
     },
     rollupOptions: {
@@ -30,6 +28,11 @@ export default defineConfig({
     __buildInfos__: new Date(), // 将构建信息作为全局变量注入
   },
   plugins: [
+    terser({
+      compress: {
+        drop_console: true, // 删除console
+      },
+    }),
     vue({
       include: [/\.vue$/],
     }),
