@@ -15,6 +15,13 @@ export default defineConfig({
       name: pkg.name,
       fileName: (format) => `${pkg.name}-${format}.js`,
     },
+    terserOptions: {
+      // 生产环境移除console
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
     rollupOptions: {
       external: ['vue'],
       output: {

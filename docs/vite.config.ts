@@ -2,11 +2,17 @@ import { defineConfig } from 'vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { fileURLToPath, URL } from 'node:url'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
+import terser from '@rollup/plugin-terser'
 export default defineConfig({
   plugins: [
     vueJsx(),
     codeInspectorPlugin({
       bundler: 'vite',
+    }),
+    terser({
+      compress: {
+        drop_console: true, // 删除console
+      },
     }),
   ],
   resolve: {
