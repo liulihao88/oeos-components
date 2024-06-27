@@ -12,10 +12,10 @@ cd docs/.vitepress/dist
 # 检查是否提供了提交消息
 if [ -z "$1" ]; then
     # 如果没有提供提交消息，则使用默认消息
-    commit_message="update"
+    commit_message="$1"
 else
     # 使用提供的提交消息
-    commit_message="$1"
+    commit_message="update"
 fi
 
 # 提交打包静态网站到 github-pages 分支
