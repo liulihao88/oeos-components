@@ -29,7 +29,6 @@ const columns = [
 
 <template>
   <div>
-    2
     <o-table :columns="columns" :data="data" ref="tableRef"></o-table>
   </div>
 </template>
