@@ -4,7 +4,6 @@ import vue from '@vitejs/plugin-vue'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
 import pkg from './package.json'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import terser from '@rollup/plugin-terser'
 
 export default defineConfig({
   build: {
@@ -36,11 +35,6 @@ export default defineConfig({
     vueJsx(),
     codeInspectorPlugin({
       bundler: 'vite',
-    }),
-    terser({
-      compress: {
-        drop_console: true, // 删除console
-      },
     }),
   ],
   server: {
