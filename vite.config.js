@@ -13,6 +13,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, './packages/index.js'),
       name: pkg.name,
+      exports: 'named',
       fileName: (format) => `${pkg.name}-${format}.js`,
     },
     rollupOptions: {
