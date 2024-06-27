@@ -2,6 +2,7 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 const isShow = ref(false)
+
 </script>
 
 <template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-
+proxy.$toast('haha')
 const data = ref([
   {
     name: 'andy',
@@ -29,7 +29,7 @@ const columns = [
 
 <template>
   <div>
-    234432132132``
+    2
     <o-table :columns="columns" :data="data" ref="tableRef"></o-table>
   </div>
 </template>
