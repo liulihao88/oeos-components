@@ -21,7 +21,7 @@ const isShow = ref()
   <div>
     <o-title title="123"></o-title>
     <o-select v-model="selectValue" :options="options" :customLabel="customLabel"></o-select>
-    <el-button type="primary" @click="isShow = true">测试12</el-button>
+    <el-button type="primary" @click="isShow = true">321321321321测试12</el-button>
     <o-dialog ref="dialogRef" title="base" v-model="isShow"></o-dialog>
   </div>
 </template>

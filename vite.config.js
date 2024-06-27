@@ -43,11 +43,11 @@ export default defineConfig({
     codeInspectorPlugin({
       bundler: 'vite',
     }),
-    terser({
-      compress: {
-        drop_console: true, // 删除console
-      },
-    }),
+    // terser({
+    //   compress: {
+    //     drop_console: true, // 删除console
+    //   },
+    // }),
   ],
   server: {
     host: '0.0.0.0',
