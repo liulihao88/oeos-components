@@ -15,13 +15,6 @@ export default defineConfig({
       name: pkg.name,
       fileName: (format) => `${pkg.name}-${format}.js`,
     },
-    terserOptions: {
-      // 生产环境移除console
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
     rollupOptions: {
       external: ['vue'],
       output: {
@@ -43,11 +36,11 @@ export default defineConfig({
     codeInspectorPlugin({
       bundler: 'vite',
     }),
-    // terser({
-    //   compress: {
-    //     drop_console: true, // 删除console
-    //   },
-    // }),
+    terser({
+      compress: {
+        drop_console: true, // 删除console
+      },
+    }),
   ],
   server: {
     host: '0.0.0.0',

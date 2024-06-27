@@ -9,11 +9,11 @@ export default defineConfig({
     codeInspectorPlugin({
       bundler: 'vite',
     }),
-    // terser({
-    //   compress: {
-    //     drop_console: true, // 删除console
-    //   },
-    // }),
+    terser({
+      compress: {
+        drop_console: true, // 删除console
+      },
+    }),
   ],
   resolve: {
     alias: {
@@ -26,14 +26,7 @@ export default defineConfig({
     __buildInfos__: '321321312321', // 将构建信息作为全局变量注入
   },
   build: {
-    minify: 'terser',
-    terserOptions: {
-      // 生产环境移除console
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    minify: 'terser', // 启用terser压缩
   },
   server: {
     host: '0.0.0.0',
