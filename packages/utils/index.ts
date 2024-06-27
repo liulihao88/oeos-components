@@ -733,7 +733,6 @@ export function formatBytesConvert(bytes) {
 
 export function throttle(fn, delay = 1000) {
   // last为上一次触发毁掉的时间，timer是定时器
-  console.log('进来啦')
   let last = 0
   let timer = null
   // 将throttle处理结果当做函数返回
