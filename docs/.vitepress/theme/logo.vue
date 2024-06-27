@@ -1,11 +1,14 @@
 <template>
+  <div class="po-f r-400">
+    版本: ({{ pkgVersion }})
+  </div>
   <el-button type="primary" size="small" @click.stop.prevent="toggleSourceVisible" class="prod-toogle" v-if="!isHome">
     <div class="visible-text">
       {{ sourceVisible === true ? '代码折叠' : '代码显示' }}
     </div>
   </el-button>
 
-  <div class="code-toogle" v-if="isDev">
+  <div class="code-toggle" ref="toggleRef" v-if="isDev">
     <el-button type="primary" size="small" @click.stop.prevent="copyUrl" class="dev-copy">
       <div class="visible-text">复制路径(仅本地)</div>
     </el-button>
@@ -21,8 +24,13 @@
 
 <script lang="ts" setup>
 import { getStorage, setStorage, copy } from '@/utils'
-import { ref, onUnmounted } from 'vue'
+import { ref, onUnmounted, onMounted } from 'vue'
 const isDev = ref(import.meta.env.DEV)
+import pkg from '../../../package.json'
+
+const toggleRef = ref(null)
+
+const pkgVersion = ref(pkg.version)
 
 const sourceVisible = ref(false)
 sourceVisible.value = getStorage('codeVisible') || false
@@ -32,7 +40,6 @@ const toggleSourceVisible = () => {
 }
 const copyUrl = () => {
   let pathname = location.pathname
-  console.log(`57 pathname`, pathname);
   if (!pathname || pathname === '/') {
     return
   }
@@ -72,7 +79,7 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-.code-toogle {
+.code-toggle {
   position: fixed;
   top: 20px;
   right: 40%;
@@ -84,13 +91,4 @@ onUnmounted(() => {
   right: 50%;
   z-index: 200;
 }
-// .dev-copy {
-//   right: calc(58% - 120px);
-// }
-// .dev-md-copy {
-//   right: calc(58% - 256px);
-// }
-// .dev-package-copy {
-//   right: calc(58% - 420px);
-// }
 </style>

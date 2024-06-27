@@ -21,6 +21,10 @@ const props = defineProps({
   total: {
     type: Number,
   },
+  emptyText: {
+    type: String,
+    default: '-',
+  },
 })
 const tableTotal = computed(() => {
   return props.total || props.data.length
@@ -97,6 +101,12 @@ const parseDisabled = (disFn, row = '', scope = '') => {
     return disFn
   }
 }
+const handleEmptyText = (scope, v) => {
+  if (scope.row[v.prop]) {
+    return scope.row[v.prop]
+  }
+  return v.emptyText || props.emptyText
+}
 const currentPage = ref(1)
 const pageSize = ref(10)
 function handleSizeChange(val) {
@@ -144,7 +154,7 @@ defineExpose({})
                     link
                     :disabled="parseDisabled(val.disabled, scope.row, scope)"
                   >
-                    ??{{ operatorBtnFn(val.content, scope.row, scope) }}
+                    {{ operatorBtnFn(val.content, scope.row, scope) }}
                   </el-button>
                 </o-popconfirm>
               </template>
@@ -176,7 +186,7 @@ defineExpose({})
                             link
                             :disabled="parseDisabled(val.disabled, scope.row, scope)"
                           >
-                            ??{{ operatorBtnFn(val.content, scope.row, scope) }}
+                            {{ operatorBtnFn(val.content, scope.row, scope) }}
                           </el-button>
                         </o-popconfirm>
                       </template>
@@ -204,13 +214,13 @@ defineExpose({})
           <template #default="scope">
             <slot v-if="v.useSlot" :name="v.prop" :row="scope.row" :scope="scope" />
             <span v-else-if="v.handler" class="linked" @click.stop="v.handler(scope.row, scope)">
-              <span>{{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : scope.row[v.prop] || '-' }}??</span>
+              <span>{{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : handleEmptyText(scope, v) }}</span>
             </span>
             <span v-else-if="v.filter">
               {{ v.filter(scope.row[v.prop], scope.row, scope) }}
             </span>
             <span v-else>
-              {{ scope.row[v.prop] || '-' }}
+              {{ handleEmptyText(scope, v) }}
             </span>
           </template>
         </el-table-column>
