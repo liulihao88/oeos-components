@@ -119,6 +119,7 @@ function confirm() {
 }
 
 function handleClose() {
+  console.log(`***** 71 122行 packages/components/dialog/Dialog.vue`)
   emits('update:modelValue', false)
 }
 
