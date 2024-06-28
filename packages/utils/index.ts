@@ -216,10 +216,10 @@ export function merge(obj1: object, obj2: object): object {
 }
 
 /**
- * 深克隆对象
- * @param {*} data, 传递的数据
- * @param {*} times, 复制的次数, 仅对数组生效
- * @returns 深克隆数据
+ * 克隆数据并根据需要复制数组
+ * @param {any} data - 要克隆的数据
+ * @param {number} [times=1] - 如果是数组，要复制的次数
+ * @returns {any} - 克隆后的数据或复制后的数组
  * clone(123) => 123
  * clone([1,2, {name: 'andy'}], 2) => [1, 2, {name: 'andy'}, 1, 2, {name: 'andy'}]
  */
@@ -289,7 +289,15 @@ export function formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
 }
 
 /**
- * 生成随机数, 第一个参数可传字符串, 空 或者数组
+* 生成 UUID
+ * @param {string} [type=''] - 生成 UUID 的类型，可以是 'phone', 'email', 'time', 'number' 或空字符串
+ * @param {number} [length=4] - 生成字符串的长度
+ * @param {object} [options={}] - 额外的选项
+ * @param {string} [options.emailStr='@qq.com'] - 生成 email 时使用的后缀
+ * @param {string} [options.timeStr='{m}-{d} {h}:{i}:{s}'] - 生成时间字符串的格式
+ * @param {string} [options.startStr=''] - 起始字符串
+ * @param {number|null} [options.optionsIndex=null] - 数组索引
+ * @returns {string|number} - 生成的 UUID
  * uuid("名字") => 名字hc8f
  * uuid() => abcd
  * uuid('time') => 25MR 10-27 17:34:01
@@ -299,6 +307,7 @@ export function formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
  * uuid('number') => 2319
  * uuid([ { label: "小泽泽", value: "xzz" },{ label: "小月月", value: "xyy" }]) => xzz
  */
+
 export function uuid(
   type = '',
   length = 4,
@@ -322,10 +331,10 @@ export function uuid(
   // 如果是手机号, 生成随机手机号
   if (type === 'phone') {
     let prefixArray = new Array('130', '131', '132', '133', '135', '136', '137', '138', '170', '187', '189')
-    let i = parseInt(10 * Math.random())
+    let i = parseInt(Math.random() * 10)
     let res = prefixArray[i]
     for (var j = 0; j < 8; j++) {
-      res = res + Math.floor(Math.random() * 10)
+      res += Math.floor(Math.random() * 10)
     }
     return res
   }
@@ -346,6 +355,7 @@ export function uuid(
     }
     return Number(res)
   }
+  // 生成随机字符串
   for (let i = length; i > 0; --i) {
     res += randomStr[Math.floor(Math.random() * randomStr.length)]
   }
@@ -497,7 +507,6 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
   }
 }
 function _validValue(rules, msg, pureValid, reg) {
-  console.log(`03 reg`, reg)
   if (pureValid === true) {
     return reg.test(rules)
   }
