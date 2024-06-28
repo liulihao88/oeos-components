@@ -1,21 +1,19 @@
-import { ElMessage, ElMessageBox } from 'element-plus'
 import { unref, isRef, toRaw } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { isStringNumber, isNumber } from './types.js'
 
 /**
- * proxy.$toast('保存成功')
- * 
- * proxy.$toast('保存失败', 'e')
- * 
- * proxy.$toast({
-  message: 'andy',
-  type: 'warning',
-})
- */
+ * @example
+  proxy.$toast('保存成功')
+  proxy.$toast('保存失败', 'e')
+  proxy.$toast({
+    message: 'andy',
+    type: 'warning',
+  })
+* $toast.success('This is a success message')
+*/
+import { ElMessage, ElMessageBox } from 'element-plus'
 export function $toast(message, type: string | object = 'success', otherParams: object = {}) {
-  console.log(`***** 哈哈哈测试 17行 packages/utils/index.ts`)
-  
   const map = {
     s: 'success',
     i: 'info',
@@ -41,6 +39,11 @@ export function $toast(message, type: string | object = 'success', otherParams: 
     ...otherParams,
   })
 }
+// Add shorthand methods for each type of message
+$toast.success = (message, otherParams = {}) => $toast(message, 'success', otherParams)
+$toast.info = (message, otherParams = {}) => $toast(message, 'info', otherParams)
+$toast.error = (message, otherParams = {}) => $toast(message, 'error', otherParams)
+$toast.warning = (message, otherParams = {}) => $toast(message, 'warning', otherParams)
 
 export function setStorage(storageName: string, params: any, isSession = false) {
   let handleParams
