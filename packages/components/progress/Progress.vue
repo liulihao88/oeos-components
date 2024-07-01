@@ -39,7 +39,7 @@ const percentageVal = ref<number>(0)
 const animation = () => {
   let t = Math.ceil(props.animationTime / props.percentage)
   let timer = setInterval(() => {
-    percentageVal.value += 1
+    percentageVal.value = Number(percentageVal.value) + 1
     if (percentageVal.value >= props.percentage || percentageVal.value >= 100) {
       percentageVal.value = props.percentage >= 100 ? 100 : props.percentage
       clearInterval(timer)

@@ -1,42 +1,26 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-proxy.$toast('haha')
-// proxy.$toast.success('你瞅啥', {duration: 200})
-proxy.$toast({
-  message: 'andy',
-  type: 'warning',
-})
-proxy.$toast.error('你瞅啥啊,弟弟', { duration: 2000 })
-const data = ref([
-  {
-    name: 'andy',
-  },
-  {
-    name: '',
-  },
-])
-const columns = [
-  {
-    label: '名字',
-    prop: 'name',
-  },
-  {
-    key: 'operation',
-    label: '操作',
-    btns: [
-      {
-        content: '编辑',
-      },
-    ],
-  },
-]
+const val = ref('0')
+const isShow = ref(false);
+const isTest77 = () => {
+  isShow.value = true
+  val.value = '0.00'
+}
+
+const isTest78 = () => {
+  isShow.value = true
+  val.value = '9.12'
+}
 </script>
 
 <template>
   <div>
-    <o-table :columns="columns" :data="data" ref="tableRef"></o-table>
+    <o-dialog ref="dialogRef" title="base" v-model="isShow">
+      <o-progress :percentage="val"></o-progress>
+      <el-progress :percentage="val"></el-progress>
+    </o-dialog>
+    <el-button type="primary" @click="isTest77">测试83</el-button>
+    <el-button type="primary" @click="isTest78">测试100</el-button>
   </div>
 </template>
-
-<style scoped lang="scss"></style>
