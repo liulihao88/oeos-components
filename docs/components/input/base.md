@@ -11,3 +11,9 @@ OInput/base
 :::demo
 OInput/usually
 :::
+
+### 封装el-autocomplete的用法
+
+:::demo
+OInput/autocomplete
+:::

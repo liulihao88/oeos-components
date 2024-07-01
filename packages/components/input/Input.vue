@@ -1,28 +1,47 @@
 <template>
   <div class="o-input" v-bind="subAttrs" :style="{ ...proxy.processWidth(props.width) }">
     <el-tooltip :content="'' + $attrs.modelValue" :disabled="inWidth || hideTooltip" v-bind="tooltipAttrs">
-      <el-input
-        v-bind="{ ...$attrs }"
-        :placeholder="handlePlaceholder()"
-        class="kd-ipt"
-        :showPassword="showPassword"
-        :clearable="$attrs.clearable !== false"
-        :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
-        :style="{ ...proxy.processWidth(props.width) }"
-        :maxlength="handleMaxLength"
-        :rows="$attrs.rows || 2"
-        resize="none"
-        height="100px"
-        :show-word-limit="handleShowWordLimit()"
-        @focus="focusHandler($event)"
-        @mouseover.native="inputOnMouseOver($event)"
-      >
-        <template v-if="$attrs.title" #prepend>
-          <div v-bind="titleAttrs">
-            {{ $attrs.title }}
-          </div>
-        </template>
-      </el-input>
+      <div>
+        <el-autocomplete
+          v-if="props.options"
+          :fetch-suggestions="querySearch"
+          :placeholder="handlePlaceholder()"
+          :clearable="$attrs.clearable !== false"
+          v-bind="$attrs"
+          @mouseover.native="inputOnMouseOver($event)"
+          :style="{ ...proxy.processWidth(props.width) }"
+        >
+          <template v-if="$attrs.title" #prepend>
+            <div v-bind="titleAttrs">
+              {{ $attrs.title }}
+            </div>
+          </template>
+        </el-autocomplete>
+
+        <el-input
+          v-bind="$attrs"
+          v-else
+          :placeholder="handlePlaceholder()"
+          class="kd-ipt"
+          :showPassword="showPassword"
+          :clearable="$attrs.clearable !== false"
+          :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
+          :style="{ ...proxy.processWidth(props.width) }"
+          :maxlength="handleMaxLength"
+          :rows="$attrs.rows || 2"
+          resize="none"
+          height="100px"
+          :show-word-limit="handleShowWordLimit()"
+          @focus="focusHandler($event)"
+          @mouseover.native="inputOnMouseOver($event)"
+        >
+          <template v-if="$attrs.title" #prepend>
+            <div v-bind="titleAttrs">
+              {{ $attrs.title }}
+            </div>
+          </template>
+        </el-input>
+      </div>
     </el-tooltip>
   </div>
 </template>
@@ -46,6 +65,7 @@
 import { ref, getCurrentInstance, computed, useAttrs, watch } from 'vue'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
+
 const props = defineProps({
   titleAttrs: {
     type: Object,
@@ -84,8 +104,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // 适用于el-autocomplete
+  options: {
+    type: Array,
+  },
 })
+const restaurants = ref([])
 const inWidth = ref(true)
+
 const handleMaxLength = computed(() => {
   if (attrs.type === 'textarea') {
     return attrs.maxlength || 1000
@@ -93,6 +119,28 @@ const handleMaxLength = computed(() => {
     return attrs.maxlength || ''
   }
 })
+
+watch(
+  () => props.options,
+  (val) => {
+    if (!val) {
+      return
+    }
+    restaurants.value = val.map((v) => {
+      if (proxy.getType(v) === 'object') {
+        return v
+      } else {
+        return {
+          value: v,
+        }
+      }
+    })
+  },
+  {
+    deep: true,
+    immediate: true,
+  },
+)
 
 function handlePlaceholder() {
   let res = attrs.disabled === undefined ? attrs.placeholder || '请输入' : props.disPlaceholder
@@ -128,6 +176,18 @@ const showPassword = computed(() => {
   }
   return false
 })
+
+// 新增对el-auto-complete的支持
+const querySearch = (queryString, cb) => {
+  const results = queryString ? restaurants.value.filter(createFilter(queryString)) : restaurants.value
+  cb(results)
+}
+
+const createFilter = (queryString: string) => {
+  return (v) => {
+    return v.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+  }
+}
 </script>
 
 <style lang="scss" scoped>
