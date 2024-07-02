@@ -11,33 +11,36 @@ const rules = {
   password: [proxy.validate()],
 }
 const changeIpt = (val) => {
-  console.log(`22 val`, val);
-  console.log("changeIpt");
+  console.log(`22 val`, val)
+  console.log('changeIpt')
 }
+const isDisabled = ref(true)
 
 const fieldList = [
   {
     label: '账号',
     prop: 'account',
+    placeholder: 'zhengc',
     type: 'input',
     comp: 'el-input',
     directives: {
       number: true,
     },
-
   },
   {
     label: '密码',
     prop: 'password',
-    comp: 'o-input',
+    comp: 'el-input',
+    placeholder: "请输入数字",
+    clearable: true,
     directives: {
       focus: true,
       number: true,
-      throttle: changeIpt
+      throttle: changeIpt,
     },
     on: {
-      input: changeIpt
-    }
+      input: changeIpt,
+    },
   },
 ]
 

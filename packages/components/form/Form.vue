@@ -18,12 +18,12 @@ const props = defineProps({
 const getPlaceholder = (row: any) => {
   if (row.comp && typeof row.comp == 'string') {
     if (row.comp.includes('input')) {
-      return '请输入' + row.label
+      return row.placeholder ?? '请输入' + row.label
     } else if (row.comp.includes('select') || row.comp.includes('date')) {
-      return '请选择' + row.label
+      return row.placeholder ?? '请选择' + row.label
     }
   }
-  return row.placeholder || ''
+  return row.placeholder ?? ''
 }
 
 const oFormRef = ref()
@@ -89,7 +89,7 @@ defineExpose({
             :is="v.comp || 'o-input'"
             :placeholder="getPlaceholder(v)"
             :rules="v.rules"
-            v-bind="{ clearable: true, filterable: true, ...v.attrs }"
+            v-bind="{ clearable: true, filterable: true, ...v }"
             v-directives="v.directives"
           ></component>
         </template>

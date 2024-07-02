@@ -58,13 +58,32 @@ export default function (app) {
 
   app.directive('number', {
     mounted(el) {
-      el = el.nodeName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
-      if (el.placeholder === '请输入') {
-        el.placeholder = '请输入数字'
+      const inputEl = el.nodeName === 'INPUT' ? el : el.querySelector('input')
+
+      if (!inputEl) {
+        console.error('v-number directive requires an input element')
+        return
       }
-      el.addEventListener('keyup', function () {
-        el.value = el.value.replace(/[^0-9]/g, '')
-        el.dispatchEvent(new Event('input'))
+
+      if (inputEl.placeholder === '请输入') {
+        inputEl.placeholder = '请输入数字'
+      }
+
+      inputEl.addEventListener('input', () => {
+        const cursorPosition = inputEl.selectionStart // 保存光标位置
+        const originalLength = inputEl.value.length // 保存原始长度
+
+        inputEl.value = inputEl.value.replace(/[^0-9]/g, '')
+
+        // 调整光标位置
+        const newLength = inputEl.value.length
+        const positionDifference = originalLength - newLength
+        inputEl.setSelectionRange(cursorPosition - positionDifference, cursorPosition - positionDifference)
+
+        // 使用 setTimeout 确保事件顺序
+        setTimeout(() => {
+          inputEl.dispatchEvent(new Event('input'))
+        })
       })
     },
   })
