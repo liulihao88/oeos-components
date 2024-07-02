@@ -26,11 +26,9 @@ const fieldList = [
         required: true,
       },
     ],
-    attrs: {
-      showPassword: true,
-      style: { width: '200px' },
-      clearable: false,
-    },
+    showPassword: true,
+    style: { width: '200px' },
+    clearable: false,
   },
   {
     label: '昵称',

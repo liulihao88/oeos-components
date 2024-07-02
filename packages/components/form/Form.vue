@@ -27,14 +27,11 @@ const getPlaceholder = (row: any) => {
 }
 
 const oFormRef = ref()
-async function validate() {
-  await proxy.validForm(oFormRef)
+async function validate(otherParams = {}) {
+  await proxy.validForm(oFormRef, otherParams)
 }
 function resetFields() {
   oFormRef.value.resetFields()
-}
-function innerSubmit() {
-  validate()
 }
 function mergeRules(rules) {
   if (proxy.isEmpty(rules)) {
@@ -67,7 +64,7 @@ defineExpose({
         :key="i"
         :prop="v.prop"
         :label="v.label"
-        v-bind="v.itemAttrs"
+        v-bind="v.formAttrs"
         :rules="mergeRules(v.rules)"
       >
         <!-- 将 Element Plus 表格的默认 slot 传递给您的组件 -->
@@ -89,7 +86,7 @@ defineExpose({
             :is="v.comp || 'o-input'"
             :placeholder="getPlaceholder(v)"
             :rules="v.rules"
-            v-bind="{ clearable: true, filterable: true, ...v }"
+            v-bind="{ clearable: true, filterable: true, ...v.attrs }"
             v-directives="v.directives"
           ></component>
         </template>

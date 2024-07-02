@@ -19,35 +19,36 @@ function onClear(...aaa) {
 
 const model = ref({
   account: '', // *用户账号
-  password: null, // *用户密码
+  pwd: null, // *用户密码
   sex: 'sex2',
+  lock: '',
   name: '',
 })
 const rules = {
   account: [proxy.validate()],
-  password: [proxy.validate()],
+  pwd: [proxy.validate()],
   name: [proxy.validate()],
-  // hobby: [proxy.validate('请选择')],
 }
 const fieldList = [
   {
     label: '账号',
     prop: 'account',
-    type: 'input',
     comp: 'el-input',
-    event: 'account',
+    placeholder: '我是特殊的placeholder',
     labelRender: () => {
-      return <div style="color: blue">好了</div>
+      return <div style="color: blue">好了好了好了好了好了好了</div>
     },
   },
   {
-    label: '密码',
-    prop: 'password',
-    type: 'password',
+    label: '密码1',
+    prop: 'pwd',
     comp: 'el-input',
     attrs: {
+      style: {
+        width: '200px',
+      },
+      type: 'password',
       showPassword: true,
-      width: '100',
       clearable: false,
     },
   },
@@ -60,7 +61,7 @@ const fieldList = [
     label: '选择爱好',
     prop: 'hobby',
     comp: 'o-select',
-    itemAttrs: {
+    formAttrs: {
       rules: cusRules.hobby,
     },
     attrs: {
@@ -88,6 +89,11 @@ const fieldList = [
       ],
     },
   },
+  {
+    label: '是否开启开关',
+    prop: 'lock',
+    comp: 'el-switch',
+  },
 
   {
     label: '描述',
@@ -101,24 +107,16 @@ const fieldList = [
 
 const gFormRef = ref()
 async function isTest16() {
-  await gFormRef.value.submit()
+  await gFormRef.value.validate({ detail: false })
   console.log(`***** 222  97行 test/t1.vue  15:52:04`)
-
   proxy.log(`model`, model, '98行 test/t1.vue')
-}
-function submit() {
-  console.log('submit')
-}
-function isTest66() {
-  console.log('isTest66')
 }
 </script>
 
 <template>
   <div>
     <o-form :model="model" :fieldList="fieldList" :rules="rules" ref="gFormRef">
-      <template #password-label>我是password啊</template>
-      <template #hobby-label>我是hobby啊</template>
+      <template #name-label>这里我是特殊的name的label</template>
       <template #name>
         <o-input v-model="model.name" placeholder="我是name" width="300" />
       </template>
