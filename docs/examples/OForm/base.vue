@@ -16,6 +16,7 @@ const rules = {
   name: [proxy.validate()],
   hobby: [proxy.validate('请选择')],
 }
+
 const fieldList = [
   {
     label: '账号',
@@ -43,9 +44,6 @@ const fieldList = [
     label: '爱好',
     prop: 'hobby',
     comp: 'o-select',
-    // itemAttrs: {
-    //   rules: cusRules.hobby,
-    // },
     attrs: {
       label: 'name',
       multiple: true,

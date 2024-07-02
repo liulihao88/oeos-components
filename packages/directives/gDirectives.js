@@ -35,6 +35,27 @@ export default function (app) {
     },
   })
 
+  app.directive('directives', {
+    mounted(el, binding) {
+      const directives = binding.value
+      const instance = binding.instance
+      const contextDirectives = instance.$.appContext.directives
+      if (!directives) {
+        return {}
+      }
+      Object.keys(directives).forEach((directive) => {
+        if (directives[directive]) {
+          const directiveFn = contextDirectives[directive]
+          if (directiveFn && directiveFn.mounted) {
+            directiveFn.mounted(el, { value: directives[directive], instance })
+          } else if (directiveFn && directiveFn.inserted) {
+            directiveFn.inserted(el, { value: directives[directive], instance })
+          }
+        }
+      })
+    },
+  })
+
   app.directive('number', {
     mounted(el) {
       el = el.nodeName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
@@ -110,6 +131,7 @@ export default function (app) {
     mounted(el, binding) {
       if (typeof binding.value !== 'function') {
         console.error('Directive value must be a function')
+
         return
       }
       let delay = 1000

@@ -90,6 +90,7 @@ defineExpose({
             :placeholder="getPlaceholder(v)"
             :rules="v.rules"
             v-bind="{ clearable: true, filterable: true, ...v.attrs }"
+            v-directives="v.directives"
           ></component>
         </template>
       </el-form-item>

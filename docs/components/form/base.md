@@ -17,3 +17,9 @@ OForm/usually
 :::demo 直接在一个对象里, 处理默认数据和校验规则
 OForm/remote
 :::
+
+### 自定义指令
+
+:::demo 直接在一个对象里, 处理默认数据和校验规则
+OForm/directives
+:::
