@@ -1,6 +1,7 @@
 import { unref, isRef, toRaw } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { isStringNumber, isNumber } from './types.js'
+import { consola } from 'consola'
 
 /**
  * @example
@@ -612,15 +613,13 @@ export function log(variableStr, variable, otherInfo = '') {
   }
   function _log(consoleData) {
     if (getType(consoleData) === 'object' || getType(consoleData) === 'array') {
-      /* @keep */
-      console.log(
+      consola.log(
         `%c${variableStr} ${otherInfo}`,
         'background:#fff; color: blue;font-size: 1.2em',
         JSON.stringify(consoleData, null, '\t'),
       )
     } else {
-      /* @keep */
-      console.log(`%c${variableStr} ${otherInfo}`, 'background:#fff; color: blue;font-size: 1.2em', consoleData)
+      consola.log(`%c${variableStr} ${otherInfo}`, 'background:#fff; color: blue;font-size: 1.2em', consoleData)
     }
   }
   function getType(type) {
