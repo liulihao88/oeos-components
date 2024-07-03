@@ -154,7 +154,6 @@ function _isObjectWithExclude(obj: object | string | []): obj is { exclude: { [k
 export function validForm(ref, { message = '表单校验错误, 请检查', detail = true, showMessage = true } = {}) {
   return new Promise((resolve, reject) => {
     unref(ref).validate((valid, status) => {
-      console.log(`41 status`, status)
       if (valid) {
         resolve(status)
       } else {
@@ -520,7 +519,6 @@ function _validValue(rules, msg, pureValid, reg) {
     return reg.test(rules)
   }
   const validatePhone = (rule, value, callback) => {
-    console.log(`54 reg`, reg)
     let validFlag = reg.test(value)
     if (!validFlag) {
       callback(new Error(rules.message ?? msg))
@@ -614,12 +612,14 @@ export function log(variableStr, variable, otherInfo = '') {
   }
   function _log(consoleData) {
     if (getType(consoleData) === 'object' || getType(consoleData) === 'array') {
+      /* @keep */
       console.log(
         `%c${variableStr} ${otherInfo}`,
         'background:#fff; color: blue;font-size: 1.2em',
         JSON.stringify(consoleData, null, '\t'),
       )
     } else {
+      /* @keep */
       console.log(`%c${variableStr} ${otherInfo}`, 'background:#fff; color: blue;font-size: 1.2em', consoleData)
     }
   }
@@ -667,10 +667,10 @@ export function toLine(text, connect = '-') {
   return translateText
 }
 
-// console.log(processWidth(200)) // { width: '200px' }
-// console.log(processWidth('200', true)) // 200px
-// console.log(processWidth('200.33px')) // { width: '200.33px' }
-// console.log(processWidth('')) // {}
+// processWidth(200) // { width: '200px' }
+// processWidth('200', true) // 200px
+// processWidth('200.33px') // { width: '200.33px' }
+// processWidth('') // {}
 export function processWidth(initValue, isBase = false) {
   let value = unref(initValue)
   let res = ''

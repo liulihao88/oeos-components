@@ -28,11 +28,17 @@ export default defineConfig({
     __buildInfos__: new Date(), // 将构建信息作为全局变量注入
   },
   plugins: [
-    terser({
-      compress: {
-        drop_console: true, // 删除console
-      },
-    }),
+    {
+      ...terser({
+        compress: {
+          drop_console: true, // 移除所有console语句
+        },
+        format: {
+          comments: /^@preserve|@keep/i, // 保留带有@preserve或@keep的注释
+        },
+      }),
+      apply: 'build',
+    },
     vue({
       include: [/\.vue$/],
     }),
