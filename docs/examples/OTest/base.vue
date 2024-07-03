@@ -2,7 +2,9 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 const val = ref('0')
-const isShow = ref(false);
+proxy.log(`val`, val, '5行 docs/examples/OTest/base.vue')
+
+const isShow = ref(false)
 const isTest77 = () => {
   isShow.value = true
   val.value = '0.00'
