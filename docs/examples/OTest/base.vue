@@ -6,9 +6,6 @@ proxy.log(`val`, val, "/cyrd/oeos-components/docs/examples/OTest/base.vue");
 proxy.log(`val`, val, "/cyrd/oeos-components/docs/examples/OTest/base.vue");
 proxy.log(`val`, val, "/cyrd/oeos-components/docs/examples/OTest/base.vue");
 
-
-
-
 console.log(`%c31 5行 docs/examples/OTest/base.vue val`,'background:#fff;color:blue', val);
 proxy.log(`val`, val, "/cyrd/oeos-components/docs/examples/OTest/base.vue");
 
