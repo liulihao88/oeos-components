@@ -599,12 +599,20 @@ export function formatThousands(number) {
   // 拼接数字和单位，并返回结果
   return numberWithSeparator + unit
 }
-
 /*
+*
+* @example
 const str = ref(11)
-proxy.log(`str`, str, "5行 test/t3.vue");
+proxy.log(`variableStr`, variableStr, "/cyrd/oeos-components/packages/utils/index.ts");
  */
 export function log(variableStr, variable, otherInfo = '') {
+  const stack = new Error().stack.split('\n')[2].trim() // 获取调用堆栈的第二行
+  const matchResult = stack.match(/\((.*):(\d+):(\d+)\)/)
+  let fileInfo = ''
+  if (matchResult && otherInfo) {
+    const lineNumber = matchResult[2]
+    fileInfo = `vscode://file/Users/andy${otherInfo}:${lineNumber}`
+  }
   if (isRef(variable)) {
     let unrefVariable = unref(variable)
     _log(toRaw(unrefVariable))
@@ -614,12 +622,13 @@ export function log(variableStr, variable, otherInfo = '') {
   function _log(consoleData) {
     if (getType(consoleData) === 'object' || getType(consoleData) === 'array') {
       consola.log(
-        `%c${variableStr} ${otherInfo}`,
-        'background:#fff; color: blue;font-size: 1.2em',
+        `%c${variableStr} `,
+        'background:#fff; color: blue;font-size: 0.8em',
         JSON.stringify(consoleData, null, '\t'),
+        `${fileInfo}`,
       )
     } else {
-      consola.log(`%c${variableStr} ${otherInfo}`, 'background:#fff; color: blue;font-size: 1.2em', consoleData)
+      consola.log(`%c${variableStr} `, 'background:#fff; color: blue;font-size: 0.8em', consoleData, `${fileInfo}`)
     }
   }
   function getType(type) {
