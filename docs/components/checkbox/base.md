@@ -1,5 +1,7 @@
 # checkbox多选框组件
 
+https://element-plus.org/zh-CN/component/checkbox.html
+
 ## 基础用法
 
 :::demo 这是checkbox的最基础用法

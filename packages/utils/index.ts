@@ -20,18 +20,27 @@ export function $toast(message, type: string | object = 'success', otherParams: 
     e: 'error',
     w: 'warning',
   }
-  ElMessage.closeAll()
+
   if (getType(message) === 'object') {
+    if (message.clodeAll) {
+      ElMessage.closeAll()
+    }
     ElMessage(message)
     return
   }
   if (getType(type) === 'object') {
+    if (type.clodeAll) {
+      ElMessage.closeAll()
+    }
     ElMessage({
       message: message,
       type: 'success',
       ...(type as object),
     })
     return
+  }
+  if (otherParams.closeAll) {
+    ElMessage.closeAll()
   }
   ElMessage({
     message: message,
@@ -289,7 +298,7 @@ export function formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
 }
 
 /**
-* 生成 UUID
+ * 生成 UUID
  * @param {string} [type=''] - 生成 UUID 的类型，可以是 'phone', 'email', 'time', 'number' 或空字符串
  * @param {number} [length=4] - 生成字符串的长度
  * @param {object} [options={}] - 额外的选项

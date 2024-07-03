@@ -1,5 +1,7 @@
 # dialog(弹出框)组件
 
+https://element-plus.org/zh-CN/component/dialog.html
+
 ## 基础用法
 
 :::demo

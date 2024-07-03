@@ -1,17 +1,20 @@
 ```python
-import { ElMessage } from 'element-plus'
 import { unref, isRef, toRaw } from 'vue'
 import { cloneDeep } from 'lodash-es'
+import { isStringNumber, isNumber } from './types.js'
+
 /**
- * proxy.$toast('保存成功')
- * proxy.$toast('保存失败', 'error')
- *
-proxy.$toast({
-  message: 'andy',
-  type: 'warning',
-})
- */
-export function $toast(message, type = 'success', otherParams = {}) {
+ * @example
+  proxy.$toast('保存成功')
+  proxy.$toast('保存失败', 'e')
+  proxy.$toast({
+    message: 'andy',
+    type: 'warning',
+  })
+* $toast.success('This is a success message')
+*/
+import { ElMessage, ElMessageBox } from 'element-plus'
+export function $toast(message, type: string | object = 'success', otherParams: object = {}) {
   const map = {
     s: 'success',
     i: 'info',
@@ -27,58 +30,59 @@ export function $toast(message, type = 'success', otherParams = {}) {
     ElMessage({
       message: message,
       type: 'success',
-      ...type,
+      ...(type as object),
     })
     return
   }
   ElMessage({
     message: message,
-    type: map[type] || type,
+    type: map[type as string] || type,
     ...otherParams,
   })
 }
+// Add shorthand methods for each type of message
+$toast.success = (message, otherParams = {}) => $toast(message, 'success', otherParams)
+$toast.info = (message, otherParams = {}) => $toast(message, 'info', otherParams)
+$toast.error = (message, otherParams = {}) => $toast(message, 'error', otherParams)
+$toast.warning = (message, otherParams = {}) => $toast(message, 'warning', otherParams)
 
-export function setStorage(str, params, isLocal = true) {
+export function setStorage(storageName: string, params: any, isSession = false) {
   let handleParams
   if (typeof params === 'number' || typeof params === 'string') {
     handleParams = params
   } else {
     handleParams = JSON.stringify(params)
   }
-  if (isLocal) {
-    localStorage.setItem(str, handleParams)
+  if (isSession) {
+    sessionStorage.setItem(storageName, handleParams)
   } else {
-    sessionStorage.setItem(str, handleParams)
+    localStorage.setItem(storageName, handleParams)
   }
 }
 
-export function getStorage(data, isLocal = true) {
+export function getStorage(data, isSession = false) {
   // 先获取localStorage数据, 如果没有再获取sessionStorage数据。 如果都没有， null;
   let getLocalData = ''
   let getSessionData = ''
   // 如果isSessionFirst为true, 先判断sessionStorage, 后判断localStorage
-  if (isLocal) {
-    getLocalData = localStorage.getItem(data)
-  } else {
+  if (isSession) {
     getSessionData = sessionStorage.getItem(data)
+  } else {
+    getLocalData = localStorage.getItem(data)
   }
   if (getLocalData) {
     try {
       if (typeof JSON.parse(getLocalData) !== 'number') {
         getLocalData = JSON.parse(getLocalData)
       }
-    } catch (e) {
-      // console.log('e', e);
-    }
+    } catch (e) {}
     return getLocalData
   } else if (getSessionData) {
     try {
       if (typeof JSON.parse(getSessionData) !== 'number') {
         getSessionData = JSON.parse(getSessionData)
       }
-    } catch (e) {
-      // console.log('e2', e);
-    }
+    } catch (e) {}
     return getSessionData
   }
   return null
@@ -91,49 +95,70 @@ export function getStorage(data, isLocal = true) {
  * @example
  * clearStorage()
  * clearStorage('loginId')
- * clearStorage('', {exceptSessions: ['loginId']});
+ * clearStorage(['loginId', 'token'])
+ * clearStorage({ exclude: ['loginId', 'token'] })
  */
-export function clearStorage(str = '', { exceptSessions = [], exceptLocals = [] } = {}) {
-  let sessionList = {}
-  let localList = {}
-  if (exceptSessions.length > 0) {
-    exceptSessions.forEach((v) => {
-      sessionList[v] = getStorage(v, true)
-    })
-  }
-  if (exceptLocals.length > 0) {
-    exceptLocals.forEach((v) => {
-      localList[v] = getStorage(v)
-    })
-  }
-  if (!str) {
+export function clearStorage(str: string | [] | object = '') {
+  if (isEmpty(str)) {
     sessionStorage.clear()
     localStorage.clear()
-  } else {
-    sessionStorage.removeItem(str)
-    localStorage.removeItem(str)
   }
-  for (const key in sessionList) {
-    const value = sessionList[key]
-    setStorage(key, value)
+  if (notEmpty(str) && getType(str) !== 'object') {
+    let strArr = Array.isArray(str) ? str : [str]
+    for (let i = 0; i < strArr.length; i++) {
+      sessionStorage.removeItem(strArr[i])
+      localStorage.removeItem(strArr[i])
+    }
   }
-  for (const key in localList) {
-    const value = localList[key]
-    setStorage(key, value, true)
+  if (_isObjectWithExclude(str)) {
+    if (notEmpty(str.exclude) && getType(str) === 'object') {
+      let sessionStorageObj = {}
+      let localStorageObj = {}
+      for (const key in str.exclude) {
+        if (Object.prototype.hasOwnProperty.call(str.exclude, key)) {
+          const name = str.exclude[key]
+          if (getStorage(name)) {
+            localStorageObj[name] = getStorage(name)
+          }
+          if (getStorage(name, true)) {
+            sessionStorageObj[name] = getStorage(name, true)
+          }
+        }
+      }
+      sessionStorage.clear()
+      localStorage.clear()
+      for (const key in sessionStorageObj) {
+        setStorage(key, sessionStorageObj[key], true)
+      }
+      for (const key in localStorageObj) {
+        setStorage(key, localStorageObj[key])
+      }
+    }
   }
+}
+// 自定义类型守卫函数
+function _isObjectWithExclude(obj: object | string | []): obj is { exclude: { [key: string]: string } } {
+  return typeof obj === 'object' && obj !== null && 'exclude' in obj && typeof obj.exclude === 'object'
 }
 
 // await proxy.validForm(formRef);
-export function validForm(ref, { errorText = '表单校验有误, 请检查' } = {}) {
+// await proxy.validForm(formRef, {showMessage: false})
+export function validForm(ref, { message = '表单校验错误, 请检查', detail = true, showMessage = true } = {}) {
   return new Promise((resolve, reject) => {
     unref(ref).validate((valid, status) => {
+      console.log(`41 status`, status)
       if (valid) {
-        resolve()
+        resolve(status)
       } else {
-        if (errorText) {
-          $toast(errorText, 'e')
+        if (message && showMessage) {
+          let errorText = Object.keys(status)
+          let toastMessage = message
+          if (detail) {
+            toastMessage = message + errorText.join(',')
+          }
+          $toast(toastMessage, 'e')
         }
-        reject()
+        reject(status)
       }
     })
   })
@@ -143,24 +168,26 @@ export function validForm(ref, { errorText = '表单校验有误, 请检查' } =
  * 判断变量是否空值
  * undefined, null, '', '   ', false, 0, [], {} 均返回true，否则返回false
  */
-export function isEmpty(sendData) {
-  let v = unref(sendData)
-  switch (typeof v) {
+export function isEmpty(data: any): boolean {
+  if (isRef(data)) {
+    data = unref(data)
+  }
+  switch (typeof data) {
     case 'undefined':
       return true
     case 'string':
-      if (v.trim().length === 0) return true
+      if (data.trim().length === 0) return true
       break
     case 'boolean':
-      if (!v) return true
+      if (!data) return true
       break
     case 'number':
-      if (0 === v) return true
+      if (0 === data) return true
       break
     case 'object':
-      if (null === v) return true
-      if (undefined !== v.length && v.length === 0) return true
-      for (var k in v) {
+      if (null === data) return true
+      if (undefined !== data.length && data.length === 0) return true
+      for (var k in data) {
         return false
       }
       return true
@@ -168,12 +195,14 @@ export function isEmpty(sendData) {
   return false
 }
 // 非空
-export function notEmpty(v) {
+export function notEmpty(v: any): boolean {
   return !isEmpty(v)
 }
 
-// 将两个对象合并, 以第二个对象为准, 如果两个对象, 一个属性有值, 一个没值, name合并后有值; 如果两个属性都有值, 以第二个属性为准
-export function merge(obj1, obj2) {
+/**
+ *  将两个对象合并, 以第二个对象为准, 如果两个对象, 一个属性有值, 一个没值, 合并后有值; 如果两个属性都有值, 以第二个属性为准
+ *  */
+export function merge(obj1: object, obj2: object): object {
   let merged = { ...obj1, ...obj2 }
   for (let key in merged) {
     if (!isEmpty(obj1[key]) && !isEmpty(obj2[key])) {
@@ -188,14 +217,17 @@ export function merge(obj1, obj2) {
 }
 
 /**
- * 深克隆对象
- * @param {*} data, 传递的数据
- * @param {*} times, 复制的次数, 仅对数组生效
- * @returns 深克隆数据
+ * 克隆数据并根据需要复制数组
+ * @param {any} data - 要克隆的数据
+ * @param {number} [times=1] - 如果是数组，要复制的次数
+ * @returns {any} - 克隆后的数据或复制后的数组
  * clone(123) => 123
  * clone([1,2, {name: 'andy'}], 2) => [1, 2, {name: 'andy'}, 1, 2, {name: 'andy'}]
  */
 export function clone(data, times = 1) {
+  if (isRef(data)) {
+    data = unref(data)
+  }
   // Check if the data is not an array
   if (getType(data) !== 'array') {
     // If not an array, return a deep clone of the data
@@ -224,7 +256,10 @@ export function clone(data, times = 1) {
  * formatTime(new Date()); //2018-11-11 17:13:21
  * formatTime(new Date().getTime()); //2018-11-11 17:13:21
  */
-export function formatTime(time = new Date(), cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
+export function formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
+  if (!time) {
+    return time
+  }
   let date
   if (typeof time === 'object') {
     date = time
@@ -255,7 +290,15 @@ export function formatTime(time = new Date(), cFormat = '{y}-{m}-{d} {h}:{i}:{s}
 }
 
 /**
- * 生成随机数, 第一个参数可传字符串, 空 或者数组
+* 生成 UUID
+ * @param {string} [type=''] - 生成 UUID 的类型，可以是 'phone', 'email', 'time', 'number' 或空字符串
+ * @param {number} [length=4] - 生成字符串的长度
+ * @param {object} [options={}] - 额外的选项
+ * @param {string} [options.emailStr='@qq.com'] - 生成 email 时使用的后缀
+ * @param {string} [options.timeStr='{m}-{d} {h}:{i}:{s}'] - 生成时间字符串的格式
+ * @param {string} [options.startStr=''] - 起始字符串
+ * @param {number|null} [options.optionsIndex=null] - 数组索引
+ * @returns {string|number} - 生成的 UUID
  * uuid("名字") => 名字hc8f
  * uuid() => abcd
  * uuid('time') => 25MR 10-27 17:34:01
@@ -265,6 +308,7 @@ export function formatTime(time = new Date(), cFormat = '{y}-{m}-{d} {h}:{i}:{s}
  * uuid('number') => 2319
  * uuid([ { label: "小泽泽", value: "xzz" },{ label: "小月月", value: "xyy" }]) => xzz
  */
+
 export function uuid(
   type = '',
   length = 4,
@@ -272,6 +316,9 @@ export function uuid(
 ) {
   let randomStr = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
   let res = type
+  if (isRef(type)) {
+    type = unref(type)
+  }
   // 如果传的第一个参数的数组， 说明是下拉框。 下拉框获取的是数组的第一项的值
   if (getType(type) === 'array' && type.length > 0) {
     let randNum = random(0, type.length - 1)
@@ -285,10 +332,10 @@ export function uuid(
   // 如果是手机号, 生成随机手机号
   if (type === 'phone') {
     let prefixArray = new Array('130', '131', '132', '133', '135', '136', '137', '138', '170', '187', '189')
-    let i = parseInt(10 * Math.random())
+    let i = parseInt(Math.random() * 10)
     let res = prefixArray[i]
     for (var j = 0; j < 8; j++) {
-      res = res + Math.floor(Math.random() * 10)
+      res += Math.floor(Math.random() * 10)
     }
     return res
   }
@@ -309,6 +356,7 @@ export function uuid(
     }
     return Number(res)
   }
+  // 生成随机字符串
   for (let i = length; i > 0; --i) {
     res += randomStr[Math.floor(Math.random() * randomStr.length)]
   }
@@ -343,20 +391,25 @@ export function sleep(delay = 0, fn) {
   )
 }
 
-/** @使用方式
-name: [proxy.validate(), proxy.validate('name', { message: '你干嘛哈哈' })],
-between: [proxy.validate(), proxy.validate('between', { max: 99 })],
-number: [proxy.validate(), proxy.validate('number')],
-length: [proxy.validate('length'), proxy.validate()],
-phone: [proxy.validate(), proxy.validate('phone')],
+/** @使用方式 
+ * 1. 在el-form中使用
+name: [ proxy.validate('name', { message: '你干嘛哈哈' })],
+between: [ proxy.validate('between', { max: 99 })],
+number: [ proxy.validate('number')],
+length: [proxy.validate('length')],
+phone: [ proxy.validate('phone')],
+custom: [proxy.validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })]
 confirmRegPwd: [
   proxy.validate('same', { value: toRef(form.value, 'regPwd') }),
 ],
+ * 2. 在函数中使用, 返回boolean
+ let ip = proxy.validate('ip', 122322, true)
+ let custom = proxy.validate('custom', { value: -123, reg: /^-\d+\.?\d{0,2}$/ }, true)
 */
 
-export function validate(type = 'required', rules = {}) {
-  const trigger = rules.trigger || ['blur', 'change']
-  const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'same', 'length', 'ip', 'port']
+export function validate(type = 'required', rules = {}, pureValid = false) {
+  let trigger = rules.trigger || ['blur', 'change']
+  const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'same', 'length', 'ip', 'port', 'custom']
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
   if (!typeMaps.includes(type)) {
     return {
@@ -368,7 +421,7 @@ export function validate(type = 'required', rules = {}) {
   if (type === 'required') {
     return {
       required: true,
-      message: rules.message || '请输入 ',
+      message: rules.message ?? '请输入 ',
       trigger: trigger,
     }
   }
@@ -389,64 +442,26 @@ export function validate(type = 'required', rules = {}) {
     }
   }
   if (type === 'number') {
-    const validateNumber = (rule, value, callback) => {
-      let validFlag = /^[0-9]+$/.test(value)
-      if (!validFlag) {
-        callback(new Error('请输入数字'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      validator: validateNumber,
-      trigger: trigger,
-    }
+    return _validValue(rules, '请输入正整数', pureValid, /^[0-9]+$/)
   }
   if (type === 'mobile') {
-    const validatePhone = (rule, value, callback) => {
-      let validFlag = new RegExp('^[1][0-9]{10}$').test(value)
-      if (!validFlag) {
-        callback(new Error('请输入正确的手机号'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      validator: validatePhone,
-      trigger: trigger,
-    }
+    return _validValue(rules, '请输入正确的手机号', pureValid, /^[1][0-9]{10}$/)
   }
   if (type === 'ip') {
-    const validatePhone = (rule, value, callback) => {
-      let ipReg = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
-      let validFlag = ipReg.test(value)
-      console.log(`validFlag`, validFlag)
-      if (!validFlag) {
-        callback(new Error('请输入正确的ip地址'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      validator: validatePhone,
-      trigger: trigger,
-    }
+    return _validValue(
+      rules,
+      '请输入正确的ip地址',
+      pureValid,
+      /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
+    )
   }
   if (type === 'port') {
-    const validatePhone = (rule, value, callback) => {
-      let ipReg = /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/
-      let validFlag = ipReg.test(value)
-      console.log(`validFlag`, validFlag)
-      if (!validFlag) {
-        callback(new Error('请输入1-65535之间的端口号'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      validator: validatePhone,
-      trigger: trigger,
-    }
+    return _validValue(
+      rules,
+      '请输入1-65535的端口号',
+      pureValid,
+      /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/,
+    )
   }
   if (type === 'between') {
     let min = rules.min || 1
@@ -480,13 +495,40 @@ export function validate(type = 'required', rules = {}) {
     }
     return {
       validator: validateSame,
-      trigger: [blur, trigger],
+      trigger: trigger,
     }
+  }
+  if (type === 'custom') {
+    //  _validValue(rules, '请输入正确的手机号', pureValid, /^[1][0-9]{10}$/)
+    if (pureValid) {
+      return _validValue(rules.value, rules.message, pureValid, rules.reg)
+    } else {
+      return _validValue(rules, rules.message, pureValid, rules.reg)
+    }
+  }
+}
+function _validValue(rules, msg, pureValid, reg) {
+  if (pureValid === true) {
+    return reg.test(rules)
+  }
+  const validatePhone = (rule, value, callback) => {
+    console.log(`54 reg`, reg)
+    let validFlag = reg.test(value)
+    if (!validFlag) {
+      callback(new Error(rules.message ?? msg))
+    } else {
+      callback()
+    }
+  }
+  return {
+    validator: validatePhone,
+    required: true,
+    trigger: rules.trigger || ['blur', 'change'],
   }
 }
 
 /**
- *
+ * 
 const { res, err } = await proxy.asyncWrapper(listTests, pickForm);
 if (err) {
 	return;
@@ -520,7 +562,7 @@ export function globalImageUrl(photoName) {
  * copy('这是要复制的文本', {duration: 500});
  *
  *  */
-export const copy = (text, ...otherParams) => {
+export const copy = (text, ...toastParams) => {
   const textarea = document.createElement('textarea')
   textarea.value = text
   textarea.style.position = 'fixed'
@@ -528,17 +570,13 @@ export const copy = (text, ...otherParams) => {
   textarea.select()
   document.execCommand('copy')
   document.body.removeChild(textarea)
-  if (!otherParams.hideToast) {
-    if (otherParams.customText) {
-      $toast(customText, ...otherParams)
-    } else {
-      $toast(text + '复制成功', ...otherParams)
-    }
+  if (!toastParams.hideToast) {
+    $toast(text + '复制成功', ...toastParams)
   }
 }
 
 // 给数字加千分位
-export function addThousandSeparator(number) {
+export function formatThousands(number) {
   // 提取数字部分和单位部分
   let matches = ('' + number).match(/^([\d,]+)(\D+)?$/)
   if (!matches) {
@@ -559,7 +597,7 @@ export function addThousandSeparator(number) {
 const str = ref(11)
 proxy.log(`str`, str, "5行 test/t3.vue");
  */
-export function log(variableStr, variable, otherInfo = '16行 src/views/test/t3.vue') {
+export function log(variableStr, variable, otherInfo = '') {
   if (isRef(variable)) {
     let unrefVariable = unref(variable)
     _log(toRaw(unrefVariable))
@@ -648,4 +686,129 @@ export function processWidth(initValue, isBase = false) {
   }
   return { width: res }
 }
+
+/**
+ * 只有对正整数或者字符串正整数才进行单位的转换,
+ * 否则返回原始数据
+ *
+ */
+export function formatBytes(bytes) {
+  if (isStringNumber(bytes) || isNumber(bytes)) {
+    bytes = Number(bytes)
+  } else {
+    return bytes
+  }
+  if (bytes < 0 || !bytes) {
+    return bytes
+  }
+
+  const k = 1024
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+}
+export function formatBytesConvert(bytes) {
+  if (isStringNumber(bytes) || isNumber(bytes)) {
+    return bytes
+  }
+  if (!bytes) {
+    return bytes
+  }
+  const bytesRegex = /^(\d+(?:\.\d+)?)\s*([BKMGTPEZY]?B)$/i
+  const units = {
+    B: 1,
+    KB: 1024,
+    MB: 1024 ** 2,
+    GB: 1024 ** 3,
+    TB: 1024 ** 4,
+    PB: 1024 ** 5,
+    EB: 1024 ** 6,
+    ZB: 1024 ** 7,
+    YB: 1024 ** 8,
+  }
+
+  const match = bytes.match(bytesRegex)
+  if (!match) {
+    console.warn("Invalid bytes format. Please provide a valid bytes string, like '100GB'.")
+    return
+  }
+
+  const size = parseFloat(match[1])
+  const unit = match[2].toUpperCase()
+
+  if (!units.hasOwnProperty(unit)) {
+    console.warn(
+      "Invalid bytes unit. Please provide a valid unit, like 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', or 'YB'.",
+    )
+    return
+  }
+
+  return size * units[unit]
+}
+
+export function throttle(fn, delay = 1000) {
+  // last为上一次触发毁掉的时间，timer是定时器
+  let last = 0
+  let timer = null
+  // 将throttle处理结果当做函数返回
+  return function () {
+    // 保留调用时的this上下文
+    let context = this
+    // 保留调用时传入的参数
+    let args = arguments
+    // 记录本次触发回调的时间
+    let now = +new Date()
+    // 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值
+    if (now - last < delay) {
+      // 如果时间间隔小于设定的时间间隔阈值,则为本次触发操作设立一个新的定时器
+      clearTimeout(timer)
+      timer = setTimeout(function () {
+        last = now
+        fn.apply(context, args)
+      }, delay)
+    } else {
+      // 如果时间间隔超出了设定的时间间隔阈值，那就不等了，无论如何要反馈给用户一次响应
+      last = now
+      fn.apply(context, args)
+    }
+  }
+}
+
+export function debounce(fn, delay = 1000) {
+  let timer = null
+  return function () {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      fn.apply(this, arguments)
+      timer = null
+    }, delay)
+  }
+}
+
+/**
+ * proxy.confirm('内容')
+ * proxy.confirm('哈哈', { icon: 'el-icon-plus' })
+ * close-on-click-modal: 是否可通过点击遮罩层关闭 MessageBox 默认true
+ * lock-scroll: 是否在 MessageBox 出现时将 body 滚动锁定. 默认true
+ */
+export function confirm(message, options) {
+  const baseOptions = {
+    title: '提示',
+    draggable: true,
+    showCancelButton: false,
+  }
+  let mergeOptions = Object.assign({}, baseOptions, options)
+  return new Promise((r, j) => {
+    ElMessageBox.confirm(message, mergeOptions)
+      .then(() => {
+        r()
+      })
+      .catch(() => {
+        j()
+      })
+  })
+}
+
 ```
