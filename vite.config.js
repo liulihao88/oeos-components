@@ -5,7 +5,7 @@ import { codeInspectorPlugin } from 'code-inspector-plugin'
 import pkg from './package.json'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import terser from '@rollup/plugin-terser'
-import { customVitePluginFilePath } from './packages/utils/index.ts'
+import { customVitePluginFilePath } from './packages/utils/customVitePluginFilePath.js'
 
 export default defineConfig({
   build: {
