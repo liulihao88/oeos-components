@@ -609,11 +609,16 @@ export function log(variableStr, variable, otherInfo = '') {
   const stack = new Error().stack.split('\n')[2].trim() // 获取调用堆栈的第二行
   const matchResult = stack.match(/\((.*):(\d+):(\d+)\)/)
   let fileInfo = ''
-  if (matchResult && otherInfo) {
-    const lineNumber = matchResult[2]
-    console.log(`67 matchResult`, matchResult)
-    fileInfo = `vscode://file${JSON.parse(otherInfo)}:${lineNumber}`
+  try {
+    if (matchResult && otherInfo) {
+      const lineNumber = matchResult[2]
+      console.log(`67 matchResult`, matchResult)
+      fileInfo = `vscode://file${JSON.parse(otherInfo)}:${lineNumber}`
+    }
+  } catch (error) {
+    fileInfo = otherInfo
   }
+
   if (isRef(variable)) {
     let unrefVariable = unref(variable)
     _log(toRaw(unrefVariable))
