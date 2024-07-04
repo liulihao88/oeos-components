@@ -2,7 +2,7 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 const isShow = ref(false)
-
+proxy.log(`isShow`, isShow, '__INJECT_FILE_PATH__')
 </script>
 
 <template>

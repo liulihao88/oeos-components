@@ -3,6 +3,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import { fileURLToPath, URL } from 'node:url'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
 import terser from '@rollup/plugin-terser'
+import { customVitePluginFilePath } from '../packages/utils/index.ts'
 export default defineConfig({
   plugins: [
     vueJsx(),
@@ -14,6 +15,7 @@ export default defineConfig({
         drop_console: true, // 删除console
       },
     }),
+    customVitePluginFilePath(),
   ],
   resolve: {
     alias: {

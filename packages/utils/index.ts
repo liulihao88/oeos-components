@@ -611,7 +611,8 @@ export function log(variableStr, variable, otherInfo = '') {
   let fileInfo = ''
   if (matchResult && otherInfo) {
     const lineNumber = matchResult[2]
-    fileInfo = `vscode://file/Users/andy${otherInfo}:${lineNumber}`
+    console.log(`67 matchResult`, matchResult)
+    fileInfo = `vscode://file${JSON.parse(otherInfo)}:${lineNumber}`
   }
   if (isRef(variable)) {
     let unrefVariable = unref(variable)
@@ -825,4 +826,18 @@ export function confirm(message, options) {
         j()
       })
   })
+}
+
+// custom-vite-plugin-file-path.js
+export function customVitePluginFilePath() {
+  return {
+    name: 'custom-vite-plugin-file-path',
+    transform(src, id) {
+      if (id.endsWith('.js') || id.endsWith('.ts') || id.endsWith('.vue') || id.endsWith('.tsx')) {
+        const filePath = JSON.stringify(id)
+        src = src.replace(`__INJECT_FILE_PATH__`, filePath)
+      }
+      return src
+    },
+  }
 }
