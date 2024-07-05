@@ -25,7 +25,7 @@ function change(checkValue) {
       size="small"
       showType="button"
       value="id"
-      :checkboxDisabled="(item) => item.id === 'xrr'"
+      :customDisabled="(item) => item.id === 'xrr'"
     ></o-checkbox>
   </div>
 </template>

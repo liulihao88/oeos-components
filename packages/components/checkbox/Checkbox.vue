@@ -6,7 +6,7 @@
   value="id"
   :showAll="false"
   label="name"
-  :checkboxDisabled="judgeDisabled"
+  :customDisabled="judgeDisabled"
 ></o-checkbox>
 */
 import { ref, getCurrentInstance, watch, computed } from 'vue'
@@ -43,15 +43,11 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  select: {
-    type: Array,
-    default: () => [],
-  },
-  subAttrs: {
+  attrs: {
     type: Object,
     default: () => {},
   },
-  checkboxDisabled: {
+  customDisabled: {
     type: Function,
     default: () => {},
   },
@@ -151,12 +147,12 @@ function handleLabel(item, index) {
       <slot>
         <component
           :is="checkType"
-          v-bind="subAttrs"
+          v-bind="attrs"
           v-for="(item, index) in props.options"
           :key="index"
           :value="props.type === 'simple' ? item : item[props.value!]"
           :label="props.type === 'simple' ? item : item[props.label!]"
-          :disabled="props.checkboxDisabled(item)"
+          :disabled="props.customDisabled(item)"
         >
           <slot :name="props.type === 'simple' ? item : item.slot" v-bind="props.type === 'simple' ? {} : item">
             {{ handleLabel(item, index) }}

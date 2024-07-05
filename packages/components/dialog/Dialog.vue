@@ -2,7 +2,6 @@
   <div class="o-dialog">
     <el-dialog
       :custom-class="getThemeClass"
-      :class="!border && 'hide-title-border'"
       v-bind="{
         width: '640px',
         closeOnClickModal: true,
@@ -80,10 +79,6 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  border: {
-    type: Boolean,
-    default: true,
-  },
   confirmAttrs: {
     type: Object,
     default: () => ({}),
@@ -91,11 +86,6 @@ const props = defineProps({
   cancelAttrs: {
     type: Object,
     default: () => ({}),
-  },
-  // 允许自动清空的表单名, 默认form
-  formData: {
-    type: String,
-    default: 'form',
   },
 })
 const getThemeClass = computed(() => {
