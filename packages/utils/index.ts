@@ -429,17 +429,17 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
   if (type === 'required') {
     return {
       required: true,
-      message: rules.message ?? '请输入 ',
+      message: rules.message ?? '请输入',
       trigger: trigger,
     }
   }
 
   // validator: this.validateName,
-  if (type === 'pwd') {
+  if (type === 'password') {
     const validateName = (rule, value, callback) => {
-      let validFlag = /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value)
+      let validFlag = /^[a-zA-Z0-9_-]+$/.test(value)
       if (!validFlag) {
-        callback(new Error(rules.message || '密码需由中文、英文、数字、下划线组成，且不能以下划线开头和结尾'))
+        callback(new Error(rules.message || '密码只能由英文、数字、下划线、中划线组成'))
       } else {
         callback()
       }
@@ -449,8 +449,21 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
       trigger: trigger,
     }
   }
-  if (type === 'number') {
-    return _validValue(rules, '请输入正整数', pureValid, /^[0-9]+$/)
+  if (type === 'positive' || type === 'number') {
+    // 正整数
+    return _validValue(rules, '请输入正整数', pureValid, /^[1-9]+\d*$/)
+  }
+  if (type === 'zeroPositive') {
+    // 正整数且包含0
+    return _validValue(rules, '请输入非负整数', pureValid, /^(0|[1-9]+\d*)$/)
+  }
+  // 整数, 包含负数和0
+  if (type === 'integer') {
+    return _validValue(rules, '请输入整数', pureValid, /^(0|[-]?[1-9]\d*)$/)
+  }
+  // 非负数, 整数和最多2位小数
+  if (type === 'decimal') {
+    return _validValue(rules, '请输入非负数字, 包含小数且最多2位', pureValid, /(0|[1-9]\d*)(\.\d{1, 2})?|0\.\d{1,2}/)
   }
   if (type === 'mobile') {
     return _validValue(rules, '请输入正确的手机号', pureValid, /^[1][0-9]{10}$/)
@@ -834,4 +847,3 @@ export function confirm(message, options) {
 }
 
 // custom-vite-plugin-file-path.js
-
