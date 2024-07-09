@@ -87,6 +87,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  enableConfirm: { // 是否允许使用enter键, 点击确定按钮
+    type: Boolean,
+    defalut: true,
+  },
 })
 const getThemeClass = computed(() => {
   if (props.theme === 'norm') {
@@ -109,13 +113,12 @@ function confirm() {
 }
 
 function handleClose() {
-  console.log(`***** 71 122行 packages/components/dialog/Dialog.vue`)
   emits('update:modelValue', false)
 }
 
 // 只有当弹框的时候, 且按的是回车键, 才走confirm
 function onkeypress({ code }: KeyboardEvent) {
-  if (attrs.modelValue === true && code === 'Enter') {
+  if (attrs.modelValue === true && code === 'Enter' && props.enableConfirm) {
     confirm()
   }
 }

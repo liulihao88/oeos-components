@@ -144,7 +144,8 @@ defineExpose({})
         >
           <template #default="scope">
             <template v-for="(val, idx) in v.baseBtns" :key="idx">
-              <template v-if="val.reConfirm === true">
+              <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
+              <template v-else-if="val.reConfirm === true">
                 <o-popconfirm trigger="click" @confirm="val.handler?.(scope.row, scope)">
                   <el-button
                     v-if="!val.confirmInfo"
@@ -176,7 +177,8 @@ defineExpose({})
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item v-for="(val, idx) in v.hideBtns" :key="idx" :hide-on-click="false">
-                      <template v-if="val.reConfirm === true">
+                      <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
+                      <template v-else-if="val.reConfirm === true">
                         <o-popconfirm trigger="hover" @confirm="val.handler?.(scope.row, scope)">
                           <el-button
                             v-if="!val.confirmInfo"
