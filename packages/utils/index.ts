@@ -298,6 +298,56 @@ export function formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
 }
 
 /**
+ *
+ * @param timestamp 持续的时间戳
+ * @param cFormat 格式化的规则
+ * @returns 天时分秒的字符串
+ * @example
+ * formatDurationTime(1162821) => 19分24秒
+ */
+export function formatDurationTime(timestamp, cFormat = '{d} 天 {h} 时 {i} 分 {s} 秒') {
+  const secondsPerMinute = 60
+  const minutesPerHour = 60
+  const hoursPerDay = 24
+  let totalSeconds = Math.floor(timestamp / 1000)
+  let days = 0
+  // 只有返回天了, 才计算时间有多少天
+  if (cFormat.indexOf('d') !== -1) {
+    days = Math.floor(totalSeconds / (secondsPerMinute * minutesPerHour * hoursPerDay))
+    totalSeconds %= secondsPerMinute * minutesPerHour * hoursPerDay
+  }
+  // 计算总秒数
+  let hours = Math.floor(totalSeconds / (secondsPerMinute * minutesPerHour))
+  totalSeconds %= secondsPerMinute * minutesPerHour
+  let minutes = Math.floor(totalSeconds / secondsPerMinute)
+  let seconds = totalSeconds % secondsPerMinute
+  const formatObj = {
+    d: days,
+    h: hours,
+    i: minutes,
+    s: seconds,
+  }
+  let parseFormat = cFormat
+  if (days === 0) {
+    parseFormat = cFormat.match(/{h}.*/g)[0]
+    if (hours === 0) {
+      parseFormat = cFormat.match(/{i}.*/g)[0]
+      if (minutes === 0) {
+        parseFormat = cFormat.match(/{s}.*/g)[0]
+      }
+    }
+  }
+  const time_str = parseFormat.replace(/{(y|m|d|h|i|s)+}/g, (result, key) => {
+    let value = formatObj[key] // Note: getDay() returns 0 on Sunday
+    if (result.length > 0 && value < 10 && value != 0) {
+      value = '0' + value
+    }
+    return value || '00'
+  })
+  return time_str
+}
+
+/**
  * 生成 UUID
  * @param {string} [type=''] - 生成 UUID 的类型，可以是 'phone', 'email', 'time', 'number' 或空字符串
  * @param {number} [length=4] - 生成字符串的长度
