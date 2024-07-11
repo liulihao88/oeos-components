@@ -5,6 +5,7 @@
       v-bind="{
         width: '640px',
         closeOnClickModal: true,
+        destroyOnClose: true,
         draggable: true,
         ...$attrs,
       }"

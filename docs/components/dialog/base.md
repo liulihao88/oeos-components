@@ -34,6 +34,7 @@ ODialog/slot
 | showConfirm  | 是否显示确认按钮     | boolean | true   |
 | confirmAttrs | 确认按钮的属性       | object  | {}     |
 | cancleAttrs  | 取消按钮的属性       | object  | {}     |
+| destroy-on-close  | 当关闭 Dialog 时，销毁其中的元素       | boolean  | false     |
 
 ## 方法
 
