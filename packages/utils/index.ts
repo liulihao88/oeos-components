@@ -658,8 +658,8 @@ export function formatThousands(number) {
 
   // 添加千位分隔符
   let numberWithSeparator = numericString.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-
   // 拼接数字和单位，并返回结果
+
   return numberWithSeparator + unit
 }
 /*
@@ -896,4 +896,29 @@ export function confirm(message, options) {
   })
 }
 
-// custom-vite-plugin-file-path.js
+/**
+ * 格式化字符串中的换行符和制表符
+ * @param str 待格式化的字符串
+ * @returns 格式化后的字符串，如果输入的不是字符串或为空，则返回原字符串
+ * @example
+$toast(
+  formatNewLines(
+    'Example file\n  File : 111.jpeg\n  CreateTime : 1721011155921 2024-07-15 10:39:15\n  LastUpdateTime : 1721011155921 2024-07-15 10:39:15\n------------------------------------------------------------------------\nExtract:\n  aa=231\n------------------------------------------------------------------------\n',
+  ),
+  {
+    duration: 5000,
+    dangerouslyUseHTMLString: true,
+  },
+)
+ */
+export function formatNewLines(str) {
+  // 如果 str 为空或者不是字符串类型，则直接返回 str
+  if (!str || typeof str !== 'string') {
+    return str
+  }
+  // 替换换行符 \n 为 <br> 标签
+  str = str.replace(/\n/g, '<br>')
+  // 替换制表符 \t 为四个空格或其他适当的字符
+  str = str.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+  return str
+}
