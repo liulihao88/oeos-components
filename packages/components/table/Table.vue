@@ -26,6 +26,7 @@ const props = defineProps({
     default: '-',
   },
 })
+const tableRef = ref(null)
 const tableTotal = computed(() => {
   return props.total || props.data.length
 })
@@ -127,6 +128,7 @@ defineExpose({})
     <el-table
       :data="props.data"
       v-bind="$attrs"
+      ref="tableRef"
       border
       :header-cell-style="{
         background: '#f7f8fa',
