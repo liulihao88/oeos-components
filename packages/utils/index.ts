@@ -883,6 +883,7 @@ export function confirm(message, options) {
     title: '提示',
     draggable: true,
     showCancelButton: false,
+    confirmButtonText: '确定',
   }
   let mergeOptions = Object.assign({}, baseOptions, options)
   return new Promise((r, j) => {
