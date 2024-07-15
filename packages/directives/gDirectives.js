@@ -30,8 +30,12 @@ export default function (app) {
 
   app.directive('focus', {
     mounted(el) {
-      el = el.nodeName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
-      el.focus()
+      const input = el.nodeName === 'INPUT' ? el : el.querySelector('input')
+      input.focus()
+    },
+    updated(el) {
+      const input = el.nodeName === 'INPUT' ? el : el.querySelector('input')
+      input.focus()
     },
   })
 
