@@ -90,7 +90,7 @@ const props = defineProps({
   },
   enableConfirm: { // 是否允许使用enter键, 点击确定按钮
     type: Boolean,
-    defalut: true,
+    default: true,
   },
 })
 const getThemeClass = computed(() => {
@@ -145,7 +145,7 @@ onBeforeUnmount(() => {
   :deep(.el-dialog__body) {
     padding: 16px;
     .dialog_slot_box {
-      min-height: 300px;
+      min-height: 100px;
       max-height: calc(100vh - 30vh - 100px);
       overflow-y: auto;
     }
