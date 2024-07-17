@@ -18,10 +18,10 @@
           </div>
         </slot>
       </template>
-      <div class="dialog_slot_box">
+      <div :class="$attrs.fullscreen === true || $attrs.fullscreen === '' ? 'dialog_fullscreen ' : 'dialog_slot_box'">
         <slot></slot>
       </div>
-      <template #footer>
+      <template #footer v-if="showFooter">
         <slot name="footer">
           <div class="dialog_footer">
             <el-button v-if="showCancel" :type="cancelAttrs.type || 'info'" v-bind="cancelAttrs" @click="handleClose">
@@ -71,7 +71,10 @@ const props = defineProps({
     default: '确认',
   },
   // 是否显示底部操作按钮 :footer="null"
-  footer: Object,
+  showFooter: {
+    type: Boolean,
+    default: true,
+  },
   showCancel: {
     type: Boolean,
     default: true,
@@ -88,7 +91,8 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  enableConfirm: { // 是否允许使用enter键, 点击确定按钮
+  enableConfirm: {
+    // 是否允许使用enter键, 点击确定按钮
     type: Boolean,
     default: true,
   },
@@ -104,6 +108,23 @@ const getThemeClass = computed(() => {
     return ''
   }
 })
+
+const fullscreenHeight = ref('calc(100vh - 124px)')
+watch(
+  () => props.showFooter,
+  (val) => {
+    if (attrs.fullscreen === true || attrs.fullscreen === '') {
+      if (props.showFooter === false) {
+        fullscreenHeight.value = 'calc(100vh - 74px)'
+      } else {
+        fullscreenHeight.value = 'calc(100vh - 124px)'
+      }
+    }
+  },
+  {
+    immediate: true,
+  },
+)
 
 function confirm() {
   if (attrs.onConfirm) {
@@ -147,6 +168,10 @@ onBeforeUnmount(() => {
     .dialog_slot_box {
       min-height: 100px;
       max-height: calc(100vh - 30vh - 100px);
+      overflow-y: auto;
+    }
+    .dialog_fullscreen {
+      height: v-bind(fullscreenHeight);
       overflow-y: auto;
     }
   }

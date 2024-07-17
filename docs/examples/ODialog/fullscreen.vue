@@ -8,11 +8,12 @@ proxy.log(`isShow`, isShow, '__INJECT_FILE_PATH__')
 <template>
   <div>
     <el-button type="primary" @click="isShow = true">显示dialog</el-button>
-    <o-dialog title="基础dialog" v-model="isShow">
+    <o-dialog title="基础dialog" v-model="isShow" fullscreen>
       <div>这是要显示的内容</div>
+      <div v-for="(v, i) in 100" :key="i">
+        <div>{{ v }}</div>
+      </div>
     </o-dialog>
-
-    
   </div>
 </template>
 

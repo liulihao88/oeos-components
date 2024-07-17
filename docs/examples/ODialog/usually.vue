@@ -10,8 +10,9 @@ const confirmLoading = ref(false)
 async function cusConfirm() {
   console.log(`***** 点我作甚  10行 docs/examples/ODialog/usually.vue  15:06:26`)
   confirmLoading.value = true
-  proxy.$toast('保存成功', {duration: 0})
+  proxy.$toast('正在保存', 'i');
   await sleep(2000)
+  proxy.$toast('保存成功', { duration: 3000 })
   confirmLoading.value = false
   isShow.value = false
 }
@@ -31,6 +32,8 @@ function sleep(delay = 0, fn = () => {}) {
     ref="dialogRef"
     title="常用的dialog"
     @confirm="cusConfirm"
+    width="100%"
+    :closeOnClickModal="false"
     :confirmAttrs="{
       loading: confirmLoading,
     }"
