@@ -31,11 +31,9 @@ export default function (app) {
   app.directive('focus', {
     mounted(el) {
       const input = el.nodeName === 'INPUT' ? el : el.querySelector('input')
-      input.focus()
-    },
-    updated(el) {
-      const input = el.nodeName === 'INPUT' ? el : el.querySelector('input')
-      input.focus()
+      setTimeout(() => {
+        input.focus()
+      }, 0)
     },
   })
 
