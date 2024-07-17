@@ -1,6 +1,6 @@
 {
   "name": "oeos-components",
-  "version": "0.0.93",
+  "version": "0.0.94",
   "private": false,
   "type": "module",
   "main": "dist/oeos-components-es.js",
