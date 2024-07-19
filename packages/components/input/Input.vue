@@ -1,5 +1,5 @@
 <template>
-  <div class="o-input" v-bind="subAttrs" :style="{ ...proxy.processWidth(props.width) }">
+  <div class="o-input" v-bind="subAttrs" :style="{ ...handleWidth() }">
     <el-tooltip :content="'' + $attrs.modelValue" :disabled="inWidth || hideTooltip" v-bind="tooltipAttrs">
       <div>
         <el-autocomplete
@@ -9,7 +9,6 @@
           :clearable="$attrs.clearable !== false"
           v-bind="$attrs"
           @mouseover.native="inputOnMouseOver($event)"
-          :style="{ ...proxy.processWidth(props.width) }"
         >
           <template v-if="$attrs.title" #prepend>
             <div v-bind="titleAttrs">
@@ -26,7 +25,6 @@
           :showPassword="showPassword"
           :clearable="$attrs.clearable !== false"
           :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
-          :style="{ ...proxy.processWidth(props.width) }"
           :maxlength="handleMaxLength"
           :rows="$attrs.rows || 2"
           resize="none"
@@ -43,6 +41,12 @@
         </el-input>
       </div>
     </el-tooltip>
+    <o-icon
+      v-if="content"
+      class="o-input__icon"
+      v-bind="{ name: 'warning', color: '#DCDEE0', size: '16px', ...props.iconAttrs }"
+      :content="content"
+    ></o-icon>
   </div>
 </template>
 
@@ -73,7 +77,7 @@ const props = defineProps({
   },
   width: {
     type: [String, Number],
-    default: '',
+    default: '100%',
   },
   showWordLimit: {
     type: [Boolean, String],
@@ -100,6 +104,12 @@ const props = defineProps({
       return {}
     },
   },
+  iconAttrs: {
+    type: Object,
+    default: () => {
+      return {}
+    },
+  },
   hideTooltip: {
     type: Boolean,
     default: false,
@@ -107,6 +117,10 @@ const props = defineProps({
   // 适用于el-autocomplete
   options: {
     type: Array,
+  },
+  content: {
+    type: String,
+    default: '',
   },
 })
 const restaurants = ref([])
@@ -170,6 +184,22 @@ function inputOnMouseOver(event) {
     inWidth.value = true
   }
 }
+
+const handleWidth = () => {
+  if (!props.width) {
+    return {}
+  }
+  let inputWidth = proxy.processWidth(props.width, true)
+  if (props.content) {
+    if (inputWidth) {
+      inputWidth = `calc(${inputWidth} - 32px)`
+    }
+  }
+  return {
+    width: inputWidth,
+  }
+}
+
 const showPassword = computed(() => {
   if (attrs.type === 'password' && attrs.showPassword !== false) {
     return true
@@ -194,6 +224,25 @@ const createFilter = (queryString: string) => {
 .o-input {
   width: 100%;
   display: inline-block;
+  position: relative;
+  // display: flex;
+  .o-input__icon {
+    position: absolute;
+    right: -24px;
+    top: 8px;
+  }
+}
+.o-input__clear {
+  position: absolute;
+  right: 4px;
+  // display: none;
+  width: 16px;
+  height: 16px;
+  bottom: calc(50% - 8px);
+  cursor: pointer;
+  &:hover {
+    color: red;
+  }
 }
 
 // el-input的宽度会随着鼠标移入显示clearable而改变, 所以加下面这两行代码

@@ -133,7 +133,7 @@ defineExpose({
         type="text"
       />
     </div>
-    <CircleClose class="o-input-label__clear" v-if="labelarr.length > 0" @click="clearAll"></CircleClose>
+    <o-icon name="circle-close" class="o-input-label__clear" v-if="labelarr.length > 0" @click="clearAll"></o-icon>
   </div>
 </template>
 
@@ -150,6 +150,11 @@ defineExpose({
   font-size: 0;
   width: 100% !important;
   margin-bottom: 0;
+  &:hover {
+    .o-input-label__clear {
+      display: block;
+    }
+  }
 }
 
 .o-input-box__content {
@@ -229,6 +234,7 @@ defineExpose({
 .o-input-label__clear {
   position: absolute;
   right: 4px;
+  display: none;
   width: 16px;
   height: 16px;
   bottom: calc(50% - 8px);
