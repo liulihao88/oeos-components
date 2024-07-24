@@ -9,6 +9,7 @@ import VueTippy from 'vue-tippy'
 import registerDirectives from './directives/gDirectives.js'
 import Checkbox from './components/checkbox/Checkbox.vue'
 import ChooseArea from './components/ChooseArea/chooseArea.vue'
+import Description from './components/description/Description.vue'
 import Dialog from './components/dialog/Dialog.vue'
 import Drawer from './components/drawer/Drawer.vue'
 import DateRange from './components/dateRange/DateRange.vue'
@@ -32,6 +33,7 @@ import * as utils from './utils'
 const comps = [
   Checkbox,
   ChooseArea,
+  Description,
   Dialog,
   Drawer,
   DateRange,

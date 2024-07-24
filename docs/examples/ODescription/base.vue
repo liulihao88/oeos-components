@@ -1,0 +1,27 @@
+<script setup lang="ts">
+import { ref, getCurrentInstance } from 'vue'
+const { proxy } = getCurrentInstance()
+const options = ref([
+  { label: '张三', value: 'z3' },
+  { label: '李四', value: 'l4' },
+  { label: '王五', value: 'w5' },
+  { label: '王五', value: 'w5' },
+  {
+    label: '王五',
+    value:
+      'w52024-07-232024-07-23 19:22:19I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. have a nice day!',
+  },
+  { label: '王五', value: 'w5' },
+  { label: '王五', value: 'w5' },
+  { label: '王五', value: 'w5' },
+  { label: '王五', value: 'w5' },
+  { label: '王五', value: 'w5' },
+])
+</script>
+
+<template>
+  <div>
+    <div>docs/examples/ODescription/base.vue</div>
+    <o-description extra="321" title="你瞅啥" :options="options" class="w-100%"></o-description>
+  </div>
+</template>
