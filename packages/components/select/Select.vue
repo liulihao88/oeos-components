@@ -306,7 +306,7 @@ const urlParams = proxy.translateToPageinfo({
     z-index: 10;
     width: 16px;
     height: 16px;
-    border: 1px solid blue;
+    border: 1px solid #5D7AF7;
     border-radius: 2px;
     color: #ffffff;
     top: 50%;
@@ -319,7 +319,7 @@ const urlParams = proxy.translateToPageinfo({
     height: 16px;
   }
   &.selected .el-checkbox__label {
-    color: blue;
+    color: #5D7AF7;
   }
   &.hover {
     background-color: #f5f7fd;
@@ -339,7 +339,7 @@ const urlParams = proxy.translateToPageinfo({
   }
 }
 :deep(.el-input__wrapper) {
-  background: blue;
+  background: #5D7AF7;
   & .el-input__inner {
     color: #fff !important;
   }

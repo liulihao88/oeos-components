@@ -7,7 +7,7 @@ function progressColor(value) {
   } else if (value < 50) {
     return 'green'
   } else if (value < 80) {
-    return 'blue'
+    return '#5D7AF7'
   } else {
     return 'yellow'
   }
