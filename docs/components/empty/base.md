@@ -13,3 +13,9 @@ OEmpty/base
 :::demo
 OEmpty/usually
 :::
+
+### 插槽用法
+
+:::demo
+OEmpty/slot
+:::

@@ -23,23 +23,31 @@ const props = defineProps({
   },
 })
 /** @使用方式
- <o-empty description="您没有消费订单" size="48"></o-empty>
-  <o-empty class="w-100%" src="https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg" size="200" ></o-empty>
+<o-empty description="您没有消费订单" size="48"></o-empty>
+<o-empty class="w-100%" src="https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg" size="200" ></o-empty>
 */
 </script>
 
 <template>
   <el-empty v-bind="{ ...$attrs, ...props }">
     <template #image>
-      <img
-        :src="src"
-        :style="{
-          width: proxy.processWidth(props.size, true),
-          height: proxy.processWidth(props.size, true),
-          ...props.imgAttrs,
-        }"
-      />
+      <slot name="image">
+        <img
+          :src="src"
+          :style="{
+            width: proxy.processWidth(props.size, true),
+            height: proxy.processWidth(props.size, true),
+            ...props.imgAttrs,
+          }"
+        />
+      </slot>
     </template>
+    <template #description>
+      <slot name="description">
+        {{ description }}
+      </slot>
+    </template>
+    <slot></slot>
   </el-empty>
 </template>
 
@@ -47,7 +55,7 @@ const props = defineProps({
 :deep(.el-empty) {
   height: 100%;
 }
-:deep(.el-empty__description p) {
+:deep(.el-empty__description) {
   color: var(--65);
 }
 :deep(.el-empty__image) {
