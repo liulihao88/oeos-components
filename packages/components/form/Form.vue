@@ -70,6 +70,8 @@ defineExpose({
         <!-- 将 Element Plus 表格的默认 slot 传递给您的组件 -->
         <template #label>
           <slot :name="v.prop + '-label'">
+            <img :src="v.imgAttrs?.src" v-if="v.imgAttrs?.src" class="h-16 m-r-4" v-bind="v.imgAttrs" />
+            <o-icon :name="v.imgAttrs?.name" class="m-r-4" v-bind="v.imgAttrs" v-else-if="v.imgAttrs?.name"></o-icon>
             <o-tooltip :content="v.label"></o-tooltip>
           </slot>
         </template>
@@ -94,3 +96,9 @@ defineExpose({
     </el-form>
   </div>
 </template>
+
+<style lang="scss" scoped>
+:deep(.el-form-item__label) {
+  align-items: center;
+}
+</style>

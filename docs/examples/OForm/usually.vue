@@ -43,6 +43,9 @@ const fieldList = [
     label: '密码1',
     prop: 'pwd',
     comp: 'el-input',
+    imgAttrs: {
+      src: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png',
+    },
     attrs: {
       style: {
         width: '200px',
@@ -61,6 +64,9 @@ const fieldList = [
     label: '选择爱好',
     prop: 'hobby',
     comp: 'o-select',
+    imgAttrs: {
+      name: 'delete',
+    },
     formAttrs: {
       rules: cusRules.hobby,
     },
