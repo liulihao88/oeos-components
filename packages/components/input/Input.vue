@@ -1,6 +1,6 @@
 <template>
   <div class="o-input" v-bind="subAttrs" :style="{ ...handleWidth() }">
-    <el-tooltip :content="'' + $attrs.modelValue" :disabled="inWidth || hideTooltip" v-bind="tooltipAttrs">
+    <el-tooltip :content="'' + data" :disabled="inWidth || hideTooltip" v-bind="tooltipAttrs">
       <div>
         <el-autocomplete
           v-if="props.options"
@@ -8,6 +8,7 @@
           :placeholder="handlePlaceholder()"
           :clearable="$attrs.clearable !== false"
           v-bind="$attrs"
+          v-model="data"
           @mouseover.native="inputOnMouseOver($event)"
         >
           <template v-if="$attrs.title" #prepend>
@@ -22,6 +23,7 @@
           v-else
           :placeholder="handlePlaceholder()"
           class="kd-ipt"
+          v-model="data"
           :showPassword="showPassword"
           :clearable="$attrs.clearable !== false"
           :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
@@ -47,6 +49,13 @@
       v-bind="{ name: 'warning', color: '#DCDEE0', size: '16px', ...props.iconAttrs }"
       :content="content"
     ></o-icon>
+
+    <o-icon
+      name="circle-close"
+      class="o-input__clear"
+      @click="clearTextareaValue"
+      v-if="$attrs.type === 'textarea' && data"
+    ></o-icon>
   </div>
 </template>
 
@@ -67,10 +76,14 @@
 ></o-input>
 */
 import { ref, getCurrentInstance, computed, useAttrs, watch } from 'vue'
+import { useVModel } from '@vueuse/core'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 
 const props = defineProps({
+  modelValue: {
+    required: true,
+  },
   titleAttrs: {
     type: Object,
     default: () => {},
@@ -125,6 +138,7 @@ const props = defineProps({
 })
 const restaurants = ref([])
 const inWidth = ref(true)
+const data = useVModel(props)
 
 const handleMaxLength = computed(() => {
   if (attrs.type === 'textarea') {
@@ -199,6 +213,9 @@ const handleWidth = () => {
     width: inputWidth,
   }
 }
+const clearTextareaValue = () => {
+  data.value = ''
+}
 
 const showPassword = computed(() => {
   if (attrs.type === 'password' && attrs.showPassword !== false) {
@@ -225,20 +242,25 @@ const createFilter = (queryString: string) => {
   width: 100%;
   display: inline-block;
   position: relative;
-  // display: flex;
   .o-input__icon {
     position: absolute;
     right: -24px;
     top: 8px;
   }
+  &:hover {
+    .o-input__clear {
+      display: block;
+    }
+  }
 }
 .o-input__clear {
   position: absolute;
   right: 4px;
-  // display: none;
-  width: 16px;
-  height: 16px;
-  bottom: calc(50% - 8px);
+  display: none;
+  width: 14px;
+  height: 14px;
+  color: var(--45);
+  bottom: calc(50% - 6px);
   cursor: pointer;
   &:hover {
     color: red;
