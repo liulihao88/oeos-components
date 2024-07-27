@@ -390,7 +390,7 @@ import{_ as s,o as n,c as a,R as l}from"./chunks/framework.66e8aef8.js";const F=
 <span class="line"><span style="color:#E1E4E8;">  )</span></span>
 <span class="line"><span style="color:#E1E4E8;">}</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#F97583;">/**</span><span style="color:#E1E4E8;"> </span><span style="color:#F97583;">@</span><span style="color:#E1E4E8;">使用方式 </span></span>
+<span class="line"><span style="color:#F97583;">/**</span><span style="color:#E1E4E8;"> </span><span style="color:#F97583;">@</span><span style="color:#E1E4E8;">使用方式</span></span>
 <span class="line"><span style="color:#E1E4E8;"> </span><span style="color:#F97583;">*</span><span style="color:#E1E4E8;"> </span><span style="color:#79B8FF;">1</span><span style="color:#E1E4E8;">. 在el</span><span style="color:#F97583;">-</span><span style="color:#E1E4E8;">form中使用</span></span>
 <span class="line"><span style="color:#E1E4E8;">name: [ proxy.validate(</span><span style="color:#9ECBFF;">&#39;name&#39;</span><span style="color:#E1E4E8;">, { message: </span><span style="color:#9ECBFF;">&#39;你干嘛哈哈&#39;</span><span style="color:#E1E4E8;"> })],</span></span>
 <span class="line"><span style="color:#E1E4E8;">between: [ proxy.validate(</span><span style="color:#9ECBFF;">&#39;between&#39;</span><span style="color:#E1E4E8;">, { </span><span style="color:#79B8FF;">max</span><span style="color:#E1E4E8;">: </span><span style="color:#79B8FF;">99</span><span style="color:#E1E4E8;"> })],</span></span>
@@ -527,7 +527,7 @@ import{_ as s,o as n,c as a,R as l}from"./chunks/framework.66e8aef8.js";const F=
 <span class="line"><span style="color:#E1E4E8;">}</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#F97583;">/**</span></span>
-<span class="line"><span style="color:#E1E4E8;"> </span><span style="color:#F97583;">*</span><span style="color:#E1E4E8;"> </span></span>
+<span class="line"><span style="color:#E1E4E8;"> </span><span style="color:#F97583;">*</span></span>
 <span class="line"><span style="color:#E1E4E8;">const { res, err } </span><span style="color:#F97583;">=</span><span style="color:#E1E4E8;"> </span><span style="color:#F97583;">await</span><span style="color:#E1E4E8;"> proxy.asyncWrapper(listTests, pickForm);</span></span>
 <span class="line"><span style="color:#F97583;">if</span><span style="color:#E1E4E8;"> (err) {</span></span>
 <span class="line"><span style="color:#E1E4E8;">	</span><span style="color:#F97583;">return</span><span style="color:#E1E4E8;">;</span></span>
@@ -543,8 +543,8 @@ import{_ as s,o as n,c as a,R as l}from"./chunks/framework.66e8aef8.js";const F=
 <span class="line"><span style="color:#E1E4E8;">}</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#F97583;">//</span><span style="color:#E1E4E8;"> 获取assets静态资源</span></span>
-<span class="line"><span style="color:#F97583;">//</span><span style="color:#E1E4E8;"> let </span><span style="color:#FFAB70;">src</span><span style="color:#E1E4E8;"> </span><span style="color:#F97583;">=</span><span style="color:#E1E4E8;"> proxy.globalImageUrl(</span><span style="color:#9ECBFF;">&#39;1.png&#39;</span><span style="color:#E1E4E8;">);</span></span>
-<span class="line"><span style="color:#E1E4E8;">export function globalImageUrl(photoName) {</span></span>
+<span class="line"><span style="color:#F97583;">//</span><span style="color:#E1E4E8;"> let </span><span style="color:#FFAB70;">src</span><span style="color:#E1E4E8;"> </span><span style="color:#F97583;">=</span><span style="color:#E1E4E8;"> proxy.formatImg(</span><span style="color:#9ECBFF;">&#39;1.png&#39;</span><span style="color:#E1E4E8;">);</span></span>
+<span class="line"><span style="color:#E1E4E8;">export function formatImg(photoName) {</span></span>
 <span class="line"><span style="color:#E1E4E8;">  </span><span style="color:#F97583;">if</span><span style="color:#E1E4E8;"> (photoName.startsWith(</span><span style="color:#9ECBFF;">&#39;http&#39;</span><span style="color:#E1E4E8;">)) {</span></span>
 <span class="line"><span style="color:#E1E4E8;">    </span><span style="color:#F97583;">return</span><span style="color:#E1E4E8;"> photoName</span></span>
 <span class="line"><span style="color:#E1E4E8;">  }</span></span>
@@ -1200,7 +1200,7 @@ import{_ as s,o as n,c as a,R as l}from"./chunks/framework.66e8aef8.js";const F=
 <span class="line"><span style="color:#24292E;">  )</span></span>
 <span class="line"><span style="color:#24292E;">}</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#D73A49;">/**</span><span style="color:#24292E;"> </span><span style="color:#D73A49;">@</span><span style="color:#24292E;">使用方式 </span></span>
+<span class="line"><span style="color:#D73A49;">/**</span><span style="color:#24292E;"> </span><span style="color:#D73A49;">@</span><span style="color:#24292E;">使用方式</span></span>
 <span class="line"><span style="color:#24292E;"> </span><span style="color:#D73A49;">*</span><span style="color:#24292E;"> </span><span style="color:#005CC5;">1</span><span style="color:#24292E;">. 在el</span><span style="color:#D73A49;">-</span><span style="color:#24292E;">form中使用</span></span>
 <span class="line"><span style="color:#24292E;">name: [ proxy.validate(</span><span style="color:#032F62;">&#39;name&#39;</span><span style="color:#24292E;">, { message: </span><span style="color:#032F62;">&#39;你干嘛哈哈&#39;</span><span style="color:#24292E;"> })],</span></span>
 <span class="line"><span style="color:#24292E;">between: [ proxy.validate(</span><span style="color:#032F62;">&#39;between&#39;</span><span style="color:#24292E;">, { </span><span style="color:#005CC5;">max</span><span style="color:#24292E;">: </span><span style="color:#005CC5;">99</span><span style="color:#24292E;"> })],</span></span>
@@ -1337,7 +1337,7 @@ import{_ as s,o as n,c as a,R as l}from"./chunks/framework.66e8aef8.js";const F=
 <span class="line"><span style="color:#24292E;">}</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#D73A49;">/**</span></span>
-<span class="line"><span style="color:#24292E;"> </span><span style="color:#D73A49;">*</span><span style="color:#24292E;"> </span></span>
+<span class="line"><span style="color:#24292E;"> </span><span style="color:#D73A49;">*</span></span>
 <span class="line"><span style="color:#24292E;">const { res, err } </span><span style="color:#D73A49;">=</span><span style="color:#24292E;"> </span><span style="color:#D73A49;">await</span><span style="color:#24292E;"> proxy.asyncWrapper(listTests, pickForm);</span></span>
 <span class="line"><span style="color:#D73A49;">if</span><span style="color:#24292E;"> (err) {</span></span>
 <span class="line"><span style="color:#24292E;">	</span><span style="color:#D73A49;">return</span><span style="color:#24292E;">;</span></span>
@@ -1353,8 +1353,8 @@ import{_ as s,o as n,c as a,R as l}from"./chunks/framework.66e8aef8.js";const F=
 <span class="line"><span style="color:#24292E;">}</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#D73A49;">//</span><span style="color:#24292E;"> 获取assets静态资源</span></span>
-<span class="line"><span style="color:#D73A49;">//</span><span style="color:#24292E;"> let </span><span style="color:#E36209;">src</span><span style="color:#24292E;"> </span><span style="color:#D73A49;">=</span><span style="color:#24292E;"> proxy.globalImageUrl(</span><span style="color:#032F62;">&#39;1.png&#39;</span><span style="color:#24292E;">);</span></span>
-<span class="line"><span style="color:#24292E;">export function globalImageUrl(photoName) {</span></span>
+<span class="line"><span style="color:#D73A49;">//</span><span style="color:#24292E;"> let </span><span style="color:#E36209;">src</span><span style="color:#24292E;"> </span><span style="color:#D73A49;">=</span><span style="color:#24292E;"> proxy.formatImg(</span><span style="color:#032F62;">&#39;1.png&#39;</span><span style="color:#24292E;">);</span></span>
+<span class="line"><span style="color:#24292E;">export function formatImg(photoName) {</span></span>
 <span class="line"><span style="color:#24292E;">  </span><span style="color:#D73A49;">if</span><span style="color:#24292E;"> (photoName.startsWith(</span><span style="color:#032F62;">&#39;http&#39;</span><span style="color:#24292E;">)) {</span></span>
 <span class="line"><span style="color:#24292E;">    </span><span style="color:#D73A49;">return</span><span style="color:#24292E;"> photoName</span></span>
 <span class="line"><span style="color:#24292E;">  }</span></span>
