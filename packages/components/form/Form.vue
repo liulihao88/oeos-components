@@ -67,17 +67,17 @@ defineExpose({
         v-bind="v.formAttrs"
         :rules="mergeRules(v.rules)"
       >
-        <!-- 将 Element Plus 表格的默认 slot 传递给您的组件 -->
         <template #label>
-          <slot :name="v.prop + '-label'">
-            <img :src="v.imgAttrs?.src" v-if="v.imgAttrs?.src" class="h-16 m-r-4" v-bind="v.imgAttrs" />
-            <o-icon :name="v.imgAttrs?.name" class="m-r-4" v-bind="v.imgAttrs" v-else-if="v.imgAttrs?.name"></o-icon>
-            <o-tooltip :content="v.label"></o-tooltip>
-          </slot>
-        </template>
-        <!-- 自定义label -->
-        <template #label v-if="v.labelRender">
-          <render-comp :render="v.labelRender" :item="v" />
+          <template v-if="v.labelRender">
+            <render-comp :render="v.labelRender" :item="v" />
+          </template>
+          <template v-else>
+            <slot :name="v.prop + '-label'">
+              <img v-if="v.imgAttrs?.src" :src="v.imgAttrs?.src" class="h-16" v-bind="v.imgAttrs" />
+              <o-icon v-else-if="v.imgAttrs?.name" :name="v.imgAttrs?.name" class="m-r-4" v-bind="v.imgAttrs" />
+              <o-tooltip :content="v.label" />
+            </slot>
+          </template>
         </template>
         <template v-if="v.useSlot">
           <slot :name="v.prop"></slot>
