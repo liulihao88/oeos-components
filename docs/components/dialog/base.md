@@ -26,6 +26,12 @@ ODialog/slot
 ODialog/fullscreen
 :::
 
+## 弹框form表单
+
+:::demo
+ODialog/dialogForm
+:::
+
 ---
 
 ## 属性

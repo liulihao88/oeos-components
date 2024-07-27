@@ -27,8 +27,11 @@ const getPlaceholder = (row: any) => {
 }
 
 const oFormRef = ref()
-async function validate(otherParams = {}) {
+async function validate(isResetFields = false, otherParams = {}) {
   await proxy.validForm(oFormRef, otherParams)
+  if (isResetFields) {
+    resetFields()
+  }
 }
 function resetFields() {
   oFormRef.value.resetFields()
