@@ -613,16 +613,24 @@ export async function asyncWrapper(func, ...args) {
   }
 }
 
-// 获取assets静态资源
-// let src = proxy.globalImageUrl('1.png');
-export function globalImageUrl(photoName) {
-  if (photoName.startsWith('http')) {
+/** 获取assets静态资源
+ * @example
+ *  proxy.formatImg('1.png')
+ *  proxy.formatImg('1.png', 'menu')
+ *  */
+export function formatImg(photoName, addPath = '', { basePath = '../assets/images' } = {}) {
+  if (photoName.startsWith('http') || photoName.startsWith('https')) {
     return photoName
   }
   if (photoName.indexOf('.') === -1) {
     photoName = photoName + '.png'
   }
-  return new URL(`../assets/images/${photoName}`, import.meta.url).href
+  const addLastSlash = addPath.endsWith('/') || !addPath ? addPath : `${addPath}/`
+  const addLastBasePathSlash = basePath.endsWith('/') || !basePath ? basePath : `${basePath}/`
+  let mergeSrc = `${addLastSlash}${photoName}`
+  // '../assets/images/1.png'
+  let res = new URL(`${addLastBasePathSlash}${mergeSrc}`, import.meta.url).href
+  return res
 }
 
 /**

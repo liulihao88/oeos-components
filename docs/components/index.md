@@ -60,7 +60,7 @@ getType,
 sleep,
 validate,
 asyncWrapper,
-globalImageUrl,
+formatImg,
 copy,
 addThousandSeparator
 $toast,

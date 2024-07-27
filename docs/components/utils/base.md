@@ -391,7 +391,7 @@ export function sleep(delay = 0, fn) {
   )
 }
 
-/** @使用方式 
+/** @使用方式
  * 1. 在el-form中使用
 name: [ proxy.validate('name', { message: '你干嘛哈哈' })],
 between: [ proxy.validate('between', { max: 99 })],
@@ -528,7 +528,7 @@ function _validValue(rules, msg, pureValid, reg) {
 }
 
 /**
- * 
+ *
 const { res, err } = await proxy.asyncWrapper(listTests, pickForm);
 if (err) {
 	return;
@@ -544,8 +544,8 @@ export async function asyncWrapper(func, ...args) {
 }
 
 // 获取assets静态资源
-// let src = proxy.globalImageUrl('1.png');
-export function globalImageUrl(photoName) {
+// let src = proxy.formatImg('1.png');
+export function formatImg(photoName) {
   if (photoName.startsWith('http')) {
     return photoName
   }
