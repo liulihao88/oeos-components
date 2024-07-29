@@ -99,7 +99,7 @@ const margin = computed(() => {
         width: 3px;
         height: 12px;
         letter-spacing: 0;
-        top: 7px;
+        top: 0px;
         background-color: #5d7af7;
         background-color: var(--lc, var(--blue)); // 左侧的竖条颜色
       }

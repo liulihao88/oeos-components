@@ -7,9 +7,12 @@ const props = defineProps({
     type: String,
     default: '暂无数据',
   },
-  size: {
+  width: {
     type: [String, Number],
     default: 60,
+  },
+  height: {
+    type: [String, Number],
   },
   imgAttrs: {
     type: Object,
@@ -35,8 +38,8 @@ const props = defineProps({
         <img
           :src="src"
           :style="{
-            width: proxy.processWidth(props.size, true),
-            height: proxy.processWidth(props.size, true),
+            width: proxy.processWidth(props.width, true),
+            height: proxy.processWidth(props.height, true),
             ...props.imgAttrs,
           }"
         />
