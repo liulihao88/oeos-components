@@ -15,7 +15,7 @@ const navList = [
     value: 'task',
   },
 ]
-const navName = ref('sys')
+const navName = ref('base')
 function tabChange(value) {
   console.log(`value`, value)
 }
@@ -23,10 +23,7 @@ function tabChange(value) {
 
 <template>
   <div>
-    <o-tabs :options="navList" v-model="navName" @tabChange="tabChange">
-      <template #sys>我乃nav</template>
-    </o-tabs>
-
+    <o-tabs :options="navList" v-model="navName" @tabChange="tabChange"></o-tabs>
     <div v-if="navName === 'sys'">系统服务</div>
     <div v-if="navName === 'base'">基础服务</div>
     <div v-if="navName === 'task'">高级定时</div>

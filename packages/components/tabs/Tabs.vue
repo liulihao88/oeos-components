@@ -1,15 +1,16 @@
 <template>
   <div class="t_tabs">
     <el-tabs v-bind="$attrs" v-model="tabsValue">
-      <el-tab-pane
-        v-for="tab in props.options"
-        :key="tab[props.value]"
-        :name="tab[props.value]"
-        :label="tab[props.label]"
-        v-bind="subAttrs"
-      >
-        <slot :name="tab[props.value]"></slot>
-      </el-tab-pane>
+      <template v-for="tab in props.options" :key="tab[props.value]">
+        <el-tab-pane :name="tab[props.value]" :label="tab[props.label]" v-bind="subAttrs">
+          <template #label>
+            <slot :name="tab[props.value] + '-label'">
+              {{ tab[props.label] }}
+            </slot>
+          </template>
+          <slot :name="tab[props.value]"></slot>
+        </el-tab-pane>
+      </template>
     </el-tabs>
   </div>
 </template>

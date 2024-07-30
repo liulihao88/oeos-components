@@ -13,3 +13,9 @@ OTabs/base
 :::demo
 OTabs/usually
 :::
+
+### slot插槽
+
+:::demo
+OTabs/slot
+:::
