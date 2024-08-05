@@ -50,7 +50,7 @@ export default defineConfig({
     }),
     customVitePluginFilePath(),
     createSvgIconsPlugin({
-      iconDirs: [path.resolve(__dirname, './packages/assets/svg')],
+      iconDirs: [resolve(__dirname, './packages/assets/svg')],
       symbolId: 'icon-[dir]-[name]',
     }),
   ],
