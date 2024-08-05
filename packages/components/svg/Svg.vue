@@ -15,8 +15,8 @@ const props = defineProps({
   },
   name: {
     type: String,
-    default: 'icon_file-cloud-line',
-    // required: true,
+    // default: 'icon_file-cloud-line',
+    required: true,
   },
   color: {
     type: String,
@@ -30,7 +30,6 @@ const props = defineProps({
     default: '3em',
   },
 })
-console.log(`33 props.prefix`, props.prefix)
 const symbolId = computed(() => `#${props.prefix}-${props.name}`)
 const parseStyle = computed(() => {
   return {

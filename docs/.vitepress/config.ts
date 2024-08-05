@@ -118,6 +118,10 @@ export default defineConfig({
               link: '/components/select/base.md',
             },
             {
+              text: 'svg组件',
+              link: '/components/svg/base.md',
+            },
+            {
               text: 'icon组件',
               link: '/components/icon/base.md',
             },
