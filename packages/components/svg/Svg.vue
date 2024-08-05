@@ -2,7 +2,6 @@
   <svg aria-hidden="true" v-bind="$attrs" class="svg-box" :style="parseStyle">
     <use :href="symbolId" :fill="color" />
   </svg>
-  {{ parseStyle }}
 </template>
 
 <script setup lang="ts">
