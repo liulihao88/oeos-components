@@ -1,3 +1,4 @@
+
 import './styles/index.scss'
 import { toLine } from './utils/index.ts'
 
@@ -5,6 +6,7 @@ import { toLine } from './utils/index.ts'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light.css'
 import VueTippy from 'vue-tippy'
+
 
 import registerDirectives from './directives/gDirectives.js'
 import Checkbox from './components/checkbox/Checkbox.vue'
@@ -22,6 +24,7 @@ import Popconfirm from './components/popconfirm/Popconfirm.vue'
 import Progress from './components/progress/Progress.vue'
 import Radio from './components/radio/Radio.vue'
 import Select from './components/select/Select.vue'
+import Svg from './components/svg/Svg.vue'
 import Table from './components/table/Table.vue'
 import Text from './components/text/Text.vue'
 import Tabs from './components/tabs/Tabs.vue'
@@ -29,6 +32,7 @@ import Title from './components/title/Title.vue'
 import Tooltip from './components/tooltip/Tooltip.vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as utils from './utils'
+
 
 const comps = [
   Checkbox,
@@ -43,6 +47,7 @@ const comps = [
   Progress,
   Radio,
   Select,
+  Svg,
   Icon,
   Input,
   InputLabel,
@@ -71,6 +76,19 @@ const install = (app) => {
 
 export { utils }
 export * from './utils'
+
+export function createSvg(iconDirs) {
+  let res = {
+    Svg: (props) => ({
+      component: Svg,
+      props: { ...props, iconDirs }, // 将 iconDirs 传递给 SvgIcon 组件
+    }),
+  }
+  return res
+}
+
+
+
 export default {
   finalComps,
   install,

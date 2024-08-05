@@ -6,6 +6,7 @@ import pkg from './package.json'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import terser from '@rollup/plugin-terser'
 import { customVitePluginFilePath } from './packages/utils/customVitePluginFilePath.js'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 export default defineConfig({
   build: {
@@ -48,6 +49,10 @@ export default defineConfig({
       bundler: 'vite',
     }),
     customVitePluginFilePath(),
+    createSvgIconsPlugin({
+      iconDirs: [path.resolve(__dirname, './packages/assets/svg')],
+      symbolId: 'icon-[dir]-[name]',
+    }),
   ],
   server: {
     host: '0.0.0.0',

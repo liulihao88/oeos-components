@@ -1,9 +1,12 @@
 import { defineConfig } from 'vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import { resolve } from 'path'
 import { fileURLToPath, URL } from 'node:url'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
 import terser from '@rollup/plugin-terser'
 import { customVitePluginFilePath } from '../packages/utils/customVitePluginFilePath.js'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+
 export default defineConfig({
   plugins: [
     vueJsx(),
@@ -16,6 +19,10 @@ export default defineConfig({
       },
     }),
     customVitePluginFilePath(),
+    createSvgIconsPlugin({
+      iconDirs: [resolve(__dirname, './.vitepress/theme/assets/svg')],
+      symbolId: 'icon-[dir]-[name]',
+    }),
   ],
   resolve: {
     alias: {

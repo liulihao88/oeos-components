@@ -12,13 +12,20 @@ import * as echarts from 'echarts' // 引入echarts
 
 import { VPDemo } from '../vitepress'
 // 基于element-plus二次封装基础组件
-import oeosV3Components, { utils } from '../../../packages/index.js'
+import oeosV3Components, { utils, createSvg } from '../../../packages/index.js'
 // import oeosV3Components, { utils } from '../../../dist/oeos-components-es.js'
 import '/public/css/index.css'
 import Logo from './logo.vue'
 import './assets/styles/index.css'
 import VueTippy from 'vue-tippy'
 
+
+
+// import 'virtual:svg-icons-register'
+const svgIconConfig = createSvg(
+  './assets/svg', // 指定本地 SVG 文件夹路径
+)
+import 'virtual:svg-icons-register'
 
 export default {
   ...DefaultTheme,
@@ -35,8 +42,13 @@ export default {
     })
     // 注册所有图标
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+      console.log(`58 key`, key)
+      console.log(`55 component`, component)
       ctx.app.component(key, component)
     }
+    console.log(`26 svgIconConfig`, svgIconConfig)
+    console.log(`94 svgIconConfig.Svg({})`, svgIconConfig.Svg({}))
+    ctx.app.component('OooSvg', svgIconConfig.Svg({}).component)
     // 注册ElementPlus
     ctx.app.use(ElementPlus, {
       locale, // 语言设置
