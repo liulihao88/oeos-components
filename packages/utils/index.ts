@@ -618,7 +618,7 @@ export async function asyncWrapper(func, ...args) {
  *  proxy.formatImg('1.png')
  *  proxy.formatImg('1.png', 'menu')
  *  */
-export function formatImg(photoName, addPath = '', { basePath = '../assets/images' } = {}) {
+export function formatImg(photoName, addPath = '', { basePath = 'assets/images' } = {}) {
   if (photoName.startsWith('http') || photoName.startsWith('https')) {
     return photoName
   }
@@ -629,7 +629,7 @@ export function formatImg(photoName, addPath = '', { basePath = '../assets/image
   const addLastBasePathSlash = basePath.endsWith('/') || !basePath ? basePath : `${basePath}/`
   let mergeSrc = `${addLastSlash}${photoName}`
   // '../assets/images/1.png'
-  let res = new URL(`${addLastBasePathSlash}${mergeSrc}`, import.meta.url).href
+  let res = new URL(`../${addLastBasePathSlash}${mergeSrc}`, import.meta.url).href
   return res
 }
 
