@@ -4,7 +4,7 @@
       <template #label>
         <o-tooltip :content="item.label"></o-tooltip>
       </template>
-      <o-tooltip class="" :content="item.value"></o-tooltip>
+      <o-tooltip :content="item.value" class="w-100%"></o-tooltip>
     </el-descriptions-item>
   </el-descriptions>
 </template>
