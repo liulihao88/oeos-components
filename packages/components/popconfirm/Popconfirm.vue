@@ -57,7 +57,7 @@ defineExpose({
 </script>
 
 <template>
-  <template v-if="reConfirm">
+  <div v-if="reConfirm">
     <el-popover
       class="o-popconfirm"
       :title="title"
@@ -79,16 +79,13 @@ defineExpose({
         <slot></slot>
       </template>
     </el-popover>
-  </template>
-  <template v-else>
+  </div>
+  <div v-else @click="confirm">
     <slot></slot>
-  </template>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.o-popconfirm {
-}
-.o-popconfirm__content {
-  margin-bottom: 12px;
-}
+
+
 </style>
