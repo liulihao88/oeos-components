@@ -1,7 +1,11 @@
 <template>
   <div class="o-title" :style="{ ...margin }" v-bind="$attrs">
     <div class="o-title__top">
-      <div class="o-title__top-left">
+      <div
+        :class="type === 'simple' ? 'o-title__top-simple-left' : 'o-title__top-left'"
+        :style="{ marginLeft: props.inner ? '8px' : 0 }"
+      >
+        <slot name="icon"></slot>
         <span class="title-text">{{ title }}</span>
         <slot></slot>
       </div>
@@ -39,6 +43,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  inner: {
+    type: Boolean,
+    defalut: false,
+  },
   t: {
     type: [String, Number],
     default: '',
@@ -51,14 +59,24 @@ const props = defineProps({
     type: [String, Number],
     default: '',
   },
+  tb: {
+    type: [String, Number],
+  },
+  type: {
+    type: String,
+  },
 })
 
 const margin = computed(() => {
-  const { t, b, l } = props
-  if (!t && !b && !l) {
+  const { t, b, l, tb } = props
+  if (!t && !b && !l && !tb) {
     return {}
   } else {
     let obj = {}
+    if (tb) {
+      obj.marginTop = proxy.processWidth(tb, true)
+      obj.marginBottom = proxy.processWidth(tb, true)
+    }
     if (t) {
       obj.marginTop = proxy.processWidth(t, true)
     }
@@ -99,10 +117,21 @@ const margin = computed(() => {
         width: 3px;
         height: 12px;
         letter-spacing: 0;
-        // top: 0px;
         background-color: #5d7af7;
         background-color: var(--lc, var(--blue)); // 左侧的竖条颜色
       }
+      .title-text {
+        letter-spacing: 0;
+        font-weight: 500;
+      }
+    }
+    .o-title__top-simple-left {
+      width: 100%;
+      align-items: center;
+      position: relative;
+      font-weight: 600;
+      box-sizing: border-box;
+      display: flex;
       .title-text {
         letter-spacing: 0;
         font-weight: 500;

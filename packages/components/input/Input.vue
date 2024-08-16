@@ -54,7 +54,7 @@
       name="circle-close"
       class="o-input__clear"
       @click="clearTextareaValue"
-      v-if="$attrs.type === 'textarea' && data"
+      v-if="$attrs.type === 'textarea' && data && !($attrs.disabled === true || $attrs.disabled === '')"
     ></o-icon>
   </div>
 </template>
@@ -255,7 +255,7 @@ const createFilter = (queryString: string) => {
 }
 .o-input__clear {
   position: absolute;
-  right: 4px;
+  right: 8px;
   display: none;
   width: 14px;
   height: 14px;
@@ -263,7 +263,7 @@ const createFilter = (queryString: string) => {
   bottom: calc(50% - 6px);
   cursor: pointer;
   &:hover {
-    color: red;
+    color: var(--blue);
   }
 }
 

@@ -4,7 +4,7 @@ const { proxy } = getCurrentInstance()
 function close() {
   console.log('close')
 }
-const iptValue = ref()
+const iptValue = ref('')
 </script>
 
 <template>

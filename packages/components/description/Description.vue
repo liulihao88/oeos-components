@@ -4,14 +4,20 @@
       <template #label>
         <o-tooltip :content="item.label"></o-tooltip>
       </template>
-      <o-tooltip :content="item.value" class="w-100%"></o-tooltip>
+      <template v-if="item.slotName">
+        <slot :name="item.slotName"></slot>
+      </template>
+      <template v-else>
+        <o-tooltip class="w-100%" :content="item.value"></o-tooltip>
+      </template>
     </el-descriptions-item>
   </el-descriptions>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, getCurrentInstance } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
+const { proxy } = getCurrentInstance()
 
 const props = defineProps({
   options: {
@@ -27,7 +33,9 @@ const props = defineProps({
     default: '100px',
   },
 })
-const labelWidth = computed(() => props.labelWidth)
+const labelWidth = computed(() => {
+  return proxy.processWidth(props.labelWidth, true)
+})
 const column = computed(() => props.column)
 </script>
 
