@@ -12,6 +12,13 @@ import { consola } from 'consola'
     type: 'warning',
   })
 * $toast.success('This is a success message')
+* @example 显示对象 
+* $toast({
+    dangerouslyUseHTMLString: true,
+    message: `<h6>复制成功</h6><pre>${JSON.stringify(obj, null, 2)}</pre>`,
+    type: 'success',
+    duration: 5000,
+  })
 */
 import { ElMessage, ElMessageBox } from 'element-plus'
 export function $toast(message, type: string | object = 'success', otherParams: object = {}) {

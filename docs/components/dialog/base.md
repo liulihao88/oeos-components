@@ -48,6 +48,7 @@ ODialog/dialogForm
 |   cancleAttrs    | 取消按钮的属性                   | object  | {}     |
 | destroy-on-close | 当关闭 Dialog 时，销毁其中的元素 | boolean | false  |
 |    fullscreen    | 是否为全屏Dialog                 | boolean | false  |
+|    enableConfirm    | 是否允许使用enter回车键执行confirm事件                 | boolean | true  |
 
 ## 方法
 
