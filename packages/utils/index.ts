@@ -647,7 +647,7 @@ export function formatImg(photoName, addPath = '', { basePath = 'assets/images' 
  * copy('这是要复制的文本', {duration: 500});
  *
  *  */
-export const copy = (text, ...toastParams) => {
+export const copy = (text, toastParams = {}) => {
   const textarea = document.createElement('textarea')
   textarea.value = text
   textarea.style.position = 'fixed'
@@ -656,7 +656,7 @@ export const copy = (text, ...toastParams) => {
   document.execCommand('copy')
   document.body.removeChild(textarea)
   if (!toastParams.hideToast) {
-    $toast(text + '复制成功', ...toastParams)
+    $toast(text + '复制成功', toastParams)
   }
 }
 
