@@ -4,7 +4,7 @@
       @click="contentClick"
       v-if="props.showSlot"
       class="tooltip__text"
-      :style="{ maxWidth: proxy.processWidth(width) }"
+      :style="{ maxWidth: proxy.processWidth(width, true) }"
       @mouseover="onMouseOver"
       v-bind="$attrs"
     >
