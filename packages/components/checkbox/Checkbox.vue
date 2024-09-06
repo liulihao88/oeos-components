@@ -66,7 +66,7 @@ watch(
   (newValue) => {
     // 一些不在options里的值, 需要考虑进来, 进行过滤. 这里还要考虑type===simple的情况
     let pureValue = []
-    if (proxy.isEmpty(newValue) || typeof newValue === 'string') {
+    if (proxy.isEmpty(newValue) || typeof newValue !== 'object') {
       pureValue = []
     } else {
       pureValue = newValue.filter((v) => {

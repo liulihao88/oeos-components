@@ -51,22 +51,13 @@ const props = defineProps({
   modelValue: {
     type: [Array, String, Number],
   },
-  // 是否多选
-  multiple: {
-    type: Boolean,
-    default: false,
-  },
-  title: {
-    type: String,
-    default: '',
-  },
-  label: {
-    type: String,
-    default: 'label',
-  },
   value: {
     type: String,
     default: 'value',
+  },
+  label: {
+    type: [String, Array],
+    default: 'label',
   },
   options: {
     type: Array,
@@ -77,6 +68,16 @@ const props = defineProps({
     type: String,
     default: '', // 简单选项'simple',
   },
+  // 是否多选
+  multiple: {
+    type: Boolean,
+    default: false,
+  },
+  title: {
+    type: String,
+    default: '',
+  },
+
   // 如果label显示多个参数的连接符
   connect: {
     type: String,
@@ -306,7 +307,7 @@ const urlParams = proxy.translateToPageinfo({
     z-index: 10;
     width: 16px;
     height: 16px;
-    border: 1px solid #5D7AF7;
+    border: 1px solid #5d7af7;
     border-radius: 2px;
     color: #ffffff;
     top: 50%;
@@ -319,7 +320,7 @@ const urlParams = proxy.translateToPageinfo({
     height: 16px;
   }
   &.selected .el-checkbox__label {
-    color: #5D7AF7;
+    color: #5d7af7;
   }
   &.hover {
     background-color: #f5f7fd;
@@ -339,7 +340,7 @@ const urlParams = proxy.translateToPageinfo({
   }
 }
 :deep(.el-input__wrapper) {
-  background: #5D7AF7;
+  background: #5d7af7;
   & .el-input__inner {
     color: #fff !important;
   }

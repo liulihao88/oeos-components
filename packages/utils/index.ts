@@ -421,6 +421,14 @@ export function uuid(
     }
     return Number(res)
   }
+  if (type === 'ip') {
+    let randomNum = random(1, 99)
+    return `10.0.11.` + randomNum
+  }
+  if (type === 'port') {
+    let randomNum = random(1, 65535)
+    return randomNum
+  }
   // 生成随机字符串
   for (let i = length; i > 0; --i) {
     res += randomStr[Math.floor(Math.random() * randomStr.length)]

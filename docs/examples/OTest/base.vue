@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-proxy.copy('你好啊', {hideToast: true})
+const checkboxValue = ref(false)
+const options = ref([
+  { label: '小月月', value: false },
+  // { label: '小鑫鑫', value: 'xxx' },
+  // { label: '小瑞瑞', value: 'xrr' },
+])
 </script>
 
 <template>
   <div>
-    111
-    <ooo-svg :customStyle="{ width: '311px', height: '300px' }" color="yellow"></ooo-svg>
-    <o-svg size="20" color="blue"></o-svg>
-    <div>docs/examples/OTest/base.vue</div>
+    <!-- <o-checkbox v-model="checkboxValue" :showAll="false">你瞅啥</o-checkbox> -->
+
+    <el-checkbox v-model="checkboxValue">备选项</el-checkbox>
   </div>
 </template>
+
+<style scoped lang="scss"></style>
