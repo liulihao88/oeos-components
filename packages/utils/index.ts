@@ -2,6 +2,39 @@ import { unref, isRef, toRaw } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { isStringNumber, isNumber } from './types.js'
 import { consola } from 'consola'
+/**
+ * 现有方法如下
+ * $toast(message, type: string | object = 'success', otherParams: object = {})
+ * setStorage(storageName: string, params: any, isSession = false)
+ * getStorage(data, isSession = false)
+ * clearStorage(str: string | [] | object = '')
+ * validForm(ref, { message = '表单校验错误, 请检查', detail = false, showMessage = true } = {})
+ * isEmpty(data: any): boolean
+ * notEmpty(v: any): boolean
+ * merge(obj1: object, obj2: object): object
+ * clone(data, times = 1)
+ * formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}')
+ * formatDurationTime(timestamp, cFormat = '{d} 天 {h} 时 {i} 分 {s} 秒')
+ * uuid(type = '',length = 4,{ emailStr = '@qq.com', timeStr = '{m}-{d} {h}:{i}:{s}', startStr = '', optionsIndex = null } = {},)
+ * getType(type)
+ * sleep(delay = 0, fn?: () => void) 
+ * validate(type = 'required', rules = {}, pureValid = false)
+ * asyncWrapper(func, ...args)
+ * formatImg(photoName, addPath = '', { basePath = 'assets/images' } = {})
+ * copy = (text, toastParams = {})
+ * formatThousands(number) 
+ * log(variableStr, variable, otherInfo = '')
+ * random(min = 0, max = 10)
+ * toLine(text, connect = '-')
+ * processWidth(initValue, isBase = false)
+ * formatBytes(bytes)
+ * formatBytesConvert(bytes)
+ * throttle(fn, delay = 1000) 
+ * debounce(fn, delay = 1000)
+ * confirm(message, options)
+ * formatNewLines(str)
+
+ */
 
 /**
  * @example
@@ -455,10 +488,10 @@ export function getType(type) {
   }
 }
 
-export function sleep(delay = 0, fn) {
-  return new Promise((resolve) =>
+export function sleep(delay = 0, fn?: () => void) {
+  return new Promise((resolve)=>
     setTimeout(() => {
-      fn && fn()
+      fn?.()
       resolve()
     }, delay),
   )
