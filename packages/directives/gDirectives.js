@@ -58,10 +58,42 @@ export default function (app) {
     },
   })
 
+  // app.directive('number', {
+  //   mounted(el) {
+  //     const inputEl = el.nodeName === 'INPUT' ? el : el.querySelector('input')
+
+  //     if (!inputEl) {
+  //       console.error('v-number directive requires an input element')
+  //       return
+  //     }
+
+  //     if (inputEl.placeholder === '请输入') {
+  //       inputEl.placeholder = '请输入数字'
+  //     }
+
+  //     inputEl.addEventListener('input', () => {
+  //       const cursorPosition = inputEl.selectionStart // 保存光标位置
+  //       const originalLength = inputEl.value.length // 保存原始长度
+
+  //       inputEl.value = inputEl.value.replace(/[^0-9]/g, '')
+
+  //       // 调整光标位置
+  //       const newLength = inputEl.value.length
+  //       const positionDifference = originalLength - newLength
+  //       inputEl.setSelectionRange(cursorPosition - positionDifference, cursorPosition - positionDifference)
+
+  //       // 使用 setTimeout 确保事件顺序
+  //       setTimeout(() => {
+  //         inputEl.dispatchEvent(new Event('input'))
+  //       })
+  //     })
+  //   },
+  // })
+
+  // 注册自定义指令
   app.directive('number', {
     mounted(el) {
       const inputEl = el.nodeName === 'INPUT' ? el : el.querySelector('input')
-
       if (!inputEl) {
         console.error('v-number directive requires an input element')
         return
@@ -71,24 +103,67 @@ export default function (app) {
         inputEl.placeholder = '请输入数字'
       }
 
-      inputEl.addEventListener('input', () => {
-        const cursorPosition = inputEl.selectionStart // 保存光标位置
-        const originalLength = inputEl.value.length // 保存原始长度
+      // 设置初始值
+      inputEl.value = inputEl.value
 
-        inputEl.value = inputEl.value.replace(/[^0-9]/g, '')
+      // 监听 input 事件
+      inputEl.addEventListener('input', handleInput)
+    },
+    updated(el) {
+      const inputEl = el.nodeName === 'INPUT' ? el : el.querySelector('input')
+      if (!inputEl) {
+        console.error('v-number directive requires an input element')
+        return
+      }
 
-        // 调整光标位置
-        const newLength = inputEl.value.length
-        const positionDifference = originalLength - newLength
-        inputEl.setSelectionRange(cursorPosition - positionDifference, cursorPosition - positionDifference)
+      // 获取 min 和 max 的值
+      const elMin = inputEl.min ? inputEl.min : null
+      const elMax = inputEl.max ? inputEl.max : null
 
-        // 使用 setTimeout 确保事件顺序
-        setTimeout(() => {
-          inputEl.dispatchEvent(new Event('input'))
-        })
-      })
+      // 更新 min 和 max 的值
+      inputEl._min = elMin
+      inputEl._max = elMax
+
+      // 确保当前值在 min 和 max 之间
+      enforceMinMax(inputEl)
     },
   })
+
+  // 处理输入的函数
+  function handleInput(event) {
+    const inputEl = event.target
+    const cursorPosition = inputEl.selectionStart // 保存光标位置
+    const originalLength = inputEl.value.length // 保存原始长度
+
+    // 只允许输入数字
+    inputEl.value = inputEl.value.replace(/[^0-9]/g, '')
+
+    // 强制执行 min 和 max 限制
+    enforceMinMax(inputEl)
+
+    // 调整光标位置
+    const newLength = inputEl.value.length
+    const positionDifference = originalLength - newLength
+    inputEl.setSelectionRange(cursorPosition - positionDifference, cursorPosition - positionDifference)
+    // 使用 setTimeout 确保事件顺序
+    setTimeout(() => {
+      inputEl.dispatchEvent(new Event('input'))
+    })
+  }
+
+  // 强制执行 min 和 max 限制的函数
+  function enforceMinMax(inputEl) {
+    const elMin = inputEl._min
+    const elMax = inputEl._max
+    if (inputEl.value) {
+      if (elMin !== null && Number(inputEl.value) < elMin) {
+        inputEl.value = elMin.toString()
+      }
+      if (elMax !== null && Number(inputEl.value) > elMax) {
+        inputEl.value = elMax.toString()
+      }
+    }
+  }
 
   /**
    * v-throttle="throttleMethod"

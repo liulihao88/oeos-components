@@ -7,13 +7,12 @@ const options = ref([
   // { label: '小鑫鑫', value: 'xxx' },
   // { label: '小瑞瑞', value: 'xrr' },
 ])
+const cc = ref()
 </script>
 
 <template>
   <div>
-    <!-- <o-checkbox v-model="checkboxValue" :showAll="false">你瞅啥</o-checkbox> -->
-
-    <el-checkbox v-model="checkboxValue">备选项</el-checkbox>
+    <o-input v-model="cc" v-number min="1" max="100" />
   </div>
 </template>
 
