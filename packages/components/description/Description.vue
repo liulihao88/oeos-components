@@ -8,7 +8,7 @@
         <slot :name="item.slotName"></slot>
       </template>
       <template v-else>
-        <o-tooltip class="w-100%" :content="item.value"></o-tooltip>
+        <o-tooltip class="w-100%" :content="parseContent(item.value)"></o-tooltip>
       </template>
     </el-descriptions-item>
   </el-descriptions>
@@ -30,13 +30,31 @@ const props = defineProps({
   },
   labelWidth: {
     type: String,
-    default: '100px',
+    default: '',
   },
 })
 const labelWidth = computed(() => {
-  return proxy.processWidth(props.labelWidth, true)
+  let maxLabelLength = 1
+  ;(props.options ?? []).forEach((v) => {
+    let labelStrLength = v.label.length
+    if (labelStrLength > maxLabelLength) {
+      maxLabelLength = labelStrLength
+    }
+  })
+  if (props.labelWidth) {
+    return proxy.processWidth(props.labelWidth, true)
+  } else {
+    return maxLabelLength * 12 + 'px'
+  }
 })
 const column = computed(() => props.column)
+const parseContent = (value) => {
+  if (typeof value === 'function') {
+    return value()
+  } else {
+    return value
+  }
+}
 </script>
 
 <style scoped lang="scss">
