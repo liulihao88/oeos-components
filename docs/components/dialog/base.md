@@ -36,19 +36,20 @@ ODialog/dialogForm
 
 ## 属性
 
-|      属性名      | 说明                             | 类型    | 默认值 |
-| :--------------: | -------------------------------- | ------- | ------ |
-|      title       | 顶部title                        | string  | 提示   |
-|    cancelText    | 取消按钮文本                     | string  | 取消   |
-|   confirmText    | 确认按钮文本                     | string  | 确认   |
-|      footer      | 是否显示底部操作按钮             | object  | -      |
-|    showCancel    | 是否显示取消按钮                 | boolean | true   |
-|   showConfirm    | 是否显示确认按钮                 | boolean | true   |
-|   confirmAttrs   | 确认按钮的属性                   | object  | {}     |
-|   cancleAttrs    | 取消按钮的属性                   | object  | {}     |
-| destroy-on-close | 当关闭 Dialog 时，销毁其中的元素 | boolean | false  |
-|    fullscreen    | 是否为全屏Dialog                 | boolean | false  |
-|    enableConfirm    | 是否允许使用enter回车键执行confirm事件                 | boolean | true  |
+|      属性名       | 说明                                   | 类型    | 默认值 |
+| :---------------: | -------------------------------------- | ------- | ------ |
+|       title       | 顶部title                              | string  | 提示   |
+|    cancelText     | 取消按钮文本                           | string  | 取消   |
+|    confirmText    | 确认按钮文本                           | string  | 确认   |
+|      footer       | 是否显示底部操作按钮                   | object  | -      |
+|    showCancel     | 是否显示取消按钮                       | boolean | true   |
+|    showConfirm    | 是否显示确认按钮                       | boolean | true   |
+|   confirmAttrs    | 确认按钮的属性                         | object  | {}     |
+|    cancleAttrs    | 取消按钮的属性                         | object  | {}     |
+| destroy-on-close  | 当关闭 Dialog 时，销毁其中的元素       | boolean | false  |
+|    fullscreen     | 是否为全屏Dialog                       | boolean | false  |
+|   enableConfirm   | 是否允许使用enter回车键执行confirm事件 | boolean | true   |
+| closeOnClickModal | 是否允许点击模态框关闭弹框             | boolean | true   |
 
 ## 方法
 
