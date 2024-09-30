@@ -1,18 +1,69 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-const checkboxValue = ref(false)
-const options = ref([
-  { label: '小月月', value: false },
-  // { label: '小鑫鑫', value: 'xxx' },
-  // { label: '小瑞瑞', value: 'xrr' },
+
+const data = ref([
+  {
+    name: 'andy',
+  },
+  {
+    name: 'andy2',
+  },
+  {
+    name: 'andy3',
+  },
+  {
+    name: 'andy4',
+  },
 ])
-const cc = ref()
+const columns = [
+  {
+    label: '名字',
+    prop: 'name',
+  },
+  {
+    key: 'operation',
+    label: '操作',
+    maxBtns: 6,
+    btns: [
+      {
+        content: '编辑',
+        isShow: (row) => {
+          return row.name === 'andy'
+        },
+      },
+      {
+        content: '编辑2',
+        isShow: (row) => {
+          return row.name === 'andy2'
+        },
+      },
+      {
+        content: '编辑3',
+        isShow: (row) => {
+          return row.name.indexOf('andy') !== -1
+        },
+      },
+      {
+        content: '编辑4',
+        isShow: (row) => {
+          return row.name === 'andy4'
+        },
+      },
+      {
+        content: '编辑5',
+        isShow: (row) => {
+          return row.name === 'andy'
+        },
+      },
+    ],
+  },
+]
 </script>
 
 <template>
   <div>
-    <o-input v-model="cc" v-number min="1" max="100" />
+    <o-table :columns="columns" :data="data" ref="tableRef"></o-table>
   </div>
 </template>
 

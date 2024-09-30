@@ -100,6 +100,16 @@ const parseDisabled = (disFn, row = '', scope = '') => {
     return disFn
   }
 }
+const parseIsShow = (isFn, row = '', scope = '') => {
+  if (typeof isFn === 'function') {
+    return isFn(row, scope)
+  } else {
+    if (isFn === undefined) {
+      return true
+    }
+    return isFn
+  }
+}
 const handleEmptyText = (scope, v) => {
   if (scope.row[v.prop]) {
     return scope.row[v.prop]
@@ -146,30 +156,32 @@ defineExpose({})
         >
           <template #default="scope">
             <template v-for="(val, idx) in v.baseBtns" :key="idx">
-              <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
-              <template v-else-if="val.reConfirm === true">
-                <o-popconfirm trigger="click" @confirm="val.handler?.(scope.row, scope)">
+              <template v-if="parseIsShow(val.isShow, scope.row, scope)">
+                <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
+                <template v-else-if="val.reConfirm === true">
+                  <o-popconfirm trigger="click" @confirm="val.handler?.(scope.row, scope)">
+                    <el-button
+                      v-if="!val.confirmInfo"
+                      v-bind="{ ...val }"
+                      link
+                      :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                    >
+                      {{ operatorBtnFn(val.content, scope.row, scope) }}
+                    </el-button>
+                  </o-popconfirm>
+                </template>
+                <template v-else>
                   <el-button
                     v-if="!val.confirmInfo"
                     v-bind="{ ...val }"
                     link
                     :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                    class="linked"
+                    @click.stop="val.handler?.(scope.row, scope)"
                   >
                     {{ operatorBtnFn(val.content, scope.row, scope) }}
                   </el-button>
-                </o-popconfirm>
-              </template>
-              <template v-else>
-                <el-button
-                  v-if="!val.confirmInfo"
-                  v-bind="{ ...val }"
-                  link
-                  :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                  class="linked"
-                  @click.stop="val.handler?.(scope.row, scope)"
-                >
-                  {{ operatorBtnFn(val.content, scope.row, scope) }}
-                </el-button>
+                </template>
               </template>
             </template>
 

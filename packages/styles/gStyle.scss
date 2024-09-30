@@ -372,6 +372,7 @@ $align: (
   ed: flex-end,
   un: unset,
   nm: normal,
+  tp: top,
 );
 @each $justifyKey, $justifyVal in $justify {
   .f-#{$justifyKey} {
