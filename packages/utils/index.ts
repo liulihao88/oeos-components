@@ -220,6 +220,10 @@ export function isEmpty(data: any): boolean {
   if (isRef(data)) {
     data = unref(data)
   }
+  // 如果是日期对象，检查它是否是有效的日期
+  if (data instanceof Date) {
+    return isNaN(data.getTime())
+  }
   switch (typeof data) {
     case 'undefined':
       return true
@@ -489,7 +493,7 @@ export function getType(type) {
 }
 
 export function sleep(delay = 0, fn?: () => void) {
-  return new Promise((resolve)=>
+  return new Promise((resolve) =>
     setTimeout(() => {
       fn?.()
       resolve()
