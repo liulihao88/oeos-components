@@ -835,7 +835,7 @@ export function processWidth(initValue, isBase = false) {
 /**
  * 只有对正整数或者字符串正整数才进行单位的转换,
  * 否则返回原始数据
- *
+ * proxy.formatBytes(536870912) // 512MB
  */
 export function formatBytes(bytes) {
   if (isStringNumber(bytes) || isNumber(bytes)) {
@@ -852,6 +852,7 @@ export function formatBytes(bytes) {
   const i = Math.floor(Math.log(bytes) / Math.log(k))
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
+//formatBytesConvert('0.5GB') 536870912
 export function formatBytesConvert(bytes) {
   if (isStringNumber(bytes) || isNumber(bytes)) {
     return bytes
