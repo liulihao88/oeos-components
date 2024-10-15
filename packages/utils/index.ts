@@ -578,6 +578,14 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
       /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
     )
   }
+  if (type === 'length') {
+    return {
+      min: rules.min,
+      max: rules.max,
+      message: rules.message ?? `请输入${rules.min}到${rules.max}个字符`,
+      trigger: ['blur', 'change'],
+    }
+  }
   if (type === 'port') {
     return _validValue(
       rules,
