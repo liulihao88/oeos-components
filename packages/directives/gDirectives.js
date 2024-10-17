@@ -137,15 +137,17 @@ export default function (app) {
 
     // 只允许输入数字
     inputEl.value = inputEl.value.replace(/[^0-9]/g, '')
-
+    if (inputEl.value) {
+      inputEl.value = Number(inputEl.value)
+    }
     // 强制执行 min 和 max 限制
     enforceMinMax(inputEl)
 
     // 调整光标位置
-    const newLength = inputEl.value.length
-    const positionDifference = originalLength - newLength
-    inputEl.setSelectionRange(cursorPosition - positionDifference, cursorPosition - positionDifference)
-    // 使用 setTimeout 确保事件顺序
+    // const newLength = inputEl.value.length
+    // const positionDifference = originalLength - newLength
+    // inputEl.setSelectionRange(cursorPosition - positionDifference, cursorPosition - positionDifference)
+    // // 使用 setTimeout 确保事件顺序
     setTimeout(() => {
       inputEl.dispatchEvent(new Event('input'))
     })

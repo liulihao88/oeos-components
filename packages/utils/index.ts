@@ -942,7 +942,7 @@ export function debounce(fn, delay = 1000) {
 }
 
 /**
- * proxy.confirm('内容')
+ * proxy.confirm('确定删除吗?')
  * proxy.confirm('哈哈', { icon: 'el-icon-plus' })
  * close-on-click-modal: 是否可通过点击遮罩层关闭 MessageBox 默认true
  * lock-scroll: 是否在 MessageBox 出现时将 body 滚动锁定. 默认true
