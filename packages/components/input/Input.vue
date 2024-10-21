@@ -40,6 +40,28 @@
               {{ $attrs.title }}
             </div>
           </template>
+          <!-- 插槽默认内容 -->
+          <slot></slot>
+
+          <!-- 前缀插槽 -->
+          <template v-if="$slots.prefix" v-slot:prefix>
+            <slot name="prefix"></slot>
+          </template>
+
+          <!-- 后缀插槽 -->
+          <template v-if="$slots.suffix" v-slot:suffix>
+            <slot name="suffix"></slot>
+          </template>
+
+          <!-- 后置插槽 -->
+          <template v-if="$slots.append" v-slot:append>
+            <slot name="append"></slot>
+          </template>
+
+          <!-- 前置插槽 -->
+          <template v-if="$slots.prepend" v-slot:prepend>
+            <slot name="prepend"></slot>
+          </template>
         </el-input>
       </div>
     </el-tooltip>

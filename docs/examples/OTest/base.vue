@@ -8,7 +8,11 @@ const cc = ref()
 <template>
   <div>
     <div>docs/examples/OTest/base.vue</div>
-    <o-input v-model="cc" v-number :min="1" length="3" :maxlength="4" placeholder="你瞅啥"  />
-    <o-input v-model="cc" :maxlength="4" />
+    <o-input v-model="cc" placeholder="你瞅啥">
+      <template #prepend>prepend前置插槽</template>
+      <template #prefix>prefix前缀插槽</template>
+      <template #suffix>suffix后缀插槽</template>
+      <template #append>append后置插槽</template>
+    </o-input>
   </div>
 </template>

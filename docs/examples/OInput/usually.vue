@@ -10,6 +10,19 @@ const iptValue = ref('')
 <template>
   <div>
     <o-input
+      content="这里主要是为了让其鼠标移入显示文本"
+      :iconAttrs="{
+        color: 'blue',
+        size: 16,
+        name: 'plus',
+      }"
+    >
+      <template #prepend>prepend前置插槽</template>
+      <template #prefix>prefix前缀插槽</template>
+      <template #suffix>suffix后缀插槽</template>
+      <template #append>append后置插槽</template>
+    </o-input>
+    <o-input
       title="名字"
       v-model="iptValue"
       width="500"
