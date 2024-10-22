@@ -7,7 +7,7 @@ const data = ref([
     name: 'andy',
   },
   {
-    name: 'andy2',
+    name: true, 
   },
 ])
 const columns = [

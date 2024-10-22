@@ -111,7 +111,7 @@ const parseIsShow = (isFn, row = '', scope = '') => {
   }
 }
 const handleEmptyText = (scope, v) => {
-  if (scope.row[v.prop]) {
+  if ((scope.row[v.prop] !== null && scope.row[v.prop] !== undefined) || scope.row[v.prop] !== '') {
     return scope.row[v.prop]
   }
   return v.emptyText || props.emptyText
