@@ -1,18 +1,41 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-
-const cc = ref()
+const data = ref([
+  {
+    name: 'andy',
+  },
+  {
+    name: 'tom',
+  },
+])
+const columns = [
+  {
+    label: '名字',
+    prop: 'name',
+    isShow: false,
+  },
+  {
+    key: 'operation',
+    label: '操作',
+    isShow: (row) => row.name === 'andy',
+    btns: [
+      {
+        content: '编辑',
+      },
+      {
+        content: '删除',
+        isShow: (row) => {
+          return row.name === 'tom'
+        },
+      },
+    ],
+  },
+]
 </script>
 
 <template>
   <div>
-    <div>docs/examples/OTest/base.vue</div>
-    <o-input v-model="cc" placeholder="你瞅啥">
-      <template #prepend>prepend前置插槽</template>
-      <template #prefix>prefix前缀插槽</template>
-      <template #suffix>suffix后缀插槽</template>
-      <template #append>append后置插槽</template>
-    </o-input>
+    <o-table :columns="columns" :data="data" ref="tableRef"></o-table>
   </div>
 </template>
