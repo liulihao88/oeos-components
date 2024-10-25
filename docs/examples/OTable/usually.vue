@@ -48,17 +48,14 @@ const columns = [
         content: '查看',
         type: 'primary',
         handler: handleDetail,
-        // disabled: (ddd, scope) => {
-        //   console.log(`51行 test/t1.vue ddd `, ddd)
-        //   return true
-        // },
+        disabled: (ddd, scope) => {
+          return true
+        },
       },
       {
         content: '编辑',
-        type: 'danger',
         handler: handleDetail,
         reConfirm: true,
-        size: 'large',
       },
       {
         content: '发布',

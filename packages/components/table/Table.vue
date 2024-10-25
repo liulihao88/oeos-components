@@ -160,11 +160,12 @@ defineExpose({})
                 <template v-if="parseIsShow(val.isShow, scope.row, scope)">
                   <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
                   <template v-else-if="val.reConfirm === true">
-                    <o-popconfirm trigger="click" @confirm="val.handler?.(scope.row, scope)">
+                    <o-popconfirm trigger="click" @confirm="val.handler?.(scope.row, scope)" style="display: inline">
                       <el-button
                         v-if="!val.confirmInfo"
                         v-bind="{ ...val }"
                         link
+                        class="linked"
                         :disabled="parseDisabled(val.disabled, scope.row, scope)"
                       >
                         {{ operatorBtnFn(val.content, scope.row, scope) }}
@@ -194,11 +195,12 @@ defineExpose({})
                       <el-dropdown-item v-for="(val, idx) in v.hideBtns" :key="idx" :hide-on-click="false">
                         <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
                         <template v-else-if="val.reConfirm === true">
-                          <o-popconfirm trigger="hover" @confirm="val.handler?.(scope.row, scope)">
+                          <o-popconfirm trigger="hover" @confirm="val.handler?.(scope.row, scope)" style="inline">
                             <el-button
                               v-if="!val.confirmInfo"
                               v-bind="{ ...val }"
                               link
+                              class="linked"
                               :disabled="parseDisabled(val.disabled, scope.row, scope)"
                             >
                               {{ operatorBtnFn(val.content, scope.row, scope) }}
