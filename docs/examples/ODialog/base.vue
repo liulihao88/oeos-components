@@ -2,17 +2,19 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 const isShow = ref(false)
-proxy.log(`isShow`, isShow, '__INJECT_FILE_PATH__')
+const isShow2 = ref(false)
+const confirm = () => {
+  isShow2.value = true
+}
 </script>
 
 <template>
   <div>
     <el-button type="primary" @click="isShow = true">显示dialog</el-button>
-    <o-dialog title="基础dialog" v-model="isShow">
-      <div>这是要显示的内容</div>
+    <o-dialog title="基础dialog" v-model="isShow" @confirm="confirm">
+      这是外部的dialog
+      <o-dialog ref="dialogRef" title="内部的" v-model="isShow2">这是内部的dialog</o-dialog>
     </o-dialog>
-
-    
   </div>
 </template>
 

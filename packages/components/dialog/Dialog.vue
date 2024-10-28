@@ -13,9 +13,7 @@
     >
       <template #header>
         <slot name="header">
-          <div class="dddddddddd">
-            <span>{{ title }}</span>
-          </div>
+          <span>{{ title }}</span>
         </slot>
       </template>
       <div :class="$attrs.fullscreen === true || $attrs.fullscreen === '' ? 'dialog_fullscreen ' : 'dialog_slot_box'">
@@ -159,6 +157,7 @@ onBeforeUnmount(() => {
   :deep(.el-dialog__header) {
     padding: 8px 16px;
     border-bottom: 1px solid #e3e6eb;
+    font-weight: 700;
   }
   :deep(.el-dialog) {
     padding: 0 !important;
