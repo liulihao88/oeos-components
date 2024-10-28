@@ -22,8 +22,19 @@ setInterval(async () => {
 
 <template>
   <div>
-    <o-select v-model="selectVal" :options="options"></o-select>
-    <o-select v-model="selectVal" disabled :options="options"></o-select>
+    <o-input title="FEATURE:组件库文档的开发" clas="m" v-model="selectVal"></o-input>
+    <o-select
+      v-model="selectVal"
+      title="哈哈"
+      :options="options"
+      :boxAttrs="{
+        style: {},
+        class: ['m'],
+      }"
+    ></o-select>
+    <o-select v-model="selectVal" :options="options">
+      <template #prefix>11</template>
+    </o-select>
     <o-select v-model="selectVal" :options="changeOptions" type="simple"></o-select>
     <o-select v-model="selectVal" :options="[]" :emptyColor="false"></o-select>
   </div>

@@ -1,5 +1,10 @@
 <template>
-  <div class="o-select" :style="{ ...proxy.processWidth(props.width) }">
+  <div
+    class="o-select"
+    :style="{ ...proxy.processWidth(props.width) }"
+    :class="{ 'has-title': props.title }"
+    v-bind="boxAttrs"
+  >
     <div v-if="props.title" class="o-select__title">
       {{ props.title }}
     </div>
@@ -116,6 +121,10 @@ const props = defineProps({
   emptyColor: {
     type: Boolean,
     default: true,
+  },
+  boxAttrs: {
+    type: Object,
+    default: () => {},
   },
 })
 
@@ -272,14 +281,14 @@ const urlParams = proxy.translateToPageinfo({
   vertical-align: bottom;
 
   .o-select__title {
-    background: #fff;
+    background: #f5f7fa;
     vertical-align: middle;
     position: relative;
     border: 1px solid #dcdfe6;
     border-right: 0 none;
     padding: 0 8px;
     white-space: nowrap;
-    border-radius: 2pgex 0 0 2px;
+    border-radius: 2px 0 0 2px;
     align-items: center;
     display: inline-block;
     display: flex;
@@ -287,17 +296,20 @@ const urlParams = proxy.translateToPageinfo({
     color: rgba(39, 48, 75, 0.85);
     font-size: 12px;
   }
+
   :deep(.el-input__inner) {
     border-radius: 0px 2px 2px 0 !important;
   }
-  .o-select__select {
-    flex-grow: 1;
-    display: inline-block;
-  }
+
   .o-select__empty {
     :deep(.el-select__wrapper) {
       box-shadow: 0 0 0 1px var(--red) inset;
     }
+  }
+}
+.has-title {
+  :deep(.el-select__wrapper) {
+    border-radius: 0 4px 4px 0 !important;
   }
 }
 

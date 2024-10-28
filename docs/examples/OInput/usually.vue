@@ -2,7 +2,7 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 function close() {
-  console.log('close')
+  proxy.$toast('关闭')
 }
 const iptValue = ref('')
 </script>
@@ -32,8 +32,7 @@ const iptValue = ref('')
         onClick: close,
         style: {
           color: 'blue',
-          fontSize: '10px',
-          fontWeight: 'bold',
+          cursor: 'pointer',
         },
       }"
     ></o-input>
