@@ -277,7 +277,6 @@ defineExpose({})
           background
           :current-page="currentPage"
           :page-size="sPageSize"
-          :hide-on-single-page="true"
           :page-sizes="pageSizes"
           layout="prev, pager, next, sizes, jumper"
           :total="tableTotal"
