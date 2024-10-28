@@ -214,7 +214,7 @@ function updatePage() {
                       <el-dropdown-item v-for="(val, idx) in v.hideBtns" :key="idx" :hide-on-click="false">
                         <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
                         <template v-else-if="val.reConfirm === true">
-                          <o-popconfirm trigger="hover" @confirm="val.handler?.(scope.row, scope)" style="inline">
+                          <o-popconfirm trigger="hover" @confirm="val.handler?.(scope.row, scope)" style="display: inline">
                             <el-button
                               v-if="!val.confirmInfo"
                               v-bind="{ ...val }"
