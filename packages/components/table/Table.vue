@@ -18,6 +18,16 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  pageSize: {
+    type: Number,
+    default: 10,
+  },
+  pageSizes: {
+    type: Array,
+    default: () => {
+      return [10, 30, 50, 100]
+    },
+  },
   total: {
     type: Number,
   },
@@ -30,6 +40,7 @@ const tableRef = ref(null)
 const tableTotal = computed(() => {
   return props.total || props.data.length
 })
+const sPageSize = ref(props.pageSize)
 const emits = defineEmits(['update'])
 const finalColumns = ref([])
 
@@ -71,6 +82,15 @@ watch(
   {
     immediate: true,
     deep: true,
+  },
+)
+watch(
+  () => props.pageSize,
+  (val) => {
+    sPageSize.value = val
+  },
+  {
+    immediate: true,
   },
 )
 // isShow 或者 content支持 函数或字符串两种写法。
@@ -117,9 +137,9 @@ const handleEmptyText = (scope, v) => {
   return v.emptyText || props.emptyText
 }
 const currentPage = ref(1)
-const pageSize = ref(10)
+
 function handleSizeChange(val) {
-  pageSize.value = val
+  sPageSize.value = val
   currentPage.value = 1
   update()
 }
@@ -128,7 +148,7 @@ function handleCurrentChange(val) {
   update()
 }
 function update() {
-  emits('update', { pageSize: pageSize.value, currentPage: currentPage.value })
+  emits('update', { pageSize: sPageSize.value, currentPage: currentPage.value })
 }
 defineExpose({})
 </script>
@@ -256,8 +276,9 @@ defineExpose({})
           class="tab_pagination"
           background
           :current-page="currentPage"
-          :page-size="pageSize"
-          :page-sizes="[10, 30, 50, 100]"
+          :page-size="sPageSize"
+          :hide-on-single-page="true"
+          :page-sizes="pageSizes"
           layout="prev, pager, next, sizes, jumper"
           :total="tableTotal"
           @size-change="handleSizeChange"

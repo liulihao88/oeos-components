@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-const data = ref([
-  {
-    name: 'andy',
-  },
-  {
-    name: 'tom',
-  },
-])
+const data = ref([])
+
+for (let i = 0; i < 32; i++) {
+  let obj = {
+    name: 'andy' + i,
+  }
+  data.value.push(obj)
+}
 const columns = [
   {
     label: '名字',
@@ -36,6 +36,6 @@ const columns = [
 
 <template>
   <div>
-    <o-table :columns="columns" :data="data" ref="tableRef"></o-table>
+    <o-table :columns="columns" :data="data" :pageSize="10" ref="tableRef"></o-table>
   </div>
 </template>
