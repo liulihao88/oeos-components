@@ -76,7 +76,7 @@ const updateTable = () => {
 }
 watch(
   () => props.columns,
-  () => {
+  (columns) => {
     updateTable()
   },
   {
@@ -136,21 +136,20 @@ const handleEmptyText = (scope, v) => {
   }
   return v.emptyText || props.emptyText
 }
-const currentPage = ref(1)
+const pageNumber = ref(1)
 
 function handleSizeChange(val) {
   sPageSize.value = val
-  currentPage.value = 1
-  update()
+  pageNumber.value = 1
+  updatePage()
 }
 function handleCurrentChange(val) {
-  currentPage.value = val
-  update()
+  pageNumber.value = val
+  updatePage()
 }
-function update() {
-  emits('update', { pageSize: sPageSize.value, currentPage: currentPage.value })
+function updatePage() {
+  emits('update', pageNumber.value, sPageSize.value)
 }
-defineExpose({})
 </script>
 
 <template>
@@ -275,7 +274,7 @@ defineExpose({})
         <el-pagination
           class="tab_pagination"
           background
-          :current-page="currentPage"
+          :current-page="pageNumber"
           :page-size="sPageSize"
           :page-sizes="pageSizes"
           layout="prev, pager, next, sizes, jumper"
