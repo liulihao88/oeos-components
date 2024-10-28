@@ -360,7 +360,6 @@ const urlParams = proxy.translateToPageinfo({
 .o-select__all-select {
   display: block;
   padding: 0px 0px 0px 20px;
-  background-color: #f5f7fa;
   &:hover {
     background-color: #f5f7fa;
   }

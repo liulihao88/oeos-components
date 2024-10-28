@@ -8,16 +8,6 @@ const options = ref([
 ])
 const changeOptions = ref([])
 const simpleOptions = ref([1, 3, 5, 7, 9])
-
-setInterval(async () => {
-  if (changeOptions.value.length === 0) {
-    await proxy.sleep(100)
-    changeOptions.value = [1, 3, 5]
-  } else {
-    await proxy.sleep(100)
-    changeOptions.value = []
-  }
-}, 1000)
 </script>
 
 <template>
@@ -35,8 +25,8 @@ setInterval(async () => {
     <o-select v-model="selectVal" :options="options">
       <template #prefix>11</template>
     </o-select>
+
     <o-select v-model="selectVal" :options="changeOptions" type="simple"></o-select>
-    <o-select v-model="selectVal" :options="[]" :emptyColor="false"></o-select>
   </div>
 </template>
 
