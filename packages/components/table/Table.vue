@@ -131,10 +131,12 @@ const parseIsShow = (isFn, row = '', scope = '') => {
   }
 }
 const handleEmptyText = (scope, v) => {
-  if ((scope.row[v.prop] !== null && scope.row[v.prop] !== undefined) || scope.row[v.prop] !== '') {
-    return scope.row[v.prop]
+  // 判断'   '为空
+  const trimIsEmpty = proxy.getType(scope.row[v.prop]) === 'string' && scope.row[v.prop].trim().length === 0
+  if (scope.row[v.prop] === null || scope.row[v.prop] === undefined || scope.row[v.prop] === '' || trimIsEmpty) {
+    return v.emptyText || props.emptyText
   }
-  return v.emptyText || props.emptyText
+  return scope.row[v.prop]
 }
 const pageNumber = ref(1)
 
@@ -214,7 +216,11 @@ function updatePage() {
                       <el-dropdown-item v-for="(val, idx) in v.hideBtns" :key="idx" :hide-on-click="false">
                         <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
                         <template v-else-if="val.reConfirm === true">
-                          <o-popconfirm trigger="hover" @confirm="val.handler?.(scope.row, scope)" style="display: inline">
+                          <o-popconfirm
+                            trigger="hover"
+                            @confirm="val.handler?.(scope.row, scope)"
+                            style="display: inline"
+                          >
                             <el-button
                               v-if="!val.confirmInfo"
                               v-bind="{ ...val }"

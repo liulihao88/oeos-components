@@ -7,8 +7,24 @@ const data = ref([
     name: 'andy',
   },
   {
-    name: true, 
+    name: '   ',
   },
+  {
+    name: null,
+  },
+  {
+    name: undefined,
+  },
+  {
+    name: '',
+  },
+  {
+    name: [],
+  },
+  {
+    name: true,
+  },
+  { name: 0 },
 ])
 const columns = [
   {
