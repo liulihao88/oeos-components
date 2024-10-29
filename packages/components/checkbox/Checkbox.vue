@@ -25,7 +25,7 @@ const props = defineProps({
   showType: {
     type: String,
     validator: (value: string) => ['check', 'button'].includes(value),
-    default: 'check',
+    default: 'check', // button
   },
   modelValue: {
     type: Array,
