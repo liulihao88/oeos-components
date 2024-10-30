@@ -10,13 +10,17 @@ const formRef = ref(null)
 //   pwd: [proxy.validate('same', { value: toRef(form.value, 'confirmPwd') })],
 //   confirmPwd: [proxy.validate('same', { value: toRef(form.value, 'pwd') })],
 // }
+const num = ref(0)
+setInterval(() => {
+  num.value += 2
+}, 3000)
 
 const rules = computed(() => {
   return {
     username: [proxy.validate('custom', { message: '3-10位字符且只支持数字、英文', reg: /^[0-9a-zA-Z]{3,10}$/ })],
     fullName: [proxy.validate('length', { min: 3, max: 20 })],
-    pwd: [proxy.validate('same', { value: form.value.confirmPwd })],
-    confirmPwd: [proxy.validate('same', { value: form.value.pwd })],
+    pwd: [proxy.validate('same', { value: form.value.confirmPwd, required: num.value % 2 === 0 ? true : false })],
+    confirmPwd: [proxy.validate('same', { value: form.value.pwd, required: num.value % 2 === 0 ? true : false })],
   }
 })
 
@@ -26,6 +30,8 @@ const pwdChange = () => {
 }
 
 const save = async () => {
+  console.log(`%c07 33行 docs/examples/OTest/base.vue form.value`, 'background:#fff;color:red', form.value)
+
   await proxy.validForm(formRef)
   proxy.$toast('保存成功')
 }
@@ -38,8 +44,8 @@ const devTest = () => {
   //   confirmPwd: 'adminadmin',
   //   description: 'description' + proxy.uuid(),
   // })
-  form.value.pwd='adminadmin'
-  form.value.confirmPwd='adminadmin'
+  form.value.pwd = ''
+  form.value.confirmPwd = ''
 }
 devTest()
 </script>

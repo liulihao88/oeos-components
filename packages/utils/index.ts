@@ -523,17 +523,19 @@ confirmRegPwd: [
 export function validate(type = 'required', rules = {}, pureValid = false) {
   let trigger = rules.trigger || ['blur', 'change']
   const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'same', 'length', 'ip', 'port', 'custom']
+  let parseRequired = rules.required ?? true
+
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
   if (!typeMaps.includes(type)) {
     return {
-      required: rules.required ?? true,
+      required: parseRequired,
       message: type,
       trigger: trigger,
     }
   }
   if (type === 'required') {
     return {
-      required: rules.required ?? true,
+      required: parseRequired,
       message: rules.message ?? '请输入',
       trigger: trigger,
     }
@@ -587,7 +589,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
       max: rules.max,
       message: rules.message ?? `请输入${rules.min}到${rules.max}个字符`,
       trigger: ['blur', 'change'],
-      required: rules.required ?? true,
+      required: parseRequired,
     }
   }
   if (type === 'port') {
@@ -626,13 +628,18 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
         const errMessage = rules.message || '密码和确认密码要一致'
         callback(new Error(errMessage))
       }
+      if (parseRequired && !value) {
+        callback(new Error(rules.message || '请输入'))
+      }
       callback()
     }
-    return {
+    let res = {
       validator: validateSame,
       trigger: trigger,
-      required: rules.required,
+      required: parseRequired,
     }
+    console.log(`27 res`, res)
+    return res
   }
   if (type === 'custom') {
     //  _validValue(rules, '请输入正确的手机号', pureValid, /^[1][0-9]{10}$/)
@@ -657,7 +664,7 @@ function _validValue(rules, msg, pureValid, reg) {
   }
   return {
     validator: validatePhone,
-    required: rules.required ?? true,
+    required: parseRequired,
     trigger: rules.trigger || ['blur', 'change'],
   }
 }
