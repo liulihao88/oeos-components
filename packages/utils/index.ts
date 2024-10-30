@@ -511,7 +511,9 @@ phone: [ proxy.validate('phone')],
 custom: [proxy.validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })]
 confirmRegPwd: [
   proxy.validate('same', { value: toRef(form.value, 'regPwd') }),
-],
+], // 如果判断两个密码一致, 还要在input输入值改变的时候, 再校验一下两个input
+  formRef.value.validate('regPwd')
+  formRef.value.validate('confirmRegPwd')
  * 2. 在函数中使用, 返回boolean
  let ip = proxy.validate('ip', 122322, true)
  let custom = proxy.validate('custom', { value: -123, reg: /^-\d+\.?\d{0,2}$/ }, true)
@@ -584,6 +586,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
       max: rules.max,
       message: rules.message ?? `请输入${rules.min}到${rules.max}个字符`,
       trigger: ['blur', 'change'],
+      required: true,
     }
   }
   if (type === 'port') {
