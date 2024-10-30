@@ -630,6 +630,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
     return {
       validator: validateSame,
       trigger: trigger,
+      required: true,
     }
   }
   if (type === 'custom') {
