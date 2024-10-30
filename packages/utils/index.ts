@@ -526,14 +526,14 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
   if (!typeMaps.includes(type)) {
     return {
-      required: true,
+      required: rules.required ?? true,
       message: type,
       trigger: trigger,
     }
   }
   if (type === 'required') {
     return {
-      required: true,
+      required: rules.required ?? true,
       message: rules.message ?? '请输入',
       trigger: trigger,
     }
@@ -587,7 +587,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
       max: rules.max,
       message: rules.message ?? `请输入${rules.min}到${rules.max}个字符`,
       trigger: ['blur', 'change'],
-      required: true,
+      required: rules.required ?? true,
     }
   }
   if (type === 'port') {
@@ -631,7 +631,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
     return {
       validator: validateSame,
       trigger: trigger,
-      required: true,
+      required: rules.required,
     }
   }
   if (type === 'custom') {
@@ -657,7 +657,7 @@ function _validValue(rules, msg, pureValid, reg) {
   }
   return {
     validator: validatePhone,
-    required: true,
+    required: rules.required ?? true,
     trigger: rules.trigger || ['blur', 'change'],
   }
 }
