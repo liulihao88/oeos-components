@@ -510,10 +510,11 @@ length: [proxy.validate('length')],
 phone: [ proxy.validate('phone')],
 custom: [proxy.validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })]
 confirmRegPwd: [
-  proxy.validate('same', { value: toRef(form.value, 'regPwd') }),
-], // 如果判断两个密码一致, 还要在input输入值改变的时候, 再校验一下两个input
+  proxy.validate('same', { value: form.value.regPwd }),
+], //1. 如果判断两个密码一致, 还要在input输入值改变的时候, 再校验一下两个input
   formRef.value.validate('regPwd')
   formRef.value.validate('confirmRegPwd')
+  // 2. rules需要使用computed包裹, 否则值改变无法传递
  * 2. 在函数中使用, 返回boolean
  let ip = proxy.validate('ip', 122322, true)
  let custom = proxy.validate('custom', { value: -123, reg: /^-\d+\.?\d{0,2}$/ }, true)
@@ -620,7 +621,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
   }
   if (type === 'same') {
     const validateSame = (rule, value, callback) => {
-      let isSame = value === rules.value.value
+      let isSame = value === rules.value
       if (!isSame) {
         const errMessage = rules.message || '密码和确认密码要一致'
         callback(new Error(errMessage))
