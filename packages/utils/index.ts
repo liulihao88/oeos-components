@@ -664,7 +664,7 @@ function _validValue(rules, msg, pureValid, reg) {
   }
   return {
     validator: validatePhone,
-    required: parseRequired,
+    required: rules.required ?? true,
     trigger: rules.trigger || ['blur', 'change'],
   }
 }
