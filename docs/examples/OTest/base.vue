@@ -12,7 +12,7 @@ const formRef = ref(null)
 // }
 const num = ref(0)
 setInterval(() => {
-  num.value += 2
+  num.value += 1
 }, 3000)
 
 const rules = computed(() => {

@@ -63,7 +63,7 @@ const props = defineProps({
     type: [String, Number],
   },
   type: {
-    type: String,
+    type: String, // simple
   },
 })
 
@@ -107,7 +107,6 @@ const margin = computed(() => {
       width: 100%;
       align-items: center;
       position: relative;
-      font-weight: 600;
       box-sizing: border-box;
       display: flex;
       &::before {
@@ -122,7 +121,7 @@ const margin = computed(() => {
       }
       .title-text {
         letter-spacing: 0;
-        font-weight: 500;
+        font-weight: 600;
       }
     }
     .o-title__top-simple-left {

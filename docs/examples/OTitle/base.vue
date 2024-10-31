@@ -6,6 +6,7 @@ const { proxy } = getCurrentInstance()
 <template>
   <div>
     <o-title title="你好"></o-title>
+    <o-title title="无左侧树杠" type="simple"></o-title>
     <o-title title="你好2" inner subTitle="我不服啊">
       我是左侧
       <template #right>
