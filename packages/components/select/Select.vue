@@ -27,15 +27,18 @@
       <template v-for="(index, name) in slots" v-slot:[name]="data">
         <slot :name="name" v-bind="data" />
       </template>
-      <el-checkbox
-        :indeterminate="indeterminate"
-        v-model="selectChecked"
-        v-if="multiple"
-        @change="selectAll"
-        class="o-select__all-select"
-      >
-        <div class="m-tb-8">全选</div>
-      </el-checkbox>
+      <div class="po-r" v-if="multiple && props.showAll">
+        <el-checkbox
+          :indeterminate="indeterminate"
+          v-model="selectChecked"
+          @change="selectAll"
+          class="o-select__all-select f-st-ct"
+        >
+          <div class="mt">全选</div>
+        </el-checkbox>
+        <el-button type="primary" @click.stop="reverseSelect" size="small" class="reverse-select">反选</el-button>
+      </div>
+
       <el-option
         v-for="item in sOptions"
         :key="type === 'simple' ? item : item[props.value]"
@@ -78,6 +81,10 @@ const props = defineProps({
   multiple: {
     type: Boolean,
     default: false,
+  },
+  showAll: {
+    type: Boolean,
+    default: true,
   },
   title: {
     type: String,
@@ -180,15 +187,24 @@ const selectChecked = computed({
 })
 // 点击全选
 const selectAll = (val: any) => {
-  const options = JSON.parse(JSON.stringify(props.options))
+  // const options = proxy.clone(props.options)
   if (val) {
-    const selectedAllValue = options.map((item) => {
+    const selectedAllValue = props.options.map((item) => {
       return item[props.value]
     })
     changeMulty(selectedAllValue)
   } else {
     changeMulty([])
   }
+}
+
+// 反选
+const reverseSelect = () => {
+  const noSelectedValue = props.options
+    .filter((v) => {
+      return !props.modelValue.includes(v[props.value])
+    })
+    .map((v) => v[props.value])
 }
 
 function handlePlaceholder() {
@@ -342,13 +358,19 @@ const urlParams = proxy.translateToPageinfo({
   }
 }
 .o-select__all-select {
-  display: block;
-  padding: 0px 0px 0px 20px;
+  display: flex;
+  padding: 0px 0px 10px 20px;
+  align-items: end;
   &:hover {
     background-color: #f5f7fa;
   }
 }
 .o-select__all-select:hover + .el-select-dropdown__item {
   background-color: unset;
+}
+.reverse-select {
+  position: absolute;
+  right: 16px;
+  top: 4px;
 }
 </style>

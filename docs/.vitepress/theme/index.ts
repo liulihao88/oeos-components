@@ -42,12 +42,8 @@ export default {
     })
     // 注册所有图标
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-      console.log(`58 key`, key)
-      console.log(`55 component`, component)
       ctx.app.component(key, component)
     }
-    console.log(`26 svgIconConfig`, svgIconConfig)
-    console.log(`94 svgIconConfig.Svg({})`, svgIconConfig.Svg({}))
     ctx.app.component('OooSvg', svgIconConfig.Svg({}).component)
     // 注册ElementPlus
     ctx.app.use(ElementPlus, {

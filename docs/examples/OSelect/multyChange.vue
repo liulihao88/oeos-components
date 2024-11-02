@@ -11,9 +11,6 @@ const selectRefs = ref()
 const getSelectRef = (e, i) => {
   selectRefs[`select${i}`] = e
 }
-function selectChange(val) {
-  console.log(`33 val`, val)
-}
 nextTick(() => {
   options.value.forEach((v, i) => {
     selectRefs[`select${i}`]?.$refs.selectRef.$emit('change', options.value[i].value)
@@ -28,7 +25,6 @@ nextTick(() => {
         :ref="(el) => getSelectRef(el, i)"
         v-model="v.value"
         :options="options"
-        @change="selectChange"
       ></o-select>
     </div>
   </div>

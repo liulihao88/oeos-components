@@ -21,7 +21,6 @@ const sizeClass = computed(() => {
 })
 const sizeStyle = computed(() => {
   let res = { height: !sizeMap.includes(attrs.size) && '32px' }
-  console.log(`23 res`, res)
   return res
 })
 </script>
