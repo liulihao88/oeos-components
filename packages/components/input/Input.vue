@@ -290,13 +290,13 @@ const createFilter = (queryString: string) => {
 }
 
 // el-input的宽度会随着鼠标移入显示clearable而改变, 所以加下面这两行代码
-:deep(.el-input__suffix:not(.el-select .el-input__suffix)) {
+:deep(.o-input .el-input__suffix:not(.el-sele.o-input ct .el-input__suffix)) {
   margin-left: -22px;
 }
-:deep(.el-input__inner:not(.el-select .el-input__inner)) {
+:deep(.o-input .el-input__inner:not(.el-select .el-input__inner)) {
   padding-right: 22px;
 }
-:deep(.el-textarea__inner) {
+:deep(.o-input .el-textarea__inner) {
   padding-bottom: 20px;
 }
 </style>
