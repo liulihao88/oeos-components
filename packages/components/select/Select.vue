@@ -24,6 +24,9 @@
         ...$attrs,
       }"
     >
+      <template #prefix v-if="props.showPrefix">
+        <slot name="prefix">{{ props.options.length }}个</slot>
+      </template>
       <template v-for="(index, name) in slots" v-slot:[name]="data">
         <slot :name="name" v-bind="data" />
       </template>
@@ -83,6 +86,10 @@ const props = defineProps({
     default: false,
   },
   showAll: {
+    type: Boolean,
+    default: true,
+  },
+  showPrefix: {
     type: Boolean,
     default: true,
   },
