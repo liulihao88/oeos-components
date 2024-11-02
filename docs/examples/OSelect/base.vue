@@ -12,14 +12,14 @@ const simpleOptions = ref([1, 3, 5, 7, 9])
 
 <template>
   <div>
-    <o-input title="FEATURE:组件库文档的开发" clas="m" v-model="selectVal"></o-input>
+    <o-input title="哈哈" clas="m" v-model="selectVal"></o-input>
     <o-select
       v-model="selectVal"
       title="哈哈"
       :options="options"
       :boxAttrs="{
         style: {},
-        class: ['m'],
+        class: ['m', 'p']
       }"
     ></o-select>
     <o-select v-model="selectVal" :options="options">

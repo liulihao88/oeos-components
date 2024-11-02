@@ -286,15 +286,14 @@ const urlParams = proxy.translateToPageinfo({
     position: relative;
     border: 1px solid #dcdfe6;
     border-right: 0 none;
-    padding: 0 8px;
+    padding: 0 6px;
     white-space: nowrap;
     border-radius: 2px 0 0 2px;
     align-items: center;
     display: inline-block;
     display: flex;
     justify-content: space-around;
-    color: rgba(39, 48, 75, 0.85);
-    font-size: 12px;
+    color: var(--el-color-info);
   }
 
   :deep(.el-input__inner) {

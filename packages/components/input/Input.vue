@@ -209,8 +209,7 @@ function handleShowWordLimit() {
 // 如果是密码输入框, focus直接选中文本
 function focusHandler(evt) {
   if (attrs.type === 'password') {
-    // evt.currentTarget.select()
-    evt.target.select()
+    evt.currentTarget.select()
   }
 }
 function inputOnMouseOver(event) {
@@ -290,14 +289,19 @@ const createFilter = (queryString: string) => {
   }
 }
 
-// el-input的宽度会随着鼠标移入显示clearable而改变, 所以加下面这两行代码
-:deep(.o-input .el-input__suffix:not(.el-sele.o-input ct .el-input__suffix)) {
-  margin-left: -22px;
-}
-:deep(.o-input .el-input__inner:not(.el-select .el-input__inner)) {
-  padding-right: 22px;
-}
-:deep(.o-input .el-textarea__inner) {
-  padding-bottom: 20px;
+.o-input {
+  // el-input的宽度会随着鼠标移入显示clearable而改变, 所以加下面这两行代码
+  :deep(.el-input__suffix:not(.el-select .el-input__suffix)) {
+    margin-left: -22px;
+  }
+  :deep(.el-input__inner:not(.el-select .el-input__inner)) {
+    padding-right: 22px;
+  }
+  :deep(.el-textarea__inner) {
+    padding-bottom: 20px;
+  }
+  :deep(.el-input-group__prepend) {
+    padding: 0 6px !important;
+  }
 }
 </style>

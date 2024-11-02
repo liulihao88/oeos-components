@@ -9,6 +9,7 @@ import VueTippy from 'vue-tippy'
 
 
 import registerDirectives from './directives/gDirectives.js'
+import CompTitle from './components/compTitle/CompTitle.vue'
 import Checkbox from './components/checkbox/Checkbox.vue'
 import ChooseArea from './components/ChooseArea/chooseArea.vue'
 import Description from './components/description/Description.vue'
@@ -35,6 +36,7 @@ import * as utils from './utils'
 
 
 const comps = [
+  CompTitle,
   Checkbox,
   ChooseArea,
   Description,

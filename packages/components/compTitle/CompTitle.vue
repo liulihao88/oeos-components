@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="o-comp-title">{{ props.title }}</div>
+  <div class="o-comp-title" v-bind="$attrs">{{ props.title }}</div>
 </template>
 
 <style lang="scss" scoped>
@@ -25,9 +25,7 @@ const props = defineProps({
   white-space: nowrap;
   border-radius: 2px 0 0 2px;
   align-items: center;
-  display: flex;
   display: inline-block;
-  justify-content: space-around;
   color: rgba(39, 48, 75, 0.85);
   font-size: 12px;
 }
