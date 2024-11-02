@@ -301,7 +301,7 @@ const createFilter = (queryString: string) => {
     padding-bottom: 20px;
   }
   :deep(.el-input-group__prepend) {
-    padding: 0 6px !important;
+    padding: 0 6px;
   }
 }
 </style>

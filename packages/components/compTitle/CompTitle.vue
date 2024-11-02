@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
+/**
+ *    
+<o-comp-title :title="props.title" :size="attrs.size"></o-comp-title>
+ */
+import { ref, getCurrentInstance, useAttrs, computed } from 'vue'
 const { proxy } = getCurrentInstance()
+const attrs = useAttrs()
 
 const props = defineProps({
   title: {
@@ -8,10 +13,23 @@ const props = defineProps({
     default: '',
   },
 })
+const sizeMap = ['small', 'large']
+
+const sizeClass = computed(() => {
+  let res = attrs.size ? `el-input--${attrs.size}` : ''
+  return res
+})
+const sizeStyle = computed(() => {
+  let res = { height: !sizeMap.includes(attrs.size) && '32px' }
+  console.log(`23 res`, res)
+  return res
+})
 </script>
 
 <template>
-  <div class="o-comp-title" v-bind="$attrs">{{ props.title }}</div>
+  <div class="o-comp-title" :class="sizeClass" :style="sizeStyle" v-bind="$attrs" v-if="props.title">
+    {{ props.title }}
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -25,8 +43,15 @@ const props = defineProps({
   white-space: nowrap;
   border-radius: 2px 0 0 2px;
   align-items: center;
-  display: inline-block;
-  color: rgba(39, 48, 75, 0.85);
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--el-input-height);
+  min-height: 100%;
+  color: var(--el-color-info);
+}
+.o-comp-title + :deep(.el-input__wrapper) {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
 }
 </style>

@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, useAttrs } from 'vue'
+const attrs = useAttrs()
+const props = defineProps({
+  title: {
+    type: String,
+    default: '',
+  },
+})
+
 const oneDay = 3600 * 1000 * 24
 const shortcuts = [
   {
@@ -66,10 +74,12 @@ const dateValue = ref([])
 ></o-date-range>
 * @param
 */
+
 </script>
 
 <template>
-  <div>
+  <div class="o-date-range">
+    <o-comp-title :title="props.title" :size="attrs.size"></o-comp-title>
     <el-date-picker
       style="width: 440px"
       :shortcuts="shortcuts"
@@ -84,4 +94,6 @@ const dateValue = ref([])
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+</style>

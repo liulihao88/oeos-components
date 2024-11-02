@@ -5,9 +5,10 @@
     :class="{ 'has-title': props.title }"
     v-bind="boxAttrs"
   >
-    <div v-if="props.title" class="o-select__title">
+    <!-- <div v-if="props.title" class="o-select__title">
       {{ props.title }}
-    </div>
+    </div> -->
+    <o-comp-title :title="props.title" :size="attrs.size"></o-comp-title>
     <el-select
       ref="selectRef"
       class="o-select__select"
@@ -279,22 +280,6 @@ const urlParams = proxy.translateToPageinfo({
   display: inline-flex;
   width: 316px;
   vertical-align: bottom;
-
-  .o-select__title {
-    background: #f5f7fa;
-    vertical-align: middle;
-    position: relative;
-    border: 1px solid #dcdfe6;
-    border-right: 0 none;
-    padding: 0 6px;
-    white-space: nowrap;
-    border-radius: 2px 0 0 2px;
-    align-items: center;
-    display: inline-block;
-    display: flex;
-    justify-content: space-around;
-    color: var(--el-color-info);
-  }
 
   :deep(.el-input__inner) {
     border-radius: 0px 2px 2px 0 !important;

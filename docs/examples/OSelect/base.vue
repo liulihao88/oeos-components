@@ -12,7 +12,9 @@ const simpleOptions = ref([1, 3, 5, 7, 9])
 
 <template>
   <div>
-    <o-input title="哈哈" clas="m" v-model="selectVal"></o-input>
+    <o-input title="哈哈" size="small"  v-model="selectVal"></o-input>
+    <o-input title="哈哈"  v-model="selectVal"></o-input>
+    <o-input title="哈哈" size="large"  v-model="selectVal"></o-input>
     <o-select
       v-model="selectVal"
       title="哈哈"
