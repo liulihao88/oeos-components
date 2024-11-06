@@ -22,7 +22,12 @@
       <template #footer v-if="showFooter">
         <slot name="footer">
           <div class="dialog_footer">
-            <el-button v-if="showCancel" :type="cancelAttrs.type || 'info'" v-bind="cancelAttrs" @click="handleClose">
+            <el-button
+              v-if="showCancel"
+              :type="cancelAttrs.type || 'info'"
+              v-bind="cancelAttrs"
+              @click="handleCancelClose"
+            >
               {{ cancelText }}
             </el-button>
             <el-button
@@ -129,6 +134,13 @@ function confirm() {
     attrs.onConfirm()
   } else {
     handleClose()
+  }
+}
+function handleCancelClose() {
+  if (attrs.onCancel) {
+    attrs.onCancel()
+  } else {
+    emits('update:modelValue', false)
   }
 }
 

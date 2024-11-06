@@ -38,6 +38,11 @@ function sleep(delay = 0, fn = () => {}) {
       loading: confirmLoading,
     }"
     v-model="isShow"
+    @cancel="proxy.$toast('哈哈')"
+    cancelText="高级配置"
+    :cancelAttrs="{
+      type: 'primary',
+    }"
   >
     <div v-for="(v, i) in 40" :key="i">
       <div>超长文本</div>
