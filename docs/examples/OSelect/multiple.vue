@@ -2,10 +2,10 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 const stepList = [
-  { id: '1', label: '开始11' },
-  { id: '2', label: 'POSUI2' },
-  { id: '3', label: '113333' },
-  { id: '4', label: 'GX1234444' },
+  { id: '1', name: '开始11' },
+  { id: '2', name: 'POSUI2' },
+  { id: '3', name: '113333' },
+  { id: '4', name: 'GX1234444' },
 ]
 const optionsId = ref(['1', '3'])
 function changeSelect(value, label, itemObj) {
@@ -23,6 +23,7 @@ function change(...rest) {
     <o-select
       v-model="optionsId"
       multiple
+      label="name"
       value="id"
       @changeSelect="changeSelect"
       @change="change"

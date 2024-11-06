@@ -212,6 +212,7 @@ const reverseSelect = () => {
       return !props.modelValue.includes(v[props.value])
     })
     .map((v) => v[props.value])
+  changeMulty(noSelectedValue)
 }
 
 function handlePlaceholder() {
