@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { ref, useAttrs } from 'vue'
+import { ref, useAttrs, getCurrentInstance } from 'vue'
+const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const props = defineProps({
   title: {
     type: String,
     default: '',
+  },
+  width: {
+    type: [String, Number],
+    default: '300px',
   },
 })
 
@@ -64,6 +69,15 @@ const shortcuts = [
     },
   },
 ]
+const handleWidth = () => {
+  if (!props.width) {
+    return {}
+  }
+  let parseWidth = proxy.processWidth(props.width, true)
+  return {
+    width: parseWidth,
+  }
+}
 /**
 * @描述 日期dateRange选择框
 * @使用方法
@@ -74,14 +88,12 @@ const dateValue = ref([])
 ></o-date-range>
 * @param
 */
-
 </script>
 
 <template>
-  <div class="o-date-range">
+  <div class="o-date-range" :style="{ ...handleWidth() }">
     <o-comp-title :title="props.title" :size="attrs.size"></o-comp-title>
     <el-date-picker
-      style="width: 440px"
       :shortcuts="shortcuts"
       value-format="YYYY-MM-DD HH:mm:ss"
       format="YYYY-MM-DD"
@@ -95,5 +107,7 @@ const dateValue = ref([])
 </template>
 
 <style scoped lang="scss">
-
+.o-date-range {
+  display: inline-flex;
+}
 </style>
