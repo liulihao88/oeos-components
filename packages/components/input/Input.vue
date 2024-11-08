@@ -193,7 +193,7 @@ watch(
 )
 
 function handlePlaceholder() {
-  let res = attrs.disabled === undefined ? attrs.placeholder || '请输入' : props.disPlaceholder
+  let res = attrs.disabled === '' || !!attrs.disabled === true ? props.disPlaceholder : attrs.placeholder || '请输入'
   return res
 }
 // 是否显示showWordLimit属性
