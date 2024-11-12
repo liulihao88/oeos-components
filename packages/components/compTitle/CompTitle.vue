@@ -16,7 +16,7 @@ const props = defineProps({
 const sizeMap = ['small', 'large']
 
 const sizeClass = computed(() => {
-  let res = attrs.size ? `el-input--${attrs.size}` : ''
+  let res = attrs.size ? `el-input--${attrs.size}` : 'o-comp-title__base-size'
   return res
 })
 const sizeStyle = computed(() => {
@@ -52,5 +52,8 @@ const sizeStyle = computed(() => {
 .o-comp-title + :deep(.el-input__wrapper) {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
+}
+.o-comp-title__base-size {
+  font-size: 14px;
 }
 </style>
