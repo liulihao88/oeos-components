@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, getCurrentInstance } from 'vue'
+import { ref, useAttrs, getCurrentInstance, computed } from 'vue'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const props = defineProps({
@@ -31,6 +31,37 @@ const shortcuts = [
     },
   },
   {
+    text: '最近7天',
+    value: () => {
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * (7 - 1))
+      return [start, end]
+    },
+  },
+  {
+    text: '本周',
+    value: () => {
+      const end = new Date()
+      const start = new Date()
+      const nows = start.getDay() || 7
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * (nows - 1))
+      return [start, end]
+    },
+  },
+  {
+    text: '上周',
+    value: () => {
+      const end = new Date()
+      const start = new Date()
+      const nows = start.getDay() || 7
+      console.log(`63 nows`, nows)
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * (nows - 1 + 7))
+      end.setTime(end.getTime() - 3600 * 1000 * 24 * nows)
+      return [start, end]
+    },
+  },
+  {
     // 本月起始时间-本月结束
     text: '本月',
     value: () => {
@@ -42,16 +73,19 @@ const shortcuts = [
     },
   },
   {
-    text: '最近一周',
+    text: '上月',
     value: () => {
-      const end = new Date()
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      const end = new Date(start)
+      end.setMonth(start.getMonth())
+      start.setMonth(start.getMonth() - 1)
+      end.setDate(0)
+      start.setDate(1)
       return [start, end]
     },
   },
   {
-    text: '最近一个月',
+    text: '最近30天',
     value: () => {
       const end = new Date()
       const start = new Date()
@@ -60,12 +94,29 @@ const shortcuts = [
     },
   },
   {
-    text: '最近三个月',
+    text: '最近90天',
     value: () => {
       const end = new Date()
       const start = new Date()
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
       return [start, end]
+    },
+  },
+  {
+    text: '最近1年',
+    value: () => {
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 365)
+      return [start, end]
+    },
+  },
+  {
+    text: '一月以前30天',
+    value: () => {
+      const start = new Date(new Date(new Date().toLocaleDateString()).getTime() - oneDay * 60)
+      const yesEnd = new Date(new Date(new Date().toLocaleDateString()).getTime() - oneDay * 30)
+      return [start, yesEnd]
     },
   },
 ]
@@ -88,21 +139,26 @@ const dateValue = ref([])
 ></o-date-range>
 * @param
 */
+
+const mergedAttrs = computed(() => {
+  let baseAttrs = {
+    shortcuts: shortcuts,
+    'value-format': 'YYYY-MM-DD HH:mm:ss',
+    format: 'YYYY-MM-DD',
+    type: 'daterange',
+    'start-placeholder': '开始日期',
+    'end-placeholder': '结束日期',
+    'range-separator': '-',
+  }
+  const merged = { ...baseAttrs, ...attrs }
+  return merged
+})
 </script>
 
 <template>
   <div class="o-date-range" :style="{ ...handleWidth() }">
     <o-comp-title :title="props.title" :size="attrs.size"></o-comp-title>
-    <el-date-picker
-      :shortcuts="shortcuts"
-      value-format="YYYY-MM-DD HH:mm:ss"
-      format="YYYY-MM-DD"
-      type="daterange"
-      v-bind="$attrs"
-      range-separator="-"
-      start-placeholder="开始日期"
-      end-placeholder="结束日期"
-    ></el-date-picker>
+    <el-date-picker v-bind="mergedAttrs"></el-date-picker>
   </div>
 </template>
 
