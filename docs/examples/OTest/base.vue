@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="o-comp-title">{{ props.title }}</div>
+  <div class="o-comp-title">{{ props.title }}111</div>
 </template>
 
 <style lang="scss" scoped>
