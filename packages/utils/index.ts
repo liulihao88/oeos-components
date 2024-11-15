@@ -725,22 +725,29 @@ export const copy = (text, toastParams = {}) => {
   }
 }
 
-// 给数字加千分位
+/**
+ * 1234 => 1,234
+ * 1234b => 1,234b
+ * 1234.12b => 1,234.12b
+ * @param number 加千分位
+ * @returns 
+ */
 export function formatThousands(number) {
-  // 提取数字部分和单位部分
-  let matches = ('' + number).match(/^([\d,]+)(\D+)?$/)
+  // 提取数字部分、小数点和小数部分
+  let matches = ('' + number).match(/^([\d,]+)(\.?)(\d+)?(\D+)?$/)
   if (!matches) {
     return number // 如果没有找到匹配，则返回原始输入
   }
 
   let numericString = matches[1].replace(/\D/g, '') // 仅保留数字
-  let unit = matches[2] || '' // 单位部分，如果没有则为空字符串
+  let decimalString = matches[3] ? `.${matches[3]}` : '' // 小数部分，如果没有则为空字符串
+  let unit = matches[4] || '' // 单位部分，如果没有则为空字符串
 
   // 添加千位分隔符
   let numberWithSeparator = numericString.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  // 拼接数字和单位，并返回结果
 
-  return numberWithSeparator + unit
+  // 拼接数字、小数点、小数部分和单位，并返回结果
+  return `${numberWithSeparator}${decimalString}${unit}`
 }
 /*
 *
@@ -857,7 +864,7 @@ export function processWidth(initValue, isBase = false) {
  * 否则返回原始数据
  * proxy.formatBytes(536870912) // 512MB
  */
-export function formatBytes(bytes) {
+export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
   if (isStringNumber(bytes) || isNumber(bytes)) {
     bytes = Number(bytes)
   } else {
@@ -870,7 +877,13 @@ export function formatBytes(bytes) {
   const k = 1024
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+  let res = (bytes / Math.pow(k, i)).toFixed(toFixed) + ' ' + sizes[i]
+
+  if (thousands) {
+    res = formatThousands(res)
+  }
+
+  return res
 }
 //formatBytesConvert('0.5GB') 536870912
 export function formatBytesConvert(bytes) {
