@@ -12,20 +12,12 @@ const simpleOptions = ref([1, 3, 5, 7, 9])
 
 <template>
   <div>
-    <o-select
-      v-model="selectVal"
-      title="哈哈"
-      :options="options"
-      :boxAttrs="{
-        style: {},
-        class: ['m', 'p']
-      }"
-    ></o-select>
+    <o-select v-model="selectVal" title="哈哈" :options="options" class="m"></o-select>
     <o-select v-model="selectVal" :options="options">
       <template #prefix>11</template>
     </o-select>
 
-    <o-select v-model="selectVal" :options="changeOptions" type="simple"></o-select>
+    <o-select v-model="selectVal" :options="changeOptions" type="simple" :showQuick="false"></o-select>
   </div>
 </template>
 

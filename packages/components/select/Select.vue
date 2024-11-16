@@ -3,7 +3,6 @@
     class="o-select"
     :style="{ ...proxy.processWidth(props.width) }"
     :class="{ 'has-title': props.title, 'has-quick': props.showQuick }"
-    v-bind="boxAttrs"
   >
     <o-comp-title :title="props.title" :size="attrs.size"></o-comp-title>
     <el-select
@@ -18,7 +17,13 @@
       v-bind="{
         clearable: true,
         filterable: true,
-        ...$attrs,
+        ...Object.entries($attrs).reduce((obj, [key, value]) => {
+          if (key !== 'class' && key !== 'style') {
+            console.log(`28 key`, key)
+            obj[key] = value
+          }
+          return obj
+        }, {}),
       }"
     >
       <template #prefix v-if="props.showPrefix">
@@ -49,7 +54,7 @@
     </el-select>
 
     <div class="o-select__select-box" @click="quickSelect" v-if="showQuick">
-      <o-icon name="select" class="" size="14"></o-icon>
+      <o-icon name="select" size="14"></o-icon>
     </div>
   </div>
 </template>
@@ -142,10 +147,6 @@ const props = defineProps({
   emptyColor: {
     type: Boolean,
     default: true,
-  },
-  boxAttrs: {
-    type: Object,
-    default: () => {},
   },
 })
 

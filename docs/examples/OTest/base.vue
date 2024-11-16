@@ -35,5 +35,6 @@ const options2 = ref(['男人', '女人', '太监'])
       @change="change"
       title="你好"
     />
+    <el-button type="primary" @click="isTest17">测试26</el-button>
   </div>
 </template>
