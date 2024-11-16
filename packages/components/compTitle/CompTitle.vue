@@ -38,7 +38,7 @@ const sizeStyle = computed(() => {
   position: relative;
   border: 1px solid #dcdfe6;
   border-right: 0 none;
-  padding: 0 8px;
+  padding: 0 4px;
   white-space: nowrap;
   border-radius: 2px 0 0 2px;
   align-items: center;

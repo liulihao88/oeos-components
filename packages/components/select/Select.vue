@@ -434,8 +434,10 @@ const urlParams = proxy.translateToPageinfo({
   vertical-align: middle;
   position: relative;
   border: 1px solid #dcdfe6;
+  border-left: none;
   padding: 0 2px;
   white-space: nowrap;
+  cursor: pointer;
   border-radius: 0px 2px 2px 0px;
   align-items: center;
   display: inline-flex;
