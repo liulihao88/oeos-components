@@ -1,34 +1,39 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
+const options = ref([
+  { label: '张三', value: 'z3' },
+  { label: '李四', value: 'l4' },
+  { label: '王五', value: 'w5' },
+])
+const selectValue = ref()
+const selectValue2 = ref()
+const selectValue3 = ref([])
+const changeSelect = (...rest) => {
+  console.log(`44 rest`, rest)
+  console.log('changeSelect')
+}
 
-const props = defineProps({
-  title: {
-    type: String,
-    default: '',
-  },
-})
+const change = (...rest) => {
+  console.log('change', rest)
+}
+
+const options2 = ref(['男人', '女人', '太监'])
 </script>
 
 <template>
-  <div class="o-comp-title">{{ props.title }}111</div>
-</template>
+  <div>
+    <o-select v-model="selectValue" :options="options" @changeSelect="changeSelect" @change="change" />
 
-<style lang="scss" scoped>
-.o-comp-title {
-  background: #f5f7fa;
-  vertical-align: middle;
-  position: relative;
-  border: 1px solid #dcdfe6;
-  border-right: 0 none;
-  padding: 0 8px;
-  white-space: nowrap;
-  border-radius: 2px 0 0 2px;
-  align-items: center;
-  display: flex;
-  display: inline-block;
-  justify-content: space-around;
-  color: rgba(39, 48, 75, 0.85);
-  font-size: 12px;
-}
-</style>
+    <o-select v-model="selectValue2" :options="options2" type="simple" @changeSelect="changeSelect" @change="change" />
+
+    <o-select
+      v-model="selectValue3"
+      :options="options"
+      multiple
+      @changeSelect="changeSelect"
+      @change="change"
+      title="你好"
+    />
+  </div>
+</template>

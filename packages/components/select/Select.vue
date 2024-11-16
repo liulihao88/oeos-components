@@ -2,12 +2,9 @@
   <div
     class="o-select"
     :style="{ ...proxy.processWidth(props.width) }"
-    :class="{ 'has-title': props.title }"
+    :class="{ 'has-title': props.title, 'has-quick': props.showQuick }"
     v-bind="boxAttrs"
   >
-    <!-- <div v-if="props.title" class="o-select__title">
-      {{ props.title }}
-    </div> -->
     <o-comp-title :title="props.title" :size="attrs.size"></o-comp-title>
     <el-select
       ref="selectRef"
@@ -50,6 +47,10 @@
         :disabled="optionDisabled(item)"
       ></el-option>
     </el-select>
+
+    <div class="o-select__select-box" @click="quickSelect" v-if="showQuick">
+      <o-icon name="select" class="" size="14"></o-icon>
+    </div>
   </div>
 </template>
 
@@ -59,6 +60,7 @@ const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])
 const slots = useSlots()
+
 const props = defineProps({
   modelValue: {
     type: [Array, String, Number],
@@ -90,6 +92,10 @@ const props = defineProps({
     default: true,
   },
   showPrefix: {
+    type: Boolean,
+    default: true,
+  },
+  showQuick: {
     type: Boolean,
     default: true,
   },
@@ -155,6 +161,8 @@ watch(
     immediate: true,
   },
 )
+
+const selectRef = ref(null)
 
 // vue3 v-model简写
 const childSelectedValue = computed({
@@ -240,6 +248,38 @@ function handleLabel(item) {
   }
 }
 
+const quickSelect = () => {
+  if (props.options.length === 0) {
+    return
+  }
+  let nextIdx = 0
+  if (proxy.isEmpty(props.modelValue) || (props.multiple === true && props.modelValue.length > 1)) {
+    nextIdx = 0
+  } else {
+    let nowIdx = props.options.findIndex((v) => {
+      if (props.type === 'simple') {
+        return v === props.modelValue
+      } else if (props.multiple === true) {
+        return v[props.value] === props.modelValue[0]
+      } else {
+        return v[props.value] === props.modelValue
+      }
+    })
+    nextIdx = nowIdx + 1
+    if (nextIdx === props.options.length) {
+      nextIdx = 0
+    }
+  }
+
+  if (props.type === 'simple') {
+    selectRef.value.$emit('change', props.options[nextIdx])
+  } else if (props.multiple === true) {
+    selectRef.value.$emit('change', [props.options[nextIdx][props.value]])
+  } else {
+    selectRef.value.$emit('change', props.options[nextIdx][props.value])
+  }
+}
+
 // 处理多选的返回情况
 function changeMulty(item) {
   let selectLabel = []
@@ -317,7 +357,14 @@ const urlParams = proxy.translateToPageinfo({
 }
 .has-title {
   :deep(.el-select__wrapper) {
-    border-radius: 0 4px 4px 0 !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+.has-quick {
+  :deep(.el-select__wrapper) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 
@@ -380,5 +427,21 @@ const urlParams = proxy.translateToPageinfo({
   position: absolute;
   right: 16px;
   top: 4px;
+}
+.o-select__select-box {
+  background: #f5f7fa;
+  vertical-align: middle;
+  position: relative;
+  border: 1px solid #dcdfe6;
+  padding: 0 2px;
+  white-space: nowrap;
+  border-radius: 0px 2px 2px 0px;
+  align-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--el-input-height);
+  min-height: 100%;
+  color: var(--el-color-info);
 }
 </style>
