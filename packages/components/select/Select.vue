@@ -250,7 +250,7 @@ function handleLabel(item) {
 }
 
 const quickSelect = () => {
-  if (props.options.length === 0) {
+  if (props.options.length === 0 || attrs.disabled === '' || !!attrs.disabled === true) {
     return
   }
   let nextIdx = 0
