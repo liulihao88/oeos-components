@@ -2,6 +2,12 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 
+const num = ref(0)
+
+// setInterval(() => {
+//   num.value++
+// }, 3000)
+
 const data = ref([
   {
     name: 'andy',
@@ -30,10 +36,12 @@ const columns = [
   {
     label: '名字',
     prop: 'name',
+    
   },
   {
     key: 'operation',
     label: '操作',
+    isShow: () => num.value % 2 === 0,
     btns: [
       {
         content: '编辑',
@@ -45,6 +53,7 @@ const columns = [
 
 <template>
   <div>
+    <el-button type="primary" @click="num++">测试13</el-button>
     <o-table :columns="columns" :data="data" ref="tableRef"></o-table>
   </div>
 </template>
