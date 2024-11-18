@@ -6,7 +6,7 @@ const options = ref([
   { label: '小月月', value: 'xyy' },
   { label: '小鑫鑫', value: 'xxx' },
 ])
-const changeOptions = ref([])
+const changeOptions = ref([1])
 const simpleOptions = ref([1, 3, 5, 7, 9])
 </script>
 
@@ -17,7 +17,8 @@ const simpleOptions = ref([1, 3, 5, 7, 9])
       <template #prefix>11</template>
     </o-select>
 
-    <o-select v-model="selectVal" :options="changeOptions" type="simple" :showQuick="false"></o-select>
+    <o-select v-model="selectVal" :options="changeOptions" type="simple"></o-select>
+    <o-select v-model="selectVal" :options="changeOptions" type="simple" ></o-select>
   </div>
 </template>
 

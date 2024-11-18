@@ -2,7 +2,7 @@
   <div
     class="o-select"
     :style="{ ...proxy.processWidth(props.width) }"
-    :class="{ 'has-title': props.title, 'has-quick': props.showQuick }"
+    :class="{ 'has-title': props.title, 'has-quick': props.showQuick && !parseDisabled && props.options.length > 0 }"
   >
     <o-comp-title :title="props.title" :size="attrs.size"></o-comp-title>
     <el-select
@@ -53,7 +53,11 @@
       ></el-option>
     </el-select>
 
-    <div class="o-select__select-box" @click="quickSelect" v-if="showQuick">
+    <div
+      class="o-select__select-box"
+      @click="quickSelect"
+      v-if="showQuick && !parseDisabled && props.options.length > 0"
+    >
       <o-icon name="select" size="14"></o-icon>
     </div>
   </div>
@@ -177,6 +181,9 @@ const childSelectedValue = computed({
   set(val) {
     emits('update:modelValue', val)
   },
+})
+const parseDisabled = computed(() => {
+  return attrs.disabled === '' || !!attrs.disabled
 })
 // 设置半选
 const indeterminate = computed({
