@@ -130,6 +130,16 @@ const parseIsShow = (isFn, row = '', scope = '') => {
     return isFn
   }
 }
+const parseIsShowColumn = (isFn, item, index) => {
+  if (typeof isFn === 'function') {
+    return isFn(item, index)
+  } else {
+    if (isFn === undefined) {
+      return true
+    }
+    return isFn
+  }
+}
 const handleEmptyText = (scope, v) => {
   // 判断'   '为空
   const trimIsEmpty = proxy.getType(scope.row[v.prop]) === 'string' && scope.row[v.prop].trim().length === 0
@@ -170,7 +180,7 @@ function updatePage() {
       <slot />
       <el-table-column v-if="showIndex" type="index" width="50" />
       <template v-for="(v, i) in finalColumns" :key="i">
-        <template v-if="parseIsShow(v.isShow)">
+        <template v-if="parseIsShowColumn(v.isShowColumn, v, i)">
           <el-table-column v-if="v.type" :key="v.type" v-bind="{ ...v }" />
           <el-table-column
             v-else-if="v.baseBtns && v.baseBtns.length > 0"
