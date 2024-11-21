@@ -3,7 +3,7 @@
   <o-icon name="delete" color="blue"></o-icon>
   <o-icon name="arrow-right" color="blue"></o-icon>
   <o-icon name="plus" color="red" size="2em"></o-icon>
-  <o-icon name="loading" class="is-loading p-l-200"></o-icon> 
+  <o-icon name="loading" class="is-loading p-l-200"></o-icon>
  */
 import { ref, getCurrentInstance, computed } from 'vue'
 const { proxy } = getCurrentInstance()
@@ -23,6 +23,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  type: {
+    type: String,
+    default: '', // svg
+  },
+  svgAttrs: {
+    type: Object,
+    default: () => ({}),
+  },
 })
 const emits = defineEmits(['click'])
 function handleClick() {
@@ -38,7 +46,7 @@ const parseColor = computed(() => {
 <template>
   <el-icon
     :color="parseColor"
-    disabled
+    props.disabled
     :size="props.size"
     class="o-icon"
     :class="props.disabled && 'o-icon__not-allowed'"
@@ -46,7 +54,8 @@ const parseColor = computed(() => {
   >
     <el-tooltip :disabled="!$attrs.content" v-bind="$attrs">
       <span ref="contentRef">
-        <component :is="`el-icon-${proxy.toLine(props.name)}`"></component>
+        <o-svg v-if="type === 'svg'" v-bind="svgAttrs" :name="name"></o-svg>
+        <component :is="`el-icon-${proxy.toLine(props.name)}`" v-else></component>
       </span>
     </el-tooltip>
   </el-icon>

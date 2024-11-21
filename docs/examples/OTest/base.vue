@@ -1,40 +1,156 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-const options = ref([
-  { label: '张三', value: 'z3' },
-  { label: '李四', value: 'l4' },
-  { label: '王五', value: 'w5' },
-])
-const selectValue = ref()
-const selectValue2 = ref()
-const selectValue3 = ref([])
-const changeSelect = (...rest) => {
-  console.log(`44 rest`, rest)
-  console.log('changeSelect')
+function handleDetail(row) {
+  console.log(`row`, row)
 }
-
-const change = (...rest) => {
-  console.log('change', rest)
+function handleDetail2() {
+  console.log('handleDetail2')
 }
-
-const options2 = ref(['男人', '女人', '太监'])
+const isTest15 = () => {
+  console.log('isTest15')
+}
+const columns = [
+  {
+    label:
+      'I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!',
+    prop: 'name',
+    sortable: true,
+    handler: handleDetail,
+    // filter: (row) => {
+    //   return row.status === 0 ? '进行中' : '已完成'
+    // },
+  },
+  {
+    label: '负责人',
+    prop: 'owner',
+    width: 200,
+    sortable: true,
+    handler: handleDetail2,
+  },
+  {
+    label: '结束时间',
+    prop: 'endTime',
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    filter: (row) => {
+      // console.log(`row`, row)
+      return row.status === 0 ? '进行中' : '已完成'
+    },
+  },
+  {
+    prop: 'operation',
+    label: '操作',
+    btns: [
+      {
+        content: '查看',
+        type: 'primary',
+        comp: 'o-icon',
+        attrs: {
+          name: 'view',
+          content: '查看',
+        },
+        handler: handleDetail,
+        disabled: (row, scope) => {
+          return row.name === 'name1'
+        },
+      },
+      {
+        content: '编辑',
+        useSlot: true,
+        prop: 'edit',
+        
+        isShow: (row) => row.name === 'name2',
+      },
+      {
+        content: '发布',
+        comp: 'o-icon',
+        attrs: {
+          name: 'icon_file-cloud-line',
+          // name="icon_file-cloud-line",
+          size: 12,
+          type: 'svg',
+          content: '333',
+        },
+        handler: handleDetail,
+      },
+      {
+        content: '下线',
+        handler: handleDetail,
+      },
+      {
+        content: '删除11',
+        reConfirm: true,
+        handler: handleDetail,
+        isShow: (row) => row.status === 0,
+        comp: 'o-icon',
+        attrs: {
+          name: 'delete',
+          size: 12,
+          content: '333',
+        },
+      },
+    ],
+  },
+]
+const data = ref([])
+const orgData = [
+  {
+    name: 'name1',
+    owner:
+      'owner1I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!',
+    endTime: '2022-08-02 12:12:00',
+    status: 0,
+  },
+  {
+    name: 'name2',
+    owner: 'owner2',
+    endTime:
+      'owner1I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!',
+    status: 1,
+  },
+  {
+    name: 'name4',
+    owner: 'owner2',
+    endTime:
+      'owner1I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!',
+    status: 1,
+  },
+  {
+    name: 'name2',
+    owner: 'owner2',
+    endTime:
+      'owner1I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!',
+    status: 0,
+  },
+]
+const num = ref(1)
+const total = ref(0)
+async function init() {
+  await proxy.sleep(300)
+  num.value++
+  data.value = proxy.clone(orgData, num.value)
+  console.log(`data.value`, data.value)
+  total.value = data.value.length ?? 0
+}
+init()
 </script>
 
 <template>
   <div>
-    <o-select v-model="selectValue" :options="options" @changeSelect="changeSelect" @change="change" />
-
-    <o-select v-model="selectValue2" :options="options2" type="simple" @changeSelect="changeSelect" @change="change" />
-
-    <o-select
-      v-model="selectValue3"
-      :options="options"
-      multiple
-      @changeSelect="changeSelect"
-      @change="change"
-      title="你好"
-    />
-    <el-button type="primary" @click="isTest17">测试26</el-button>
+    <el-button type="primary" @click="init">新增数据</el-button>
+    {{ total }}
+    <o-table :columns="columns" :total="total" :data="data" ref="tableRef">
+      <!-- <template #endTime="{ scope, row }">
+        {{ row.endTime }}
+      </template> -->
+      <template #edit>
+        <el-button type="primary" @click="isTest15" link class="mr2">测试03</el-button>
+      </template>
+    </o-table>
   </div>
 </template>
+
+<style scoped lang="scss"></style>

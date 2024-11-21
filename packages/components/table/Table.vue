@@ -49,7 +49,7 @@ const updateTable = () => {
     let baseBtns = []
     let hideBtns = []
     if (item.btns) {
-      item.maxBtns = item.maxBtns || 2
+      item.maxBtns = item.maxBtns || 3
       item.btns = item.btns.map((v) => {
         if (v.isShow === undefined) {
           v.isShow = true
@@ -68,7 +68,7 @@ const updateTable = () => {
       showOverflowTooltip: true,
       baseBtns: baseBtns, // 显示的按钮
       hideBtns: hideBtns, // 隐藏在...中的按钮
-      maxBtns: item.maxBtns || 2, // 最大显示按钮个数，超出后显示...
+      maxBtns: item.maxBtns || 3, // 最大显示按钮个数，超出后显示...
     }
     let res = Object.assign({}, defaultItems, item)
     return res
@@ -193,24 +193,39 @@ function updatePage() {
                     <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
                     <template v-else-if="val.reConfirm === true">
                       <o-popconfirm trigger="click" @confirm="val.handler?.(scope.row, scope)" style="display: inline">
+                        <component
+                          :is="val.comp"
+                          class="mr2"
+                          v-if="val.comp"
+                          v-bind="val.attrs"
+                          :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                          @click.stop.prevent="val.handler?.(scope.row, scope)"
+                        ></component>
                         <el-button
-                          v-if="!val.confirmInfo"
+                          v-else
                           v-bind="{ ...val }"
                           link
-                          class="linked"
+                          class="hide-btns-button"
                           :disabled="parseDisabled(val.disabled, scope.row, scope)"
                         >
                           {{ operatorBtnFn(val.content, scope.row, scope) }}
                         </el-button>
                       </o-popconfirm>
                     </template>
+                    <component
+                      :is="val.comp"
+                      class="mr2"
+                      v-else-if="val.comp"
+                      v-bind="val.attrs"
+                      :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                      @click="val.handler?.(scope.row, scope)"
+                    ></component>
                     <template v-else>
                       <el-button
-                        v-if="!val.confirmInfo"
                         v-bind="{ ...val }"
                         link
                         :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                        class="linked"
+                        class="hide-btns-button"
                         @click.stop="val.handler?.(scope.row, scope)"
                       >
                         {{ operatorBtnFn(val.content, scope.row, scope) }}
@@ -224,38 +239,57 @@ function updatePage() {
                     <o-icon name="more" />
                     <template #dropdown>
                       <el-dropdown-menu>
-                        <el-dropdown-item v-for="(val, idx) in v.hideBtns" :key="idx" :hide-on-click="false">
-                          <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
-                          <template v-else-if="val.reConfirm === true">
-                            <o-popconfirm
-                              trigger="hover"
-                              @confirm="val.handler?.(scope.row, scope)"
-                              style="display: inline"
-                            >
+                        <template v-for="(val, idx) in v.hideBtns" :key="idx">
+                          <el-dropdown-item :hide-on-click="false" v-if="parseIsShow(val.isShow, scope.row, scope)">
+                            <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
+
+                            <template v-else-if="val.reConfirm === true">
+                              <o-popconfirm
+                                trigger="hover"
+                                @confirm="val.handler?.(scope.row, scope)"
+                                style="display: inline"
+                              >
+                                <component
+                                  :is="val.comp"
+                                  class="mr2 w-100%"
+                                  v-if="val.comp"
+                                  v-bind="val.attrs"
+                                  :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                                  @click.stop="val.handler?.(scope.row, scope)"
+                                ></component>
+                                <el-button
+                                  v-else
+                                  v-bind="{ ...val }"
+                                  link
+                                  class="hide-btns-button"
+                                  :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                                >
+                                  {{ operatorBtnFn(val.content, scope.row, scope) }}
+                                </el-button>
+                              </o-popconfirm>
+                            </template>
+                            <template v-else>
+                              <component
+                                :is="val.comp"
+                                class="mr2"
+                                v-if="val.comp"
+                                v-bind="val.attrs"
+                                :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                                @click="val.handler?.(scope.row, scope)"
+                              ></component>
                               <el-button
-                                v-if="!val.confirmInfo"
+                                v-else
                                 v-bind="{ ...val }"
                                 link
-                                class="linked"
+                                class="hide-btns-button"
                                 :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                                @click.stop="val.handler?.(scope.row, scope)"
                               >
                                 {{ operatorBtnFn(val.content, scope.row, scope) }}
                               </el-button>
-                            </o-popconfirm>
-                          </template>
-                          <template v-else>
-                            <el-button
-                              v-if="!val.confirmInfo"
-                              v-bind="{ ...val }"
-                              link
-                              class="linked"
-                              :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                              @click.stop="val.handler?.(scope.row, scope)"
-                            >
-                              {{ operatorBtnFn(val.content, scope.row, scope) }}
-                            </el-button>
-                          </template>
-                        </el-dropdown-item>
+                            </template>
+                          </el-dropdown-item>
+                        </template>
                       </el-dropdown-menu>
                     </template>
                   </el-dropdown>
@@ -267,7 +301,7 @@ function updatePage() {
           <el-table-column v-else v-bind="{ ...v }">
             <template #default="scope">
               <slot v-if="v.useSlot" :name="v.prop" :row="scope.row" :scope="scope" />
-              <span v-else-if="v.handler" class="linked" @click.stop="v.handler(scope.row, scope)">
+              <span v-else-if="v.handler" class="hide-btns-button" @click.stop="v.handler(scope.row, scope)">
                 <span>{{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : handleEmptyText(scope, v) }}</span>
               </span>
               <span v-else-if="v.filter">
@@ -340,5 +374,20 @@ function updatePage() {
   :deep(.el-table th .cell:hover) {
     white-space: normal;
   }
+  :deep(.el-table-fixed-column--right .cell.el-tooltip) {
+    display: flex;
+    align-items: center;
+    // justify-content: space-between;
+    // width: 100%;
+  }
+}
+.hide-btns-button {
+  color: var(--blue);
+  cursor: pointer;
+  // padding: 5px 16px ;
+}
+:deep(.el-dropdown-menu__item) {
+  // padding: 0;
+  justify-content: center;
 }
 </style>

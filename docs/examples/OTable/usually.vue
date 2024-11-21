@@ -65,9 +65,10 @@ const columns = [
         content: '下线',
       },
       {
-        content: '删除',
+        content: '删除11',
         reConfirm: true,
         handler: handleDetail,
+        isShow: false,
       },
     ],
   },
