@@ -864,14 +864,15 @@ export function processWidth(initValue, isBase = false) {
  * 否则返回原始数据
  * proxy.formatBytes(536870912) // 512MB
  */
+
 export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
   if (isStringNumber(bytes) || isNumber(bytes)) {
     bytes = Number(bytes)
   } else {
     return bytes
   }
-  if (bytes < 0 || !bytes) {
-    return bytes
+  if (bytes <= 0) {
+    return bytes + 'B'
   }
 
   const k = 1024
@@ -886,6 +887,7 @@ export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
   return res
 }
 //formatBytesConvert('0.5GB') 536870912
+
 export function formatBytesConvert(bytes) {
   if (isStringNumber(bytes) || isNumber(bytes)) {
     return bytes
@@ -893,9 +895,10 @@ export function formatBytesConvert(bytes) {
   if (!bytes) {
     return bytes
   }
-  const bytesRegex = /^(\d+(?:\.\d+)?)\s*([BKMGTPEZY]?B)$/i
+  const bytesRegex = /^(\d+(?:\.\d+)?)\s*([BKMGTPEZY]?B|Byte)$/i
   const units = {
     B: 1,
+    BYTE: 1,
     KB: 1024,
     MB: 1024 ** 2,
     GB: 1024 ** 3,
@@ -917,13 +920,14 @@ export function formatBytesConvert(bytes) {
 
   if (!units.hasOwnProperty(unit)) {
     console.warn(
-      "Invalid bytes unit. Please provide a valid unit, like 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', or 'YB'.",
+      "Invalid bytes unit. Please provide a valid unit, like 'B', 'BYTE', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', or 'YB'.",
     )
     return
   }
 
   return size * units[unit]
 }
+
 
 export function throttle(fn, delay = 1000) {
   // last为上一次触发毁掉的时间，timer是定时器
