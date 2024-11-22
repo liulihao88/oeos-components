@@ -45,23 +45,34 @@ const columns = [
     label: '操作',
     btns: [
       {
-        content: '查看',
-        type: 'primary',
+        content: '删除',
+        comp: 'o-icon',
+        attrs: {
+          name: 'delete',
+          content: '删除',
+          style: {
+            paddingRight: '16px',
+          },
+        },
+        reConfirm: (row, scope) => {
+          return scope.$index % 2 === 0
+        },
+        handler: handleDetail,
+      },
+      {
         comp: 'o-icon',
         attrs: {
           name: 'view',
-          content: '查看',
+          content: '桶浏览',
         },
+        content: '桶浏览',
         handler: handleDetail,
-        disabled: (row, scope) => {
-          return row.name === 'name1'
-        },
       },
       {
         content: '编辑',
         useSlot: true,
         prop: 'edit',
-        
+
         isShow: (row) => row.name === 'name2',
       },
       {

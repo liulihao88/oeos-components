@@ -130,6 +130,16 @@ const parseIsShow = (isFn, row = '', scope = '') => {
     return isFn
   }
 }
+const parseReConfirm = (isFn, row = '', scope = '') => {
+  if (typeof isFn === 'function') {
+    return isFn(row, scope)
+  } else {
+    if (isFn === undefined) {
+      return false
+    }
+    return isFn
+  }
+}
 const parseIsShowColumn = (isFn, item, index) => {
   if (typeof isFn === 'function') {
     return isFn(item, index)
@@ -191,8 +201,14 @@ function updatePage() {
                 <template v-for="(val, idx) in v.baseBtns" :key="idx">
                   <template v-if="parseIsShow(val.isShow, scope.row, scope)">
                     <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
-                    <template v-else-if="val.reConfirm === true">
-                      <o-popconfirm trigger="click" @confirm="val.handler?.(scope.row, scope)" style="display: inline">
+                    <template v-else-if="parseReConfirm(val.reConfirm, scope.row, scope)">
+                      <o-popconfirm
+                        trigger="click"
+                        :title="val.title ?? '确定删除吗?'"
+                        @confirm="val.handler?.(scope.row, scope)"
+                        style="display: inline"
+                        class="mr2"
+                      >
                         <component
                           :is="val.comp"
                           class="mr2"
@@ -243,11 +259,13 @@ function updatePage() {
                           <el-dropdown-item :hide-on-click="false" v-if="parseIsShow(val.isShow, scope.row, scope)">
                             <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
 
-                            <template v-else-if="val.reConfirm === true">
+                            <template v-else-if="parseReConfirm(val.reConfirm, scope.row, scope)">
                               <o-popconfirm
                                 trigger="hover"
+                                :title="val.title ?? '确定删除吗?'"
                                 @confirm="val.handler?.(scope.row, scope)"
                                 style="display: inline"
+                                class="mr2"
                               >
                                 <component
                                   :is="val.comp"
@@ -377,8 +395,7 @@ function updatePage() {
   :deep(.el-table-fixed-column--right .cell.el-tooltip) {
     display: flex;
     align-items: center;
-    // justify-content: space-between;
-    // width: 100%;
+    line-height: 16px;
   }
 }
 .hide-btns-button {
