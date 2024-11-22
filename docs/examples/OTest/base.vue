@@ -99,7 +99,7 @@ const columns = [
         comp: 'o-icon',
         attrs: {
           name: 'delete',
-          size: 12,
+          // size: 12,
           content: '333',
         },
       },

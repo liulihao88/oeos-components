@@ -265,7 +265,6 @@ function updatePage() {
                                 :title="val.title ?? '确定删除吗?'"
                                 @confirm="val.handler?.(scope.row, scope)"
                                 style="display: inline"
-                                class="mr2"
                               >
                                 <component
                                   :is="val.comp"
