@@ -157,7 +157,7 @@ const mergedAttrs = computed(() => {
 
 <template>
   <div class="o-date-range" :style="{ ...handleWidth() }">
-    <o-comp-title :title="props.title" :size="attrs.size"></o-comp-title>
+  <o-comp-title :title="props.title" :size="attrs.size" :titleAttrs="$attrs.titleAttrs ?? {}"></o-comp-title>
     <el-date-picker v-bind="mergedAttrs"></el-date-picker>
   </div>
 </template>

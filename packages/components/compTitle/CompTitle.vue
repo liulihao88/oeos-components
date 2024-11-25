@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  *    
-<o-comp-title :title="props.title" :size="attrs.size"></o-comp-title>
+  <o-comp-title :title="props.title" :size="attrs.size" :titleAttrs="$attrs.titleAttrs ?? {}"></o-comp-title>
  */
 import { ref, getCurrentInstance, useAttrs, computed } from 'vue'
 const { proxy } = getCurrentInstance()
@@ -11,6 +11,10 @@ const props = defineProps({
   title: {
     type: String,
     default: '',
+  },
+  titleAttrs: {
+    type: Object,
+    default: () => ({}),
   },
 })
 const sizeMap = ['small', 'large']
@@ -26,7 +30,13 @@ const sizeStyle = computed(() => {
 </script>
 
 <template>
-  <div class="o-comp-title" :class="sizeClass" :style="sizeStyle" v-bind="$attrs" v-if="props.title">
+  <div
+    class="o-comp-title"
+    :class="sizeClass"
+    :style="{ ...sizeStyle, ...titleAttrs }"
+    v-bind="$attrs"
+    v-if="props.title"
+  >
     {{ props.title }}
   </div>
 </template>

@@ -4,7 +4,7 @@
     :style="{ ...proxy.processWidth(props.width) }"
     :class="{ 'has-title': props.title, 'has-quick': props.showQuick && !parseDisabled && props.options.length > 0 }"
   >
-    <o-comp-title :title="props.title" :size="attrs.size"></o-comp-title>
+    <o-comp-title :title="props.title" :size="attrs.size" :titleAttrs="$attrs.titleAttrs ?? {}"></o-comp-title>
     <el-select
       ref="selectRef"
       class="o-select__select"
