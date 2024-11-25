@@ -58,7 +58,7 @@
       @click="quickSelect"
       v-if="showQuick && !parseDisabled && props.options.length > 0"
     >
-      <o-icon name="select" size="14"></o-icon>
+      <o-icon name="bottom" size="14"></o-icon>
     </div>
   </div>
 </template>
