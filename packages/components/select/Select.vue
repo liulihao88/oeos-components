@@ -352,6 +352,9 @@ const urlParams = proxy.translateToPageinfo({
   display: inline-flex;
   width: 316px;
   vertical-align: bottom;
+  :deep(.el-select) {
+    flex: 1;
+  }
 
   :deep(.el-input__inner) {
     border-radius: 0px 2px 2px 0 !important;

@@ -16,7 +16,14 @@ const textareaValue = ref(
     <o-input v-model="iptValue" width="300"></o-input>
     <o-input v-model="iptValue" :clearble="false"></o-input>
     <o-input v-model="textareaValue" type="textarea"></o-input>
-    <o-input v-model="iptValue" title="这是title" hideTooltip width="240" size="small"></o-input>
+    <o-input
+      v-model="iptValue"
+      title="这是title"
+      hideTooltip
+      width="240"
+      size="small"
+      :titleAttrs="{ width: 200 }"
+    ></o-input>
     <o-input v-model="iptValue" hideTooltip width="240" size="small"></o-input>
     <o-input v-model="iptValue" hideTooltip width="240" size="default" title="这是title"></o-input>
     <o-input v-model="iptValue" hideTooltip width="240" size="large" title="这是title"></o-input>

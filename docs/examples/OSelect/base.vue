@@ -17,8 +17,14 @@ const simpleOptions = ref([1, 3, 5, 7, 9])
       <template #prefix>11</template>
     </o-select>
 
+    <o-select
+      v-model="selectVal"
+      :options="changeOptions"
+      type="simple"
+      title="andy"
+      :titleAttrs="{ width: 100 }"
+    ></o-select>
     <o-select v-model="selectVal" :options="changeOptions" type="simple"></o-select>
-    <o-select v-model="selectVal" :options="changeOptions" type="simple" ></o-select>
   </div>
 </template>
 
