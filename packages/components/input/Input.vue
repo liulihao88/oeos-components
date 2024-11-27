@@ -12,7 +12,7 @@
           @mouseover.native="inputOnMouseOver($event)"
         >
           <template v-if="$attrs.title" #prepend>
-            <div v-bind="titleAttrs">
+            <div :style="{ ...computedTitleAttrs }" class="o-input__title">
               {{ $attrs.title }}
             </div>
           </template>
@@ -36,7 +36,7 @@
           @mouseover.native="inputOnMouseOver($event)"
         >
           <template v-if="$attrs.title" #prepend>
-            <div v-bind="titleAttrs">
+            <div :style="{ ...computedTitleAttrs }" class="o-input__title">
               {{ $attrs.title }}
             </div>
           </template>
@@ -192,6 +192,18 @@ watch(
   },
 )
 
+const computedTitleAttrs = computed(() => {
+  if (props.titleAttrs?.width) {
+    let minusWidth = parseInt(props.titleAttrs.width) - 8 + 'px'
+    return {
+      ...props.titleAttrs,
+      width: proxy.processWidth(minusWidth, true),
+    }
+  } else {
+    return props.titleAttrs
+  }
+})
+
 function handlePlaceholder() {
   let res = attrs.disabled === '' || !!attrs.disabled === true ? props.disPlaceholder : attrs.placeholder || '请输入'
   return res
@@ -274,6 +286,9 @@ const createFilter = (queryString: string) => {
       display: block;
     }
   }
+  .o-input__title {
+    text-align: center;
+  }
 }
 .o-input__clear {
   position: absolute;
@@ -301,7 +316,7 @@ const createFilter = (queryString: string) => {
     padding-bottom: 20px;
   }
   :deep(.el-input-group__prepend) {
-    padding: 0 6px;
+    padding: 0 4px;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- *    
+ *
   <o-comp-title :title="props.title" :size="attrs.size" :titleAttrs="$attrs.titleAttrs ?? {}"></o-comp-title>
  */
 import { ref, getCurrentInstance, useAttrs, computed } from 'vue'
@@ -19,6 +19,17 @@ const props = defineProps({
 })
 const sizeMap = ['small', 'large']
 
+const computedTitleAttrs = computed(() => {
+  if (props.titleAttrs?.width) {
+    return {
+      ...props.titleAttrs,
+      width: proxy.processWidth(props.titleAttrs?.width, true),
+    }
+  } else {
+    return props.titleAttrs
+  }
+})
+
 const sizeClass = computed(() => {
   let res = attrs.size ? `el-input--${attrs.size}` : 'o-comp-title__base-size'
   return res
@@ -33,7 +44,7 @@ const sizeStyle = computed(() => {
   <div
     class="o-comp-title"
     :class="sizeClass"
-    :style="{ ...sizeStyle, ...titleAttrs }"
+    :style="{ ...sizeStyle, ...computedTitleAttrs }"
     v-bind="$attrs"
     v-if="props.title"
   >
