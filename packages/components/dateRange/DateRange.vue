@@ -150,7 +150,15 @@ const mergedAttrs = computed(() => {
     'end-placeholder': '结束日期',
     'range-separator': '-',
   }
-  const merged = { ...baseAttrs, ...attrs }
+  const merged = {
+    ...baseAttrs,
+    ...Object.entries(attrs).reduce((obj, [key, value]) => {
+      if (key !== 'class' && key !== 'style') {
+        obj[key] = value
+      }
+      return obj
+    }, {}),
+  }
   return merged
 })
 </script>

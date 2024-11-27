@@ -16,8 +16,7 @@ function cusConfirm() {
     <o-popconfirm trigger="click" @confirm="confirm" title="" ref="popoverRef">
       <template #content>我是slot的content</template>
       <template #footer>
-        <div>我是slot的footer</div>
-        <el-button size="small" type="primary" @click="cusConfirm">自定义确认</el-button>
+        <el-button size="small" type="primary" @click="cusConfirm">我是slot的footer</el-button>
       </template>
       <el-button type="danger">
         <o-icon name="delete"></o-icon>

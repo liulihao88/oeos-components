@@ -69,12 +69,12 @@ defineExpose({
       <slot name="content">
         <div class="o-popconfirm__content">{{ content }}</div>
       </slot>
-      <slot name="footer">
-        <div style="text-align: right; margin: 0">
+      <div class="o-popconfirm__footer">
+        <slot name="footer">
           <el-button size="small" type="info" @click="cancel">取消</el-button>
           <el-button size="small" type="primary" @click="confirm">确定</el-button>
-        </div>
-      </slot>
+        </slot>
+      </div>
       <template v-slot:reference>
         <slot></slot>
       </template>
@@ -86,6 +86,9 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-
-
+.o-popconfirm__footer {
+  text-align: right;
+  margin: 0;
+  margin-top: 16px;
+}
 </style>

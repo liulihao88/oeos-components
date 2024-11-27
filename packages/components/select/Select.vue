@@ -19,7 +19,6 @@
         filterable: true,
         ...Object.entries($attrs).reduce((obj, [key, value]) => {
           if (key !== 'class' && key !== 'style') {
-            console.log(`28 key`, key)
             obj[key] = value
           }
           return obj
