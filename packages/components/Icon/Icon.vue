@@ -63,7 +63,7 @@ const parseColor = computed(() => {
 
 <style scoped lang="scss">
 .o-icon {
-  cursor: pointer;
+  // cursor: pointer; 
 }
 .o-icon__not-allowed {
   cursor: not-allowed;
