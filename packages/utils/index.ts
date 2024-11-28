@@ -975,6 +975,22 @@ export function debounce(fn, delay = 1000) {
  * proxy.confirm('哈哈', { icon: 'el-icon-plus' })
  * close-on-click-modal: 是否可通过点击遮罩层关闭 MessageBox 默认true
  * lock-scroll: 是否在 MessageBox 出现时将 body 滚动锁定. 默认true
+ * 设置宽度, 内容使用组件
+   import GWarning from '@/autoComponents/gWarning.vue'
+    await proxy.confirm('', {
+      dangerouslyUseHTMLString: true,
+      customStyle: {
+        maxWidth: '600px',
+      },
+      message: h(GWarning, {
+        content:
+          '对于光存储开启保持原始对象名称后，对象将作为独立文件在光存储介质直接存储。<br>注意：当桶内文件大小普遍较小（<100MB）或过大（>5GB）时不推荐打开此功能！您确定开启此功能吗?',
+      }),
+      showCancelButton: true,
+      cancelButtonText: '取消',
+      appendTo: '#highSettingsForm',
+    })
+ * 如果是多个dialog嵌套, 可以给上层dialog设置个id如highSettingsForm, 然后appendTo: '#highSettingsForm'
  */
 export function confirm(message, options) {
   const baseOptions = {

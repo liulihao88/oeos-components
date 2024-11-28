@@ -150,7 +150,7 @@ function handleClose() {
 
 // 只有当弹框的时候, 且按的是回车键, 才走confirm
 function onkeypress({ code }: KeyboardEvent) {
-  if (attrs.modelValue === true && code === 'Enter' && props.enableConfirm) {
+  if (attrs.modelValue === true && code === 'Enter' && props.enableConfirm && props.confirmAttrs?.loading !== true) {
     confirm()
   }
 }
