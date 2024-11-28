@@ -4,11 +4,11 @@
       <div>
         <el-autocomplete
           v-if="props.options"
+          v-bind="$attrs"
+          v-model="data"
           :fetch-suggestions="querySearch"
           :placeholder="handlePlaceholder()"
           :clearable="$attrs.clearable !== false"
-          v-bind="$attrs"
-          v-model="data"
           @mouseover.native="inputOnMouseOver($event)"
         >
           <template v-if="$attrs.title" #prepend>
@@ -19,11 +19,11 @@
         </el-autocomplete>
 
         <el-input
-          v-bind="$attrs"
           v-else
+          v-bind="$attrs"
+          v-model="data"
           :placeholder="handlePlaceholder()"
           class="kd-ipt"
-          v-model="data"
           :showPassword="showPassword"
           :clearable="$attrs.clearable !== false"
           :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
@@ -41,26 +41,26 @@
             </div>
           </template>
           <!-- 插槽默认内容 -->
-          <slot></slot>
+          <slot />
 
           <!-- 前缀插槽 -->
           <template v-if="$slots.prefix" v-slot:prefix>
-            <slot name="prefix"></slot>
+            <slot name="prefix" />
           </template>
 
           <!-- 后缀插槽 -->
           <template v-if="$slots.suffix" v-slot:suffix>
-            <slot name="suffix"></slot>
+            <slot name="suffix" />
           </template>
 
           <!-- 后置插槽 -->
           <template v-if="$slots.append" v-slot:append>
-            <slot name="append"></slot>
+            <slot name="append" />
           </template>
 
           <!-- 前置插槽 -->
           <template v-if="$slots.prepend" v-slot:prepend>
-            <slot name="prepend"></slot>
+            <slot name="prepend" />
           </template>
         </el-input>
       </div>
@@ -70,14 +70,14 @@
       class="o-input__icon"
       v-bind="{ name: 'warning', color: '#DCDEE0', size: '16px', ...props.iconAttrs }"
       :content="content"
-    ></o-icon>
+    />
 
     <o-icon
+      v-if="$attrs.type === 'textarea' && data && !($attrs.disabled === true || $attrs.disabled === '')"
       name="circle-close"
       class="o-input__clear"
       @click="clearTextareaValue"
-      v-if="$attrs.type === 'textarea' && data && !($attrs.disabled === true || $attrs.disabled === '')"
-    ></o-icon>
+    />
   </div>
 </template>
 
@@ -273,48 +273,53 @@ const createFilter = (queryString: string) => {
 
 <style lang="scss" scoped>
 .o-input {
-  width: 100%;
-  display: inline-block;
   position: relative;
+  display: inline-block;
+  width: 100%;
+
   .o-input__icon {
     position: absolute;
-    right: -24px;
     top: 8px;
+    right: -24px;
   }
+
   &:hover {
     .o-input__clear {
       display: block;
     }
   }
+
   .o-input__title {
     text-align: center;
   }
 }
+
 .o-input__clear {
   position: absolute;
   right: 8px;
+  bottom: calc(50% - 6px);
   display: none;
   width: 14px;
   height: 14px;
   color: var(--45);
-  bottom: calc(50% - 6px);
   cursor: pointer;
+
   &:hover {
     color: var(--blue);
   }
-}
-
-.o-input {
   // el-input的宽度会随着鼠标移入显示clearable而改变, 所以加下面这两行代码
   :deep(.el-input__suffix:not(.el-select .el-input__suffix)) {
-    margin-left: -22px;
+    // margin-left: -22px;
   }
+
   :deep(.el-input__inner:not(.el-select .el-input__inner)) {
     padding-right: 22px;
   }
+
   :deep(.el-textarea__inner) {
     padding-bottom: 20px;
   }
+
   :deep(.el-input-group__prepend) {
     padding: 0 4px;
   }
