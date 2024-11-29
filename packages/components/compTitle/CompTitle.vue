@@ -41,13 +41,7 @@ const sizeStyle = computed(() => {
 </script>
 
 <template>
-  <div
-    class="o-comp-title"
-    :class="sizeClass"
-    :style="{ ...sizeStyle, ...computedTitleAttrs }"
-    v-bind="$attrs"
-    v-if="props.title"
-  >
+  <div class="o-comp-title" :class="sizeClass" :style="{ ...computedTitleAttrs }" v-bind="$attrs" v-if="props.title">
     {{ props.title }}
   </div>
 </template>
