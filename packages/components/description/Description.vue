@@ -5,7 +5,7 @@
         <o-tooltip :content="item.label"></o-tooltip>
       </template>
       <template v-if="item.slotName">
-        <slot :name="item.slotName"></slot>
+        <slot :name="item.slotName" :item="item" :label="item.label" :value="item.value" :index="index"></slot>
       </template>
       <template v-else>
         <o-tooltip class="w-100%" :content="parseContent(item.value)"></o-tooltip>
