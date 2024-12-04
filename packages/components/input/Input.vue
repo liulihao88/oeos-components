@@ -283,7 +283,7 @@ const createFilter = (queryString: string) => {
   }
 
   :deep(.el-input__inner:not(.el-select .el-input__inner)) {
-    padding-left: -22px;
+    margin-right: 22px;
   }
 
   :deep(.el-textarea__inner) {
