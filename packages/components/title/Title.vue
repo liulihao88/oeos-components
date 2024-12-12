@@ -122,6 +122,7 @@ const margin = computed(() => {
       .title-text {
         letter-spacing: 0;
         font-weight: 600;
+        margin-right: 4px;
       }
     }
     .o-title__top-simple-left {
@@ -134,6 +135,7 @@ const margin = computed(() => {
       .title-text {
         letter-spacing: 0;
         font-weight: 500;
+        margin-right: 4px;
       }
     }
   }

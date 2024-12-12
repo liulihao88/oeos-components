@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, h } from 'vue'
 const { proxy } = getCurrentInstance()
-const dateValue = ref()
-
+const dateValue = ref([])
+const dateSimple = ref('')
 </script>
 
 <template>
@@ -17,6 +17,9 @@ const dateValue = ref()
       end-placeholder="结束"
       range-separator="///"
     ></o-date-range>
+    <o-title title="选择单个日期, 并且是时间戳"></o-title>
+    <o-date-range v-model="dateSimple" title="完犊子" type="datetime" value-format="x" placeholder="选择日期哦" ></o-date-range>
+    {{ dateSimple }}
   </div>
 </template>
 
