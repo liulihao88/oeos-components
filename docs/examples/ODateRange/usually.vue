@@ -17,8 +17,24 @@ const dateSimple = ref('')
       end-placeholder="结束"
       range-separator="///"
     ></o-date-range>
+    <o-title title="支持到可以选择时间"></o-title>
+    <o-date-range
+      v-model="dateValue"
+      title="写入时间"
+      class="mb2"
+      format="YYYY-MM-DD HH:mm:ss"
+      width="500"
+      :titleAttrs="{ width: 80 }"
+      type="datetimerange"
+    />
     <o-title title="选择单个日期, 并且是时间戳"></o-title>
-    <o-date-range v-model="dateSimple" title="完犊子" type="datetime" value-format="x" placeholder="选择日期哦" ></o-date-range>
+    <o-date-range
+      v-model="dateSimple"
+      title="完犊子"
+      type="datetime"
+      value-format="x"
+      placeholder="选择日期哦"
+    ></o-date-range>
     {{ dateSimple }}
   </div>
 </template>
