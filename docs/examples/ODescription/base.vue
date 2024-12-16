@@ -22,6 +22,24 @@ const options = ref([
 <template>
   <div>
     <div>docs/examples/ODescription/base.vue</div>
-    <o-description extra="321" title="你瞅啥" :options="options" class="w-100%"></o-description>
+    <o-description extra="321" title="你瞅啥" :options="options" class="w-100%" showAll></o-description>
+
+    <el-descriptions>
+      <el-descriptions-item label="左侧">右侧</el-descriptions-item>
+      <el-descriptions-item label="左侧">
+        w52024-07-232024-07-23 19:22:19I want to set some random text, if you like it , please tell me. good wish for
+        you! thank you so much. have a nice day!
+      </el-descriptions-item>
+      <el-descriptions-item label="左侧">
+        w52024-07-232024-07-23 19:22:19I want to set some random text, if you like it , please tell me. good wish for
+        you! thank you so much. have a nice day!        w52024-07-232024-07-23 19:22:19I want to set some random text, if you like it , please tell me. good wish for
+        you! thank you so much. have a nice day!        w52024-07-232024-07-23 19:22:19I want to set some random text, if you like it , please tell me. good wish for
+        you! thank you so much. have a nice day!
+      </el-descriptions-item>
+      <el-descriptions-item label="左侧">
+        w52024-07-232024-07-23 19:22:19I want to set some random text, if you like it , please tell me. good wish for
+        you! thank you so much. have a nice day!
+      </el-descriptions-item>
+    </el-descriptions>
   </div>
 </template>

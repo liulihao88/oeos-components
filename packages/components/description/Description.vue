@@ -8,7 +8,10 @@
         <slot :name="item.slotName" :item="item" :label="item.label" :value="item.value" :index="index"></slot>
       </template>
       <template v-else>
-        <o-tooltip class="w-100%" :content="parseContent(item.value)"></o-tooltip>
+        <template v-if="showAll">
+          {{ item.value }}
+        </template>
+        <o-tooltip class="w-100%" :content="parseContent(item.value)" v-else></o-tooltip>
       </template>
     </el-descriptions-item>
   </el-descriptions>
@@ -31,6 +34,10 @@ const props = defineProps({
   labelWidth: {
     type: String,
     default: '',
+  },
+  showAll: {
+    type: Boolean,
+    default: false,
   },
 })
 const labelWidth = computed(() => {
