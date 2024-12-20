@@ -2,13 +2,10 @@
 import { ref, getCurrentInstance, computed, onMounted, shallowRef, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
-console.log(`%c 12行 example/App.vue router`, 'color:blue', router)
 const route = useRoute()
-console.log('route', route)
 import _ from 'lodash-es'
 const { proxy } = getCurrentInstance()
 const modules = import.meta.glob('./views/**/*.vue')
-console.log('modules', modules)
 const componentList = shallowRef({})
 const componentNameList = ref([])
 
@@ -24,7 +21,6 @@ async function importComps() {
 
 const hash = ref()
 function navChange(name) {
-  console.log('name', name)
   hash.value = name
 }
 watch(
@@ -39,9 +35,7 @@ watch(
 )
 onMounted(() => {
   const url = window.location.href
-  console.log('url', url)
   hash.value = window.location.hash
-  console.log('hash', hash)
   importComps()
 })
 </script>

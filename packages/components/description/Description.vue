@@ -22,9 +22,15 @@ import { computed, getCurrentInstance } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 const { proxy } = getCurrentInstance()
 
+type Options = {
+  label: string
+  value: string
+  slotName?: string
+}
+
 const props = defineProps({
   options: {
-    type: Array,
+    type: Array as () => Options[],
     required: true,
   },
   column: {
