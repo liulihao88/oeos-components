@@ -990,7 +990,7 @@ export function debounce(fn, delay = 1000) {
       cancelButtonText: '取消',
       appendTo: '#highSettingsForm',
     })
- * 如果是多个dialog嵌套, 可以给上层dialog设置个id如highSettingsForm, 然后appendTo: '#highSettingsForm'
+ * 如果是多个dialog嵌套, 可以给上层的dom设置个id如highSettingsForm, 然后appendTo: '#highSettingsForm'
  */
 export function confirm(message, options) {
   const baseOptions = {
