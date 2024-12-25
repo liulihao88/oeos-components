@@ -13,3 +13,9 @@ ODateRange/base
 :::demo `继承el-date-picker所有属性`
 ODateRange/usually
 :::
+
+## 选择7天以内的日期
+
+:::demo `继承el-date-picker所有属性`
+ODateRange/range
+:::
