@@ -101,7 +101,7 @@ const props = defineProps({
   },
   showPrefix: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   showQuick: {
     type: Boolean,
