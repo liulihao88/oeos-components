@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="OTitle">
 /**
 <o-title title="使用hooks1" t="100"></o-title>
 <o-title title="我说呢" sub-title="test/t2.vue"></o-title>
