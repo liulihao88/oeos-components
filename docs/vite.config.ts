@@ -6,9 +6,11 @@ import { codeInspectorPlugin } from 'code-inspector-plugin'
 import terser from '@rollup/plugin-terser'
 import { customVitePluginFilePath } from '../packages/utils/customVitePluginFilePath.js'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 
 export default defineConfig({
   plugins: [
+    VueSetupExtend(),
     vueJsx(),
     codeInspectorPlugin({
       bundler: 'vite',

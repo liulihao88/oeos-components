@@ -60,9 +60,8 @@ const components = [
 const install = (app) => {
   registerDirectives(app)
   components.forEach((comp: any) => {
-    console.log(`85 comp`, comp)
-    console.log(`85 comp.__name`, comp.__name)
-    app.component('o' + comp.__name, comp)
+    let name = comp.name || 'o' + comp.__name
+    app.component(name, comp)
   })
   for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(`el-icon-${toLine(key)}`, component)
