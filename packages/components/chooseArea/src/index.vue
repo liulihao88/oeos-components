@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="OChooseArea">
 import { ref, getCurrentInstance } from 'vue'
 import address from './pca-code.json'
 const { proxy } = getCurrentInstance()

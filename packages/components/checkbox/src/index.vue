@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="OCheckbox">
 /** @使用方式
 <o-checkbox
   v-model="formData.categoryIds"
@@ -9,8 +9,8 @@
   :customDisabled="judgeDisabled"
 ></o-checkbox>
 */
-import { ref, getCurrentInstance, watch, computed } from 'vue'
-const { proxy } = getCurrentInstance()
+import { ref, watch, computed } from 'vue'
+import { isEmpty } from '@/utils'
 const props = defineProps({
   type: {
     type: String,
@@ -66,7 +66,7 @@ watch(
   (newValue) => {
     // 一些不在options里的值, 需要考虑进来, 进行过滤. 这里还要考虑type===simple的情况
     let pureValue = []
-    if (proxy.isEmpty(newValue) || typeof newValue !== 'object') {
+    if (isEmpty(newValue) || typeof newValue !== 'object') {
       pureValue = []
     } else {
       pureValue = newValue.filter((v) => {
@@ -77,7 +77,7 @@ watch(
       })
     }
 
-    if (proxy.isEmpty(pureValue)) {
+    if (isEmpty(pureValue)) {
       isIndeterminate.value = false
       checkAll.value = false
     } else if (pureValue.length === props.options.length) {
