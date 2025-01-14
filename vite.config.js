@@ -7,6 +7,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import terser from '@rollup/plugin-terser'
 import { customVitePluginFilePath } from './packages/utils/customVitePluginFilePath.js'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 
 export default defineConfig({
   build: {
@@ -30,6 +31,7 @@ export default defineConfig({
     __buildInfos__: new Date(), // 将构建信息作为全局变量注入
   },
   plugins: [
+    VueSetupExtend(),
     {
       ...terser({
         compress: {
