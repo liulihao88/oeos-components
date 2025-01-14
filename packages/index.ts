@@ -57,6 +57,32 @@ const components = [
   OTitle,
 ]
 
+// 按需导入
+export {
+  OCompTitle,
+  OCheckbox,
+  OChooseArea,
+  ODescription,
+  ODialog,
+  ODrawer,
+  ODateRange,
+  OEmpty,
+  OForm,
+  OIcon,
+  OInput,
+  OInputLabel,
+  OPopconfirm,
+  OProgress,
+  ORadio,
+  OSelect,
+  OSvg,
+  OTable,
+  OText,
+  OTabs,
+  OTooltip,
+  OTitle,
+}
+
 const install = (app) => {
   registerDirectives(app)
   components.forEach((comp: any) => {
@@ -88,7 +114,6 @@ export function createSvg(iconDirs) {
 }
 
 export { utils }
-export { OTitle }
 
 export default {
   // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
