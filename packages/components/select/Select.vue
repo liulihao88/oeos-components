@@ -65,6 +65,7 @@
 <script setup lang="ts" name="OSelect">
 import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed } from 'vue'
 import { processWidth, isEmpty } from '../../utils'
+import OIcon from '../icon'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])

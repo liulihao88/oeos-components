@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="OIcon">
 /**
   <o-icon name="delete" color="blue"></o-icon>
   <o-icon name="arrow-right" color="blue"></o-icon>
@@ -63,7 +63,7 @@ const parseColor = computed(() => {
 
 <style scoped lang="scss">
 .o-icon {
-  // cursor: pointer; 
+  // cursor: pointer;
 }
 .o-icon__not-allowed {
   cursor: not-allowed;
