@@ -12,7 +12,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     lib: {
-      entry: resolve(__dirname, './packages/index.js'),
+      entry: resolve(__dirname, './packages/index.ts'),
       name: pkg.name,
       fileName: (format) => `${pkg.name}-${format}.js`,
     },

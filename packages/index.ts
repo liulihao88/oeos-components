@@ -1,5 +1,5 @@
 import './styles/index.scss'
-import { toLine } from './utils/index.ts'
+import { toLine } from './utils'
 
 // 全局注册vue-tippy
 import 'tippy.js/dist/tippy.css'
@@ -32,7 +32,7 @@ import OTooltip from './components/tooltip/Tooltip.vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as utils from './utils'
 
-export const comps = {
+const components = [
   OCompTitle,
   OCheckbox,
   OChooseArea,
@@ -55,17 +55,25 @@ export const comps = {
   OTabs,
   OTooltip,
   OTitle,
-}
+]
 
 const install = (app) => {
   registerDirectives(app)
-  for (const key in comps) {
-    app.component(key, comps[key])
-  }
+  components.forEach((comp: any) => {
+    console.log(`85 comp`, comp)
+    console.log(`85 comp.__name`, comp.__name)
+    app.component('o' + comp.__name, comp)
+  })
   for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(`el-icon-${toLine(key)}`, component)
   }
   app.use(VueTippy)
+}
+
+// @ts-ignore
+if (typeof window !== 'undefined' && window.Vue) {
+  // @ts-ignore
+  install(window.Vue)
 }
 
 export * from './utils'
@@ -83,6 +91,8 @@ export function createSvg(iconDirs) {
 export { utils }
 
 export default {
+  ...components, // 按需导入
+  // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
   install,
   utils,
 }

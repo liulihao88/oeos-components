@@ -4,7 +4,12 @@
       "@/*": [
         "./packages/*"
       ]
-    }
+    },
+    "types": [
+      // 用来指定需要包含的模块，并将其包含在全局范围内。
+      "element-plus/global",
+      "./packages/components.d.ts",
+    ]
   },
   "exclude": [
     "node_modules",

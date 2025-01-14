@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-// import * as cc from 'oeos-components'
-// console.log(`74 cc`, cc);
+// import { OTitle } from 'oeos-components'
+// console.log(`08 cc`, cc);
+// console.log(`58 OTitle`, OTitle)
 </script>
 
 <template>
