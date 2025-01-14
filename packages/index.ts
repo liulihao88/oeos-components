@@ -28,7 +28,7 @@ import OTable from './components/table/Table.vue'
 import OText from './components/text/Text.vue'
 import OTabs from './components/tabs/Tabs.vue'
 import OTitle from './components/title'
-import OTooltip from './components/tooltip/Tooltip.vue'
+import OTooltip from './components/tooltip'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as utils from './utils'
 

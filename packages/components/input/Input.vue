@@ -81,7 +81,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="OInput">
 /**
 * @使用方法
 <o-input

@@ -4,7 +4,7 @@
       @click="contentClick"
       v-if="props.showSlot"
       class="tooltip__text"
-      :style="{ maxWidth: proxy.processWidth(width, true) }"
+      :style="{ maxWidth: processWidth(width, true) }"
       @mouseover="onMouseOver"
       v-bind="$attrs"
     >
@@ -18,12 +18,11 @@
   </el-tooltip>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="OTooltip">
 import { ref, nextTick, useSlots, computed, getCurrentInstance, useAttrs } from 'vue'
-import { isBoolean } from 'lodash-es'
+import { processWidth } from '../../../utils'
 const slots = useSlots()
 const attrs = useAttrs()
-const { proxy } = getCurrentInstance()
 
 const props = defineProps({
   width: {
