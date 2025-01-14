@@ -56,6 +56,11 @@ export default defineConfig({
       symbolId: 'icon-[dir]-[name]',
     }),
   ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'packages'),
+    },
+  },
   server: {
     host: '0.0.0.0',
     port: 9876,
