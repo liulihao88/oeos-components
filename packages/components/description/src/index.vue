@@ -20,7 +20,8 @@
 <script setup lang="ts" name="ODescription">
 import { computed, getCurrentInstance } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
-const { proxy } = getCurrentInstance()
+import { processWidth } from '@/utils'
+import OTooltip from '@/components/tooltip'
 
 type Options = {
   label: string
@@ -55,7 +56,7 @@ const labelWidth = computed(() => {
     }
   })
   if (props.labelWidth) {
-    return proxy.processWidth(props.labelWidth, true)
+    return processWidth(props.labelWidth, true)
   } else {
     return maxLabelLength * 12 + 'px'
   }
