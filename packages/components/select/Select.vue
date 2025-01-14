@@ -1,14 +1,14 @@
 <template>
   <div
     class="o-select"
-    :style="{ ...proxy.processWidth(props.width) }"
+    :style="{ ...processWidth(props.width) }"
     :class="{ 'has-title': props.title, 'has-quick': props.showQuick && !parseDisabled && props.options.length > 0 }"
   >
     <o-comp-title :title="props.title" :size="attrs.size" :titleAttrs="$attrs.titleAttrs ?? {}"></o-comp-title>
     <el-select
       ref="selectRef"
       class="o-select__select"
-      :class="proxy.isEmpty(sOptions) && emptyColor ? 'o-select__empty' : ''"
+      :class="isEmpty(sOptions) && emptyColor ? 'o-select__empty' : ''"
       v-model="childSelectedValue"
       :placeholder="handlePlaceholder()"
       popper-class="o-select__multiple-checkbox"
@@ -62,8 +62,9 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="OSelect">
 import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed } from 'vue'
+import { processWidth, isEmpty } from '../../utils'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])
@@ -172,7 +173,7 @@ const selectRef = ref(null)
 const childSelectedValue = computed({
   get() {
     // 如果是多选, 且props.modelValue是空, 那么返回空数组.
-    if (proxy.isEmpty(props.modelValue) && props.multiple) {
+    if (isEmpty(props.modelValue) && props.multiple) {
       return []
     }
     return props.modelValue
@@ -209,7 +210,6 @@ const selectChecked = computed({
 })
 // 点击全选
 const selectAll = (val: any) => {
-  // const options = proxy.clone(props.options)
   if (val) {
     const selectedAllValue = props.options.map((item) => {
       return item[props.value]
@@ -260,7 +260,7 @@ const quickSelect = () => {
     return
   }
   let nextIdx = 0
-  if (proxy.isEmpty(props.modelValue) || (props.multiple === true && props.modelValue.length > 1)) {
+  if (isEmpty(props.modelValue) || (props.multiple === true && props.modelValue.length > 1)) {
     nextIdx = 0
   } else {
     let nowIdx = props.options.findIndex((v) => {
@@ -339,7 +339,7 @@ function _commonEmits(item, selectLabel, selectObj) {
 
 import { listWorkStyles } from '/@/api/aig/work_styles';
 
-const urlParams = proxy.translateToPageinfo({
+const urlParams = translateToPageinfo({
 	pageSize: 9999,
 	pageNum: 1,
 });

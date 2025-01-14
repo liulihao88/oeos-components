@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-let aa = proxy.clone([1, 2, 3])
-console.log(`71 aa`, aa)
+import { OSelect } from '../../../packages/index.ts'
+console.log(`98 OSelect`, OSelect);
+const options = ref([
+  { label: 'Option 1', value: 1 },
+  { label: 'Option 2', value: 2 },
+])
+const selectValue = ref();
 </script>
 
 <template>
   <div>
-    <div>docs/examples/OTest/base.vue</div>
+    <o-select v-model="selectValue" :options="options" />
     <o-title title="comps"></o-title>
   </div>
 </template>
