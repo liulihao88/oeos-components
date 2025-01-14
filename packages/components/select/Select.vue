@@ -66,6 +66,7 @@
 import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed } from 'vue'
 import { processWidth, isEmpty } from '../../utils'
 import OIcon from '../icon'
+import OCompTitle from '../compTitle'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])

@@ -7,7 +7,7 @@ import 'tippy.js/themes/light.css'
 import VueTippy from 'vue-tippy'
 
 import registerDirectives from './directives/gDirectives.js'
-import OCompTitle from './components/compTitle/CompTitle.vue'
+import OCompTitle from './components/compTitle'
 import OCheckbox from './components/checkbox/Checkbox.vue'
 import OChooseArea from './components/ChooseArea/chooseArea.vue'
 import ODescription from './components/description/Description.vue'

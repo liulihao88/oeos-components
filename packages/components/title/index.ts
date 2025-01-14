@@ -1,4 +1,4 @@
-import Title from './src/Title.vue'
+import Title from './src/index.vue'
 import { withInstall } from '../../utils/withInstall'
 
 const OTitle = withInstall(Title)
