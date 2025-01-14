@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script setup lang="ts" name="OEmpty">
 import { ref, getCurrentInstance } from 'vue'
-import group_null from '../../assets/images/group_null.png'
-const { proxy } = getCurrentInstance()
+import { processWidth } from '@/utils'
+import group_null from '@/assets/images/group_null.png'
 const props = defineProps({
   description: {
     type: String,
@@ -38,8 +38,8 @@ const props = defineProps({
         <img
           :src="src"
           :style="{
-            width: proxy.processWidth(props.width, true),
-            height: proxy.processWidth(props.height, true),
+            width: processWidth(props.width, true),
+            height: processWidth(props.height, true),
             ...props.imgAttrs,
           }"
         />
