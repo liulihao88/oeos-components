@@ -46,9 +46,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, getCurrentInstance, computed, useAttrs, useSlots, watch, onBeforeUnmount, onMounted } from 'vue'
-const { proxy } = getCurrentInstance()
+<script setup lang="ts" name="ODialog">
+import { ref, computed, useAttrs, useSlots, watch, onBeforeUnmount, onMounted } from 'vue'
 const attrs = useAttrs()
 const slots = useSlots()
 const emits = defineEmits(['update:modelValue'])

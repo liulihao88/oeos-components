@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="ODrawer">
 /** @使用方式
 <o-drawer
   v-model="isShow"
@@ -7,8 +7,7 @@
   :closeOnClickModal="true"
 ></o-drawer>
 */
-import { ref, getCurrentInstance, computed, useAttrs } from 'vue'
-const { proxy } = getCurrentInstance()
+import { ref, computed, useAttrs } from 'vue'
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
   confirmText: {
@@ -33,7 +32,7 @@ const props = defineProps({
   },
   wrapperClosable: {
     type: Boolean,
-    default: process.env.NODE_ENV === 'development',
+    default: true,
   },
   confirmAttrs: {
     type: Object,
