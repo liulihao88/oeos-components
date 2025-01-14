@@ -1,14 +1,9 @@
-<script setup lang="ts">
+<script setup lang="ts" name="OPopconfirm">
 /**
  * <g-popover @confirm="confirm" trigger="click"></g-popover>
  */
-import { ref, getCurrentInstance, onMounted } from 'vue'
-const { proxy } = getCurrentInstance()
+import { ref, onMounted } from 'vue'
 const isPopoverVisible = ref(false)
-// const isPopoverVisible = ref(true)
-const togglePopover = () => {
-  isPopoverVisible.value = true
-}
 const handleShow = () => {
   onMounted(() => {
     document.addEventListener('click', closePopoverOnClickOutside)
