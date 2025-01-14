@@ -99,7 +99,8 @@
 */
 import { ref, getCurrentInstance, computed, useAttrs, watch } from 'vue'
 import { useVModel } from '@vueuse/core'
-const { proxy } = getCurrentInstance()
+import { processWidth, getType } from '../../../utils'
+import OIcon from '../../icon'
 const attrs = useAttrs()
 
 const props = defineProps({
@@ -177,7 +178,7 @@ watch(
       return
     }
     restaurants.value = val.map((v) => {
-      if (proxy.getType(v) === 'object') {
+      if (getType(v) === 'object') {
         return v
       } else {
         return {
@@ -197,7 +198,7 @@ const computedTitleAttrs = computed(() => {
     let minusWidth = parseInt(props.titleAttrs.width) - 8 + 'px'
     return {
       ...props.titleAttrs,
-      width: proxy.processWidth(minusWidth, true),
+      width: processWidth(minusWidth, true),
     }
   } else {
     return props.titleAttrs
@@ -237,7 +238,7 @@ const handleWidth = () => {
   if (!props.width) {
     return {}
   }
-  let inputWidth = proxy.processWidth(props.width, true)
+  let inputWidth = processWidth(props.width, true)
   if (props.content) {
     if (inputWidth) {
       inputWidth = `calc(${inputWidth} - 32px)`
