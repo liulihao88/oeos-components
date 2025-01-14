@@ -17,7 +17,7 @@
   </el-descriptions>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="ODescription">
 import { computed, getCurrentInstance } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 const { proxy } = getCurrentInstance()
