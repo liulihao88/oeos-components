@@ -4,9 +4,9 @@
   </svg>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="OSvg">
 import { computed, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
+import { processWidth } from '../../../utils'
 const props = defineProps({
   prefix: {
     type: String,
@@ -32,8 +32,8 @@ const props = defineProps({
 const symbolId = computed(() => `#${props.prefix}-${props.name}`)
 const parseStyle = computed(() => {
   return {
-    width: proxy.processWidth(props.size, true),
-    height: proxy.processWidth(props.size, true),
+    width: processWidth(props.size, true),
+    height: processWidth(props.size, true),
     ...props.customStyle,
   }
 })

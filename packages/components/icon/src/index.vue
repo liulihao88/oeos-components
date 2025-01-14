@@ -6,7 +6,8 @@
   <o-icon name="loading" class="is-loading p-l-200"></o-icon>
  */
 import { ref, getCurrentInstance, computed } from 'vue'
-const { proxy } = getCurrentInstance()
+import { toLine } from '../../../utils'
+import OSvg from '../../svg'
 const props = defineProps({
   name: {
     type: String,
@@ -55,7 +56,7 @@ const parseColor = computed(() => {
     <el-tooltip :disabled="!$attrs.content" v-bind="$attrs">
       <span ref="contentRef">
         <o-svg v-if="type === 'svg'" v-bind="svgAttrs" :name="name"></o-svg>
-        <component :is="`el-icon-${proxy.toLine(props.name)}`" v-else></component>
+        <component :is="`el-icon-${toLine(props.name)}`" v-else></component>
       </span>
     </el-tooltip>
   </el-icon>
