@@ -1,7 +1,7 @@
 <script setup lang="ts" name="OChooseArea">
 import { ref, getCurrentInstance } from 'vue'
 import address from './pca-code.json'
-const { proxy } = getCurrentInstance()
+import { processWidth } from '@/utils'
 const props = defineProps({
   width: {
     type: [String, Number],
@@ -20,7 +20,7 @@ const optionsProps = {
   <div>
     <el-cascader
       :options="address"
-      :style="{ ...proxy.processWidth(props.width) }"
+      :style="{ ...processWidth(props.width) }"
       @change="handleCascaderChange"
       placeholder="请选择省市区"
       :props="optionsProps"
