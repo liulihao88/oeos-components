@@ -1,6 +1,7 @@
-<script setup lang="ts">
+<script setup lang="ts" name="ODateRange">
 import { ref, useAttrs, getCurrentInstance, computed } from 'vue'
-const { proxy } = getCurrentInstance()
+import { processWidth } from '@/utils'
+import OCompTitle from '@/components/compTitle'
 const attrs = useAttrs()
 const props = defineProps({
   title: {
@@ -151,7 +152,7 @@ const handleWidth = () => {
   if (!props.width) {
     return {}
   }
-  let parseWidth = proxy.processWidth(props.width, true)
+  let parseWidth = processWidth(props.width, true)
   return {
     width: parseWidth,
   }
