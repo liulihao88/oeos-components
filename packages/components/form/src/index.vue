@@ -1,7 +1,9 @@
-<script setup lang="ts">
-import { ref, getCurrentInstance, computed } from 'vue'
-const { proxy } = getCurrentInstance()
+<script setup lang="ts" name="OForm">
+import { ref, computed } from 'vue'
 import RenderComp from './renderComp.vue'
+import { validForm, isEmpty } from '@/utils'
+import OIcon from '@/components/icon'
+import OTooltip from '@/components/tooltip'
 
 const props = defineProps({
   fieldList: {
@@ -28,7 +30,7 @@ const getPlaceholder = (row: any) => {
 
 const oFormRef = ref()
 async function validate(isResetFields = false, otherParams = {}) {
-  await proxy.validForm(oFormRef, otherParams)
+  await validForm(oFormRef, otherParams)
   if (isResetFields) {
     resetFields()
   }
@@ -37,7 +39,7 @@ function resetFields() {
   oFormRef.value.resetFields()
 }
 function mergeRules(rules) {
-  if (proxy.isEmpty(rules)) {
+  if (isEmpty(rules)) {
     return ''
   }
   let defaultRulesObj = {
