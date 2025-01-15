@@ -1,6 +1,8 @@
-<script setup lang="ts">
-import { ref, getCurrentInstance, watch, computed } from 'vue'
-const { proxy } = getCurrentInstance()
+<script setup lang="ts" name="OTable">
+import { ref, watch, computed } from 'vue'
+import OPopconfirm from '@/components/popconfirm'
+import OIcon from '@/components/icon'
+import { getType } from '@/utils'
 const props = defineProps({
   data: {
     type: Array,
@@ -152,7 +154,7 @@ const parseIsShowColumn = (isFn, item, index) => {
 }
 const handleEmptyText = (scope, v) => {
   // 判断'   '为空
-  const trimIsEmpty = proxy.getType(scope.row[v.prop]) === 'string' && scope.row[v.prop].trim().length === 0
+  const trimIsEmpty = getType(scope.row[v.prop]) === 'string' && scope.row[v.prop].trim().length === 0
   if (scope.row[v.prop] === null || scope.row[v.prop] === undefined || scope.row[v.prop] === '' || trimIsEmpty) {
     return v.emptyText || props.emptyText
   }
