@@ -1,5 +1,7 @@
 <script setup lang="ts" name="OInputLabel">
 import { ref, watch } from 'vue'
+import OInput from '@/components/input'
+import OIcon from '@/components/icon'
 import { notEmpty, $toast } from '@/utils'
 
 const currentval = ref('')
