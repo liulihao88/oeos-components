@@ -1,8 +1,7 @@
-<script setup lang="ts">
-import { ref, watch, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
+<script setup lang="ts" name="OInputLabel">
+import { ref, watch } from 'vue'
+import { notEmpty, $toast } from '@/utils'
 
-import { CircleClose } from '@element-plus/icons-vue'
 const currentval = ref('')
 const labelarr = ref([])
 
@@ -42,10 +41,10 @@ watch(
     if (mVal && mVal.length > 0) {
       labelarr.value = []
       for (let i = 0; i < mVal.length; i++) {
-        if (!props.isComplex && proxy.notEmpty(mVal[i])) {
+        if (!props.isComplex && notEmpty(mVal[i])) {
           labelarr.value.push(mVal[i])
         } else {
-          if (proxy.notEmpty(mVal[i]) && proxy.notEmpty(mVal[i]?.name)) {
+          if (notEmpty(mVal[i]) && notEmpty(mVal[i]?.name)) {
             labelarr.value.push(mVal[i])
           }
         }
@@ -69,7 +68,7 @@ function addlabel() {
   console.log(`currentval.value`, currentval.value)
   if (props.regexp) {
     if (!props.regexp.test(currentval.value)) {
-      return proxy.$toast(props.message, 'e')
+      return $toast(props.message, 'e')
     }
   }
 
@@ -100,7 +99,7 @@ function addlabel() {
     currentval.value = ''
     emit('update:modelValue', labelarr.value)
   } else {
-    proxy.$toast('重复项不允许添加', 'e')
+    $toast('重复项不允许添加', 'e')
   }
 }
 

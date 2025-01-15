@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup name="OText">
 import { h, onMounted, ref, useSlots } from "vue";
 import { type TippyOptions, useTippy } from "vue-tippy";
 

@@ -19,8 +19,8 @@
 </template>
 
 <script setup lang="ts" name="OTooltip">
-import { ref, nextTick, useSlots, computed, getCurrentInstance, useAttrs } from 'vue'
-import { processWidth } from '../../../utils'
+import { ref, useSlots, computed, useAttrs } from 'vue'
+import { processWidth } from '@/utils'
 const slots = useSlots()
 const attrs = useAttrs()
 

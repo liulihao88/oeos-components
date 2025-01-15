@@ -23,8 +23,8 @@
 <o-title title="我说呢" sub-title="test/t2.vue"></o-title>
 *
 */
-import { ref, computed, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
+import { processWidth } from '@/utils'
+import { ref, computed } from 'vue'
 const props = defineProps({
   title: {
     type: String,
@@ -72,19 +72,19 @@ const margin = computed(() => {
   if (!t && !b && !l && !tb) {
     return {}
   } else {
-    let obj = {}
+    let obj:any = {}
     if (tb) {
-      obj.marginTop = proxy.processWidth(tb, true)
-      obj.marginBottom = proxy.processWidth(tb, true)
+      obj.marginTop = processWidth(tb, true)
+      obj.marginBottom = processWidth(tb, true)
     }
     if (t) {
-      obj.marginTop = proxy.processWidth(t, true)
+      obj.marginTop = processWidth(t, true)
     }
     if (b) {
-      obj.marginBottom = proxy.processWidth(b, true)
+      obj.marginBottom = processWidth(b, true)
     }
     if (l) {
-      obj.marginLeft = proxy.processWidth(l, true)
+      obj.marginLeft = processWidth(l, true)
     }
     return obj
   }

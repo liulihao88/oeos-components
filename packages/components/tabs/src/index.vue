@@ -14,9 +14,8 @@
     </el-tabs>
   </div>
 </template>
-<script setup lang="ts">
-import { useAttrs, ref, computed } from 'vue'
-const attrs = useAttrs()
+<script setup lang="ts" name="OTabs">
+import { computed } from 'vue'
 const props: any = defineProps({
   modelValue: {
     type: String,
