@@ -14,7 +14,7 @@ OSelect/base
 OSelect/usually
 :::
 
-### 多选
+### 多选--隐藏多余标签的多选
 
 :::demo
 OSelect/multiple

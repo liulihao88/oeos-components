@@ -29,6 +29,44 @@ function change(...rest) {
       @change="change"
       :options="stepList"
     ></o-select>
+
+    <o-title title="use collapse-tags"></o-title>
+    <o-select
+      v-model="optionsId"
+      multiple
+      label="name"
+      value="id"
+      @changeSelect="changeSelect"
+      @change="change"
+      collapse-tags
+      :options="stepList"
+    ></o-select>
+    <o-title title="use collapse-tags-tooltip"></o-title>
+    <o-select
+      v-model="optionsId"
+      multiple
+      label="name"
+      value="id"
+      @changeSelect="changeSelect"
+      @change="change"
+      collapse-tags
+      collapse-tags-tooltip
+      :options="stepList"
+    ></o-select>
+
+    <o-title title="use max-collapse-tags"></o-title>
+    <o-select
+      v-model="optionsId"
+      multiple
+      label="name"
+      value="id"
+      @changeSelect="changeSelect"
+      @change="change"
+      collapse-tags
+      collapse-tags-tooltip
+      :max-collapse-tags="3"
+      :options="stepList"
+    ></o-select>
   </div>
 </template>
 
