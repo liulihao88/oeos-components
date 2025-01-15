@@ -1,5 +1,5 @@
 <script setup lang="ts" name="OForm">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import RenderComp from './renderComp.vue'
 import { validForm, isEmpty } from '@/utils'
 import OIcon from '@/components/icon'
