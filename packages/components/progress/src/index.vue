@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="OProgress">
 import { ref, watch } from 'vue'
 
 const props = defineProps({

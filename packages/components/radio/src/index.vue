@@ -19,10 +19,9 @@
   </el-radio-group>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="ORadio">
 import { computed, ref, getCurrentInstance } from 'vue'
 import type { PropType } from 'vue'
-const { proxy } = getCurrentInstance()
 import type { RadioItem } from './radio'
 const props = defineProps({
   type: {
