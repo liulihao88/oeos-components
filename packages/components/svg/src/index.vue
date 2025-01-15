@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts" name="OSvg">
-import { computed, getCurrentInstance } from 'vue'
-import { processWidth } from '../../../utils'
+import { computed } from 'vue'
+import { processWidth } from '@/utils'
 const props = defineProps({
   prefix: {
     type: String,

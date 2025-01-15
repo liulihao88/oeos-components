@@ -5,9 +5,9 @@
   <o-icon name="plus" color="red" size="2em"></o-icon>
   <o-icon name="loading" class="is-loading p-l-200"></o-icon>
  */
-import { ref, getCurrentInstance, computed } from 'vue'
-import { toLine } from '../../../utils'
-import OSvg from '../../svg'
+import { ref, computed } from 'vue'
+import { toLine } from '@/utils'
+import OSvg from '@/components/svg'
 const props = defineProps({
   name: {
     type: String,
