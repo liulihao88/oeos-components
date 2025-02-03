@@ -356,6 +356,7 @@
 // flex布局
 //类名  .f-ct-st
 $justify: (
+  bs: baseline,
   st: flex-start,
   ct: center,
   ed: flex-end,
@@ -368,6 +369,7 @@ $justify: (
   nm: normal,
 );
 $align: (
+  bs: baseline,
   st: flex-start,
   ct: center,
   ed: flex-end,
