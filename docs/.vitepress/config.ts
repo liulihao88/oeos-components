@@ -149,6 +149,10 @@ export default defineConfig({
               text: 'tooltip组件',
               link: '/components/tooltip/base.md',
             },
+            {
+              text: 'warning组件',
+              link: '/components/warning/base.md',
+            },
           ],
         },
         {

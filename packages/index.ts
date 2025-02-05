@@ -29,6 +29,7 @@ import OText from './components/text'
 import OTabs from './components/tabs'
 import OTitle from './components/title'
 import OTooltip from './components/tooltip'
+import OWarning from './components/warning'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as utils from './utils'
 
@@ -55,6 +56,7 @@ const components = [
   OTabs,
   OTooltip,
   OTitle,
+  OWarning,
 ]
 
 // 按需导入
@@ -81,6 +83,7 @@ export {
   OTabs,
   OTooltip,
   OTitle,
+  OWarning,
 }
 
 const install = (app) => {
