@@ -23,6 +23,7 @@ import OPopconfirm from './components/popconfirm'
 import OProgress from './components/progress'
 import ORadio from './components/radio'
 import OSelect from './components/select'
+import OSwitch from './components/switch'
 import OSvg from './components/svg'
 import OTable from './components/table'
 import OText from './components/text'
@@ -47,6 +48,7 @@ const components = [
   OProgress,
   ORadio,
   OSelect,
+  OSwitch,
   OSvg,
   OIcon,
   OInput,
@@ -77,6 +79,7 @@ export {
   OProgress,
   ORadio,
   OSelect,
+  OSwitch,
   OSvg,
   OTable,
   OText,

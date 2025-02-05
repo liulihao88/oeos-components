@@ -118,6 +118,10 @@ export default defineConfig({
               link: '/components/select/base.md',
             },
             {
+              text: 'switch组件',
+              link: '/components/switch/base.md',
+            },
+            {
               text: 'svg组件',
               link: '/components/svg/base.md',
             },
