@@ -26,7 +26,10 @@
       }"
     >
       <template #prefix v-if="props.showPrefix">
-        <slot name="prefix">{{ props.options.length }}个</slot>
+        <slot name="prefix">
+          <span v-if="Array.isArray(childSelectedValue)">{{ childSelectedValue.length }}/{{ props.options.length }}</span>
+          <span v-else>{{ props.options.length }}个</span>
+        </slot>
       </template>
       <template v-for="(index, name) in slots" v-slot:[name]="data">
         <slot :name="name" v-bind="data" />
@@ -104,7 +107,7 @@ const props = defineProps({
   },
   showPrefix: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   showQuick: {
     type: Boolean,
