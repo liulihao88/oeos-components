@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="OCompTitle">
 /**
  *
   <o-comp-title :title="props.title" :size="attrs.size" :titleAttrs="$attrs.titleAttrs ?? {}"></o-comp-title>
@@ -41,7 +41,7 @@ const sizeStyle = computed(() => {
 </script>
 
 <template>
-  <div class="o-comp-title" :class="sizeClass" :style="{ ...computedTitleAttrs }" v-bind="$attrs" v-if="props.title">
+  <div class="o-comp-title" :class="sizeClass" :style="{...sizeStyle, ...computedTitleAttrs }" v-bind="$attrs" v-if="props.title">
     {{ props.title }}
   </div>
 </template>

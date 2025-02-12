@@ -6,22 +6,25 @@ const cc = ref(123)
 
 <template>
   <div>
-   <div class="f-st-ct">
-     <o-comp-title title="你好" ></o-comp-title>
-     <el-input-number v-model="cc" />
-   </div>
+    <div class="box">
+      <o-comp-title title="你好"></o-comp-title>
+      <el-input-number v-model="cc" />
+    </div>
 
-    <div>
+    <div class="mt">
       <o-comp-title title="你好"></o-comp-title>
       <el-input v-model="cc" style="width: 100px" />
     </div>
-    <o-empty></o-empty>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.f-st-ct :deep(.el-input__wrapper) {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
+.box {
+  display: flex;
+  align-items: center;
+  :deep(.el-input__wrapper) {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
 }
 </style>
