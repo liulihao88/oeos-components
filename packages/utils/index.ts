@@ -730,7 +730,7 @@ export const copy = (text, toastParams = {}) => {
  * 1234b => 1,234b
  * 1234.12b => 1,234.12b
  * @param number 加千分位
- * @returns 
+ * @returns
  */
 export function formatThousands(number) {
   // 提取数字部分、小数点和小数部分
@@ -887,14 +887,29 @@ export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
   return res
 }
 //formatBytesConvert('0.5GB') 536870912
+//formatBytesConvert('1,234 GB') 1324997410816
+//formatBytesConvert('1,234 GB') 1324997410816
+//formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
 
-export function formatBytesConvert(bytes) {
-  if (isStringNumber(bytes) || isNumber(bytes)) {
-    return bytes
+export function formatBytesConvert(oBytes, { thounsand = false } = {}) {
+  if (isStringNumber(oBytes) || isNumber(oBytes) || getType(oBytes) !== 'string') {
+    return oBytes
   }
-  if (!bytes) {
-    return bytes
+  if (!oBytes) {
+    return oBytes
   }
+
+  // 如果有千分位, 先将千分位的,去掉
+  const regex = /^\d{1,3}(,\d{3})*(\.\d+)?[a-zA-Z ]*$/
+  let bytes = oBytes
+  console.log(`58 regex.test(oBytes)`, regex.test(oBytes))
+  if (regex.test(oBytes)) {
+    bytes = oBytes.replace(/,/g, '')
+    if (isStringNumber(bytes) || isNumber(bytes) || getType(bytes) !== 'string') {
+      return bytes
+    }
+  }
+
   const bytesRegex = /^(\d+(?:\.\d+)?)\s*([BKMGTPEZY]?B|Byte)$/i
   const units = {
     B: 1,
@@ -925,9 +940,11 @@ export function formatBytesConvert(bytes) {
     return
   }
 
+  if (thounsand) {
+    return formatThousands(size * units[unit])
+  }
   return size * units[unit]
 }
-
 
 export function throttle(fn, delay = 1000) {
   // last为上一次触发毁掉的时间，timer是定时器
