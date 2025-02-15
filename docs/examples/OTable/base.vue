@@ -36,28 +36,24 @@ const columns = [
   {
     label: '名字',
     prop: 'name',
-    
   },
   {
     key: 'operation',
     label: '操作',
-    isShow: () => num.value % 2 === 0,
+    isShow: (row, scope) => {
+      return scope.$index % 2 === 0
+    },
     btns: [
       {
         content: '编辑',
-        comp: 'o-icon',
-        handler: editRow,
-        attrs: {
-          name: 'delete',
-        }
       },
     ],
   },
 ]
 function editRow(row, scope, evt) {
-  console.log(`42 evt`, evt);
-  console.log(`46 scope`, scope);
-  console.log(`86 row`, row);
+  console.log(`42 evt`, evt)
+  console.log(`46 scope`, scope)
+  console.log(`86 row`, row)
 }
 </script>
 

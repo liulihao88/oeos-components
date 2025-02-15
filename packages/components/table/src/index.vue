@@ -33,7 +33,7 @@ const props = defineProps({
   total: {
     type: Number,
   },
-  emptyText: {
+  columnEmptyText: {
     type: String,
     default: '-',
   },
@@ -78,7 +78,7 @@ const updateTable = () => {
 }
 watch(
   () => props.columns,
-  (columns) => {
+  () => {
     updateTable()
   },
   {
@@ -153,8 +153,8 @@ const parseIsShowColumn = (isFn, item, index) => {
   }
 }
 
-const handleCompClick = (handler, row, scope, event)=>{
-  if(handler){
+const handleCompClick = (handler, row, scope, event) => {
+  if (handler) {
     event.stopPropagation()
     handler(row, scope, event)
   }
@@ -164,7 +164,7 @@ const handleEmptyText = (scope, v) => {
   // 判断'   '为空
   const trimIsEmpty = getType(scope.row[v.prop]) === 'string' && scope.row[v.prop].trim().length === 0
   if (scope.row[v.prop] === null || scope.row[v.prop] === undefined || scope.row[v.prop] === '' || trimIsEmpty) {
-    return v.emptyText || props.emptyText
+    return v.columnEmptyText || props.columnEmptyText
   }
   return scope.row[v.prop]
 }
@@ -198,34 +198,43 @@ function updatePage() {
       }"
     >
       <slot />
-      <el-table-column v-if="showIndex" type="index" width="50" />
+      <el-table-column v-if="showIndex" type="index" width="60" align="center">
+        <!-- 使用 #header 插槽自定义表头 -->
+        <template #header="{ column }">
+          <span>序号</span>
+        </template>
+      </el-table-column>
       <template v-for="(v, i) in finalColumns" :key="i">
         <template v-if="parseIsShowColumn(v.isShowColumn, v, i)">
-          <el-table-column v-if="v.type" :key="v.type" v-bind="{ ...v }" />
+          <el-table-column v-if="v.type" :key="v.type" v-bind="{ align: 'center', ...v }" />
           <el-table-column
             v-else-if="v.baseBtns && v.baseBtns.length > 0"
-            v-bind="{ ...{ fixed: 'right', width: 200 }, ...v }"
+            v-bind="{ ...{ fixed: 'right', width: 210 }, ...v }"
           >
             <template #default="scope">
               <template v-if="parseIsShow(v.isShow, scope.row, scope)">
                 <template v-for="(val, idx) in v.baseBtns" :key="idx">
                   <template v-if="parseIsShow(val.isShow, scope.row, scope)">
-                    <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
+                    <slot
+                      v-if="val.useSlot"
+                      :name="val.prop"
+                      :row="scope.row"
+                      :scope="scope"
+                      :value="scope.row[val.prop]"
+                    />
                     <template v-else-if="parseReConfirm(val.reConfirm, scope.row, scope)">
                       <o-popconfirm
                         trigger="click"
                         :title="val.title ?? '确定删除吗?'"
                         @confirm="val.handler?.(scope.row, scope)"
-                        style="display: inline"
-                        class="mr2"
+                        class="f-st-ct"
                       >
                         <component
                           :is="val.comp"
-                          class="mr2"
                           v-if="val.comp"
+                          class="mlr2 cp"
                           v-bind="val.attrs"
                           :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                          @click.stop.prevent="val.handler?.(scope.row, scope)"
                         ></component>
                         <el-button
                           v-else
@@ -240,8 +249,8 @@ function updatePage() {
                     </template>
                     <component
                       :is="val.comp"
-                      class="mr2"
                       v-else-if="val.comp"
+                      class="mlr2 cp"
                       v-bind="val.attrs"
                       :disabled="parseDisabled(val.disabled, scope.row, scope)"
                       @click="($event) => handleCompClick(val.handler, scope.row, scope, $event)"
@@ -264,53 +273,33 @@ function updatePage() {
                   <el-dropdown class="m-l-12 m-t-4" trigger="click">
                     <o-icon name="more" />
                     <template #dropdown>
-                      <el-dropdown-menu>
+                      <el-dropdown-menu :hide-on-click="false">
                         <template v-for="(val, idx) in v.hideBtns" :key="idx">
-                          <el-dropdown-item :hide-on-click="false" v-if="parseIsShow(val.isShow, scope.row, scope)">
-                            <slot v-if="val.useSlot" :name="val.prop" :row="scope.row" :scope="scope" />
-
-                            <template v-else-if="parseReConfirm(val.reConfirm, scope.row, scope)">
-                              <o-popconfirm
-                                trigger="hover"
-                                :title="val.title ?? '确定删除吗?'"
-                                @confirm="val.handler?.(scope.row, scope)"
-                                style="display: inline"
-                              >
-                                <component
-                                  :is="val.comp"
-                                  class="mr2 w-100%"
-                                  v-if="val.comp"
-                                  v-bind="val.attrs"
-                                  :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                                   @click="($event) => handleCompClick(val.handler, scope.row, scope, $event)"
-                                ></component>
-                                <el-button
-                                  v-else
-                                  v-bind="{ ...val }"
-                                  link
-                                  class="hide-btns-button"
-                                  :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                                >
-                                  {{ operatorBtnFn(val.content, scope.row, scope) }}
-                                </el-button>
-                              </o-popconfirm>
-                            </template>
+                          <el-dropdown-item
+                            v-if="parseIsShow(val.isShow, scope.row, scope)"
+                            :hide-on-click="false"
+                            @click="val.handler?.(scope.row, scope)"
+                          >
+                            <slot
+                              v-if="val.useSlot"
+                              :name="val.prop"
+                              :row="scope.row"
+                              :scope="scope"
+                              :value="scope.row[val.prop]"
+                            />
                             <template v-else>
                               <component
                                 :is="val.comp"
-                                class="mr2"
                                 v-if="val.comp"
                                 v-bind="val.attrs"
                                 :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                                @click="val.handler?.(scope.row, scope)"
-                              ></component>
+                              />
                               <el-button
                                 v-else
                                 v-bind="{ ...val }"
                                 link
                                 class="hide-btns-button"
                                 :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                                @click.stop="val.handler?.(scope.row, scope)"
                               >
                                 {{ operatorBtnFn(val.content, scope.row, scope) }}
                               </el-button>
@@ -327,7 +316,7 @@ function updatePage() {
 
           <el-table-column v-else v-bind="{ ...v }">
             <template #default="scope">
-              <slot v-if="v.useSlot" :name="v.prop" :row="scope.row" :scope="scope" />
+              <slot v-if="v.useSlot" :name="v.prop" :row="scope.row" :scope="scope" :value="scope.row[v.prop]" />
               <span v-else-if="v.handler" class="hide-btns-button" @click.stop="v.handler(scope.row, scope)">
                 <span>{{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : handleEmptyText(scope, v) }}</span>
               </span>
@@ -381,6 +370,7 @@ function updatePage() {
     height: 64px;
     padding: 0 24px;
     font-size: 12px;
+    background: #fff;
     border: 1px solid #ebedf0;
     border-top-style: none;
   }
@@ -401,19 +391,33 @@ function updatePage() {
   :deep(.el-table th .cell:hover) {
     white-space: normal;
   }
+
   :deep(.el-table-fixed-column--right .cell.el-tooltip) {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    line-height: 16px;
+    min-height: 23px;
+    line-height: 23px;
   }
-}
-.hide-btns-button {
-  color: var(--blue);
-  cursor: pointer;
-  // padding: 5px 16px ;
-}
-:deep(.el-dropdown-menu__item) {
-  // padding: 0;
-  justify-content: center;
+
+  :deep(
+      .el-table__body-wrapper .el-table-column--selection > .cell,
+      .el-table__header-wrapper .el-table-column--selection > .cell
+    ) {
+    justify-content: center;
+    min-width: unset;
+  }
+
+  .hide-btns-button:not(.is-disabled) {
+    color: var(--blue);
+    cursor: pointer;
+  }
+
+  :deep(.el-dropdown-menu__item) {
+    // padding: 0;
+    justify-content: center;
+    min-width: 60px;
+    height: 30px;
+    line-height: 30px;
+  }
 }
 </style>
