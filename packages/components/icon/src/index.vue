@@ -34,9 +34,9 @@ const props = defineProps({
   },
 })
 const emits = defineEmits(['click'])
-function handleClick() {
+function handleClick($event) {
   if (props.disabled) return
-  emits('click')
+  emits('click', $event)
 }
 const parseColor = computed(() => {
   if (props.disabled) return '#c8c9cc'

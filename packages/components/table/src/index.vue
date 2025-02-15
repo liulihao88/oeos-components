@@ -152,6 +152,14 @@ const parseIsShowColumn = (isFn, item, index) => {
     return isFn
   }
 }
+
+const handleCompClick = (handler, row, scope, event)=>{
+  if(handler){
+    event.stopPropagation()
+    handler(row, scope, event)
+  }
+}
+
 const handleEmptyText = (scope, v) => {
   // 判断'   '为空
   const trimIsEmpty = getType(scope.row[v.prop]) === 'string' && scope.row[v.prop].trim().length === 0
@@ -236,7 +244,7 @@ function updatePage() {
                       v-else-if="val.comp"
                       v-bind="val.attrs"
                       :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                      @click="val.handler?.(scope.row, scope)"
+                      @click="($event) => handleCompClick(val.handler, scope.row, scope, $event)"
                     ></component>
                     <template v-else>
                       <el-button
@@ -274,7 +282,7 @@ function updatePage() {
                                   v-if="val.comp"
                                   v-bind="val.attrs"
                                   :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                                  @click.stop="val.handler?.(scope.row, scope)"
+                                   @click="($event) => handleCompClick(val.handler, scope.row, scope, $event)"
                                 ></component>
                                 <el-button
                                   v-else

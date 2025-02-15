@@ -45,10 +45,20 @@ const columns = [
     btns: [
       {
         content: '编辑',
+        comp: 'o-icon',
+        handler: editRow,
+        attrs: {
+          name: 'delete',
+        }
       },
     ],
   },
 ]
+function editRow(row, scope, evt) {
+  console.log(`42 evt`, evt);
+  console.log(`46 scope`, scope);
+  console.log(`86 row`, row);
+}
 </script>
 
 <template>

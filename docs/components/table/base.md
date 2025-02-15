@@ -26,3 +26,8 @@ OTable/usually
 OTable/edit
 :::
 
+### 单击选中当前行
+
+:::demo
+OTable/click
+:::

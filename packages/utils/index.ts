@@ -17,23 +17,22 @@ import { consola } from 'consola'
  * formatDurationTime(timestamp, cFormat = '{d} 天 {h} 时 {i} 分 {s} 秒')
  * uuid(type = '',length = 4,{ emailStr = '@qq.com', timeStr = '{m}-{d} {h}:{i}:{s}', startStr = '', optionsIndex = null } = {},)
  * getType(type)
- * sleep(delay = 0, fn?: () => void) 
+ * sleep(delay = 0, fn?: () => void)
  * validate(type = 'required', rules = {}, pureValid = false)
  * asyncWrapper(func, ...args)
  * formatImg(photoName, addPath = '', { basePath = 'assets/images' } = {})
  * copy = (text, toastParams = {})
- * formatThousands(number) 
+ * formatThousands(number)
  * log(variableStr, variable, otherInfo = '')
  * random(min = 0, max = 10)
  * toLine(text, connect = '-')
  * processWidth(initValue, isBase = false)
  * formatBytes(bytes)
  * formatBytesConvert(bytes)
- * throttle(fn, delay = 1000) 
+ * throttle(fn, delay = 1000)
  * debounce(fn, delay = 1000)
  * confirm(message, options)
  * formatNewLines(str)
-
  */
 
 /**
