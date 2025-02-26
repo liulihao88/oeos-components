@@ -3,6 +3,11 @@ import { ref, getCurrentInstance, h } from 'vue'
 const { proxy } = getCurrentInstance()
 const dateValue = ref([])
 const dateSimple = ref('')
+const beforeDateValue = ref('')
+
+const disabledDate = (time) => {
+  return time.getTime() > new Date().getTime()
+}
 </script>
 
 <template>
@@ -36,6 +41,16 @@ const dateSimple = ref('')
       placeholder="选择日期哦"
     ></o-date-range>
     {{ dateSimple }}
+
+    <br />
+    <o-title title="日期仅可以选择当前日期之前的"></o-title>
+    <o-date-range
+      v-model="beforeDateValue"
+      type="datetime"
+      value-format="x"
+      placeholder="日期仅可以选择当前日期之前的"
+      :disabled-date="disabledDate"
+    ></o-date-range>
   </div>
 </template>
 
