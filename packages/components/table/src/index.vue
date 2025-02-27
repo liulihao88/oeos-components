@@ -188,6 +188,7 @@ function updatePage() {
   <div class="o-table">
     <el-table
       :data="props.data"
+      :stripe="$attrs.stripe ?? true"
       v-bind="$attrs"
       ref="tableRef"
       border
