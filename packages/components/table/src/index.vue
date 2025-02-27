@@ -413,11 +413,13 @@ function updatePage() {
   }
 
   :deep(.el-dropdown-menu__item) {
-    // padding: 0;
     justify-content: center;
     min-width: 60px;
     height: 30px;
     line-height: 30px;
+  }
+  :deep(.el-table tr:not(:last-child) td.el-table__cell) {
+    border-bottom: none !important;
   }
 }
 </style>

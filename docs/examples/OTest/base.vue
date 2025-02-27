@@ -2,21 +2,11 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 const cc = ref(123)
+proxy.confirm('哈哈', { icon: 'el-icon-warning' })
 </script>
 
 <template>
-  <div>
-   <div class="f-st-ct">
-     <o-comp-title title="你好" ></o-comp-title>
-     <el-input-number v-model="cc" />
-   </div>
-
-    <div>
-      <o-comp-title title="你好"></o-comp-title>
-      <el-input v-model="cc" style="width: 100px" />
-    </div>
-    <o-empty></o-empty>
-  </div>
+  <div></div>
 </template>
 
 <style lang="scss" scoped>
