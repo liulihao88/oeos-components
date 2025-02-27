@@ -27,7 +27,9 @@
     >
       <template #prefix v-if="props.showPrefix">
         <slot name="prefix">
-          <span v-if="Array.isArray(childSelectedValue)">{{ childSelectedValue.length }}/{{ props.options.length }}</span>
+          <span v-if="Array.isArray(childSelectedValue)">
+            {{ childSelectedValue.length }}/{{ props.options.length }}
+          </span>
           <span v-else>{{ props.options.length }}个</span>
         </slot>
       </template>
@@ -60,13 +62,14 @@
       @click="quickSelect"
       v-if="showQuick && !parseDisabled && props.options.length > 0"
     >
-      <o-icon name="bottom" size="14"></o-icon>
+      <img :src="Loop" alt="" width="12px" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts" name="OSelect">
 import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed } from 'vue'
+import Loop from '@/assets/images/loop.png'
 import { processWidth, isEmpty } from '@/utils'
 import OIcon from '@/components/icon'
 import OCompTitle from '@/components/compTitle'
