@@ -135,8 +135,9 @@ const margin = computed(() => {
       display: flex;
       .title-text {
         letter-spacing: 0;
-        font-weight: 500;
+        font-weight: 600;
         margin-right: 4px;
+        white-space: nowrap;
       }
     }
   }
