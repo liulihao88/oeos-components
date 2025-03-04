@@ -72,7 +72,7 @@ const margin = computed(() => {
   if (!t && !b && !l && !tb) {
     return {}
   } else {
-    let obj:any = {}
+    let obj: any = {}
     if (tb) {
       obj.marginTop = processWidth(tb, true)
       obj.marginBottom = processWidth(tb, true)
@@ -123,6 +123,7 @@ const margin = computed(() => {
         letter-spacing: 0;
         font-weight: 600;
         margin-right: 4px;
+        white-space: nowrap;
       }
     }
     .o-title__top-simple-left {
