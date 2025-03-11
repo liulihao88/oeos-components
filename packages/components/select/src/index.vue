@@ -33,9 +33,10 @@
           <span v-else>{{ props.options.length }}个</span>
         </slot>
       </template>
-      <template v-for="(index, name) in slots" v-slot:[name]="data">
-        <slot :name="name" v-bind="data" />
+      <template v-for="(index, name) in noDefaultSlots" v-slot:[name]>
+        <slot :name="name" />
       </template>
+
       <div class="po-r" v-if="multiple && props.showAll">
         <el-checkbox
           :indeterminate="indeterminate"
@@ -54,7 +55,9 @@
         :label="type === 'simple' ? item : handleLabel(item)"
         :value="type === 'simple' ? item : item[props.value]"
         :disabled="optionDisabled(item)"
-      ></el-option>
+      >
+        <slot :options="sOptions" :item="item"></slot>
+      </el-option>
     </el-select>
 
     <div
@@ -77,6 +80,11 @@ const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])
 const slots = useSlots()
+const noDefaultSlots = computed(() => {
+  const copySlots = proxy.clone(slots)
+  delete copySlots.default
+  return copySlots
+})
 
 const props = defineProps({
   modelValue: {

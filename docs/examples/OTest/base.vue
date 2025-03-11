@@ -2,7 +2,6 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 const cc = ref(123)
-proxy.confirm('哈哈', { icon: 'el-icon-warning' })
 </script>
 
 <template>

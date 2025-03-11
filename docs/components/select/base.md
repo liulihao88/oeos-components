@@ -37,3 +37,9 @@ OSelect/multyChange
 :::demo
 OSelect/all
 :::
+
+### 解析html
+
+:::demo
+OSelect/html
+:::
