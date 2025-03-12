@@ -8,6 +8,7 @@ console.log(`utils`, utils)
 
 // 加入element-plus
 import ElementPlus from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import 'element-plus/dist/index.css'
 
 
@@ -18,7 +19,9 @@ library.add(fas)
 const app = createApp(App)
 import VueTippy from 'vue-tippy'
 
-app.use(installComps).use(createPinia()).use(ElementPlus)
+app.use(installComps).use(createPinia()).use(ElementPlus,, {
+  locale: zhCn,
+})
 app.use(VueTippy)
 
 app.mount('#app')
