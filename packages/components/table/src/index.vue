@@ -198,6 +198,7 @@ function updatePage() {
         background: '#f7f8fa',
         color: 'rgba(39,48,75,0.85)',
         height: '50px',
+        textAlign: 'center',
       }"
     >
       <slot />
