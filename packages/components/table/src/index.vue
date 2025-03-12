@@ -190,15 +190,16 @@ function updatePage() {
       :data="props.data"
       v-bind="{
         stripe: true,
+        border: true,
         ...$attrs,
       }"
       ref="tableRef"
-      border
       :header-cell-style="{
         background: '#f7f8fa',
         color: 'rgba(39,48,75,0.85)',
         height: '50px',
         textAlign: 'center',
+        ...($attrs['header-cell-style'] || {}),
       }"
     >
       <slot />
