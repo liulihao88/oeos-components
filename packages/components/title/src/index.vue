@@ -111,10 +111,12 @@ const margin = computed(() => {
       display: flex;
       &::before {
         position: absolute;
-        left: -8px;
         content: '';
         width: 3px;
-        height: 12px;
+        left: -8px;
+        top: 5px;
+        height: calc(100% - 8px);
+        bottom: 0;
         letter-spacing: 0;
         background-color: #5d7af7;
         background-color: var(--lc, var(--blue)); // 左侧的竖条颜色
@@ -130,7 +132,6 @@ const margin = computed(() => {
       width: 100%;
       align-items: center;
       position: relative;
-      font-weight: 600;
       box-sizing: border-box;
       display: flex;
       .title-text {
