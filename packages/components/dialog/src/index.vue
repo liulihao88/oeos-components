@@ -176,7 +176,7 @@ onBeforeUnmount(() => {
   :deep(.el-dialog__body) {
     padding: 16px;
     .dialog_slot_box {
-      min-height: 100px;
+      min-height: 20px;
       max-height: calc(100vh - 30vh - 100px);
       overflow-y: auto;
     }
