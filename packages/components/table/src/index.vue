@@ -188,7 +188,7 @@ function updatePage() {
 }
 
 const parseTableWidth = (btns, hBtns) => {
-  return 26 + (btns.length + hBtns.length === 0 ? 0 : 1) * 35 + 'px'
+  return 26 + (btns.length + hBtns.length === 0 ? 0 : 1) * 36 + 'px'
 }
 </script>
 
