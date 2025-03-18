@@ -36,8 +36,6 @@ const columns = [
     btns: [
       {
         content: (value, row) => {
-          console.log(`74 row`, row)
-          console.log(`1157 34行 docs/examples/OTable/edit.vue value `, value)
           if (value?.isEdit) {
             return '保存'
           } else {
@@ -72,7 +70,7 @@ const form = ref({
 })
 const formRef = ref(null)
 const submitForm = async () => {
-  await proxy.validForm(formRef, {detail: false})
+  await proxy.validForm(formRef, { detail: false })
   proxy.$toast('编辑成功')
 }
 </script>

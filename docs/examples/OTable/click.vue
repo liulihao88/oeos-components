@@ -15,7 +15,6 @@ const columns = [
   {
     key: 'operation',
     label: '操作',
-    width: 120,
     btns: [
       {
         content: '编辑',
@@ -26,6 +25,42 @@ const columns = [
           content: '编辑',
         },
       },
+      {
+        content: '编辑1',
+        handler: editRow,
+        comp: 'o-icon',
+        attrs: {
+          name: 'edit',
+          content: '编辑1',
+        },
+      },
+      {
+        content: '编辑',
+        handler: editRow,
+        comp: 'o-icon',
+        attrs: {
+          name: 'edit',
+          content: '编辑2',
+        },
+      },
+      // {
+      //   content: '编辑',
+      //   handler: editRow,
+      //   comp: 'o-icon',
+      //   attrs: {
+      //     name: 'edit',
+      //     content: '编辑3',
+      //   },
+      // },
+      // {
+      //   content: '编辑',
+      //   handler: editRow,
+      //   comp: 'o-icon',
+      //   attrs: {
+      //     name: 'edit',
+      //     content: '编辑4',
+      //   },
+      // },
     ],
   },
 ]

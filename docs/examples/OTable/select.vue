@@ -6,7 +6,6 @@ function handleDetail(row) {
 }
 function handleDetail2() {}
 function selectableFn(val, index) {
-  console.log(`val`, val)
   return index % 2 === 0
 }
 const columns = [
@@ -18,7 +17,6 @@ const columns = [
   {
     label: 'I wan',
     prop: 'name',
-    width: 120,
     handler: handleDetail,
   },
   {
@@ -26,10 +24,6 @@ const columns = [
     prop: 'owner',
     sortable: true,
     handler: handleDetail2,
-  },
-  {
-    label: '结束时间',
-    prop: 'endTime',
   },
   {
     label: '状态',
@@ -79,14 +73,12 @@ async function init() {
 init()
 const multipleSelection = ref([])
 const handleSelectionChange = (val, ...a) => {
-  console.log(`val`, val)
-  console.log(`a`, a)
   multipleSelection.value = val
 }
 </script>
 
 <template>
-  <div class="w-800">
+  <div class="">
     <el-button type="primary" @click="init">新增数据</el-button>
     {{ total }}
     <o-table

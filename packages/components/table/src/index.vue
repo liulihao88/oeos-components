@@ -182,6 +182,10 @@ function handleCurrentChange(val) {
 function updatePage() {
   emits('update', pageNumber.value, sPageSize.value)
 }
+
+const parseTableWidth = (btns, hBtns) => {
+  return 24 + (btns.length + hBtns.length) * 34 + 'px'
+}
 </script>
 
 <template>
@@ -214,7 +218,7 @@ function updatePage() {
           <el-table-column v-if="v.type" :key="v.type" v-bind="{ align: 'center', ...v }" />
           <el-table-column
             v-else-if="v.baseBtns && v.baseBtns.length > 0"
-            v-bind="{ ...{ fixed: 'right', width: 210 }, ...v }"
+            v-bind="{ ...{ fixed: 'right', width: parseTableWidth(v.baseBtns, v.hideBtns) }, ...v }"
           >
             <template #default="scope">
               <template v-if="parseIsShow(v.isShow, scope.row, scope)">
@@ -227,6 +231,7 @@ function updatePage() {
                       :scope="scope"
                       :value="scope.row[val.prop]"
                     />
+                    
                     <template v-else-if="parseReConfirm(val.reConfirm, scope.row, scope)">
                       <o-popconfirm
                         trigger="click"
@@ -237,7 +242,7 @@ function updatePage() {
                         <component
                           :is="val.comp"
                           v-if="val.comp"
-                          class="mlr2 cp"
+                          class="mlr cp"
                           v-bind="val.attrs"
                           :disabled="parseDisabled(val.disabled, scope.row, scope)"
                         ></component>
@@ -255,7 +260,7 @@ function updatePage() {
                     <component
                       :is="val.comp"
                       v-else-if="val.comp"
-                      class="mlr2 cp"
+                      class="mlr cp"
                       v-bind="val.attrs"
                       :disabled="parseDisabled(val.disabled, scope.row, scope)"
                       @click="($event) => handleCompClick(val.handler, scope.row, scope, $event)"
@@ -275,7 +280,7 @@ function updatePage() {
                 </template>
 
                 <template v-if="v.hideBtns.length > 0">
-                  <el-dropdown class="m-l-12 m-t-4" trigger="click">
+                  <el-dropdown class="" trigger="click">
                     <o-icon name="more" />
                     <template #dropdown>
                       <el-dropdown-menu :hide-on-click="false">
@@ -402,6 +407,7 @@ function updatePage() {
     align-items: center;
     min-height: 23px;
     line-height: 23px;
+    justify-content: space-around;
   }
 
   :deep(
