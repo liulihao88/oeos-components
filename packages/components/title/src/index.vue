@@ -2,10 +2,12 @@
   <div class="o-title" :style="{ ...margin }" v-bind="$attrs">
     <div class="o-title__top">
       <div
-        :class="type === 'simple' ? 'o-title__top-simple-left' : 'o-title__top-left'"
+        :class="type === 'simple' || type === 'icon' ? 'o-title__top-simple-left' : 'o-title__top-left'"
         :style="{ marginLeft: props.inner ? '8px' : 0 }"
       >
-        <slot name="icon"></slot>
+        <slot name="icon">
+          <img src="./title.svg" width="14" height="14" alt="Logo" class="m-r-4" v-if="props.type === 'icon'" />
+        </slot>
         <span class="title-text">{{ title }}</span>
         <slot></slot>
       </div>
@@ -63,7 +65,8 @@ const props = defineProps({
     type: [String, Number],
   },
   type: {
-    type: String, // simple
+    type: String, // simple, icon
+    default: 'icon',
   },
 })
 
