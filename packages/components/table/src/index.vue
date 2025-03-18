@@ -160,6 +160,10 @@ const handleCompClick = (handler, row, scope, event) => {
   }
 }
 
+const indexMethod = (index) => {
+  return index + 1 + (pageNumber.value - 1) * sPageSize.value
+}
+
 const handleEmptyText = (scope, v) => {
   // 判断'   '为空
   const trimIsEmpty = getType(scope.row[v.prop]) === 'string' && scope.row[v.prop].trim().length === 0
@@ -184,7 +188,7 @@ function updatePage() {
 }
 
 const parseTableWidth = (btns, hBtns) => {
-  return 24 + (btns.length + hBtns.length) * 34 + 'px'
+  return 26 + (btns.length + hBtns.length) * 35 + 'px'
 }
 </script>
 
@@ -207,7 +211,7 @@ const parseTableWidth = (btns, hBtns) => {
       }"
     >
       <slot />
-      <el-table-column v-if="showIndex" type="index" width="60" align="center">
+      <el-table-column v-if="showIndex" type="index" width="60" align="center" :index="indexMethod">
         <!-- 使用 #header 插槽自定义表头 -->
         <template #header="{ column }">
           <span>序号</span>
@@ -231,7 +235,7 @@ const parseTableWidth = (btns, hBtns) => {
                       :scope="scope"
                       :value="scope.row[val.prop]"
                     />
-                    
+
                     <template v-else-if="parseReConfirm(val.reConfirm, scope.row, scope)">
                       <o-popconfirm
                         trigger="click"
