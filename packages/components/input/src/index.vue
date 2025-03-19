@@ -4,12 +4,12 @@
       <div>
         <el-autocomplete
           v-if="props.options"
-          v-bind="$attrs"
           v-model="data"
           :fetch-suggestions="querySearch"
           :placeholder="handlePlaceholder()"
           :clearable="$attrs.clearable !== false"
           @mouseover.native="inputOnMouseOver($event)"
+          v-bind="mergedAttrs"
         >
           <template v-if="$attrs.title" #prepend>
             <div :style="{ ...computedTitleAttrs }" class="o-input__title">
