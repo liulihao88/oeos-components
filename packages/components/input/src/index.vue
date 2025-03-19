@@ -103,6 +103,10 @@ import { processWidth, getType } from '@/utils'
 import OIcon from '@/components/icon'
 const attrs = useAttrs()
 
+defineOptions({
+  inheritAttrs: false
+})
+
 const props = defineProps({
   modelValue: {
     required: true,

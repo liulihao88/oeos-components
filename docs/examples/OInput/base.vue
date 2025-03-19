@@ -10,9 +10,9 @@ const textareaValue = ref(
 
 <template>
   <div>
-    <el-input v-model="iptValue"></el-input>
+    <el-input v-model="iptValue" class="mb"></el-input>
     <o-input v-model="iptValue"></o-input>
-    <o-input v-model="iptValue" width="100%" v-number min="100" max="200"></o-input>
+    <o-input v-model="iptValue" width="100%" v-number min="100" max="200" class="mb"></o-input>
     <o-input v-model="iptValue" width="300"></o-input>
     <o-input v-model="iptValue" :clearble="false"></o-input>
     <o-input v-model="textareaValue" type="textarea"></o-input>

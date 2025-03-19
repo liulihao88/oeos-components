@@ -74,6 +74,7 @@
 import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed } from 'vue'
 import Loop from '@/assets/images/loop.png'
 import { processWidth, isEmpty } from '@/utils'
+
 import OIcon from '@/components/icon'
 import OCompTitle from '@/components/compTitle'
 const { proxy } = getCurrentInstance()
