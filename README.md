@@ -8,8 +8,8 @@
 
 ```js
 import 'oeos-components/dist/style.css'
-import oeosComponets from 'oeos-components'
-app.use(oeosComponets)
+import OeosComponets from 'oeos-components'
+app.use(OeosComponets)
 ```
 
 ### 在任何一个.vue文件下, 可直接引入组件
