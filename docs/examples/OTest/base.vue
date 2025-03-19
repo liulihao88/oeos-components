@@ -1,80 +1,93 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
+import { ref, getCurrentInstance, computed, onMounted, onUnmounted } from 'vue'
 
-const num = ref(0)
 
-// setInterval(() => {
-//   num.value++
-// }, 3000)
-
-const data = ref([
-  {
-    name: 'andy',
-  },
-  {
-    name: '   ',
-  },
-  {
-    name: null,
-  },
-  {
-    name: undefined,
-  },
-  {
-    name: '',
-  },
-  {
-    name: [],
-  },
-  {
-    name: true,
-  },
-  { name: 0 },
-])
-const columns = [
-  {
-    label: '名字',
-    prop: 'name',
-  },
-  {
-    key: 'operation',
-    label: '操作',
-    isShow: (row, scope) => {
-      return scope.$index % 2 === 0
-    },
-    btns: [
-      {
-        content: '编辑11111',
-      },
-      {
-        content: '编辑',
-      },
-      {
-        content: '编辑',
-      },
-    ],
-  },
-]
-function editRow(row, scope, evt) {
-  console.log(`42 evt`, evt)
-  console.log(`46 scope`, scope)
-  console.log(`86 row`, row)
-}
+const form = ref({
+  services: [],
+  nodes: [],
+  fromDatetime: '',
+  toDatetime: '',
+})
+const cacheResponse = ref({})
 </script>
 
 <template>
   <div>
-    <el-button type="primary" @click="num++">测试13</el-button>
-    <o-table
-      :columns="columns"
-      :data="data"
-      ref="tableRef"
-      :header-cell-style="{
-        textAlign: 'left',
-      }"
-    ></o-table>
+    <div ref="headerRef" class="f-bt-ct mb2">
+      <div class="l-box">
+        <o-input v-model="form.services" title="123" class="mb" width="200" />
+        <o-select
+          v-model="form.services"
+          :options="cacheResponse.serviceList"
+          multiple
+          title="服务列表"
+          class="mr mb"
+          width="350"
+          label="name"
+          collapse-tags
+          collapse-tags-tooltip
+        />
+        <o-select
+          v-model="form.services"
+          :options="cacheResponse.serviceList"
+          multiple
+          title="服务列表"
+          class="mr mb"
+          width="350"
+          label="name"
+          collapse-tags
+          collapse-tags-tooltip
+        />
+        <o-select
+          v-model="form.services"
+          :options="cacheResponse.serviceList"
+          multiple
+          title="服务列表"
+          class="mr mb"
+          width="350"
+          label="name"
+          collapse-tags
+          collapse-tags-tooltip
+        />
+        <o-select
+          v-model="form.nodes"
+          :options="cacheResponse.nodeList"
+          multiple
+          title="节点列表"
+          label="name"
+          value="nodeId"
+          width="350"
+          class="mr mb"
+          collapse-tags
+          collapse-tags-tooltip
+        />
+      </div>
+    </div>
+
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped>
+.l-box {
+  overflow: auto;
+  width: 100%;
+}
+.f-bt-ct{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.r-box {
+  min-width: 300px;
+  overflow: auto;
+
+  .icon-box {
+    width: 100px;
+
+    :deep(.warning-box__content) {
+      min-width: 100px;
+    }
+  }
+}
+</style>

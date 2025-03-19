@@ -20,17 +20,13 @@
 
         <el-input
           v-else
-          v-bind="$attrs"
           v-model="data"
           :placeholder="handlePlaceholder()"
           class="kd-ipt"
           :showPassword="showPassword"
-          :clearable="$attrs.clearable !== false"
           :class="{ 'kd-textarea': $attrs.type === 'textarea' }"
           :maxlength="handleMaxLength"
-          :rows="$attrs.rows || 2"
-          resize="none"
-          height="100px"
+          v-bind="mergedAttrs"
           :show-word-limit="handleShowWordLimit()"
           @focus="focusHandler($event)"
           @mouseover.native="inputOnMouseOver($event)"
@@ -102,10 +98,6 @@ import { useVModel } from '@vueuse/core'
 import { processWidth, getType } from '@/utils'
 import OIcon from '@/components/icon'
 const attrs = useAttrs()
-
-defineOptions({
-  inheritAttrs: false
-})
 
 const props = defineProps({
   modelValue: {
@@ -274,6 +266,24 @@ const createFilter = (queryString: string) => {
     return v.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
   }
 }
+
+const mergedAttrs = computed(() => {
+  let baseAttrs = {
+    resize: 'none',
+    rows: 2,
+    clearable: true,
+  }
+  const merged = {
+    ...baseAttrs,
+    ...Object.entries(attrs).reduce((obj, [key, value]) => {
+      if (key !== 'class' && key !== 'style') {
+        obj[key] = value
+      }
+      return obj
+    }, {}),
+  }
+  return merged
+})
 </script>
 
 <style lang="scss" scoped>
