@@ -167,7 +167,7 @@ const props = defineProps({
   },
   emptyColor: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 })
 
