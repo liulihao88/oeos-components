@@ -64,6 +64,15 @@ export default defineConfig({
               text: '函数库文件',
               link: '/components/utils/base.md',
             },
+            {
+              text: '函数方法',
+              items: [
+                {
+                  text: '校验',
+                  link: '/components/utils/validate/base.md',
+                },
+              ],
+            },
           ],
         },
         {
@@ -172,6 +181,7 @@ export default defineConfig({
             },
           ],
         },
+
         {
           text: '自定义指令',
           items: [

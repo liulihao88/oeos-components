@@ -506,7 +506,8 @@ name: [ proxy.validate('name', { message: '你干嘛哈哈' })],
 between: [ proxy.validate('between', { max: 99 })],
 number: [ proxy.validate('number')],
 length: [proxy.validate('length')],
-phone: [ proxy.validate('phone')],
+mobile: [ proxy.validate('mobile')],
+ip: [ proxy.validate('ip')],
 custom: [proxy.validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })]
 confirmRegPwd: [
   proxy.validate('same', { value: form.value.regPwd }),
@@ -521,7 +522,7 @@ confirmRegPwd: [
 
 export function validate(type = 'required', rules = {}, pureValid = false) {
   let trigger = rules.trigger || ['blur', 'change']
-  const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'same', 'length', 'ip', 'port', 'custom']
+  const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'length', 'same', 'ip', 'port', 'custom']
   let parseRequired = rules.required ?? true
 
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
@@ -582,23 +583,6 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
       /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
     )
   }
-  if (type === 'length') {
-    return {
-      min: rules.min,
-      max: rules.max,
-      message: rules.message ?? `请输入${rules.min}到${rules.max}个字符`,
-      trigger: ['blur', 'change'],
-      required: parseRequired,
-    }
-  }
-  if (type === 'port') {
-    return _validValue(
-      rules,
-      '请输入1-65535的端口号',
-      pureValid,
-      /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/,
-    )
-  }
   if (type === 'between') {
     let min = rules.min || 1
     let max = rules.max || 10
@@ -618,8 +602,27 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
     return {
       validator: validateBetween,
       trigger: trigger,
+      required: parseRequired,
     }
   }
+  if (type === 'length') {
+    return {
+      min: rules.min,
+      max: rules.max,
+      message: rules.message ?? `请输入${rules.min}到${rules.max}个字符`,
+      trigger: trigger,
+      required: parseRequired,
+    }
+  }
+  if (type === 'port') {
+    return _validValue(
+      rules,
+      '请输入1-65535的端口号',
+      pureValid,
+      /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/,
+    )
+  }
+
   if (type === 'same') {
     const validateSame = (rule, value, callback) => {
       let isSame = value === rules.value
