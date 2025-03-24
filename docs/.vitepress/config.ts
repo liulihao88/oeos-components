@@ -68,8 +68,12 @@ export default defineConfig({
               text: '函数方法',
               items: [
                 {
-                  text: '校验',
+                  text: 'validate校验',
                   link: '/components/utils/validate/base.md',
+                },
+                {
+                  text: 'confirm确认框',
+                  link: '/components/utils/confirm/base.md',
                 },
               ],
             },
