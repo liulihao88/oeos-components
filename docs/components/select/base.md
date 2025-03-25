@@ -43,3 +43,9 @@ OSelect/all
 :::demo
 OSelect/html
 :::
+
+### 插槽
+
+:::demo
+OSelect/slot
+:::
