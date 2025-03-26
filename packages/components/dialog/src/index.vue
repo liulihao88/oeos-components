@@ -24,7 +24,7 @@
           <div class="dialog_footer">
             <el-button
               v-if="showCancel"
-              :type="cancelAttrs.type || 'info'"
+              :type="cancelAttrs.type || ''"
               v-bind="cancelAttrs"
               @click="handleCancelClose"
             >
