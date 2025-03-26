@@ -3,6 +3,7 @@ import { ref, watch, computed } from 'vue'
 import OPopconfirm from '@/components/popconfirm'
 import OIcon from '@/components/icon'
 import { getType } from '@/utils'
+
 const props = defineProps({
   data: {
     type: Array,
@@ -36,6 +37,9 @@ const props = defineProps({
   columnEmptyText: {
     type: String,
     default: '-',
+  },
+  isLoading: {
+    type: Boolean,
   },
 })
 const tableRef = ref(null)
@@ -190,6 +194,12 @@ function updatePage() {
 const parseTableWidth = (btns, hBtns) => {
   return 26 + (btns.length + (hBtns.length === 0 ? 0 : 1)) * 36 + 'px'
 }
+const parseEmptyText = computed(() => {
+  if (props.isLoading === true) {
+    return ''
+  }
+  return '暂无数据'
+})
 </script>
 
 <template>
@@ -209,6 +219,7 @@ const parseTableWidth = (btns, hBtns) => {
         textAlign: 'center',
         ...($attrs['header-cell-style'] || {}),
       }"
+      :emptyText="$attrs.emptyText || parseEmptyText"
     >
       <slot />
       <el-table-column v-if="showIndex" type="index" width="60" align="center" :index="indexMethod">
