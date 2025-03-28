@@ -75,6 +75,10 @@ export default defineConfig({
                   text: 'confirm确认框',
                   link: '/components/utils/confirm/base.md',
                 },
+                {
+                  text: 'toFixed给数字加小数点',
+                  link: '/components/utils/toFixed/base.md',
+                },
               ],
             },
           ],

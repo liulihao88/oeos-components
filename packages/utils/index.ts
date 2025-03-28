@@ -862,6 +862,25 @@ export function processWidth(initValue, isBase = false) {
 }
 
 /**
+ * 增加小数点
+ * toFixed(22) -> '22.00'
+ * proxy.toFixed('22') -> '22.00'
+ * proxy.toFixed('22', 4) -> '22.0000'
+ * proxy.toFixed('22', 2, true) -> 22
+ */
+export function toFixed(value, digits = 2, toNumber = false) {
+  if (isStringNumber(value) || isNumber(value)) {
+    value = Number(value).toFixed(digits)
+  } else {
+    return value
+  }
+  if (toNumber) {
+    return Number.parseFloat(value)
+  }
+  return value
+}
+
+/**
  * 只有对正整数或者字符串正整数才进行单位的转换,
  * 否则返回原始数据
  * proxy.formatBytes(536870912) // 512MB
@@ -893,7 +912,7 @@ export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
 //formatBytesConvert('1,234 GB') 1324997410816
 //formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
 
-export function formatBytesConvert(oBytes, { thounsand = false } = {}) {
+export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = {}) {
   if (isStringNumber(oBytes) || isNumber(oBytes) || getType(oBytes) !== 'string') {
     return oBytes
   }
@@ -941,11 +960,15 @@ export function formatBytesConvert(oBytes, { thounsand = false } = {}) {
     )
     return
   }
-
-  if (thounsand) {
-    return formatThousands(size * units[unit])
+  let finalRes = size * units[unit]
+  if (toFixed) {
+    finalRes = Number.parseFloat(finalRes.toFixed(toFixed))
   }
-  return size * units[unit]
+  if (thounsand) {
+    finalRes = formatThousands(finalRes)
+  }
+
+  return finalRes
 }
 
 export function throttle(fn, delay = 1000) {
