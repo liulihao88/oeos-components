@@ -79,6 +79,10 @@ export default defineConfig({
                   text: 'toFixed给数字加小数点',
                   link: '/components/utils/toFixed/base.md',
                 },
+                {
+                  text: 'formatBytesConvert翻转字节为数字',
+                  link: '/components/utils/formatBytesConvert/base.md',
+                },
               ],
             },
           ],

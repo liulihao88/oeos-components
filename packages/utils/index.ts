@@ -909,7 +909,6 @@ export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
 }
 //formatBytesConvert('0.5GB') 536870912
 //formatBytesConvert('1,234 GB') 1324997410816
-//formatBytesConvert('1,234 GB') 1324997410816
 //formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
 
 export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = {}) {
@@ -962,7 +961,7 @@ export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = 
   }
   let finalRes = size * units[unit]
   if (toFixed) {
-    finalRes = Number.parseFloat(finalRes.toFixed(toFixed))
+    finalRes = finalRes.toFixed(toFixed)
   }
   if (thounsand) {
     finalRes = formatThousands(finalRes)
