@@ -219,7 +219,7 @@ const parseEmptyText = computed(() => {
         textAlign: 'center',
         ...($attrs['header-cell-style'] || {}),
       }"
-      :emptyText="$attrs.emptyText || parseEmptyText"
+      :empty-text="$attrs['empty-text'] || $attrs['emptyText']  || parseEmptyText"
     >
       <slot />
       <el-table-column v-if="showIndex" type="index" width="60" align="center" :index="indexMethod">
