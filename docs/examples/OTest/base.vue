@@ -33,7 +33,6 @@ init()
     :data="data"
     andy="123"
     :isLoading="loading"
-    :loading="loading"
     ref="tableRef"
   ></o-table>
 </template>

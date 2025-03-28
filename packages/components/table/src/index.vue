@@ -1,8 +1,10 @@
 <script setup lang="ts" name="OTable">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, useAttrs } from 'vue'
 import OPopconfirm from '@/components/popconfirm'
 import OIcon from '@/components/icon'
 import { getType } from '@/utils'
+
+const attrs = useAttrs()
 
 const props = defineProps({
   data: {
@@ -200,17 +202,21 @@ const parseEmptyText = computed(() => {
   }
   return '暂无数据'
 })
+const compEmptyText = computed(() => {
+  if (attrs.hasOwnProperty('empty-text')) {
+    return attrs['empty-text']
+  }
+  if (attrs.hasOwnProperty('emptyText')) {
+    return attrs['emptyText']
+  }
+  return parseEmptyText.value
+})
 </script>
 
 <template>
   <div class="o-table">
     <el-table
       :data="props.data"
-      v-bind="{
-        stripe: true,
-        border: true,
-        ...$attrs,
-      }"
       ref="tableRef"
       :header-cell-style="{
         background: '#f7f8fa',
@@ -219,7 +225,12 @@ const parseEmptyText = computed(() => {
         textAlign: 'center',
         ...($attrs['header-cell-style'] || {}),
       }"
-      :empty-text="$attrs['empty-text'] || $attrs['emptyText']  || parseEmptyText"
+      :empty-text="compEmptyText"
+      v-bind="{
+        stripe: true,
+        border: true,
+        ...$attrs,
+      }"
     >
       <slot />
       <el-table-column v-if="showIndex" type="index" width="60" align="center" :index="indexMethod">
