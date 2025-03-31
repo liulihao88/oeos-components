@@ -521,6 +521,7 @@ confirmRegPwd: [
 */
 
 export function validate(type = 'required', rules = {}, pureValid = false) {
+  // 如果第一个参数是对象, 则相当于重载
   if (getType(type) === 'object') {
     pureValid = rules || false
     rules = type
