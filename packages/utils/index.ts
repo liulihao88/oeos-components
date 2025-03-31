@@ -521,7 +521,13 @@ confirmRegPwd: [
 */
 
 export function validate(type = 'required', rules = {}, pureValid = false) {
-  let trigger = rules.trigger || ['blur', 'change']
+  if (getType(type) === 'object') {
+    pureValid = rules || false
+    rules = type
+    type = 'required'
+  }
+  // let trigger = rules.trigger || ['blur', 'change']
+   let trigger = rules.trigger || []
   const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'length', 'same', 'ip', 'port', 'custom']
   let parseRequired = rules.required ?? true
 
