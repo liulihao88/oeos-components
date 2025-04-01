@@ -30,5 +30,6 @@ const { proxy } = getCurrentInstance()
         <el-button type="primary">无paddingBottom</el-button>
       </template>
     </OBasicLayout>
+
   </div>
 </template>

@@ -1,0 +1,92 @@
+.c-box {
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 4px;
+  transition: all 0.5s ease-out;
+
+  &:hover {
+    // box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
+  }
+}
+
+.c-pure-box {
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.c-form-title {
+  padding: 0 0 8px;
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 800;
+  border-bottom: 1px dashed #eaeaea;
+}
+
+.c-page-footer {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: end;
+  padding: 16px;
+  background-color: #fff;
+  border: 1px solid #ebeef5;
+  border-top: none;
+}
+
+.c-list-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.c-list-item {
+  width: calc((100% - 48px) / 4);
+  margin-bottom: 16px;
+}
+.c-list-item:not(:nth-child(4n)) {
+  margin-right: 16px;
+}
+
+.c-list-item-3 {
+  width: calc((100% - 32px) / 3);
+  margin-top: 16px;
+}
+
+.c-list-item-3:not(:nth-child(3n)) {
+  margin-right: calc(4% / 2);
+}
+
+.c-list-item-2 {
+  width: calc((100% - 16px) / 2);
+  margin-top: 16px;
+}
+
+.c-list-item-2:not(:nth-child(2n)) {
+  margin-right: calc(4% / 1);
+}
+
+.c-item {
+  position: relative;
+
+  .row-item {
+    display: flex;
+    height: 40px;
+    line-height: 40px;
+
+    .label {
+      width: 80px;
+      height: 18px;
+      margin-right: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #2a3e4e;
+      text-align: right;
+    }
+
+    .value {
+      width: calc(100% - 80px);
+      font-size: 12px;
+      color: var(--65);
+    }
+  }
+}
