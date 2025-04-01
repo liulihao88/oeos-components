@@ -1,17 +1,31 @@
 <script setup lang="ts" name="OBasicLayout">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
+const props = defineProps({
+  headerStyle: {
+    type: Object,
+    default: () => ({}),
+  },
+  mainStyle: {
+    type: Object,
+    default: () => ({}),
+  },
+  footerStyle: {
+    type: Object,
+    default: () => ({}),
+  },
+})
 </script>
 
 <template>
   <div class="basic-layout-box">
-    <div class="header" v-if="$slots.header">
+    <div class="header" v-if="$slots.header" :style="headerStyle">
       <slot name="header"></slot>
     </div>
-    <div class="main">
+    <div class="main" :style="mainStyle">
       <slot></slot>
     </div>
-    <div class="footer" v-if="$slots.footer">
+    <div class="footer" v-if="$slots.footer" :style="footerStyle">
       <slot name="footer"></slot>
     </div>
   </div>
