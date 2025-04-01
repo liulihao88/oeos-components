@@ -22,16 +22,12 @@
       <template #footer v-if="showFooter">
         <slot name="footer">
           <div class="dialog_footer">
-            <el-button
-              v-if="showCancel"
-              :type="cancelAttrs.type || ''"
-              v-bind="cancelAttrs"
-              @click="handleCancelClose"
-            >
+            <el-button v-if="showCancel" :type="cancelAttrs.type || ''" v-bind="cancelAttrs" @click="handleCancelClose">
               {{ cancelText }}
             </el-button>
             <el-button
               v-if="showConfirm"
+              :loading="confirmLoading"
               id="kdDialogConfirmBtn"
               :type="confirmAttrs.type || 'primary'"
               v-bind="confirmAttrs"
@@ -48,6 +44,7 @@
 
 <script setup lang="ts" name="ODialog">
 import { ref, computed, useAttrs, useSlots, watch, onBeforeUnmount, onMounted } from 'vue'
+import { getType } from '@/utils/index.ts'
 const attrs = useAttrs()
 const slots = useSlots()
 const emits = defineEmits(['update:modelValue'])
@@ -98,6 +95,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  confirm: {
+    type: Function,
+    default: () => {},
+  },
 })
 const getThemeClass = computed(() => {
   if (props.theme === 'norm') {
@@ -128,8 +129,14 @@ watch(
   },
 )
 
-function confirm() {
-  if (attrs.onConfirm) {
+const confirmLoading = ref(false)
+async function confirm() {
+  if (props.confirm && getType(props.confirm) === 'function') {
+    confirmLoading.value = true
+    await props.confirm().finally(() => {
+      confirmLoading.value = false
+    })
+  } else if (attrs.onConfirm) {
     attrs.onConfirm()
   } else {
     handleClose()
