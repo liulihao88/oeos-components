@@ -44,7 +44,7 @@
 
 <script setup lang="ts" name="ODialog">
 import { ref, computed, useAttrs, useSlots, watch, onBeforeUnmount, onMounted } from 'vue'
-import { getType } from '@/utils/index.ts'
+import { getType } from '@/utils/index'
 const attrs = useAttrs()
 const slots = useSlots()
 const emits = defineEmits(['update:modelValue'])
