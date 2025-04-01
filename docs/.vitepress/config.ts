@@ -193,6 +193,15 @@ export default defineConfig({
             },
           ],
         },
+        {
+          text: '公司内部组件',
+          items: [
+            {
+              text: '基础布局组件',
+              link: '/components/company/basicLayout/base.md',
+            },
+          ],
+        },
 
         {
           text: '自定义指令',
