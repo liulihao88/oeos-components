@@ -1,5 +1,5 @@
 <template>
-  <div class="t_tabs">
+  <div class="tabs-box">
     <el-tabs v-bind="$attrs" v-model="tabsValue">
       <template v-for="tab in props.options" :key="tab[props.value]">
         <el-tab-pane :name="tab[props.value]" :label="tab[props.label]" v-bind="subAttrs">
@@ -51,22 +51,9 @@ const tabsValue = computed({
 })
 </script>
 <style lang="scss" scoped>
-.t_tabs {
-  .tabs {
-    padding: 0;
-    margin: 0;
-    .el-tabs {
-      .el-tabs__header {
-        margin: 0;
-        padding: 0 10px;
-        background-color: #fff;
-      }
-      .el-tabs__nav-wrap {
-        &::after {
-          height: 1px;
-        }
-      }
-    }
+.tabs-box {
+  :deep(.el-tabs__item) {
+    font-size: 16px;
   }
 }
 </style>
