@@ -46,7 +46,6 @@
 import { ref, computed, useAttrs, useSlots, watch, onBeforeUnmount, onMounted } from 'vue'
 import { getType } from '@/utils/index'
 const attrs = useAttrs()
-const slots = useSlots()
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
   title: {
@@ -97,7 +96,6 @@ const props = defineProps({
   },
   confirm: {
     type: Function,
-    default: () => {},
   },
 })
 const getThemeClass = computed(() => {
