@@ -23,6 +23,7 @@ function tabChange(value) {
 
 <template>
   <div>
+    <h6>去掉底部的border, 去掉选中项的下划线</h6>
     <o-tabs :options="navList" v-model="navName" @tabChange="tabChange"></o-tabs>
     <div v-if="navName === 'sys'">系统服务</div>
     <div v-if="navName === 'base'">基础服务</div>
@@ -30,4 +31,11 @@ function tabChange(value) {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+:deep(.el-tabs__nav-wrap::after) {
+  height: 0;
+}
+:deep(.el-tabs__active-bar) {
+  display: none;
+}
+</style>
