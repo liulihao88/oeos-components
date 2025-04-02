@@ -1,6 +1,7 @@
 <template>
   <div class="o-dialog">
-    <el-dialog
+    <component
+      :is="parseType"
       :custom-class="getThemeClass"
       v-bind="{
         width: '640px',
@@ -21,24 +22,22 @@
       </div>
       <template #footer v-if="showFooter">
         <slot name="footer">
-          <div class="dialog_footer">
-            <el-button v-if="showCancel" :type="cancelAttrs.type || ''" v-bind="cancelAttrs" @click="handleCancelClose">
-              {{ cancelText }}
-            </el-button>
-            <el-button
-              v-if="showConfirm"
-              :loading="confirmLoading"
-              id="kdDialogConfirmBtn"
-              :type="confirmAttrs.type || 'primary'"
-              v-bind="confirmAttrs"
-              @click="confirm"
-            >
-              {{ confirmText }}
-            </el-button>
-          </div>
+          <el-button v-if="showCancel" :type="cancelAttrs.type || ''" v-bind="cancelAttrs" @click="handleCancelClose">
+            {{ cancelText }}
+          </el-button>
+          <el-button
+            v-if="showConfirm"
+            :loading="confirmLoading"
+            id="kdDialogConfirmBtn"
+            :type="confirmAttrs.type || 'primary'"
+            v-bind="confirmAttrs"
+            @click="confirm"
+          >
+            {{ confirmText }}
+          </el-button>
         </slot>
       </template>
-    </el-dialog>
+    </component>
   </div>
 </template>
 
@@ -48,6 +47,11 @@ import { getType } from '@/utils/index'
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
+  type: {
+    type: String, // drawer
+    // default: 'drawer',
+    default: '',
+  },
   title: {
     type: String,
     default: '提示',
@@ -159,6 +163,14 @@ function onkeypress({ code }: KeyboardEvent) {
   }
 }
 
+const parseType = computed(() => {
+  if (props.type === '') {
+    return 'el-dialog'
+  } else if (props.type === 'drawer') {
+    return 'el-drawer'
+  }
+})
+
 onMounted(() => {
   document.addEventListener('keypress', onkeypress)
 })
@@ -170,10 +182,15 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .o-dialog {
-  :deep(.el-dialog__header) {
+  :deep(.el-dialog__header),
+  :deep(.el-drawer__header) {
     padding: 8px 16px;
-    border-bottom: 1px solid #e3e6eb;
+    height: 46px;
+    border-bottom: 1px solid var(--line);
     font-weight: 700;
+  }
+  :deep(.el-drawer__header) {
+    margin-bottom: 0;
   }
   :deep(.el-dialog) {
     padding: 0 !important;
@@ -190,14 +207,23 @@ onBeforeUnmount(() => {
       overflow-y: auto;
     }
   }
-  :deep(.el-dialog__footer) {
-    border-top: 1px solid #e3e6eb;
-    padding: 0 16px;
-    height: 50px;
+  :deep(.el-dialog__footer),
+  :deep(.el-drawer__footer) {
+    border-top: 1px solid var(--line);
+    padding: 16px;
+    height: 46px;
     box-sizing: border-box;
     display: flex;
     justify-content: end;
     align-items: center;
+  }
+  :deep(.el-drawer__footer) {
+    justify-content: start;
+    flex-direction: row-reverse;
+    .el-button {
+      margin-left: 0px;
+      margin-right: 12px;
+    }
   }
 }
 </style>
