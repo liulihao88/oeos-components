@@ -42,6 +42,12 @@ ODialog/confirmLoading
 
 ---
 
+## dialog组件生成的drawer
+
+:::demo
+ODialog/drawer
+:::
+
 ## 属性
 
 |      属性名       | 说明                                                                                    | 类型     | 默认值 |
