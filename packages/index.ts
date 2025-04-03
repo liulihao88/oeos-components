@@ -32,6 +32,7 @@ import OTitle from './components/title'
 import OTooltip from './components/tooltip'
 import OWarning from './components/warning'
 import OBasicLayout from './components/basicLayout'
+import OCapacityProgress from './components/capacityProgress'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as utils from './utils'
 
@@ -61,6 +62,7 @@ const components = [
   OTitle,
   OWarning,
   OBasicLayout,
+  OCapacityProgress,
 ]
 
 // 按需导入
@@ -90,6 +92,7 @@ export {
   OTitle,
   OWarning,
   OBasicLayout,
+  OCapacityProgress,
 }
 
 const install = (app) => {

@@ -200,6 +200,10 @@ export default defineConfig({
               text: '基础布局组件',
               link: '/components/company/basicLayout/base.md',
             },
+            {
+              text: '容量组件',
+              link: '/components/company/capacityProgress/base.md',
+            },
           ],
         },
 
