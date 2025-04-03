@@ -528,7 +528,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
     type = 'required'
   }
   // let trigger = rules.trigger || ['blur', 'change']
-   let trigger = rules.trigger || []
+  let trigger = rules.trigger || []
   const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'length', 'same', 'ip', 'port', 'custom']
   let parseRequired = rules.required ?? true
 
@@ -1084,4 +1084,13 @@ export function formatNewLines(str) {
   // 替换制表符 \t 为四个空格或其他适当的字符
   str = str.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
   return str
+}
+
+/** Function to get a CSS custom property value
+ *
+ * getVariable('--blue');
+ *  */
+export function getVariable(propertyName) {
+  let res = getComputedStyle(document.documentElement).getPropertyValue(propertyName).trim()
+  return res
 }

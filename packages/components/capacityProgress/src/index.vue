@@ -5,9 +5,8 @@
   </o-capacity-progress>
  */
 
-import { ref, getCurrentInstance, computed, onMounted, onUnmounted, nextTick } from 'vue'
-import { getVariableColor } from '@/utils/localIndex.ts'
-import { sleep } from '@/utils/index.ts'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { sleep, getVariable } from '@/utils/index.ts'
 
 const progressBoxRef = ref(null)
 const percentageRef = ref(null)
@@ -19,6 +18,10 @@ const props = defineProps({
   used: {
     type: [String, Number],
     required: true,
+  },
+  iconAttrs: { // 超出容量的显示icon
+    type: Object,
+    default: () => {},
   },
 })
 function format() {
@@ -34,9 +37,9 @@ const percentage = computed(() => {
 })
 function formatColor(value) {
   if (value < 90) {
-    return getVariableColor('--blue')
+    return getVariable('--blue')
   } else {
-    return getVariableColor('--red')
+    return getVariable('--red')
   }
 }
 
@@ -71,6 +74,7 @@ onUnmounted(() => {
       text-inside
       :format="format"
       :color="formatColor"
+      v-bind="$attrs"
     >
       <template #default="{ percentage }">
         <div ref="percentageRef" class="f-bt-ct" :style="{ ...adaptiveWidth() }">
@@ -81,7 +85,13 @@ onUnmounted(() => {
         </div>
       </template>
     </o-progress>
-    <o-icon v-if="percentage > 100" name="warning" content="已用容量远超总容量, 请扩容 " class="ml" />
+    <o-icon
+      v-if="percentage > 100"
+      name="warning"
+      content="已用容量远超总容量, 请扩容 "
+      class="ml"
+      v-bind="iconAttrs"
+    />
   </div>
 </template>
 
