@@ -13,7 +13,8 @@ import * as utils from './utils'
 import OSvg from './components/svg'
 
 const componentsGlobal = import.meta.globEager('./components/*/index.ts') // 引入全局基础组件
-console.log(`45 componentsGlobal`, componentsGlobal);
+console.log(`98  import.meta`, import.meta)
+console.log(`45 componentsGlobal`, componentsGlobal)
 const componentsCompany = import.meta.globEager('./components/company/*/index.ts') // 引入公司内部组件
 
 const allComponents = {
@@ -31,6 +32,7 @@ Object.keys(allComponents).forEach((key) => {
 
 // 按需导入
 export { componentsExport, OSvg }
+console.log(`64 componentsExport`, componentsExport)
 const install = (app) => {
   registerDirectives(app)
   Object.keys(allComponents).forEach((key) => {
