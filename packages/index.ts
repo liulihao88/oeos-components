@@ -10,7 +10,10 @@ import registerDirectives from './directives/gDirectives.js'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as utils from './utils'
 
+import OSvg from './components/svg'
+
 const componentsGlobal = import.meta.globEager('./components/*/index.ts') // 引入全局基础组件
+console.log(`45 componentsGlobal`, componentsGlobal);
 const componentsCompany = import.meta.globEager('./components/company/*/index.ts') // 引入公司内部组件
 
 const allComponents = {
@@ -27,7 +30,7 @@ Object.keys(allComponents).forEach((key) => {
 })
 
 // 按需导入
-export { componentsExport }
+export { componentsExport, OSvg }
 const install = (app) => {
   registerDirectives(app)
   Object.keys(allComponents).forEach((key) => {
@@ -51,7 +54,7 @@ export * from './utils'
 export function createSvg(iconDirs) {
   let res = {
     Svg: (props) => ({
-      component: allComponents['./components/svg/index.ts'].default,
+      component: OSvg,
       props: { ...props, iconDirs }, // 将 iconDirs 传递给 SvgIcon 组件
     }),
   }
