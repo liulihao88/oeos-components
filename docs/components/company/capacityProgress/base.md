@@ -3,5 +3,5 @@
 ## 基础用法
 
 :::demo
-CCapacityProgress/base
+Company/OCapacityProgress/base
 :::

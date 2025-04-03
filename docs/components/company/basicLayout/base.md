@@ -3,5 +3,5 @@
 ## 基础用法
 
 :::demo 
-CBasicLayout/base
+Company/OBasicLayout/base
 :::
