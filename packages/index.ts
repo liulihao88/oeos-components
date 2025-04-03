@@ -7,99 +7,32 @@ import 'tippy.js/themes/light.css'
 import VueTippy from 'vue-tippy'
 
 import registerDirectives from './directives/gDirectives.js'
-import OCompTitle from './components/compTitle'
-import OCheckbox from './components/checkbox'
-import OChooseArea from './components/chooseArea'
-import ODateRange from './components/dateRange'
-import ODescription from './components/description'
-import ODialog from './components/dialog'
-import ODrawer from './components/drawer'
-import OEmpty from './components/empty'
-import OForm from './components/form'
-import OIcon from './components/icon'
-import OInput from './components/input'
-import OInputLabel from './components/inputLabel'
-import OPopconfirm from './components/popconfirm'
-import OProgress from './components/progress'
-import ORadio from './components/radio'
-import OSelect from './components/select'
-import OSwitch from './components/switch'
-import OSvg from './components/svg'
-import OTable from './components/table'
-import OText from './components/text'
-import OTabs from './components/tabs'
-import OTitle from './components/title'
-import OTooltip from './components/tooltip'
-import OWarning from './components/warning'
-import OBasicLayout from './components/company/basicLayout'
-import OCapacityProgress from './components/company/capacityProgress'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as utils from './utils'
 
-const components = [
-  OCompTitle,
-  OCheckbox,
-  OChooseArea,
-  ODescription,
-  ODialog,
-  ODrawer,
-  ODateRange,
-  OEmpty,
-  OForm,
-  OPopconfirm,
-  OProgress,
-  ORadio,
-  OSelect,
-  OSwitch,
-  OSvg,
-  OIcon,
-  OInput,
-  OInputLabel,
-  OTable,
-  OText,
-  OTabs,
-  OTooltip,
-  OTitle,
-  OWarning,
-  OBasicLayout,
-  OCapacityProgress,
-]
+const componentsGlobal = import.meta.globEager('./components/*/index.ts') // 引入全局基础组件
+const componentsCompany = import.meta.globEager('./components/company/*/index.ts') // 引入公司内部组件
 
-// 按需导入
-export {
-  OCompTitle,
-  OCheckbox,
-  OChooseArea,
-  ODescription,
-  ODialog,
-  ODrawer,
-  ODateRange,
-  OEmpty,
-  OForm,
-  OIcon,
-  OInput,
-  OInputLabel,
-  OPopconfirm,
-  OProgress,
-  ORadio,
-  OSelect,
-  OSwitch,
-  OSvg,
-  OTable,
-  OText,
-  OTabs,
-  OTooltip,
-  OTitle,
-  OWarning,
-  OBasicLayout,
-  OCapacityProgress,
+const allComponents = {
+  ...componentsGlobal,
+  ...componentsCompany,
 }
 
+// Create an object to export all components
+const componentsExport = {}
+Object.keys(allComponents).forEach((key) => {
+  const component = allComponents[key].default
+  const componentName = component.name || 'o' + component.__name
+  componentsExport[componentName] = component
+})
+
+// 按需导入
+export { componentsExport }
 const install = (app) => {
   registerDirectives(app)
-  components.forEach((comp: any) => {
-    let name = comp.name || 'o' + comp.__name
-    app.component(name, comp)
+  Object.keys(allComponents).forEach((key) => {
+    let component = allComponents[key].default
+    app.component(component.name || 'o' + component.__name, component)
   })
   for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(`el-icon-${toLine(key)}`, component)
@@ -118,7 +51,7 @@ export * from './utils'
 export function createSvg(iconDirs) {
   let res = {
     Svg: (props) => ({
-      component: OSvg,
+      component: allComponents['./components/svg/index.ts'].default,
       props: { ...props, iconDirs }, // 将 iconDirs 传递给 SvgIcon 组件
     }),
   }
