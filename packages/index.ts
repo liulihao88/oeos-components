@@ -13,19 +13,22 @@ import * as utils from './utils'
 import OSvg from './components/svg'
 
 const componentsGlobal = import.meta.globEager('./components/*/index.ts') // 引入全局基础组件
-console.log(`98  import.meta`, import.meta)
-console.log(`45 componentsGlobal`, componentsGlobal)
 const componentsCompany = import.meta.globEager('./components/company/*/index.ts') // 引入公司内部组件
 
-const allComponents = {
-  ...componentsGlobal,
-  ...componentsCompany,
-}
+// const allComponents = {
+//   ...componentsGlobal,
+//   ...componentsCompany,
+// }
 
 // Create an object to export all components
 const componentsExport = {}
-Object.keys(allComponents).forEach((key) => {
-  const component = allComponents[key].default
+Object.keys(componentsGlobal).forEach((key) => {
+  const component = componentsGlobal[key].default
+  const componentName = component.name || 'o' + component.__name
+  componentsExport[componentName] = component
+})
+Object.keys(componentsCompany).forEach((key) => {
+  const component = componentsCompany[key].default
   const componentName = component.name || 'o' + component.__name
   componentsExport[componentName] = component
 })
@@ -35,8 +38,12 @@ export { componentsExport, OSvg }
 console.log(`64 componentsExport`, componentsExport)
 const install = (app) => {
   registerDirectives(app)
-  Object.keys(allComponents).forEach((key) => {
-    let component = allComponents[key].default
+  Object.keys(componentsGlobal).forEach((key) => {
+    let component = componentsGlobal[key].default
+    app.component(component.name || 'o' + component.__name, component)
+  })
+  Object.keys(componentsCompany).forEach((key) => {
+    let component = componentsCompany[key].default
     app.component(component.name || 'o' + component.__name, component)
   })
   for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
