@@ -204,6 +204,10 @@ export default defineConfig({
               text: '容量组件',
               link: '/components/company/capacityProgress/base.md',
             },
+            {
+              text: '使用量圆环组件',
+              link: '/components/company/usedPie/base.md',
+            },
           ],
         },
 
