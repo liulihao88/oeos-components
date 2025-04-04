@@ -11,46 +11,83 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as utils from './utils'
 
 import OSvg from './components/svg'
-console.log(`45 import.meta`, import.meta);
+console.log(`45 import.meta`, import.meta)
 
-console.log(`81 import.meta`, import.meta);
-const componentsGlobal = import.meta.globEager('./components/*/index.ts') // 引入全局基础组件
-console.log(`86 componentsGlobal`, componentsGlobal);
-console.log(`85 componentsGlobal`, componentsGlobal);
-const componentsCompany = import.meta.globEager('./components/company/*/index.ts') // 引入公司内部组件
-console.log(`63 componentsCompany`, componentsCompany);
+console.log(`81 import.meta`, import.meta)
+const componentsGlobal = {}
+const globalModules = import.meta.glob('./components/*/index.ts') // 引入全局基础组件
+console.log(`85 globalModules`, globalModules)
 
-// const allComponents = {
-//   ...componentsGlobal,
-//   ...componentsCompany,
+// for (const path in globalModules) {
+const componentsCompany = {}
+console.log(`93 import.meta`, import.meta);
+const companyModules = import.meta.glob('./components/company/*/index.ts') // 引入公司内部组件
+console.log(`61 companyModules`, companyModules)
+// for (const path in companyModules) {
+//   console.log(`58 path`, path)
+//   companyModules[path]().then((module) => {
+//     componentsCompany[path] = module
+//   })
 // }
+for (const path in globalModules) {
+  globalModules[path]().then((module) => {
+    componentsGlobal[path] = module
+  })
+}
+async function loadComponents(modules: Record<string, () => Promise<any>>) {
+  const components = {}
+  for (const path in modules) {
+    const module = await modules[path]()
+    components[path] = module
+  }
+  return components
+}
 
-// Create an object to export all components
-const componentsExport = {}
-Object.keys(componentsGlobal).forEach((key) => {
-  const component = componentsGlobal[key].default
-  const componentName = component.name || 'o' + component.__name
-  componentsExport[componentName] = component
-})
-Object.keys(componentsCompany).forEach((key) => {
-  const component = componentsCompany[key].default
-  const componentName = component.name || 'o' + component.__name
-  componentsExport[componentName] = component
-})
+// // Create an object to export all components
+// const componentsExport = {}
+// console.log(`83 componentsGlobal`, componentsGlobal);
+// console.log(`83 Object.keys(componentsGlobal)`, Object.keys(componentsGlobal));
+
+// Object.keys(componentsGlobal).forEach((key) => {
+//   console.log(`16 key`, key)
+//   const component = componentsGlobal[key].default
+//   console.log(`85 component`, component)
+//   const componentName = component.name || 'o' + component.__name
+//   componentsExport[componentName] = component
+// })
+// Object.keys(componentsCompany).forEach((key) => {
+//   const component = componentsCompany[key].default
+//   const componentName = component.name || 'o' + component.__name
+//   componentsExport[componentName] = component
+// })
 
 // 按需导入
-export { componentsExport, OSvg }
-console.log(`64 componentsExport`, componentsExport)
-const install = (app) => {
+export { OSvg }
+const install = async (app) => {
   registerDirectives(app)
-  Object.keys(componentsGlobal).forEach((key) => {
-    let component = componentsGlobal[key].default
-    app.component(component.name || 'o' + component.__name, component)
-  })
-  Object.keys(componentsCompany).forEach((key) => {
-    let component = componentsCompany[key].default
-    app.component(component.name || 'o' + component.__name, component)
-  })
+
+  // Load global components
+  const globalComponents = await loadComponents(globalModules)
+  console.log(`83 globalComponents`, globalComponents)
+  console.log(`83 Object.keys(globalComponents)`, Object.keys(globalComponents))
+
+  // Load company components
+  const companyComponents = await loadComponents(companyModules)
+  console.log(`63 companyComponents`, companyComponents)
+
+  // Combine all components
+  const allComponents = {
+    ...globalComponents,
+    ...companyComponents,
+  }
+
+  // Register components
+  for (const key in allComponents) {
+    const component = allComponents[key].default
+    const componentName = component.name || 'o' + component.__name
+    app.component(componentName, component)
+  }
+
   for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(`el-icon-${toLine(key)}`, component)
   }

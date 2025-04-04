@@ -12,8 +12,8 @@ import * as echarts from 'echarts' // 引入echarts
 
 import { VPDemo } from '../vitepress'
 // 基于element-plus二次封装基础组件
-// import oeosV3Components, { utils, createSvg, OIcon, OInput } from '../../../packages/index.ts'
-import oeosV3Components, { utils, createSvg } from '../../../dist/oeos-components-es.js'
+import oeosV3Components, { utils, createSvg, OIcon, OInput } from '../../../packages/index.ts'
+// import oeosV3Components, { utils, createSvg } from '../../../dist/oeos-components-es.js'
 console.log(`16 oeosV3Components`, oeosV3Components);
 import '/public/css/index.css'
 import Logo from './logo.vue'
