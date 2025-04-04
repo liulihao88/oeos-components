@@ -11,9 +11,14 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as utils from './utils'
 
 import OSvg from './components/svg'
+console.log(`45 import.meta`, import.meta);
 
+console.log(`81 import.meta`, import.meta);
 const componentsGlobal = import.meta.globEager('./components/*/index.ts') // 引入全局基础组件
+console.log(`86 componentsGlobal`, componentsGlobal);
+console.log(`85 componentsGlobal`, componentsGlobal);
 const componentsCompany = import.meta.globEager('./components/company/*/index.ts') // 引入公司内部组件
+console.log(`63 componentsCompany`, componentsCompany);
 
 // const allComponents = {
 //   ...componentsGlobal,
