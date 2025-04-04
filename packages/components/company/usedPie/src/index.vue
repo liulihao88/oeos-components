@@ -1,7 +1,10 @@
 <script setup lang="ts" name="OUsedPie">
 import VChart from 'vue-echarts'
+import '@/utils/useEcharts.ts'
+
 import { ref, getCurrentInstance, onMounted, watch } from 'vue'
 import { getVariable, clone, isEmpty, formatBytes, formatBytesConvert } from '@/utils'
+
 const props = defineProps({
   used: {
     type: [Number, String],
@@ -138,7 +141,7 @@ function formatter(params) {
 
 <template>
   <div class="box">
-    <v-chart class="calc-height" :option="option" autoresize />
+    <VChart class="calc-height" :option="option" autoresize />
     <div class="f w-100% list-container">
       <div class="list">
         <div>使用量</div>
@@ -160,7 +163,7 @@ function formatter(params) {
 
 .calc-height {
   height: calc(100% - 100px);
-  min-height: 200px;
+  min-height: 100px;
 }
 
 .list-container {

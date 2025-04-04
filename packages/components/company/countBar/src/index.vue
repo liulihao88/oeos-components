@@ -1,6 +1,7 @@
 <script setup lang="ts" name="OCountBar">
 import { ref, getCurrentInstance, onMounted, watch } from 'vue'
 import VChart from 'vue-echarts'
+import '@/utils/useEcharts.ts'
 import { clone } from '@/utils/index.ts'
 const props = defineProps({
   data: {
@@ -109,7 +110,7 @@ watch(
     <o-empty class="h-100%" />
   </template>
   <template v-else>
-    <v-chart class="calc-height" :option="option" autoresize />
+    <VChart class="calc-height" :option="option" autoresize />
   </template>
 </template>
 

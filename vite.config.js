@@ -60,6 +60,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'packages'),
+      '~dist': resolve(__dirname, 'dist'),
     },
   },
   server: {
