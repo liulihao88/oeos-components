@@ -205,6 +205,10 @@ export default defineConfig({
               link: '/components/company/capacityProgress/base.md',
             },
             {
+              text: '数量统计柱状图组件',
+              link: '/components/company/CountBar/base.md',
+            },
+            {
               text: '使用量圆环组件',
               link: '/components/company/usedPie/base.md',
             },
