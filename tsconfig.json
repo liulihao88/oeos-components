@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "module": "es2020",
+    "module": "NodeNext",
     "allowImportingTsExtensions": true,
     "noEmit": true,
+    "moduleResolution": "nodenext",
     "paths": {
       "@/*": [
         "./packages/*"

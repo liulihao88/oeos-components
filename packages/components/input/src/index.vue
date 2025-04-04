@@ -96,7 +96,6 @@
 import { ref, getCurrentInstance, computed, useAttrs, watch } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { processWidth, getType } from '@/utils'
-import OIcon from '@/components/icon'
 const attrs = useAttrs()
 
 const props = defineProps({
