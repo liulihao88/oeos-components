@@ -102,11 +102,15 @@ watch(
         name: '使用量',
         value: newUsed,
       },
-      {
+    ]
+    if (!(newUsed == 0 && newTotal == 0)) {
+      initOption.series[0].data.push({
         name: '剩余量',
         value: newTotal - newUsed,
-      },
-    ]
+      })
+    } else {
+      initOption.series[0].itemStyle.color = getVariable('--green')
+    }
     initOption.graphic[0].style.text = usedPercent.value
     option.value = clone(initOption)
   },

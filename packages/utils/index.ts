@@ -647,7 +647,6 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
       trigger: trigger,
       required: parseRequired,
     }
-    console.log(`27 res`, res)
     return res
   }
   if (type === 'custom') {
@@ -771,7 +770,6 @@ export function log(variableStr, variable, otherInfo = '') {
   try {
     if (matchResult && otherInfo) {
       const lineNumber = matchResult[2]
-      console.log(`67 matchResult`, matchResult)
       fileInfo = `vscode://file${JSON.parse(otherInfo)}:${lineNumber}`
     }
   } catch (error) {
@@ -892,33 +890,30 @@ export function toFixed(value, digits = 2, toNumber = false) {
  * 否则返回原始数据
  * proxy.formatBytes(536870912) // 512MB
  */
-
-export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
+export function formatBytes(bytes, { toFixedDigit = 2, thousands = true } = {}) {
   if (isStringNumber(bytes) || isNumber(bytes)) {
     bytes = Number(bytes)
   } else {
     return bytes
   }
   if (bytes <= 0) {
-    return bytes + 'B'
+    return bytes.toFixed(toFixedDigit) + 'B'
   }
 
   const k = 1024
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
-  let res = (bytes / Math.pow(k, i)).toFixed(toFixed) + ' ' + sizes[i]
-
+  let res = (bytes / Math.pow(k, i)).toFixed(toFixedDigit) + ' ' + sizes[i]
   if (thousands) {
     res = formatThousands(res)
   }
-
   return res
 }
 //formatBytesConvert('0.5GB') 536870912
 //formatBytesConvert('1,234 GB') 1324997410816
 //formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
 
-export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = {}) {
+export function formatBytesConvert(oBytes, { thounsand = false, toFixedDigit = 0 } = {}) {
   if (isStringNumber(oBytes) || isNumber(oBytes) || getType(oBytes) !== 'string') {
     return oBytes
   }
@@ -929,7 +924,6 @@ export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = 
   // 如果有千分位, 先将千分位的,去掉
   const regex = /^\d{1,3}(,\d{3})*(\.\d+)?[a-zA-Z ]*$/
   let bytes = oBytes
-  console.log(`58 regex.test(oBytes)`, regex.test(oBytes))
   if (regex.test(oBytes)) {
     bytes = oBytes.replace(/,/g, '')
     if (isStringNumber(bytes) || isNumber(bytes) || getType(bytes) !== 'string') {
@@ -967,8 +961,8 @@ export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = 
     return
   }
   let finalRes = size * units[unit]
-  if (toFixed) {
-    finalRes = finalRes.toFixed(toFixed)
+  if (toFixedDigit) {
+    finalRes = finalRes.toFixed(toFixedDigit)
   }
   if (thounsand) {
     finalRes = formatThousands(finalRes)
