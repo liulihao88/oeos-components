@@ -31,3 +31,9 @@ OTable/edit
 :::demo
 OTable/click
 :::
+
+### render生成html
+
+:::demo
+OTable/render
+:::

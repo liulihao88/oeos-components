@@ -1,5 +1,6 @@
 <script setup lang="ts" name="OTable">
 import { ref, watch, computed, useAttrs } from 'vue'
+import RenderComp from './renderComp.vue'
 import OPopconfirm from '@/components/popconfirm'
 import OIcon from '@/components/icon'
 import { getType } from '@/utils'
@@ -257,9 +258,16 @@ const compEmptyText = computed(() => {
                       :scope="scope"
                       :value="scope.row[val.prop]"
                     />
+                    <RenderComp
+                      v-else-if="val.render"
+                      :render="val.render"
+                      :row="scope.row"
+                      :scope="scope"
+                      :value="scope.row[val.prop]"
+                    />
 
                     <template v-else-if="parseReConfirm(val.reConfirm, scope.row, scope)">
-                      <o-popconfirm
+                      <oPopconfirm
                         trigger="click"
                         :title="val.title ?? '确定删除吗?'"
                         @confirm="val.handler?.(scope.row, scope)"
@@ -281,7 +289,7 @@ const compEmptyText = computed(() => {
                         >
                           {{ operatorBtnFn(val.content, scope.row, scope) }}
                         </el-button>
-                      </o-popconfirm>
+                      </oPopconfirm>
                     </template>
                     <component
                       :is="val.comp"
@@ -319,6 +327,13 @@ const compEmptyText = computed(() => {
                             <slot
                               v-if="val.useSlot"
                               :name="val.prop"
+                              :row="scope.row"
+                              :scope="scope"
+                              :value="scope.row[val.prop]"
+                            />
+                            <RenderComp
+                              v-else-if="val.render"
+                              :render="val.render"
                               :row="scope.row"
                               :scope="scope"
                               :value="scope.row[val.prop]"
@@ -432,7 +447,6 @@ const compEmptyText = computed(() => {
     align-items: center;
     min-height: 23px;
     line-height: 23px;
-    justify-content: space-around;
   }
 
   :deep(
