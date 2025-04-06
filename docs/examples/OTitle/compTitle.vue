@@ -12,7 +12,10 @@ const cc = ref(123)
     </div>
 
     <div class="mt">
-      <o-comp-title title="你好"></o-comp-title>
+      <o-comp-title
+        title="你好"
+        :titleAttrs="{ width: '160px', fontSize: '20px', color: 'var(--blue)' }"
+      ></o-comp-title>
       <el-input v-model="cc" style="width: 100px" />
     </div>
   </div>

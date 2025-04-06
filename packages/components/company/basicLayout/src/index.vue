@@ -2,11 +2,19 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
+  title: {
+    type: String,
+    default: '',
+  },
+  titleAttrs: {
+    type: Object,
+    default: () => ({}),
+  },
   headerStyle: {
     type: Object,
     default: () => ({}),
   },
-  mainStyle: {
+  bodyStyle: {
     type: Object,
     default: () => ({}),
   },
@@ -19,10 +27,14 @@ const props = defineProps({
 
 <template>
   <div class="basic-layout-box">
-    <div class="header" v-if="$slots.header" :style="headerStyle">
-      <slot name="header"></slot>
+    =={{ title }}??
+    <div class="header" v-if="$slots.header || props.title" :style="headerStyle">
+      <slot name="header">
+        <o-title :title="props.title" :style="{ ...titleAttrs }"></o-title>
+        {{ props.title }}
+      </slot>
     </div>
-    <div class="main" :style="mainStyle">
+    <div class="body" :style="bodyStyle">
       <slot></slot>
     </div>
     <div class="footer" v-if="$slots.footer" :style="footerStyle">
@@ -40,7 +52,7 @@ const props = defineProps({
     padding: 16px;
     border-bottom: 1px solid var(--line);
   }
-  .main {
+  .body {
     padding: 16px;
   }
   .footer {

@@ -15,7 +15,6 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, './packages/index.ts'),
       name: pkg.name,
-      formats: ['es'], // Change format to ES
       fileName: (format) => `${pkg.name}-${format}.js`,
     },
     rollupOptions: {

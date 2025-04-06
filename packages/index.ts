@@ -1,5 +1,5 @@
 import './styles/index.scss'
-import { toLine } from './utils/index.ts'
+import { toLine } from './utils'
 
 // 全局注册vue-tippy
 import 'tippy.js/dist/tippy.css'
@@ -8,48 +8,34 @@ import VueTippy from 'vue-tippy'
 
 import registerDirectives from './directives/gDirectives.js'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import * as utils from './utils/index.ts'
+import * as utils from './utils'
 
-import OSvg from './components/svg/index.ts'
-const componentsGlobal = {}
-const globalModules = import.meta.glob('./components/*/index.ts') // 引入全局基础组件
-const companyModules = import.meta.glob('./components/company/*/index.ts') // 引入公司内部组件
-for (const path in globalModules) {
-  globalModules[path]().then((module) => {
-    componentsGlobal[path] = module
-  })
+import OSvg from './components/svg'
+
+const componentsGlobal = import.meta.glob('./components/*/index.ts', { eager: true, import: 'default' }) // 引入全局基础组件
+const componentsCompany = import.meta.glob('./components/company/*/index.ts', { eager: true, import: 'default' }) // 引入公司内部组件
+
+const allComponents = {
+  ...componentsGlobal,
+  ...componentsCompany,
 }
-async function loadComponents(modules: Record<string, () => Promise<any>>) {
-  const components = {}
-  for (const path in modules) {
-    const module = await modules[path]()
-    components[path] = module
-  }
-  return components
-}
+
+// Create an object to export all components
+const componentsExport = {}
+Object.keys(allComponents).forEach((key) => {
+  const component = allComponents[key]
+  const componentName = component.name || 'o' + component.__name
+  componentsExport[componentName] = component
+})
 
 // 按需导入
-export { OSvg }
-const install = async (app) => {
+export { componentsExport, OSvg }
+const install = (app) => {
+  Object.keys(allComponents).forEach((key) => {
+    let component = allComponents[key]
+    app.component(component.name || 'o' + component.__name, component)
+  })
   registerDirectives(app)
-
-  // Load global components
-  const globalComponents = await loadComponents(globalModules)
-  // Load company components
-  const companyComponents = await loadComponents(companyModules)
-
-  // Combine all components
-  const allComponents = {
-    ...globalComponents,
-    ...companyComponents,
-  }
-
-  // Register components
-  for (const key in allComponents) {
-    const component = allComponents[key].default
-    const componentName = component.name || 'o' + component.__name
-    app.component(componentName, component)
-  }
 
   for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(`el-icon-${toLine(key)}`, component)
@@ -63,7 +49,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
 
-export * from './utils/index.ts'
+export * from './utils'
 
 export function createSvg(iconDirs) {
   let res = {
