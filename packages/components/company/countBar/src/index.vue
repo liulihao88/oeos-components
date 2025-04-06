@@ -46,6 +46,10 @@ let initOption = {
   },
   grid: {
     containLabel: true,
+    top: '2%',
+    right: '2%',
+    bottom: '2%',
+    left: '2%',
   },
   xAxis: {
     type: 'category',
@@ -95,7 +99,7 @@ let initOption = {
     {
       data: [],
       type: 'bar',
-      barWidth: '30%',
+      barWidth: '20%',
       label: {
         show: true,
         position: 'top',
@@ -109,7 +113,7 @@ let initOption = {
       data: [],
       type: 'bar',
       yAxisIndex: 1,
-      barWidth: '30%',
+      barWidth: '20%',
       label: {
         show: true,
         position: 'top',
