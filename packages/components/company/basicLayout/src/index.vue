@@ -27,11 +27,9 @@ const props = defineProps({
 
 <template>
   <div class="basic-layout-box">
-    =={{ title }}??
     <div class="header" v-if="$slots.header || props.title" :style="headerStyle">
       <slot name="header">
         <o-title :title="props.title" :style="{ ...titleAttrs }"></o-title>
-        {{ props.title }}
       </slot>
     </div>
     <div class="body" :style="bodyStyle">
