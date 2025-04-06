@@ -2,8 +2,8 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 const data = ref([
-  { name: '<1023', value: 123 },
-  { name: '<2M', value: 33 },
+  { name: '<1023', value: 12, value2: 12345 },
+  { name: '<2M', value: 3, value2: 444444 },
 ])
 </script>
 
