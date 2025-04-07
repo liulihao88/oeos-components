@@ -146,11 +146,11 @@ function formatter(params) {
 </script>
 
 <template>
-  <div class="box">
+  <div class="vChart-box">
       <VChart class="calc-height" :option="option" autoresize />
     <div class="f w-100% list-container">
       <div class="list">
-        <div>使用量1</div>
+        <div>使用量2</div>
         <div class="num">{{ formatBytes(used) }}</div>
       </div>
       <div class="list">
@@ -162,7 +162,7 @@ function formatter(params) {
 </template>
 
 <style lang="scss" scoped>
-.box {
+.vChart-box {
   width: 100%;
   height: 100%;
 }

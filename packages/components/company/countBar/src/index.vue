@@ -168,13 +168,19 @@ watch(
     <o-empty class="h-100%" />
   </template> -->
   <!-- <template v-else> -->
-  <VChart class="calc-height" :option="option" autoresize />
+  <div class="vChart-box">
+    <VChart class="calc-height" :option="option" autoresize />
+  </div>
   <!-- </template> -->
 </template>
 
 <style lang="scss" scoped>
-.calc-height {
+.vChart-box {
+  width: 100%;
   height: 100%;
-  min-height: 100px;
+  .calc-height {
+    height: 100%;
+    min-height: 100px;
+  }
 }
 </style>
