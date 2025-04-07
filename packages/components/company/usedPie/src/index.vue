@@ -150,7 +150,7 @@ function formatter(params) {
       <VChart class="calc-height" :option="option" autoresize />
     <div class="f w-100% list-container">
       <div class="list">
-        <div>使用量</div>
+        <div>使用量1</div>
         <div class="num">{{ formatBytes(used) }}</div>
       </div>
       <div class="list">

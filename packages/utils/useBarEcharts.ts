@@ -31,7 +31,7 @@ import {
 } from 'echarts/components'
 
 use([
-  PieChart,
+  BarChart,
   CanvasRenderer,
   GridComponent,
   PolarComponent,
