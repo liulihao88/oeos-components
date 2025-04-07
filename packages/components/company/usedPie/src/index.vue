@@ -1,4 +1,4 @@
-<script setup lang="ts" name="OUsedPie">
+<script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 </script>
