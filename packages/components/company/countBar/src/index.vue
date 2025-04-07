@@ -164,12 +164,12 @@ watch(
 </script>
 
 <template>
-  <template v-if="isEmpty">
+  <!-- <template v-if="isEmpty">
     <o-empty class="h-100%" />
-  </template>
-  <template v-else>
+  </template> -->
+  <!-- <template v-else> -->
     <VChart class="calc-height" :option="option" autoresize />
-  </template>
+  <!-- </template> -->
 </template>
 
 <style lang="scss" scoped>
