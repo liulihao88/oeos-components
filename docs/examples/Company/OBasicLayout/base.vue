@@ -31,7 +31,7 @@ const { proxy } = getCurrentInstance()
       </template>
     </OBasicLayout>
 
-    <OBasicLayout title="直接写title" class="mt" >
+    <OBasicLayout title="无border" :border="false" class="mt" >
       我是内部的文件111
       <template #footer>
         <el-button type="primary">测试07</el-button>

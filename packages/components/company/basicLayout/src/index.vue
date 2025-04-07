@@ -1,5 +1,5 @@
 <script setup lang="ts" name="OBasicLayout">
-import { ref, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance, computed } from 'vue'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
   title: {
@@ -22,20 +22,38 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  border: {
+    type: Boolean,
+    default: true,
+  },
+})
+
+const headerMergedStyle = computed(() => {
+  let noBorderStyle = {}
+  if (!props.border) {
+    noBorderStyle = {
+      borderBottom: 'none',
+      paddingBottom: 0,
+    }
+  }
+  return {
+    ...noBorderStyle,
+    ...props.headerStyle,
+  }
 })
 </script>
 
 <template>
   <div class="basic-layout-box">
-    <div class="header" v-if="$slots.header || props.title" :style="headerStyle">
+    <div class="basic-layout-box__header" v-if="$slots.header || props.title" :style="headerMergedStyle">
       <slot name="header">
         <o-title :title="props.title" :style="{ ...titleAttrs }"></o-title>
       </slot>
     </div>
-    <div class="body" :style="bodyStyle">
+    <div class="basic-layout-box__body" :style="bodyStyle">
       <slot></slot>
     </div>
-    <div class="footer" v-if="$slots.footer" :style="footerStyle">
+    <div class="basic-layout-box__footer" v-if="$slots.footer" :style="footerStyle">
       <slot name="footer"></slot>
     </div>
   </div>
@@ -46,14 +64,14 @@ const props = defineProps({
   background: #fff;
   border: 1px solud var(--line);
   border-radius: 4px;
-  .header {
+  &__header {
     padding: 16px;
     border-bottom: 1px solid var(--line);
   }
-  .body {
+  &__body {
     padding: 16px;
   }
-  .footer {
+  &__footer {
     border-top: 1px solid var(--line);
     padding: 16px;
   }
