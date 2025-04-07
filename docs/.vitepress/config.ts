@@ -206,7 +206,7 @@ export default defineConfig({
             },
             {
               text: '数量统计柱状图组件',
-              link: '/components/company/CountBar/base.md',
+              link: '/components/company/countBar/base.md',
             },
             {
               text: '使用量圆环组件',

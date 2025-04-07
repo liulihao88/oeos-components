@@ -32,6 +32,7 @@ import {
 
 use([
   PieChart,
+  BarChart,
   CanvasRenderer,
   GridComponent,
   PolarComponent,
