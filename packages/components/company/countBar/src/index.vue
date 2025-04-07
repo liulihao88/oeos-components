@@ -23,8 +23,9 @@
       ">5GB": 0
   },
  */
-import { ref, getCurrentInstance, onMounted, watch } from 'vue'
-import VChart from 'vue-echarts'
+import { ref, getCurrentInstance, onMounted, watch, defineAsyncComponent } from 'vue'
+// import VChart from 'vue-echarts'
+const VChart = defineAsyncComponent(() => import('vue-echarts'))
 import '@/utils/useEcharts.ts'
 import { clone, formatBytes } from '@/utils/index.ts'
 const props = defineProps({

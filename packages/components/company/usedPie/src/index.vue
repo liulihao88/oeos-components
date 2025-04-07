@@ -1,8 +1,10 @@
 <script setup lang="ts" name="OUsedPie">
-import VChart from 'vue-echarts'
+// import {defineAsyncComponent} from 'vue'
+import { ref, getCurrentInstance, onMounted, watch, defineAsyncComponent } from 'vue'
+// import VChart from 'vue-echarts'
+const VChart = defineAsyncComponent(() => import('vue-echarts'))
 import '@/utils/useEcharts.ts'
 
-import { ref, getCurrentInstance, onMounted, watch } from 'vue'
 import { getVariable, clone, isEmpty, formatBytes, formatBytesConvert } from '@/utils'
 
 const props = defineProps({
