@@ -1,5 +1,5 @@
 <script setup lang="ts" name="OUsedPie">
-import VChart from 'vue-echarts'
+const VChart = import.meta.env.SSR ? () => null : () => import('vue-echarts')
 import '@/utils/useEcharts.ts'
 
 import { ref, getCurrentInstance, onMounted, watch } from 'vue'

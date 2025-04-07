@@ -24,7 +24,7 @@
   },
  */
 import { ref, getCurrentInstance, onMounted, watch } from 'vue'
-import VChart from 'vue-echarts'
+const VChart = import.meta.env.SSR ? () => null : () => import('vue-echarts')
 import '@/utils/useEcharts.ts'
 import { clone, formatBytes } from '@/utils/index.ts'
 const props = defineProps({
