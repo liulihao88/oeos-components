@@ -24,7 +24,7 @@
   },
  */
 import { ref, getCurrentInstance, onMounted, watch } from 'vue'
-const VChart = import.meta.env.SSR ? () => null : () => import('vue-echarts')
+import VChart from 'vue-echarts'
 import '@/utils/useEcharts.ts'
 import { clone, formatBytes } from '@/utils/index.ts'
 const props = defineProps({
@@ -167,7 +167,9 @@ watch(
     <o-empty class="h-100%" />
   </template>
   <template v-else>
-    <VChart class="calc-height" :option="option" autoresize />
+    <ClientOnly>
+      <VChart class="calc-height" :option="option" autoresize />
+    </ClientOnly>
   </template>
 </template>
 

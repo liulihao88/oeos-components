@@ -1,5 +1,5 @@
 <script setup lang="ts" name="OUsedPie">
-const VChart = import.meta.env.SSR ? () => null : () => import('vue-echarts')
+import VChart from 'vue-echarts'
 import '@/utils/useEcharts.ts'
 
 import { ref, getCurrentInstance, onMounted, watch } from 'vue'
@@ -145,7 +145,9 @@ function formatter(params) {
 
 <template>
   <div class="box">
-    <VChart class="calc-height" :option="option" autoresize />
+    <ClientOnly>
+      <VChart class="calc-height" :option="option" autoresize />
+    </ClientOnly>
     <div class="f w-100% list-container">
       <div class="list">
         <div>使用量</div>
