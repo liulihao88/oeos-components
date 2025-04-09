@@ -890,20 +890,20 @@ export function toFixed(value, digits = 2, toNumber = false) {
  * 否则返回原始数据
  * proxy.formatBytes(536870912) // 512MB
  */
-export function formatBytes(bytes, { toFixedDigit = 2, thousands = true } = {}) {
+export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
   if (isStringNumber(bytes) || isNumber(bytes)) {
     bytes = Number(bytes)
   } else {
     return bytes
   }
   if (bytes <= 0) {
-    return bytes.toFixed(toFixedDigit) + 'B'
+    return bytes.toFixed(toFixed) + 'B'
   }
 
   const k = 1024
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
-  let res = (bytes / Math.pow(k, i)).toFixed(toFixedDigit) + ' ' + sizes[i]
+  let res = (bytes / Math.pow(k, i)).toFixed(toFixed) + ' ' + sizes[i]
   if (thousands) {
     res = formatThousands(res)
   }
@@ -913,7 +913,7 @@ export function formatBytes(bytes, { toFixedDigit = 2, thousands = true } = {}) 
 //formatBytesConvert('1,234 GB') 1324997410816
 //formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
 
-export function formatBytesConvert(oBytes, { thounsand = false, toFixedDigit = 0 } = {}) {
+export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = {}) {
   if (isStringNumber(oBytes) || isNumber(oBytes) || getType(oBytes) !== 'string') {
     return oBytes
   }
@@ -961,8 +961,8 @@ export function formatBytesConvert(oBytes, { thounsand = false, toFixedDigit = 0
     return
   }
   let finalRes = size * units[unit]
-  if (toFixedDigit) {
-    finalRes = finalRes.toFixed(toFixedDigit)
+  if (toFixed) {
+    finalRes = parseFloat(finalRes.toFixed(toFixed))
   }
   if (thounsand) {
     finalRes = formatThousands(finalRes)

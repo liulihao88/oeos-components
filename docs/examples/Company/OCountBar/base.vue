@@ -11,13 +11,14 @@ const data2 = ref([
   { name: '<2M', value: 3, value2: 444444 },
   { name: '<3M', value: 3, value2: 444444 },
   { name: '<4M', value: 3, value2: 444444 },
-  { name: '<5.22222M', value: 3, value2: 444444 },
+  { name: '<5M', value: 3, value2: 1984444342113 },
 ])
 </script>
 
 <template>
   <div>
     <OCountBar :data="data" style="height: 300px"></OCountBar>
+    <hr />
     <hr />
     <OCountBar :data="data2" style="height: 300px"></OCountBar>
   </div>

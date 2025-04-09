@@ -27,7 +27,7 @@ import { ref, getCurrentInstance, onMounted, watch, defineAsyncComponent } from 
 // import VChart from 'vue-echarts'
 const VChart = defineAsyncComponent(() => import('vue-echarts')) // // 因为直接引入vue-echarts, 使用vitepress打包回报错, 在使用 VitePress 打包时，如果引入的 vue-echarts 中包含对 document 的引用，可能会导致 document is not defined 的错误。这是因为 VitePress 使用了服务器端渲染（SSR），而 document 是浏览器环境中的对象，在服务器端环境中不存在。以下是几种可能的解决
 import '@/utils/useEcharts.ts'
-import { clone, formatBytes } from '@/utils/index.ts'
+import { clone, formatBytes, formatBytesConvert } from '@/utils/index.ts'
 const props = defineProps({
   data: {
     type: Array,
@@ -47,7 +47,7 @@ let initOption = {
   },
   grid: {
     containLabel: true,
-    top: '2%',
+    top: '6%',
     right: '2%',
     bottom: '2%',
     left: '2%',
@@ -93,6 +93,10 @@ let initOption = {
       },
       axisLabel: {
         color: '#8e97ae',
+        formatter: (value) => {
+          let res = formatBytes(value, { toFixed: 2 })
+          return res
+        },
       },
     },
   ],
@@ -118,6 +122,9 @@ let initOption = {
       label: {
         show: true,
         position: 'top',
+        formatter: (params) => {
+          return formatBytes(params.value)
+        },
       },
       itemStyle: {
         borderRadius: 10, // 设置柱子的圆角
@@ -132,10 +139,35 @@ function formatter(params) {
   return `${name}: ${value}\n 占比: (${params.percent}%)`
 }
 
+// 计算y轴的最大值
+function _parseYAxisMax(yData) {
+  let getMax = Math.max(...yData)
+  let toBytes = formatBytes(getMax)
+  console.log(`57 toBytes`, toBytes)
+  let toUpperBytes = roundUpToNearestKB(toBytes)
+  console.log(`22 toUpperBytes`, toUpperBytes)
+  let max = formatBytesConvert(toUpperBytes)
+  console.log(`48 max`, max)
+  initOption.yAxis[1].max = max
+}
+
+function roundUpToNearestKB(bytes) {
+  const regex = /^(\d+(\.\d+)?)\s*([a-zA-Z]+)?$/
+  const match = bytes.match(regex)
+  const number = parseFloat(match[1])
+  const unit = match[3] ? match[3].toUpperCase() : null
+
+  // 向上取整到最近的1000字节的倍数
+  const roundedSizeInBytes = Math.ceil(number / 1000) * 1000
+
+  // 转换回KB
+
+  return roundedSizeInBytes + unit
+}
+
 watch(
   () => props.data,
   (val) => {
-    console.log(`98 val`, val)
     isEmpty.value = val.every((v) => {
       return !v.value
     })
@@ -144,13 +176,13 @@ watch(
     })
     let xData = filterEmptyData.map((v) => v.name)
     let yData = filterEmptyData.map((v) => v.value)
-    console.log(`18 filterEmptyData`, filterEmptyData)
     let y2Data = filterEmptyData.map((v) => v.value2)
     if (xData.length > 4) {
       initOption.xAxis.axisLabel.rotate = 45
     } else {
       initOption.xAxis.axisLabel.rotate = 0
     }
+    // _parseYAxisMax(y2Data)
     initOption.series[0].data = yData
     initOption.series[1].data = y2Data
     initOption.xAxis.data = xData

@@ -1,5 +1,6 @@
 <script setup lang="ts" name="OItem">
 import { ref, getCurrentInstance } from 'vue'
+import { processWidth } from '@/utils'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
   src: {
@@ -15,11 +16,15 @@ const props = defineProps({
     type: [String, Number],
     required: true,
   },
+  width: {
+    type: [String, Number],
+    default: '',
+  },
 })
 </script>
 
 <template>
-  <div class="item-box">
+  <div class="item-box" :style="{ ...processWidth(props.width) }">
     <div class="item-box__img">
       <slot name="img">
         <img :src="props.src" alt="" />

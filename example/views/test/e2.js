@@ -1,22 +1,8 @@
-// 示例用法
-let obj = {
-  3000: true,
-  click: true,
-  scroll: true,
-}
+let bytes = '123.45 kb'
 
-function getValueByNumberKey(obj) {
-  let res = []
-  for (let key in obj) {
-    console.log(`99 key`, key)
-    if (!isNaN(Number(key)) && typeof Number(key) === 'number') {
-      res.push(Number(key))
-    } else {
-      console.log(`55 key`, key);
-      res.push(key)
-    }
-  }
-  return res
-}
+const regex = /^(\d+(\.\d+)?)\s*([a-zA-Z]+)?$/
+const match = bytes.match(regex)
 
-console.log(`getValueByNumberKey(obj)`, getValueByNumberKey(obj))
+const number = parseFloat(match[1])
+const unit = match[3] ? match[3].toUpperCase() : null
+console.log(`32 unit`, unit);
