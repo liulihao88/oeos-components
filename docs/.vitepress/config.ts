@@ -212,6 +212,10 @@ export default defineConfig({
               text: '使用量圆环组件',
               link: '/components/company/usedPie/base.md',
             },
+            {
+              text: 'item组件',
+              link: '/components/company/item/base.md',
+            },
           ],
         },
 

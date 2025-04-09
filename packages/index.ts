@@ -14,6 +14,7 @@ import OSvg from './components/svg'
 
 const componentsGlobal = import.meta.glob('./components/*/index.ts', { eager: true, import: 'default' }) // 引入全局基础组件
 const componentsCompany = import.meta.glob('./components/company/*/index.ts', { eager: true, import: 'default' }) // 引入公司内部组件
+console.log(`08 componentsCompany`, componentsCompany);
 
 const allComponents = {
   ...componentsGlobal,
