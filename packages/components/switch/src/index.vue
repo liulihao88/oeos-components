@@ -8,10 +8,11 @@
 */
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
+
 </script>
 
 <template>
-  <el-switch v-bind="$attrs" class="o-custom-switch" />
+  <el-switch v-bind="$attrs" inline-prompt class="o-custom-switch" />
 </template>
 
 <style lang="scss" scoped>

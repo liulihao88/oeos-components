@@ -38,12 +38,11 @@ const beforeChange = async () => {
     <o-switch v-model="cc"></o-switch>
     <br />
 
-    <o-switch v-model="cc" active-text="这是active的text"></o-switch>
+    <o-switch v-model="cc" active-text="这是active的text" :inline-prompt="false"></o-switch>
     <br />
-    <o-switch v-model="cc" active-text="这是active的text" inactive-text="这是inactive的text"></o-switch>
+    <o-switch v-model="cc" active-text="是" inactive-text="否"></o-switch>
     <br />
 
     <o-switch v-model="dd" :before-change="beforeChange" :loading="loading" active-text="异步"></o-switch>
-    
   </div>
 </template>
