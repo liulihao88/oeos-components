@@ -74,6 +74,7 @@ let initOption = {
           opacity: 0.2,
         },
       },
+      minInterval: 1,
       axisLabel: {
         color: '#8e97ae',
       },
