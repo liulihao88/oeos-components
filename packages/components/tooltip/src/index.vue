@@ -1,14 +1,14 @@
 <template>
-  <el-tooltip class="tooltip" :disabled="handleDisabled" :effect="effect" v-bind="tooltipAttrs">
+  <el-tooltip class="tooltip-box" :disabled="handleDisabled" :effect="effect" v-bind="tooltipAttrs">
     <span
       @click="contentClick"
       v-if="props.showSlot"
-      class="tooltip__text"
+      class="tooltip-box__text"
       :style="{ maxWidth: processWidth(width, true) }"
       @mouseover="onMouseOver"
       v-bind="$attrs"
     >
-      <span ref="contentRef">
+      <span ref="contentRef" class="tooltip-box__content">
         <slot>
           {{ $attrs.content }}
         </slot>
@@ -72,11 +72,14 @@ function contentClick() {
 }
 </script>
 <style lang="scss" scoped>
-.tooltip__text {
+.tooltip-box__text {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: bottom;
+}
+.tooltip-box__content {
+  height: inherit;
 }
 </style>

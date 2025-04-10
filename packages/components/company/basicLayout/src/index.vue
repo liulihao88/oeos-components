@@ -34,6 +34,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  clearBr: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const boxMergedStyle = computed(() => {
@@ -43,6 +47,12 @@ const boxMergedStyle = computed(() => {
     brStyle['border-bottom-left-radius'] = 0
   }
   if (props.clearBrTop) {
+    brStyle['border-top-right-radius'] = 0
+    brStyle['border-top-left-radius'] = 0
+  }
+  if (props.clearBr) {
+    brStyle['border-bottom-right-radius'] = 0
+    brStyle['border-bottom-left-radius'] = 0
     brStyle['border-top-right-radius'] = 0
     brStyle['border-top-left-radius'] = 0
   }

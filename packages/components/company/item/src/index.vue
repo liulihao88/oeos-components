@@ -69,6 +69,7 @@ const props = defineProps({
     }
     .item_box__value {
       font-weight: 700;
+      font-size: 16px;
     }
   }
 }
