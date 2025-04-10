@@ -80,6 +80,6 @@ function contentClick() {
   vertical-align: bottom;
 }
 .tooltip-box__content {
-  height: inherit;
+  // height: inherit;
 }
 </style>
