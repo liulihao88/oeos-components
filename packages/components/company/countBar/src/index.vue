@@ -27,7 +27,7 @@ import { ref, getCurrentInstance, onMounted, watch, defineAsyncComponent } from 
 // import VChart from 'vue-echarts'
 const VChart = defineAsyncComponent(() => import('vue-echarts')) // // 因为直接引入vue-echarts, 使用vitepress打包回报错, 在使用 VitePress 打包时，如果引入的 vue-echarts 中包含对 document 的引用，可能会导致 document is not defined 的错误。这是因为 VitePress 使用了服务器端渲染（SSR），而 document 是浏览器环境中的对象，在服务器端环境中不存在。以下是几种可能的解决
 import '@/utils/useEcharts.ts'
-import { clone, formatBytes, formatBytesConvert } from '@/utils/index.ts'
+import { clone, formatBytes, formatBytesConvert, formatThousands } from '@/utils/index.ts'
 const props = defineProps({
   data: {
     type: Array,
@@ -42,7 +42,7 @@ let initOption = {
     trigger: 'axis', // 设置触发方式为坐标轴
     formatter: (params) => {
       const param = params[0]
-      return `${param.name}: ${param.value}个 <br> 总大小: ${formatBytes(params[1].value)}`
+      return `${param.name}: ${formatThousands(param.value)}个 <br> 总大小: ${formatBytes(params[1].value)}`
     },
   },
   grid: {
@@ -71,12 +71,16 @@ let initOption = {
         lineStyle: {
           type: 'dashed', // 设置分隔线为虚线
           color: '#1b78fc', // 设置分隔线颜色
-          opacity: 0.2,
+          opacity: 0.4,
         },
       },
       minInterval: 1,
       axisLabel: {
         color: '#8e97ae',
+        formatter: (value) => {
+          let res = formatNumberWithChineseAbbreviation(value)
+          return res
+        },
       },
     },
     {
@@ -87,8 +91,8 @@ let initOption = {
       },
       splitLine: {
         lineStyle: {
-          opacity: 0.2,
-          type: 'dashed', // 设置分隔线为虚线
+          opacity: 0.4,
+          // type: 'dashed', // 设置分隔线为虚线
           color: '#30bd82', // 设置分隔线颜色
         },
       },
@@ -109,6 +113,9 @@ let initOption = {
       label: {
         show: true,
         position: 'top',
+        formatter: (params) => {
+          return formatThousands(params.value)
+        },
       },
       itemStyle: {
         borderRadius: 10, // 设置柱子的圆角
@@ -164,6 +171,18 @@ function roundUpToNearestKB(bytes) {
   // 转换回KB
 
   return roundedSizeInBytes + unit
+}
+
+function formatNumberWithChineseAbbreviation(num) {
+  if (num >= 1e12) {
+    return formatThousands(num / 1e12) + '兆'
+  } else if (num >= 1e8) {
+    return formatThousands(num / 1e8) + '亿'
+  } else if (num >= 1e4) {
+    return formatThousands(num / 1e4) + '万'
+  } else {
+    return num.toString()
+  }
 }
 
 watch(
