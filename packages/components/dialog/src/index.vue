@@ -13,9 +13,11 @@
       @close="handleClose"
     >
       <template #header>
-        <slot name="header">
-          <span>{{ title }}</span>
-        </slot>
+        <span class="o-dialog__header">
+          <slot name="header">
+            {{ title }}
+          </slot>
+        </span>
       </template>
       <div :class="$attrs.fullscreen === true || $attrs.fullscreen === '' ? 'dialog_fullscreen ' : 'dialog_slot_box'">
         <slot></slot>
@@ -224,6 +226,13 @@ onBeforeUnmount(() => {
       margin-left: 0px;
       margin-right: 12px;
     }
+  }
+  :deep(.el-dialog__headerbtn) {
+    width: 46px;
+    height: 46px;
+  }
+  .o-dialog__header {
+    font-size: 16px;
   }
 }
 </style>
