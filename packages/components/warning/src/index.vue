@@ -17,7 +17,7 @@ const props = defineProps({
   },
   dangerouslyUseHTMLString: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 })
 
