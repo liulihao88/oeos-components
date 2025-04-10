@@ -197,24 +197,28 @@ export default defineConfig({
           text: '公司内部组件',
           items: [
             {
-              text: '基础布局组件',
+              text: 'basicLayout基础布局组件',
               link: '/components/company/basicLayout/base.md',
             },
             {
-              text: '容量组件',
+              text: 'progress容量组件',
               link: '/components/company/capacityProgress/base.md',
             },
             {
-              text: '数量统计柱状图组件',
+              text: 'countBar数量统计柱状图组件',
               link: '/components/company/countBar/base.md',
             },
             {
-              text: '使用量圆环组件',
+              text: 'usedPie使用量圆环组件',
               link: '/components/company/usedPie/base.md',
             },
             {
-              text: 'item组件',
+              text: 'item列表组件',
               link: '/components/company/item/base.md',
+            },
+            {
+              text: 'itemWrapper包裹列表组件',
+              link: '/components/company/itemWrapper/base.md',
             },
           ],
         },

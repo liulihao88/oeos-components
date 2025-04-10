@@ -5,3 +5,9 @@
 :::demo 
 Company/OItem/base
 :::
+
+## 包裹用法
+
+:::demo
+Company/OItem/wrapper
+:::
