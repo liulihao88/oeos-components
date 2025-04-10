@@ -30,7 +30,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  brTop: {
+  clearBrTop: {
     type: Boolean,
     default: false,
   },
