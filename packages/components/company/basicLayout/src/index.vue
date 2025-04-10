@@ -88,7 +88,6 @@ const headerMergedStyle = computed(() => {
   border: 1px solud var(--line);
   border-radius: 4px;
   display: flex;
-  height: 100%;
   flex-direction: column;
   &__header {
     padding: 16px;
