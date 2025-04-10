@@ -26,6 +26,29 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  clearBrBottom: {
+    type: Boolean,
+    default: false,
+  },
+  brTop: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const boxMergedStyle = computed(() => {
+  let brStyle = {}
+  if (props.clearBrBottom) {
+    brStyle['border-bottom-right-radius'] = 0
+    brStyle['border-bottom-left-radius'] = 0
+  }
+  if (props.clearBrTop) {
+    brStyle['border-top-right-radius'] = 0
+    brStyle['border-top-left-radius'] = 0
+  }
+  return {
+    ...brStyle,
+  }
 })
 
 const headerMergedStyle = computed(() => {
@@ -44,7 +67,7 @@ const headerMergedStyle = computed(() => {
 </script>
 
 <template>
-  <div class="basic-layout-box">
+  <div class="basic-layout-box" :style="boxMergedStyle">
     <div class="basic-layout-box__header" v-if="$slots.header || props.title" :style="headerMergedStyle">
       <slot name="header">
         <o-title :title="props.title" :style="{ ...titleAttrs }"></o-title>
@@ -64,12 +87,16 @@ const headerMergedStyle = computed(() => {
   background: #fff;
   border: 1px solud var(--line);
   border-radius: 4px;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
   &__header {
     padding: 16px;
     border-bottom: 1px solid var(--line);
   }
   &__body {
     padding: 16px;
+    flex: 1;
   }
   &__footer {
     border-top: 1px solid var(--line);

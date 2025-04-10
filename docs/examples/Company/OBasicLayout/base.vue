@@ -31,12 +31,37 @@ const { proxy } = getCurrentInstance()
       </template>
     </OBasicLayout>
 
-    <OBasicLayout title="无border" :border="false" class="mt" >
+    <OBasicLayout title="无border" :border="false" class="mt2">
       我是内部的文件111
       <template #footer>
         <el-button type="primary">测试07</el-button>
         <el-button type="primary">测试07</el-button>
       </template>
     </OBasicLayout>
+
+    <OBasicLayout title="自定义样式" :style="{ 'border-radius': '100px' }" class="mt2">
+      我是内部的文件111
+      <template #footer>
+        <el-button type="primary">测试07</el-button>
+        <el-button type="primary">测试07</el-button>
+      </template>
+    </OBasicLayout>
+    <OBasicLayout title="清除borderRadius样式" clearBrBottom clearBrTop class="mt2">
+      我是内部的文件111
+      <template #footer>
+        <el-button type="primary">测试07</el-button>
+        <el-button type="primary">测试07</el-button>
+      </template>
+    </OBasicLayout>
+
+    <div class="h-400">
+      <OBasicLayout title="自适应body的高度" clearBrBottom clearBrTop class="mt2 ">
+        我是内部的文件111
+        <template #footer>
+          <el-button type="primary">测试07</el-button>
+          <el-button type="primary">测试07</el-button>
+        </template>
+      </OBasicLayout>
+    </div>
   </div>
 </template>
