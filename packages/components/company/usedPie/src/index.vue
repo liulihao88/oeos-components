@@ -147,7 +147,7 @@ function formatter(params) {
 
 <template>
   <div class="vChart-box">
-      <VChart class="calc-height" :option="option" autoresize />
+    <VChart class="calc-height" :option="option" autoresize />
     <div class="f w-100% list-container">
       <div class="list">
         <div>使用量</div>
@@ -183,7 +183,7 @@ function formatter(params) {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    width: calc((100% - 24px) / 2);
+    width: calc((100% - 16px) / 2);
     padding: 8px;
     background-color: #f8f8f8;
     border: 1px dashed #dbdfe9;
