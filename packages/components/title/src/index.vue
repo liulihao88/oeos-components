@@ -102,7 +102,6 @@ const margin = computed(() => {
   position: relative;
   box-sizing: border-box;
   .o-title__top {
-    min-height: 32px;
     display: flex;
     align-items: center;
     color: #323233;

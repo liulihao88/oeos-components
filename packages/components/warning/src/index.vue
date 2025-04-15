@@ -45,7 +45,6 @@ const bindProps = computed(() => {
 .base-box {
   display: flex;
   align-items: baseline;
-  min-height: 32px;
   padding: 8px;
   border: 1px solid #dfca9e;
   border-radius: 12px;
