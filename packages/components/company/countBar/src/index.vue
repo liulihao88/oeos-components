@@ -181,7 +181,7 @@ function formatNumberWithChineseAbbreviation(num) {
   } else if (num >= 1e4) {
     return formatThousands(num / 1e4) + '万'
   } else {
-    return num.toString()
+    return formatThousands(num)
   }
 }
 
