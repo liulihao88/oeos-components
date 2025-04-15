@@ -168,7 +168,7 @@ function formatter(params) {
 }
 
 .calc-height {
-  height: calc(100% - 100px);
+  height: calc(100% - 70px);
   min-height: 100px;
 }
 
