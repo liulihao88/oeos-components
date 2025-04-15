@@ -201,7 +201,7 @@ onBeforeUnmount(() => {
     padding: 16px;
     .dialog_slot_box {
       min-height: 20px;
-      // max-height: calc(100vh - 30vh - 100px);
+      max-height: calc(100vh - 30vh - 92px);
       overflow-y: auto;
     }
     .dialog_fullscreen {
