@@ -8,7 +8,9 @@
         <slot name="icon">
           <img src="./title.svg" width="14" height="14" alt="Logo" class="m-r-4" v-if="props.type === 'icon'" />
         </slot>
-        <span class="title-text">{{ title }}</span>
+        <slot name="title">
+          <span class="title-text">{{ title }}</span>
+        </slot>
         <slot></slot>
       </div>
       <slot name="right"></slot>
