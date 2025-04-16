@@ -28,28 +28,28 @@ const bindProps = computed(() => {
 
 <template>
   <div
-    :class="type === 'icon' ? 'icon-box' : type === 'info' ? 'info-box' : 'warning-box'"
-    class="base-box"
+    :class="type === 'icon' ? 'o-warning__icon' : type === 'info' ? 'o-warning__info' : 'o-warning__box'"
+    class="o-warning"
     :style="{ ...processWidth(props.width) }"
     v-bind="$attrs"
   >
-    <img v-if="type === ''" src="../notic.png" class="icon" />
+    <img v-if="type === ''" src="../notic.png" class="o-warning__img" />
     <o-icon v-else name="warning" :color="'var(--45)'" v-bind="$attrs" class="icon" size="16" />
     <slot name="content">
-      <span class="warning-box__content" :class="type === 'icon' && 'cl-45 fs-14'" v-bind="bindProps" />
+      <span class="o-warning-box__content" :class="type === 'icon' && 'cl-45 fs-14'" v-bind="bindProps" />
     </slot>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.base-box {
+.o-warning {
   display: flex;
   align-items: baseline;
-  padding: 8px;
+  padding: 8px 8px;
   border: 1px solid #dfca9e;
   border-radius: 12px;
 
-  .warning-box__content {
+  .o-warning-box__content {
     margin-left: 4px;
     font-size: 14px;
     font-weight: 400;
@@ -57,17 +57,17 @@ const bindProps = computed(() => {
   }
 }
 
-.warning-box {
+.o-warning__box {
   background: #fffaf4;
   border: 1px solid #dfca9e;
 }
 
-.info-box {
+.o-warning__info {
   background: #f5f6f7;
   border: 1px solid var(--line);
 }
 
-.icon-box {
+.o-warning__icon {
   border: none;
 }
 
@@ -78,7 +78,7 @@ const bindProps = computed(() => {
   border-radius: 4px;
 }
 
-.icon {
+.o-warning__img {
   position: relative;
   top: 2px;
   width: 16px;
