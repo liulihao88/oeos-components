@@ -15,11 +15,6 @@
       "./packages/components.d.ts",
     ]
   },
-  "paths": {
-    "@/*": [
-      "packages/*"
-    ],
-  },
   "include": [
     "packages/**/*.ts",
     "packages/**/*.d.ts",
