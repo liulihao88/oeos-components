@@ -413,6 +413,7 @@ const compEmptyText = computed(() => {
 }
 
 .o-table {
+  box-shadow: none !important;
   .page-wrap {
     box-sizing: border-box;
     display: flex;
@@ -427,6 +428,9 @@ const compEmptyText = computed(() => {
 
   .page-wrap .page-left {
     color: rgb(39 48 75 / 85%);
+  }
+  :deep(.el-table) {
+    box-shadow: none !important;
   }
 
   :deep(.el-table th) {
