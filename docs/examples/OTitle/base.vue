@@ -8,13 +8,14 @@ const { proxy } = getCurrentInstance()
     <o-title title="你好"></o-title>
     <o-title title="显示左侧树杠" type=""></o-title>
     <o-title title="无左侧树杠" type="simple"></o-title>
-    <o-title title="加icon和右侧slot" subTitle="我不服啊" type="simple">
-      我是默认slot
+    <o-title title="我是插是插槽title我是插槽title我是插槽title" subTitle="我不服啊" type="simple">
+      我是默认的s
       <template #icon>
-        <o-icon name="delete" ></o-icon>
+        <o-icon name="delete"></o-icon>
       </template>
       <template #right>
-        <div class="w-600 tr">我是右侧的slot</div>
+        <el-button type="primary">按钮1</el-button>
+        <el-button type="primary">按钮2</el-button>
       </template>
     </o-title>
 

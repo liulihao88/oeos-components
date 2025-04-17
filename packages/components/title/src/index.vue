@@ -5,15 +5,21 @@
         :class="type === 'simple' || type === 'icon' ? 'o-title__top-simple-left' : 'o-title__top-left'"
         :style="{ marginLeft: props.inner ? '8px' : 0 }"
       >
-        <slot name="icon">
-          <img src="./title.svg" width="14" height="14" alt="Logo" class="m-r-4" v-if="props.type === 'icon'" />
-        </slot>
-        <slot name="title">
-          <span class="title-text">{{ title }}</span>
-        </slot>
+        <span :class="($slots.icon || props.type === 'icon') && 'o-title__slot-icon-wrapper'">
+          <slot name="icon" class="icon_slot">
+            <img src="./title.svg" v-if="props.type === 'icon'" width="14" class="d-ib" />
+          </slot>
+        </span>
+        <span class="title-text">
+          <slot name="title">
+            {{ title }}
+          </slot>
+        </span>
         <slot></slot>
       </div>
-      <slot name="right"></slot>
+      <div :class="$slots.right && 'o-title__slot-right-wrapper'">
+        <slot name="right"></slot>
+      </div>
     </div>
     <div class="o-title__subTitle" v-if="subTitle" v-bind="subAttrs">
       {{ subTitle }}
@@ -107,12 +113,24 @@ const margin = computed(() => {
     color: #323233;
     font-size: 16px;
     justify-content: space-between;
+    .o-title__slot-icon-wrapper {
+      margin-right: 4px;
+      width: 14px;
+      height: 14px;
+      display: flex;
+      align-items: center;
+    }
+    .o-title__slot-right-wrapper {
+      text-align: right;
+      display: flex;
+    }
     .o-title__top-left {
       width: 100%;
       align-items: center;
       position: relative;
       box-sizing: border-box;
       display: flex;
+      align-items: center;
       &::before {
         position: absolute;
         content: '';

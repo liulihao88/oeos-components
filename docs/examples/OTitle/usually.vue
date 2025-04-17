@@ -17,7 +17,7 @@ const { proxy } = getCurrentInstance()
 
     <o-title title="icon" type="simple">
       <template #icon>
-        <o-icon name="plus" class="mr" size="10"></o-icon>
+        <o-icon name="plus"></o-icon>
       </template>
     </o-title>
   </div>
