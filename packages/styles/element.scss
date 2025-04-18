@@ -1,3 +1,7 @@
 .el-message {
   z-index: 9999 !important;
 }
+
+.el-select-dropdown__list {
+  min-width: 150px;
+}
