@@ -2,7 +2,7 @@
   <div
     class="o-select"
     :style="{ ...processWidth(props.width) }"
-    :class="{ 'has-title': props.title, 'has-quick': props.showQuick && !parseDisabled && props.options.length > 0 }"
+    :class="{ 'has-title': props.title, 'has-quick': props.showQuick && !parseDisabled && sOptions.length > 0 }"
   >
     <o-comp-title :title="props.title" :size="attrs.size" :titleAttrs="$attrs.titleAttrs ?? {}"></o-comp-title>
     <el-select
@@ -27,10 +27,8 @@
     >
       <template #prefix v-if="props.showPrefix">
         <slot name="prefix">
-          <span v-if="Array.isArray(childSelectedValue)">
-            {{ childSelectedValue.length }}/{{ props.options.length }}
-          </span>
-          <span v-else>{{ props.options.length }}个</span>
+          <span v-if="Array.isArray(childSelectedValue)">{{ childSelectedValue.length }}/{{ sOptions.length }}</span>
+          <span v-else>{{ sOptions.length }}个</span>
         </slot>
       </template>
       <template v-for="(index, name) in noDefaultSlots" v-slot:[name]>
@@ -60,11 +58,7 @@
       </el-option>
     </el-select>
 
-    <div
-      class="o-select__select-box"
-      @click="quickSelect"
-      v-if="showQuick && !parseDisabled && props.options.length > 0"
-    >
+    <div class="o-select__select-box" @click="quickSelect" v-if="showQuick && !parseDisabled && sOptions.length > 0">
       <img :src="Loop" alt="" width="12px" />
     </div>
   </div>
@@ -184,6 +178,12 @@ watch(
   },
 )
 
+const disOptions = computed(() => {
+  return sOptions.value.filter((...rest) => {
+    return !props.optionsDisabled(...rest)
+  })
+})
+
 const selectRef = ref(null)
 
 // vue3 v-model简写
@@ -199,6 +199,10 @@ const childSelectedValue = computed({
     emits('update:modelValue', val)
   },
 })
+const handleDifValue = (item) => {
+  return props.type === 'simple' ? item : item[props.value]
+}
+
 const parseDisabled = computed(() => {
   return attrs.disabled === '' || !!attrs.disabled
 })
@@ -209,27 +213,27 @@ const indeterminate = computed({
     if (!_deval) {
       return false
     }
-    return _deval?.length !== props.options.length && _deval?.length !== 0
+    return _deval?.length !== disOptions.value.length && _deval?.length !== 0
   },
   set(val) {
-    return val?.length !== props.options.length && val?.length !== 0
+    return val?.length !== disOptions.value.length && val?.length !== 0
   },
 })
 // 设置全选
 const selectChecked = computed({
   get() {
     const _deval = props.modelValue
-    return _deval?.length === props.options.length
+    return _deval?.length === disOptions.value.length
   },
   set(val) {
-    return val?.length === props.options.length
+    return val?.length === disOptions.value.length
   },
 })
 // 点击全选
 const selectAll = (val: any) => {
   if (val) {
-    const selectedAllValue = props.options.map((item) => {
-      return item[props.value]
+    const selectedAllValue = disOptions.value.map((item) => {
+      return handleDifValue(item)
     })
     changeMulty(selectedAllValue)
   } else {
@@ -239,11 +243,11 @@ const selectAll = (val: any) => {
 
 // 反选
 const reverseSelect = () => {
-  const noSelectedValue = props.options
+  const noSelectedValue = disOptions.value
     .filter((v) => {
-      return !props.modelValue.includes(v[props.value])
+      return !props.modelValue.includes(handleDifValue(v))
     })
-    .map((v) => v[props.value])
+    .map((v) => handleDifValue(v))
   changeMulty(noSelectedValue)
 }
 
@@ -273,14 +277,14 @@ function handleLabel(item) {
 }
 
 const quickSelect = () => {
-  if (props.options.length === 0 || attrs.disabled === '' || !!attrs.disabled === true) {
+  if (sOptions.value.length === 0 || attrs.disabled === '' || !!attrs.disabled === true) {
     return
   }
   let nextIdx = 0
   if (isEmpty(props.modelValue) || (props.multiple === true && props.modelValue.length > 1)) {
     nextIdx = 0
   } else {
-    let nowIdx = props.options.findIndex((v) => {
+    let nowIdx = sOptions.value.findIndex((v) => {
       if (props.type === 'simple') {
         return v === props.modelValue
       } else if (props.multiple === true) {
@@ -290,17 +294,17 @@ const quickSelect = () => {
       }
     })
     nextIdx = nowIdx + 1
-    if (nextIdx === props.options.length) {
+    if (nextIdx === sOptions.value.length) {
       nextIdx = 0
     }
   }
 
   if (props.type === 'simple') {
-    selectRef.value.$emit('change', props.options[nextIdx])
+    selectRef.value.$emit('change', sOptions.value[nextIdx])
   } else if (props.multiple === true) {
-    selectRef.value.$emit('change', [props.options[nextIdx][props.value]])
+    selectRef.value.$emit('change', [sOptions.value[nextIdx][props.value]])
   } else {
-    selectRef.value.$emit('change', props.options[nextIdx][props.value])
+    selectRef.value.$emit('change', sOptions.value[nextIdx][props.value])
   }
 }
 
