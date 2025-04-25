@@ -49,3 +49,9 @@ OSelect/html
 :::demo
 OSelect/slot
 :::
+
+### disabled, 设置选项不允许选择
+
+:::demo
+OSelect/disabled
+:::
