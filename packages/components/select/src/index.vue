@@ -277,34 +277,31 @@ function handleLabel(item) {
 }
 
 const quickSelect = () => {
-  if (sOptions.value.length === 0 || attrs.disabled === '' || !!attrs.disabled === true) {
+  if (disOptions.value.length === 0 || attrs.disabled === '' || !!attrs.disabled === true) {
     return
   }
   let nextIdx = 0
   if (isEmpty(props.modelValue) || (props.multiple === true && props.modelValue.length > 1)) {
     nextIdx = 0
   } else {
-    let nowIdx = sOptions.value.findIndex((v) => {
-      if (props.type === 'simple') {
-        return v === props.modelValue
-      } else if (props.multiple === true) {
-        return v[props.value] === props.modelValue[0]
+    let nowIdx = disOptions.value.findIndex((v) => {
+      if (props.multiple === true) {
+        return handleDifValue(v) === props.modelValue[0]
       } else {
-        return v[props.value] === props.modelValue
+        return handleDifValue(v) === props.modelValue
       }
     })
     nextIdx = nowIdx + 1
-    if (nextIdx === sOptions.value.length) {
+    if (nextIdx === disOptions.value.length) {
       nextIdx = 0
     }
   }
-
-  if (props.type === 'simple') {
-    selectRef.value.$emit('change', sOptions.value[nextIdx])
-  } else if (props.multiple === true) {
-    selectRef.value.$emit('change', [sOptions.value[nextIdx][props.value]])
+  let getValue = props.type === 'simple' ? disOptions.value[nextIdx] : disOptions.value[nextIdx][props.value]
+  console.log(`81 getValue`, getValue)
+  if (props.multiple === true) {
+    selectRef.value.$emit('change', [getValue])
   } else {
-    selectRef.value.$emit('change', sOptions.value[nextIdx][props.value])
+    selectRef.value.$emit('change', getValue)
   }
 }
 

@@ -5,6 +5,7 @@ const options = ref([
   { label: '张三', value: 'z3' },
   { label: '李四', value: 'l4' },
   { label: '王五', value: 'w5' },
+  { label: '赵六', value: 'z6' },
 ])
 const selectValue = ref([])
 const selectValue2 = ref([])
