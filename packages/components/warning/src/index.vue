@@ -39,6 +39,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  left: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const bindProps = computed(() => {
@@ -54,8 +58,10 @@ const mergedStyle = computed(() => {
   if (props.dotted) {
     obj['border-style'] = 'dotted'
   }
+  if (props.left) {
+    obj.marginLeft = '8px'
+  }
   let res = { ...obj, ...props.customStyle }
-  console.log(`82 res`, res)
   return res
 })
 </script>

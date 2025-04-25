@@ -12,7 +12,7 @@ const htmlContent = `
   <div>
     <o-warning content="这是基础用法"></o-warning>
     <br />
-    <o-warning content="这是基础用法-size为small, 且dotted" size="small" dotted></o-warning>
+    <o-warning content="这是基础用法-size为small, 且dotted" size="small" dotted left></o-warning>
     <br />
     <o-warning
       content="这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法"
