@@ -17,7 +17,7 @@ export default defineConfig({
     }),
     terser({
       compress: {
-        // drop_console: true, // 删除console
+        drop_console: true, // 删除console
       },
     }),
     customVitePluginFilePath(),

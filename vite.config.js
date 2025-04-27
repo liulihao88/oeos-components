@@ -35,7 +35,7 @@ export default defineConfig({
     {
       ...terser({
         compress: {
-          // drop_console: true, // 移除所有console语句
+          drop_console: true, // 移除所有console语句
         },
         format: {
           comments: /^@preserve|@keep/i, // 保留带有@preserve或@keep的注释
