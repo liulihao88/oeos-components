@@ -9,8 +9,9 @@
   :customDisabled="judgeDisabled"
 ></o-checkbox>
 */
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, useAttrs } from 'vue'
 import { isEmpty } from '@/utils'
+const attrs = useAttrs()
 const props = defineProps({
   type: {
     type: String,
@@ -129,6 +130,10 @@ function handleLabel(item, index) {
     return res
   }
 }
+const filteredAttrs = computed(() => {
+  const { label, ...rest } = attrs;
+  return rest;
+});
 </script>
 
 <template>
@@ -143,7 +148,7 @@ function handleLabel(item, index) {
     >
       全选
     </el-checkbox>
-    <el-checkbox-group v-model="props.modelValue" @change="groupChange" v-bind="$attrs">
+    <el-checkbox-group v-model="props.modelValue" @change="groupChange" v-bind="filteredAttrs">
       <slot>
         <component
           :is="checkType"

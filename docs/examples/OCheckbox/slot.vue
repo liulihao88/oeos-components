@@ -19,17 +19,17 @@
   <div>
     <h4>默认插槽(由于默认插槽, 是取的label作为值, 所以无法跟全选联通, 必须将全选隐藏)</h4>
     <o-checkbox v-model="value2" size="small" :showAll="false">
-      <el-checkbox label="上海" />
-      <el-checkbox label="北京" />
-      <el-checkbox label="广州" />
-      <el-checkbox label="深圳" />
+      <el-checkbox label="上海" value="上海" />
+      <el-checkbox label="北京" value="北京" />
+      <el-checkbox label="广州" value="广州" />
+      <el-checkbox label="深圳" value="深圳" />
     </o-checkbox>
     <br />
     <o-checkbox v-model="value2" size="large" :showAll="false">
-      <el-checkbox-button label="上海" />
-      <el-checkbox-button label="北京" />
-      <el-checkbox-button label="广州" />
-      <el-checkbox-button label="深圳" />
+      <el-checkbox-button label="上海" value="上海" />
+      <el-checkbox-button label="北京" value="北京" />
+      <el-checkbox-button label="广州" value="广州" />
+      <el-checkbox-button label="深圳" value="深圳" />
     </o-checkbox>
   </div>
 </template>
