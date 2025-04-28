@@ -30,7 +30,7 @@ function cancel() {
 const props = defineProps({
   title: {
     type: String,
-    default: '删除',
+    default: '确定删除吗?',
   },
   width: {
     type: [String, Number],
@@ -38,7 +38,6 @@ const props = defineProps({
   },
   content: {
     type: String,
-    required: true,
   },
   reConfirm: {
     type: Boolean,
@@ -52,17 +51,17 @@ defineExpose({
 </script>
 
 <template>
-  <div v-if="reConfirm">
+  <div v-if="props.reConfirm">
     <el-popover
       class="o-popconfirm"
-      :title="title"
-      :width="width"
+      :title="props.title"
+      :width="props.width"
       v-bind="$attrs"
       @show="handleShow"
       v-model:visible="isPopoverVisible"
     >
       <slot name="content">
-        <div class="o-popconfirm__content">{{ content }}</div>
+        <div class="o-popconfirm__content">{{ props.content }}</div>
       </slot>
       <div class="o-popconfirm__footer">
         <slot name="footer">

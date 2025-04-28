@@ -27,7 +27,6 @@ const confirm = (op, item) => {
         </div>
       </template>
       <template #footer>自定义底部</template>
-      <!-- <template #label="{ label, value }">自定义标签内容 {{ label }} ?? {{ value }}</template> -->
     </o-select>
   </div>
 </template>

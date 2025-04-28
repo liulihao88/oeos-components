@@ -18,12 +18,15 @@ function isTest65() {
 
 <template>
   <div>
+    <o-popconfirm @confirm="confirm">
+      <el-button type="primary" @click="isTest65">最基础用法</el-button>
+    </o-popconfirm>
+
+    <br />
     <o-popconfirm @confirm="confirm" content="我是删除content">
       <el-button type="primary" @click="isTest65">测试66</el-button>
     </o-popconfirm>
 
-    <br />
-    <br />
     <br />
 
     <o-popconfirm @confirm="confirm" :reConfirm="false">
