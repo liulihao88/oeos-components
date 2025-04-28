@@ -25,11 +25,7 @@ const confirm = async () => {
 }
 
 const passwordType = computed(() => {
-  if (proxy.$dev) {
-    return ''
-  } else {
-    return 'password'
-  }
+  return 'password'
 })
 </script>
 
@@ -49,6 +45,6 @@ const passwordType = computed(() => {
 
     <el-button type="primary" @click="confirm">提交</el-button>
 
-    <g-warning type="icon" content="密码规则: 1-40位字符组合、特殊字符可选" />
+    <o-warning type="icon" content="密码规则: 1-40位字符组合、特殊字符可选" />
   </div>
 </template>
