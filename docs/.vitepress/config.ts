@@ -7,7 +7,7 @@ export default defineConfig({
   base: '/oeos-components/',
   head: [
     ['link', { rel: 'icon', type: 'image/x-icon', href: '/img/logo.svg' }],
-    ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
+    ['meta', { name: 'mobile-web-app-capable', content: 'yes' }],
     [
       'meta',
       {
