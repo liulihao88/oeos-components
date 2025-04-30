@@ -31,7 +31,7 @@ const props = defineProps({
   pageSizes: {
     type: Array,
     default: () => {
-      return [10, 30, 50, 100]
+      return [10, 30, 50]
     },
   },
   total: {
@@ -474,6 +474,9 @@ const compEmptyText = computed(() => {
   }
   :deep(.el-table tr:not(:last-child) td.el-table__cell) {
     border-bottom: none !important;
+  }
+  :deep(.el-pagination .el-select) {
+    width: 100px;
   }
 }
 </style>
