@@ -105,7 +105,7 @@ function parseClass() {
   .o-warning-box__content {
     font-size: 14px;
     font-weight: 400;
-    color: #796551;
+    color: var(--85);
     overflow: auto;
   }
   .o-warning-box__icon {
@@ -140,8 +140,9 @@ function parseClass() {
   border: 1px solid var(--line);
 }
 .o-warning__simple {
-  // background: #f5f6f7;
-  // border: 1px solid var(--line);
+  .o-warning-box__content {
+    color: var(--45);
+  }
   border: unset;
   padding: 0;
 }
