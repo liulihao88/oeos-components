@@ -50,7 +50,7 @@ const props = defineProps({
   display: flex;
   height: 100px;
   align-items: center;
-  font-size: 16px;
+  font-size: 18px;
   justify-content: v-bind('props.src ? "space-between" : "center"');
   .o-item-box__img {
     height: 100%;
