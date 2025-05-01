@@ -197,6 +197,10 @@ export default defineConfig({
           text: '公司内部组件',
           items: [
             {
+              text: 'baseHeader基础头部',
+              link: '/components/company/baseHeader/base.md',
+            },
+            {
               text: 'basicLayout基础布局组件',
               link: '/components/company/basicLayout/base.md',
             },
