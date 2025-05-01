@@ -136,7 +136,6 @@ const parseClass = computed(() => {
     .o-title__form-left {
       padding: 0 0 8px;
       margin: 0 0 16px;
-      font-size: 18px;
       font-weight: 800;
       width: 100%;
       border-bottom: 1px dashed #eaeaea;
@@ -185,7 +184,6 @@ const parseClass = computed(() => {
   .o-title__subTitle {
     font-size: 14px;
     font-weight: 400;
-    font-size: 14px;
     color: #646566;
     letter-spacing: 0;
   }
