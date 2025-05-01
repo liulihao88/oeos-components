@@ -1,10 +1,7 @@
 <template>
   <div class="o-title" :style="{ ...margin }" v-bind="$attrs">
     <div class="o-title__top">
-      <div
-        :class="type === 'simple' || type === 'icon' ? 'o-title__top-simple-left' : 'o-title__top-left'"
-        :style="{ marginLeft: props.inner ? '8px' : 0 }"
-      >
+      <div :class="parseClass" :style="{ marginLeft: props.inner ? '8px' : 0 }">
         <span :class="($slots.icon || props.type === 'icon') && 'o-title__slot-icon-wrapper'">
           <slot name="icon" class="icon_slot">
             <img src="./title.svg" v-if="props.type === 'icon'" width="14" class="d-ib" />
@@ -73,7 +70,7 @@ const props = defineProps({
     type: [String, Number],
   },
   type: {
-    type: String, // simple, icon
+    type: String, // simple, icon, form
     default: 'icon',
   },
 })
@@ -100,6 +97,17 @@ const margin = computed(() => {
     return obj
   }
 })
+
+const parseClass = computed(() => {
+  let type = props.type
+  if (type === 'simple' || type === 'icon') {
+    return 'o-title__top-simple-left'
+  }
+  if (type === 'form') {
+    return 'o-title__form-left'
+  }
+  return 'o-title__top-left'
+})
 // copy成功的提示文案
 </script>
 
@@ -124,32 +132,16 @@ const margin = computed(() => {
       text-align: right;
       display: flex;
     }
-    .o-title__top-left {
+
+    .o-title__form-left {
+      padding: 0 0 8px;
+      margin: 0 0 16px;
+      font-size: 18px;
+      font-weight: 800;
       width: 100%;
-      align-items: center;
-      position: relative;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      &::before {
-        position: absolute;
-        content: '';
-        width: 3px;
-        left: -8px;
-        top: 5px;
-        height: calc(100% - 8px);
-        bottom: 0;
-        letter-spacing: 0;
-        background-color: #5d7af7;
-        background-color: var(--lc, var(--blue)); // 左侧的竖条颜色
-      }
-      .title-text {
-        letter-spacing: 0;
-        font-weight: 600;
-        margin-right: 4px;
-        white-space: nowrap;
-      }
+      border-bottom: 1px dashed #eaeaea;
     }
+
     .o-title__top-simple-left {
       width: 100%;
       align-items: center;
@@ -162,6 +154,32 @@ const margin = computed(() => {
         margin-right: 4px;
         white-space: nowrap;
       }
+    }
+  }
+  .o-title__top-left {
+    width: 100%;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    &::before {
+      position: absolute;
+      content: '';
+      width: 3px;
+      left: -8px;
+      top: 5px;
+      height: calc(100% - 8px);
+      bottom: 0;
+      letter-spacing: 0;
+      background-color: #5d7af7;
+      background-color: var(--lc, var(--blue)); // 左侧的竖条颜色
+    }
+    .title-text {
+      letter-spacing: 0;
+      font-weight: 600;
+      margin-right: 4px;
+      white-space: nowrap;
     }
   }
   .o-title__subTitle {

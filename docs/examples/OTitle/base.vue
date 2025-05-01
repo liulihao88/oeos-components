@@ -8,6 +8,7 @@ const { proxy } = getCurrentInstance()
     <o-title title="你好"></o-title>
     <o-title title="显示左侧树杠" type=""></o-title>
     <o-title title="无左侧树杠" type="simple"></o-title>
+    <o-title title="form表单的类型" type="form"></o-title>
     <o-title title="我是插是插槽title我是插槽title我是插槽title" subTitle="我不服啊" type="simple">
       我是默认的s
       <template #icon>
