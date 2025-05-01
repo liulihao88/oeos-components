@@ -9,7 +9,7 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: 'warning', // info
+    default: 'warning', // info, simple
   },
   width: {
     type: [String, Number],
@@ -64,22 +64,27 @@ const mergedStyle = computed(() => {
   let res = { ...obj, ...props.customStyle }
   return res
 })
+
+function parseClass() {
+  let type = props.type
+  return `o-warning__${type}`
+}
 </script>
 
 <template>
   <div
-    :class="type === 'warning' ? 'o-warning__box' : 'o-warning__info'"
-    class="o-warning"
+    :class="parseClass()"
+    class="o-warning-box"
     :style="{ ...processWidth(props.width), ...mergedStyle }"
     v-bind="$attrs"
   >
-    <img v-if="type === 'warning' && props.icon" src="../notic.png" class="o-warning__img" />
+    <img v-if="type === 'warning' && props.icon" src="../notic.png" class="o-warning-box__img" />
     <o-icon
       v-if="type !== 'warning' && props.icon"
       name="warning"
       :color="'var(--45)'"
       v-bind="iconAttrs"
-      class="o-warning__icon"
+      class="o-warning-box__icon"
       size="16"
     />
 
@@ -90,7 +95,7 @@ const mergedStyle = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-.o-warning {
+.o-warning-box {
   display: flex;
   align-items: baseline;
   padding: 8px 8px;
@@ -103,9 +108,29 @@ const mergedStyle = computed(() => {
     color: #796551;
     overflow: auto;
   }
+  .o-warning-box__icon {
+    position: relative;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
+  .o-warning-box__img {
+    position: relative;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
+  :deep(code) {
+    padding: 2px;
+    background-color: #e4e7eb;
+    border-color: #c3cad2;
+    border-radius: 4px;
+  }
 }
 
-.o-warning__box {
+.o-warning__warning {
   background: #fffaf4;
   border: 1px solid #dfca9e;
 }
@@ -114,27 +139,10 @@ const mergedStyle = computed(() => {
   background: #f5f6f7;
   border: 1px solid var(--line);
 }
-
-.o-warning__icon {
-  position: relative;
-  top: 2px;
-  width: 16px;
-  height: 16px;
-  margin-right: 4px;
-}
-
-:deep(code) {
-  padding: 2px;
-  background-color: #e4e7eb;
-  border-color: #c3cad2;
-  border-radius: 4px;
-}
-
-.o-warning__img {
-  position: relative;
-  top: 2px;
-  width: 16px;
-  height: 16px;
-  margin-right: 4px;
+.o-warning__simple {
+  // background: #f5f6f7;
+  // border: 1px solid var(--line);
+  border: unset;
+  padding: 0;
 }
 </style>
