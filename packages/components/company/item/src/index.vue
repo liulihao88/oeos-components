@@ -25,6 +25,7 @@ const props = defineProps({
 
 <template>
   <div class="o-item-box" :style="{ ...processWidth(props.width) }">
+    <!-- <slot></slot> -->
     <div class="o-item-box__img">
       <slot name="img">
         <img :src="props.src" alt="" />
