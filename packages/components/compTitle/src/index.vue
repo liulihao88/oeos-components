@@ -60,8 +60,8 @@ const sizeStyle = computed(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: var(--el-input-height);
   min-height: 100%;
+  height: var(--el-input-height);
   color: var(--el-color-info);
 }
 .o-comp-title + :deep(.el-input__wrapper) {

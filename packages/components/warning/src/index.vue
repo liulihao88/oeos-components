@@ -9,7 +9,7 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: 'warning', // info, simple
+    default: 'info', // info, simple
   },
   width: {
     type: [String, Number],
