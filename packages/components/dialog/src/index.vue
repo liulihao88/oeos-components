@@ -15,7 +15,12 @@
       <template #header>
         <span class="o-dialog__header">
           <slot name="header">
-            {{ title }}
+            <div class="f-st-ct">
+              <img :src="dialogImg" class="w-16 d-ib m-r-2" />
+              <span>
+                {{ title }}
+              </span>
+            </div>
           </slot>
         </span>
       </template>
@@ -45,6 +50,7 @@
 
 <script setup lang="ts" name="ODialog">
 import { ref, computed, useAttrs, useSlots, watch, onBeforeUnmount, onMounted } from 'vue'
+import dialogImg from '@/assets/images/dialog.png'
 import { getType } from '@/utils/index'
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue'])

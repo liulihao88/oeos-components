@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-import { processWidth } from '../../utils'
-import group_null from '../../assets/images/group_null.png'
+import { processWidth } from '@/utils'
+import group_null from '@/assets/images/group_null.png'
 const loadingText = ref('暂无数据')
 const setLoadingText = (val) => {
   loadingText.value = val
