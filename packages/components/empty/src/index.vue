@@ -1,30 +1,45 @@
 <script setup lang="ts" name="OEmpty">
-import { ref, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance, withDefaults } from 'vue'
 import { processWidth } from '@/utils'
 import group_null from '@/assets/images/group_null.png'
-const props = defineProps({
-  description: {
-    type: String,
-    default: '暂无数据',
+// const props = defineProps({
+//   description: {
+//     type: String,
+//     default: '暂无数据',
+//   },
+//   width: {
+//     type: [String, Number],
+//     default: 60,
+//   },
+//   height: {
+//     type: [String, Number],
+//   },
+//   imgAttrs: {
+//     type: Object,
+//     default: () => {},
+//   },
+//   src: {
+//     type: String,
+//     default: () => {
+//       return group_null
+//     },
+//   },
+// })
+
+const props = withDefaults(
+  defineProps<{
+    description?: string
+    width?: string | number
+    height?: string | number
+    imgAttrs?: Record<string, any>
+    src?: string
+  }>(),
+  {
+    description: '暂无数据',
+    width: 60,
+    src: group_null
   },
-  width: {
-    type: [String, Number],
-    default: 60,
-  },
-  height: {
-    type: [String, Number],
-  },
-  imgAttrs: {
-    type: Object,
-    default: () => {},
-  },
-  src: {
-    type: String,
-    default: () => {
-      return group_null
-    },
-  },
-})
+)
 /** @使用方式
 <o-empty description="您没有消费订单" width="48"></o-empty>
 <o-empty class="w-100%" src="https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg" width="200" ></o-empty>
