@@ -17,12 +17,11 @@ const columns = [
     label: '操作',
     btns: [
       {
-        content: '编辑',
         handler: editRow,
         comp: 'o-icon',
         attrs: {
-          name: 'edit',
-          content: '编辑',
+          name: 'delete',
+          content: '删除',
         },
       },
       {
@@ -35,32 +34,18 @@ const columns = [
         },
       },
       {
-        content: '编辑',
         handler: editRow,
         comp: 'o-icon',
         attrs: {
-          name: 'edit',
-          content: '编辑2',
+          name: 'view',
+          content: '查看',
         },
       },
-      // {
-      //   content: '编辑',
-      //   handler: editRow,
-      //   comp: 'o-icon',
-      //   attrs: {
-      //     name: 'edit',
-      //     content: '编辑3',
-      //   },
-      // },
-      // {
-      //   content: '编辑',
-      //   handler: editRow,
-      //   comp: 'o-icon',
-      //   attrs: {
-      //     name: 'edit',
-      //     content: '编辑4',
-      //   },
-      // },
+      {
+        content: '添加',
+        prop: 'plus',
+        useSlot: true,
+      },
     ],
   },
 ]
@@ -121,6 +106,10 @@ const _handleRowClick = () => {
       height="100%"
       highlight-current-row
       @current-change="handleCurrentChange"
-    />
+    >
+  <template #plus>
+    <el-button icon="plus" type="text">添加</el-button>
+  </template>
+  </o-table>
   </div>
 </template>

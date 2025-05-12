@@ -315,7 +315,7 @@ const compEmptyText = computed(() => {
 
                 <template v-if="v.hideBtns.length > 0">
                   <el-dropdown class="" trigger="click">
-                    <o-icon name="more" />
+                    <o-icon name="more" @click.stop />
                     <template #dropdown>
                       <el-dropdown-menu :hide-on-click="false">
                         <template v-for="(val, idx) in v.hideBtns" :key="idx">
