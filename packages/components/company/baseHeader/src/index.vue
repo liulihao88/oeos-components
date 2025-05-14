@@ -21,6 +21,7 @@ const { proxy } = getCurrentInstance()
   justify-content: space-between;
   margin-bottom: 16px;
   overflow: hidden;
+  width: 100%;
 
   .base-header-box__left {
     display: flex;
