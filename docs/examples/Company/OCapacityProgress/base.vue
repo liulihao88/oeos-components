@@ -2,7 +2,18 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 
+function parseSpace(space) {
+  if (!space) {
+    return '0B'
+  }
+  if (space < 0) {
+    return '?'
+  }
+  return proxy.formatBytes(space ?? 0)
+}
+
 const row = ref({
+  noUsed: -234,
   totalSpace: 11111,
   usedSpace: 2222,
   overUsedSpace: 11333,
@@ -12,13 +23,18 @@ const row = ref({
 <template>
   <div>
     <o-capacity-progress :total="row.totalSpace" :used="row.usedSpace">
-      {{ proxy.formatBytes(row.usedSpace) }} / {{ proxy.formatBytes(row.totalSpace) }}
+
     </o-capacity-progress>
 
-    <hr>
+    <hr />
 
     <o-capacity-progress :total="row.totalSpace" :used="row.overUsedSpace">
-      {{ proxy.formatBytes(row.overUsedSpace) }} / {{ proxy.formatBytes(row.totalSpace) }}
+     
+    </o-capacity-progress>
+
+    <hr />
+    <o-capacity-progress :total="row.totalSpace" :used="row.noUsed">
+ 
     </o-capacity-progress>
   </div>
 </template>

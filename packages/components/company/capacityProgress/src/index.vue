@@ -7,6 +7,7 @@
 
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { sleep, getVariable } from '@/utils/index.ts'
+import { formatBytes } from '@/utils'
 
 const progressBoxRef = ref(null)
 const percentageRef = ref(null)
@@ -19,16 +20,31 @@ const props = defineProps({
     type: [String, Number],
     required: true,
   },
-  iconAttrs: { // 超出容量的显示icon
+  iconAttrs: {
+    // 超出容量的显示icon
     type: Object,
     default: () => {},
   },
 })
 function format() {
+  if (percentage.value < 0) {
+    return '?%'
+  }
   return `${percentage.value}%`
 }
+function parseSpace(space) {
+  if (!space) {
+    return '0B'
+  }
+  if (space < 0) {
+    return '?'
+  }
+  return formatBytes(space ?? 0)
+}
 const percentage = computed(() => {
-  let divideNum = Number((props.used || 0) / (props.total || 0)) * 100 || 0
+  const used = Number(props.used) || 0
+  const total = Number(props.total) || 0
+  let divideNum = (used / total) * 100 || 0
   if (isNaN(divideNum)) {
     return 0
   }
@@ -68,6 +84,7 @@ onUnmounted(() => {
     <o-progress
       ref="progressBoxRef"
       class="progress-box"
+      :class="{ 'prgress-less-zero': Number(used) < 0 }"
       :percentage="percentage"
       type="line"
       :stroke-width="20"
@@ -80,7 +97,7 @@ onUnmounted(() => {
         <div ref="percentageRef" class="f-bt-ct" :style="{ ...adaptiveWidth() }">
           <div class="percentage-value">{{ format() }}</div>
           <div class="">
-            <slot />
+            <slot>{{ parseSpace(props.used) }} / {{ parseSpace(props.total) }}</slot>
           </div>
         </div>
       </template>
@@ -99,5 +116,9 @@ onUnmounted(() => {
 .progress-box :deep(.el-progress-bar__outer) {
   width: 100%;
   background: var(--green);
+}
+.progress-box.prgress-less-zero :deep(.el-progress-bar__outer) {
+  width: 100%;
+  background: #9b9a93;
 }
 </style>
