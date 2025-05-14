@@ -14,9 +14,9 @@ function parseSpace(space) {
 
 const row = ref({
   noUsed: -234,
-  totalSpace: 11111,
-  usedSpace: 2222,
-  overUsedSpace: 11333,
+  totalSpace: 100,
+  usedSpace: 23,
+  overUsedSpace: 200,
 })
 </script>
 

@@ -34,7 +34,7 @@ function format() {
 }
 function parseSpace(space) {
   if (!space) {
-    return '0B'
+    return '0.00B'
   }
   if (space < 0) {
     return '?'
