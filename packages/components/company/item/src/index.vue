@@ -68,6 +68,7 @@ const props = defineProps({
     justify-content: space-between;
     .o-item_box__label {
       color: var(--45);
+      font-size: 17px;
     }
     .o-item_box__value {
       font-weight: 700;
