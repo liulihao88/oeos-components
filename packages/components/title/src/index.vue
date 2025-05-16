@@ -1,7 +1,7 @@
 <template>
   <div class="o-title" :style="{ ...margin }" v-bind="$attrs">
-    <div class="o-title__top">
-      <div :class="parseClass" :style="{ marginLeft: props.inner ? '8px' : 0 }">
+    <div class="o-title__top" :class="parseClass">
+      <div class="f-st-ct" :style="{ marginLeft: props.inner ? '8px' : 0 }">
         <span :class="($slots.icon || props.type === 'icon') && 'o-title__slot-icon-wrapper'">
           <slot name="icon" class="icon_slot">
             <img src="./title.svg" v-if="props.type === 'icon'" width="14" class="d-ib" />
@@ -132,27 +132,27 @@ const parseClass = computed(() => {
       text-align: right;
       display: flex;
     }
+  }
 
-    .o-title__form-left {
-      padding: 0 0 8px;
-      margin: 0 0 16px;
-      font-weight: 800;
-      width: 100%;
-      border-bottom: 1px dashed #eaeaea;
-    }
+  .o-title__form-left {
+    padding: 0 0 8px;
+    margin: 0 0 16px;
+    font-weight: 800;
+    width: 100%;
+    border-bottom: 1px dashed #eaeaea;
+  }
 
-    .o-title__top-simple-left {
-      width: 100%;
-      align-items: center;
-      position: relative;
-      box-sizing: border-box;
-      display: flex;
-      .title-text {
-        letter-spacing: 0;
-        font-weight: 600;
-        margin-right: 4px;
-        white-space: nowrap;
-      }
+  .o-title__top-simple-left {
+    width: 100%;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    .title-text {
+      letter-spacing: 0;
+      font-weight: 600;
+      margin-right: 4px;
+      white-space: nowrap;
     }
   }
   .o-title__top-left {
