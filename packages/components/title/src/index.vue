@@ -1,5 +1,5 @@
 <template>
-  <div class="o-title" :style="{ ...margin }" v-bind="$attrs">
+  <div class="o-title" :style="{ ...margin, height: processWidth(height, true) }" v-bind="$attrs">
     <div class="o-title__top" :class="parseClass">
       <div class="f-st-ct" :style="{ marginLeft: props.inner ? '8px' : 0 }">
         <span :class="($slots.icon || props.type === 'icon') && 'o-title__slot-icon-wrapper'">
@@ -68,6 +68,10 @@ const props = defineProps({
   },
   tb: {
     type: [String, Number],
+  },
+  height: {
+    type: [String, Number],
+    default: '',
   },
   type: {
     type: String, // simple, icon, form
