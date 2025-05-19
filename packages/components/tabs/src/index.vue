@@ -55,5 +55,8 @@ const tabsValue = computed({
   :deep(.el-tabs__item) {
     font-size: 16px;
   }
+  :deep(.el-tabs__nav-wrap:after){
+    height: 1px;
+  }
 }
 </style>

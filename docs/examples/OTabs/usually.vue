@@ -33,7 +33,7 @@ function tabChange(value) {
 
 <style scoped lang="scss">
 :deep(.el-tabs__nav-wrap::after) {
-  height: 0;
+  height: 0 !important;
 }
 :deep(.el-tabs__active-bar) {
   display: none;
