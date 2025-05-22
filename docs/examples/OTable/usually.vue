@@ -47,6 +47,7 @@ const columns = [
       {
         content: '查看',
         type: 'primary',
+        isShowColumn: false,
         handler: handleDetail,
         disabled: (ddd, scope) => {
           return true

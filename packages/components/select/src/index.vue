@@ -31,8 +31,11 @@
           <span v-else>{{ sOptions.length }}个</span>
         </slot>
       </template>
-      <template v-for="(index, name) in noDefaultSlots" v-slot:[name]>
-        <slot :name="name" />
+      <template #label="arg" v-if="$slots.label">
+        <slot name="label" v-bind="arg"></slot>
+      </template>
+      <template v-for="(arg, name, index) in noDefaultSlots" v-slot:[name]>
+        <slot :name="name" v-bind="arg" :index="index" />
       </template>
 
       <div class="po-r" v-if="multiple && props.showAll">
@@ -78,6 +81,7 @@ const slots = useSlots()
 const noDefaultSlots = computed(() => {
   const copySlots = proxy.clone(slots)
   delete copySlots.default
+  delete copySlots.label
   return copySlots
 })
 
