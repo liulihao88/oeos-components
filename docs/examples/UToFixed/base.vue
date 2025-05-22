@@ -8,10 +8,13 @@ let toNumber = proxy.toFixed('22.321321', 2, true)
 
 import { toFixed, getType } from '@/utils/index.ts'
 let arr = [
-  { label: '基本用法', value: 22 },
-  { label: '字符串', value: '22' },
-  { label: '小数点变4位', value: ['22', 4] },
-  { label: '变为数字', value: ['22', 2, true] },
+  { label: '基本用法22', value: 22 },
+  { label: '字符串22', value: '22' },
+  { label: '小数点变4位 22', value: ['22', 4] },
+  { label: '小数点变4位 12.345678', value: [12.345678, 4] },
+  { label: '1.0 TB', value: ['1.0 TB'] },
+  { label: '1.0tb', value: ['1.0tb'] },
+  { label: '0', value: [0] },
 ]
 </script>
 

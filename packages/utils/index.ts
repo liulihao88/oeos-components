@@ -873,16 +873,22 @@ export function processWidth(initValue, isBase = false) {
  * proxy.toFixed('22', 4) -> '22.0000'
  * proxy.toFixed('22', 2, true) -> 22
  */
-export function toFixed(value, digits = 2, toNumber = false) {
-  if (isStringNumber(value) || isNumber(value)) {
-    value = Number(value).toFixed(digits)
-  } else {
-    return value
+export function toFixed(value, digits = 2) {
+  // 提取数字部分、小数点和小数部分
+  let matches = ('' + value).match(/^([\d,]+)(\.?)(\d+)?(\D+)?$/)
+  if (!matches) {
+    return value // 如果没有找到匹配，则返回原始输入
   }
-  if (toNumber) {
-    return Number.parseFloat(value)
+
+  let numericString = matches[1].replace(/\D/g, '') // 仅保留数字
+  let decimalString = matches[3] ? `.${matches[3]}` : '' // 小数部分，如果没有则为空字符串
+  let unit = matches[4] || '' // 单位部分，如果没有则为空字符串
+
+  let res = numericString
+  if (isStringNumber(numericString) || isNumber(numericString)) {
+    res = Number(numericString + decimalString).toFixed(digits)
   }
-  return value
+  return `${res}${unit}`
 }
 
 /**
