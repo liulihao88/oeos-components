@@ -1,5 +1,5 @@
 <script setup lang="ts" name="OItem">
-import { ref, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance, useSlots } from 'vue'
 import { processWidth } from '@/utils'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
@@ -21,23 +21,28 @@ const props = defineProps({
     default: '',
   },
 })
+const slots = useSlots()
+const hasImgSlot = !!slots.img // 判断是否使用了 img 插槽
 </script>
 
 <template>
   <div class="o-item-box" :style="{ ...processWidth(props.width) }">
-    <!-- <slot></slot> -->
     <div class="o-item-box__img">
       <slot name="img">
         <img :src="props.src" alt="" />
       </slot>
     </div>
     <div class="o-item-box__right">
-      <slot name="label">
-        <div class="o-item_box__label">{{ props.label }}</div>
-      </slot>
-      <slot name="value">
-        <div class="o-item_box__value">{{ props.value }}</div>
-      </slot>
+      <div class="o-item_box__label">
+        <slot name="label">
+          {{ props.label }}
+        </slot>
+      </div>
+      <div class="o-item_box__value">
+        <slot name="value">
+          {{ props.value }}
+        </slot>
+      </div>
     </div>
   </div>
 </template>
@@ -52,11 +57,11 @@ const props = defineProps({
   height: 100px;
   align-items: center;
   font-size: 18px;
-  justify-content: v-bind('props.src ? "space-between" : "center"');
+  justify-content: v-bind('props.src || hasImgSlot ? "space-between" : "center"');
   .o-item-box__img {
     height: 100%;
     margin-right: 8px;
-    img {
+    :deep(img) {
       height: 100%;
     }
   }
@@ -69,6 +74,7 @@ const props = defineProps({
     .o-item_box__label {
       color: var(--45);
       font-size: 17px;
+      font-weight: 600;
     }
     .o-item_box__value {
       font-weight: 700;
