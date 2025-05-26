@@ -38,6 +38,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  scroll: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 const boxMergedStyle = computed(() => {
@@ -74,6 +78,14 @@ const headerMergedStyle = computed(() => {
     ...props.headerStyle,
   }
 })
+const scrollStyle = computed(() => {
+  if (props.scroll) {
+    return {
+      overflow: 'auto',
+    }
+  }
+  return {}
+})
 </script>
 
 <template>
@@ -83,7 +95,7 @@ const headerMergedStyle = computed(() => {
         <o-title :title="props.title" :style="{ ...titleAttrs }"></o-title>
       </slot>
     </div>
-    <div class="basic-layout-box__body" :style="bodyStyle">
+    <div class="basic-layout-box__body" :style="{ ...bodyStyle, ...scrollStyle }">
       <slot></slot>
     </div>
     <div class="basic-layout-box__footer" v-if="$slots.footer" :style="footerStyle">
@@ -95,6 +107,7 @@ const headerMergedStyle = computed(() => {
 <style lang="scss" scoped>
 .basic-layout-box {
   background: #fff;
+  overflow: auto;
   border: 1px solud var(--line);
   border-radius: 4px;
   display: flex;
