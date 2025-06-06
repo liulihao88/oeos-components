@@ -657,23 +657,24 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
       return _validValue(rules, rules.message, pureValid, rules.reg)
     }
   }
-}
-function _validValue(rules, msg, pureValid, reg) {
-  if (pureValid === true) {
-    return reg.test(rules)
-  }
-  const validatePhone = (rule, value, callback) => {
-    let validFlag = reg.test(value)
-    if (!validFlag) {
-      callback(new Error(rules.message ?? msg))
-    } else {
-      callback()
+
+  function _validValue(rules, msg, pureValid, reg) {
+    if (pureValid === true) {
+      return reg.test(rules)
     }
-  }
-  return {
-    validator: validatePhone,
-    required: rules.required ?? true,
-    trigger: rules.trigger || ['blur', 'change'],
+    const validatePhone = (rule, value, callback) => {
+      let validFlag = reg.test(value)
+      if (!validFlag) {
+        callback(new Error(rules.message ?? msg))
+      } else {
+        callback()
+      }
+    }
+    return {
+      validator: validatePhone,
+      required: rules.required ?? true,
+      trigger: trigger,
+    }
   }
 }
 

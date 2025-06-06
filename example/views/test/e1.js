@@ -1,16 +1,17 @@
-import { fileURLToPath, URL } from 'node:url'
+520 
+520
+520
+520
+520.99
+500
+520
+520
+1314
+66.66
+188.88 = 1569.54
+3888.88
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [vue(), vueJsx(), vueDevTools()],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-})
+520 * 8 = 4160
+1314 + 66.66 + 188.88 = 1569.54
+4160 + 1569.54 + 3888.88 = 9618.42
