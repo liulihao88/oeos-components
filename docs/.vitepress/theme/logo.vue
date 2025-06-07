@@ -1,5 +1,5 @@
 <template>
-  <div class="po-f r-400">
+  <div class="po-f t-40 r-350">
     版本: ({{ pkgVersion }})
   </div>
   <el-button type="primary" size="small" @click.stop.prevent="toggleSourceVisible" class="prod-toogle" v-if="!isHome">

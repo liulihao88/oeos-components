@@ -51,14 +51,11 @@ export default defineConfig({
       '/components': [
         {
           text: '说明文档',
+          collapsed: true,
           items: [
             {
               text: '安装指南',
               link: '/components/',
-            },
-            {
-              text: '新开发计划',
-              link: '/components/plan/base.md',
             },
             {
               text: '函数库文件',
@@ -89,6 +86,7 @@ export default defineConfig({
         },
         {
           text: 'Basic基础组件',
+          collapsed: false,
           items: [
             {
               text: 'checkbox组件',
@@ -182,6 +180,7 @@ export default defineConfig({
         },
         {
           text: 'Complex复杂组件',
+          collapsed: false,
           items: [
             {
               text: 'form组件',
@@ -195,6 +194,7 @@ export default defineConfig({
         },
         {
           text: '公司内部组件',
+          collapsed: false,
           items: [
             {
               text: 'baseHeader基础头部',
@@ -229,6 +229,7 @@ export default defineConfig({
 
         {
           text: '自定义指令',
+          collapsed: false,
           items: [
             {
               text: 'throttle节流',
