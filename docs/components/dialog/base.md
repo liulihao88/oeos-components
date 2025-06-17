@@ -2,37 +2,37 @@
 
 https://element-plus.org/zh-CN/component/dialog.html
 
-## 基础用法
+### 基础用法
 
 :::demo
 ODialog/base
 :::
 
-## 通常用法
+### 通常用法
 
 :::demo
 ODialog/usually
 :::
 
-## 插槽
+### 插槽
 
 :::demo
 ODialog/slot
 :::
 
-## 全屏
+### 全屏
 
 :::demo
 ODialog/fullscreen
 :::
 
-## 弹框form表单
+### 弹框form表单
 
 :::demo
 ODialog/dialogForm
 :::
 
-## 自动给确认按钮加loading
+### 自动给确认按钮加loading
 
 dialog组件如果把@confirm换成:confirm, 那么子组件会优先处理属性confirm, 如果属性confirm是一个异步请求, 会加载loading
 
@@ -42,13 +42,13 @@ ODialog/confirmLoading
 
 ---
 
-## dialog组件生成的drawer
+### dialog组件生成的drawer
 
 :::demo
 ODialog/drawer
 :::
 
-## 属性
+### 属性
 
 |      属性名       | 说明                                                                                    | 类型     | 默认值 |
 | :---------------: | --------------------------------------------------------------------------------------- | -------- | ------ |
@@ -66,14 +66,14 @@ ODialog/drawer
 | closeOnClickModal | 是否允许点击模态框关闭弹框                                                              | boolean  | true   |
 |      confirm      | 绑定确认按钮的方法, 与方法的区别是, 可以使用属性绑定异步事件而直接让确认按钮加载loading | Function | -      |
 
-## 方法
+### 方法
 
 | 属性名  | 说明           | 类型     |
 | :-----: | -------------- | -------- |
 | cancel  | 取消按钮的方法 | Function |
 | confirm | 确认按钮的方法 | Function |
 
-## Slots
+### Slots
 
 | 插槽名 | 说明                                                   |
 | :----: | ------------------------------------------------------ |

@@ -1,8 +1,10 @@
 # tabs切换组件
 
-https://element-plus.org/zh-CN/component/tabs.html
+[Element Plus Tabs Documentation](https://element-plus.org/zh-CN/component/tabs.html)
 
-## 基础用法
+## Hidden Title {.md-hidden}
+
+### 基础用法
 
 :::demo
 OTabs/base
@@ -14,7 +16,7 @@ OTabs/base
 OTabs/usually
 :::
 
-### slot插槽
+### Slots
 
 :::demo
 OTabs/slot

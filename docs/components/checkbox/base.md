@@ -1,8 +1,10 @@
 # checkbox多选框组件
 
-https://element-plus.org/zh-CN/component/checkbox.html
+[https://element-plus.org/zh-CN/component/checkbox.html](https://element-plus.org/zh-CN/component/checkbox.html)
 
-## 基础用法
+## Hidden Title {.md-hidden}
+
+### 基础用法
 
 :::demo 这是checkbox的最基础用法
 OCheckbox/base
@@ -20,25 +22,25 @@ OCheckbox/usually
 OCheckbox/multyAttrs
 :::
 
-### slot的用法
+### 插槽用法
 
 :::demo
 OCheckbox/slot
 :::
 
-## 属性
+### 属性
 
-|     属性名     | 说明                                | 类型            | 默认值 |
-| :------------: | ----------------------------------- | --------------- | ------ |
-|      type      | options参数的类型, 可以设置为simple | string          | -      |
-|    options     | checkbox的选项                      | object          | {}     |
-|    showType    | 显示的样式                          | string          | check  |
-|     label      | 显示的文本对应的字段                | string          | label  |
-|     value      | 后台的值需要的字段                  | string          | value  |
-|    showAll     | 是否显示全选                        | boolean         | true   |
-|     attrs      | 控制el-checkbox组件的参数           | object          | {}     |
-| customDisabled | 自定义的disabled                    | function        | ()=>{} |
-|  customLabel   | 自定义显示的label                   | function/string | ''     |
+|     属性名     | 说明                                | 类型               | 默认值 |
+| :------------: | ----------------------------------- | ------------------ | ------ |
+|      type      | options参数的类型, 可以设置为simple | string             | -      |
+|    options     | checkbox的选项                      | object             | {}     |
+|    showType    | 显示的样式                          | string             | check  |
+|     label      | 显示的文本对应的字段                | string             | label  |
+|     value      | 后台的值需要的字段                  | string             | value  |
+|    showAll     | 是否显示全选                        | boolean            | true   |
+|     attrs      | 控制el-checkbox组件的参数           | object             | {}     |
+| customDisabled | 自定义的disabled                    | function           | ()=>{} |
+|  customLabel   | 自定义显示的label                   | function/string/'' |        |
 
 ## 方法
 

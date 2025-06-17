@@ -1,8 +1,10 @@
 # popconfirm组件
 
-https://element-plus.org/zh-CN/component/popover.html
+[Element Plus Popover 组件文档](https://element-plus.org/zh-CN/component/popover.html)
 
-## 基础用法
+## Hidden Title {.md-hidden}
+
+### 基础用法
 
 :::demo
 OPopconfirm/base
@@ -14,7 +16,7 @@ OPopconfirm/base
 OPopconfirm/usually
 :::
 
-### 插槽
+### Slots
 
 :::demo
 OPopconfirm/slot

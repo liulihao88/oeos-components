@@ -1,8 +1,10 @@
 # tabs切换组件
 
-https://element-plus.org/zh-CN/component/table.html
+[https://element-plus.org/zh-CN/component/table.html](https://element-plus.org/zh-CN/component/table.html)
 
-## 基础用法
+## Hidden Title {.md-hidden}
+
+### 基础用法
 
 :::demo
 OTable/base

@@ -1,8 +1,10 @@
 # input输入框组件
 
-https://element-plus.org/zh-CN/component/input.html
+[Element Plus 输入框组件文档](https://element-plus.org/zh-CN/component/input.html)
 
-## 基础用法
+## Hidden Title {.md-hidden}
+
+### 基础用法
 
 :::demo
 OInput/base

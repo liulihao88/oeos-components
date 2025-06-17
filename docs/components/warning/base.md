@@ -1,12 +1,14 @@
 # warning警告组件
 
-## 基础用法
+## Hidden Title {.md-hidden}
+
+### 基础用法
 
 :::demo 这是warning的最基础用法
 OWarning/base
 :::
 
-## 属性
+### 属性
 
 |     属性名     | 说明                                | 类型            | 默认值 |
 | :------------: | ----------------------------------- | --------------- | ------ |
@@ -15,7 +17,7 @@ OWarning/base
 |    width     | 宽度                      | String/Number          | 100%     |
 |    dangerouslyUseHTMLString     | 是否将 `content` 作为 HTML 片段处理                      | boolean         | false     |
 
-## Slots
+### Slots
 
 | 插槽名  | 说明             |
 | :-----: | ---------------- |

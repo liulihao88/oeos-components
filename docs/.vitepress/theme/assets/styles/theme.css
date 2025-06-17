@@ -99,3 +99,7 @@ span {
 .vp-doc .custom-block code {
   font-weight: normal;
 }
+
+.md-hidden {
+  display: none;
+}

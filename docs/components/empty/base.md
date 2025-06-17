@@ -2,7 +2,7 @@
 
 https://element-plus.org/zh-CN/component/empty.html
 
-## 基础用法
+### 基础用法
 
 :::demo
 OEmpty/base
@@ -14,7 +14,7 @@ OEmpty/base
 OEmpty/usually
 :::
 
-### 插槽用法
+### Slots
 
 :::demo
 OEmpty/slot
