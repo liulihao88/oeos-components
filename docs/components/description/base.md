@@ -1,6 +1,8 @@
-# dialog(弹出框)组件
+# Description 描述列表
 
-https://element-plus.org/zh-CN/component/description.html
+[Element Plus 描述组件文档](https://element-plus.org/zh-CN/component/description.html)
+
+## Hidden Title {.md-hidden}
 
 ### 基础用法
 
