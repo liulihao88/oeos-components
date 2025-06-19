@@ -1,6 +1,8 @@
 # dialog(弹出框)组件
 
-https://element-plus.org/zh-CN/component/dialog.html
+[https://element-plus.org/zh-CN/component/dialog.html](https://element-plus.org/zh-CN/component/dialog.html)
+
+## Hidden Title {.md-hidden}
 
 ### 基础用法
 
