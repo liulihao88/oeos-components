@@ -1,13 +1,21 @@
 # item列表组件
 
-## 基础用法
+## Hidden Title {.md-hidden}
+
+### 基础用法
 
 :::demo 
 Company/OItem/base
 :::
 
-## 包裹用法
+### 包裹用法
 
 :::demo
 Company/OItem/wrapper
+:::
+
+### 样式
+
+:::demo
+Company/OItem/style
 :::
