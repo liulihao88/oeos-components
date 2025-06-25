@@ -97,6 +97,10 @@ export default defineConfig({
               link: '/components/chooseArea/base.md',
             },
             {
+              text: 'chart图表组件',
+              link: '/components/chart/base.md',
+            },
+            {
               text: '测试组件',
               link: '/components/test/base.md',
             },
