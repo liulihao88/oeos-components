@@ -78,10 +78,6 @@ watch(
   },
 )
 
-onMounted(() => {
-  init()
-})
-
 /**
 * @使用方法
   <div class="f">
