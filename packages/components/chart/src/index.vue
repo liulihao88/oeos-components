@@ -49,16 +49,28 @@ const resizeChart = () => {
     if (myChart) {
       setTimeout(() => {
         myChart.resize()
-        init()
       }, 0)
     }
   }
 }
 
 watch(
-  [() => props.width, () => props.height, () => props.option],
+  [() => props.width, () => props.height],
   (val) => {
     resizeChart()
+  },
+  {
+    deep: true,
+    immediate: true,
+  },
+)
+watch(
+  () => props.option,
+  (val) => {
+    setTimeout(() => {
+      init()
+      resizeChart()
+    }, 0)
   },
   {
     deep: true,
