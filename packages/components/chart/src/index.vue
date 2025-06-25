@@ -49,6 +49,7 @@ const resizeChart = () => {
     if (myChart) {
       setTimeout(() => {
         myChart.resize()
+        init()
       }, 0)
     }
   }
