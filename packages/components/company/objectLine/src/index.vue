@@ -29,7 +29,7 @@ const emits = defineEmits(['dateChange'])
 const data: any = ref([])
 const data2: any = ref([])
 
-const dateRange = ref([new Date(new Date().toLocaleDateString()).getTime(), new Date().getTime()])
+const dateRange = ref([new Date(new Date().toLocaleDateString()).getTime() -86400 * 1000 * 365, new Date().getTime()])
 
 function formatNumberWithChineseAbbreviation(num) {
   if (num >= 1e12) {
@@ -159,16 +159,7 @@ const option = computed(() => {
         stack: 'Total',
         areaStyle: {
           opacity: 1,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(180, 225, 215)',
-            },
-            {
-              offset: 1,
-              color: 'rgb(180, 225, 215)',
-            },
-          ]),
+          color: 'rgb(180, 225, 215)',
         },
         showSymbol: false,
         emphasis: {

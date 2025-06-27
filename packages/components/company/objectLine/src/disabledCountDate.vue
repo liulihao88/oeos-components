@@ -23,7 +23,7 @@ const props = defineProps({
   modelValue: {
     type: [Number, String, Array],
     default: () => {
-      return [new Date().getTime() - 86400 * 1000, new Date().getTime()]
+      return [new Date().getTime() - 86400 * 1000 * 365, new Date().getTime()]
     },
   },
 })
