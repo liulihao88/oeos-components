@@ -20,14 +20,18 @@ const props = defineProps({
     type: [String, Number],
     default: '',
   },
-  labelStyle:{
+  labelStyle: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
-  valueStyle:{
+  valueStyle: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
+  itemStyle: {
+    type: Object,
+    default: () => ({}),
+  },
 })
 const slots = useSlots()
 const hasImgSlot = !!slots.img // 判断是否使用了 img 插槽
@@ -40,7 +44,7 @@ const hasImgSlot = !!slots.img // 判断是否使用了 img 插槽
         <img :src="props.src" alt="" />
       </slot>
     </div>
-    <div class="o-item-box__right" >
+    <div class="o-item-box__right" :style="props.itemStyle">
       <div class="o-item_box__label" :style="props.labelStyle">
         <slot name="label">
           {{ props.label }}

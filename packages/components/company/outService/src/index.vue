@@ -22,22 +22,22 @@ const itemList = computed(() => {
   return [
     {
       label: '服务名称',
-      value: props.details.name,
+      value: props.details?.name,
       img: group1,
     },
     {
       label: '服务状态',
-      value: props.details.status,
+      value: props.details?.status,
       img: group2,
     },
     {
       label: '服务端口',
-      value: props.details.port,
+      value: props.details?.port,
       img: group3,
     },
     {
       label: '节点数量',
-      value: props.details.serveCount,
+      value: props.details?.serveCount,
       img: group4,
     },
   ]
@@ -54,9 +54,9 @@ const itemList = computed(() => {
       </o-title>
     </template>
     <div class="top">
-      <div v-for="(v, i) in itemList" :key="i" class="top-item">
+      <div v-for="(v, i) in itemList" :key="i" class="item">
         <img :src="v.img" class="mr2" width="43" />
-        <div>
+        <div class="item-right">
           <div class="bold tc">{{ v.value }}</div>
           <div class="cl-45 tc">{{ v.label }}</div>
         </div>
@@ -76,8 +76,15 @@ const itemList = computed(() => {
   justify-content: space-between;
   height: 100%;
 
-  .top-item {
+  .item {
     display: flex;
+    .item-right{
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: center;
+      min-width: 100px;
+    }
   }
 }
 
