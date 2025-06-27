@@ -8,7 +8,7 @@ import { formatThousands, notEmpty, formatTime, formatBytes } from '@/utils/inde
 import * as echarts from 'echarts'
 
 defineOptions({
-  name: 'OObjectLine'
+  name: 'OObjectLine',
 })
 
 const { proxy } = getCurrentInstance()
@@ -187,16 +187,7 @@ const option = computed(() => {
         showSymbol: false,
         areaStyle: {
           opacity: 1,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(118, 169, 170)',
-            },
-            {
-              offset: 1,
-              color: 'rgb(118, 169, 170)',
-            },
-          ]),
+          color: proxy.getVariable('--green'),
         },
         emphasis: {
           focus: 'series',

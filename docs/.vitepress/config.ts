@@ -229,6 +229,10 @@ export default defineConfig({
               link: '/components/company/usedPie/base.md',
             },
             {
+              text: 'quotaPie容量圆环组件',
+              link: '/components/company/quotaPie/base.md',
+            },
+            {
               text: 'item列表组件',
               link: '/components/company/item/base.md',
             },
