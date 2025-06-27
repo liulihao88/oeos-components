@@ -158,7 +158,7 @@ const option = computed(() => {
         },
         stack: 'Total',
         areaStyle: {
-          opacity: 0.8,
+          opacity: 1,
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
@@ -186,7 +186,7 @@ const option = computed(() => {
         },
         showSymbol: false,
         areaStyle: {
-          opacity: 0.8,
+          opacity: 1,
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
