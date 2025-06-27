@@ -217,6 +217,10 @@ export default defineConfig({
               link: '/components/company/countBar/base.md',
             },
             {
+              text: 'objectLine对象数量/大小历史',
+              link: '/components/company/objectLine/base.md',
+            },
+            {
               text: 'usedPie使用量圆环组件',
               link: '/components/company/usedPie/base.md',
             },
