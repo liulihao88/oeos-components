@@ -47,7 +47,7 @@ let initOption = {
   },
   grid: {
     containLabel: true,
-    top: '6%',
+    top: '8%',
     right: '2%',
     bottom: '2%',
     left: '2%',
