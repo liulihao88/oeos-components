@@ -45,7 +45,7 @@ const itemList = computed(() => {
 </script>
 
 <template>
-  <oBasicLayout class="h-320">
+  <oBasicLayout class="h-100%">
     <template #header>
       <o-title title="对外服务信息">
         <template #icon>
@@ -78,7 +78,7 @@ const itemList = computed(() => {
 
   .item {
     display: flex;
-    .item-right{
+    .item-right {
       display: flex;
       flex-direction: column;
       justify-content: start;

@@ -225,6 +225,10 @@ export default defineConfig({
               link: '/components/company/outService/base.md',
             },
             {
+              text: 'overviewItem顶部列表',
+              link: '/components/company/overviewItem/base.md',
+            },
+            {
               text: 'usedPie使用量圆环组件',
               link: '/components/company/usedPie/base.md',
             },
