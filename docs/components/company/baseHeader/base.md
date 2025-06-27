@@ -1,7 +1,9 @@
 # 布局组件
 
-## 基础用法
+## Hidden Title {.md-hidden}
 
-:::demo 
+### 基础用法
+
+:::demo
 Company/OBaseHeader/base
 :::

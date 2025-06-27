@@ -221,6 +221,10 @@ export default defineConfig({
               link: '/components/company/objectLine/base.md',
             },
             {
+              text: 'outService对外服务信息',
+              link: '/components/company/outService/base.md',
+            },
+            {
               text: 'usedPie使用量圆环组件',
               link: '/components/company/usedPie/base.md',
             },

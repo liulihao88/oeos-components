@@ -5,5 +5,5 @@
 ### 基础用法
 
 :::demo
-Company/OUsedPie/base
+Company/OOutService/base
 :::
