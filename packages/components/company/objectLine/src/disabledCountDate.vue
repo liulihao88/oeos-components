@@ -1,6 +1,6 @@
 <template>
   <div class="f-st-ct">
-    <el-date-picker
+    <!-- <el-date-picker
       ref="datePickerRef"
       v-model="dateRange"
       type="datetimerange"
@@ -10,7 +10,8 @@
       end-placeholder="结束时间"
       :disabled-date="disabledDate"
       :shortcuts="shortcuts"
-    />
+    /> -->
+    <o-date-range v-model="dateRange" value-format="x"></o-date-range>
   </div>
 </template>
 
