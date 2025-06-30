@@ -22,8 +22,9 @@ const props = defineProps({
   text: {
     type: String,
     required: true,
-  }
+  },
 })
+const isEmpty = ref(false)
 const options = ref()
 
 const seriesData = ref([])
@@ -135,11 +136,14 @@ watch(
   () => [props.used, props.total],
   ([usedNew, totalNew]) => {
     if (usedNew || totalNew) {
+      isEmpty.value = false
       usedNum.value = proxy.formatBytesConvert(usedNew)
       console.log(`43  usedNum.value`, usedNum.value)
       totalNum.value = proxy.formatBytesConvert(totalNew)
       initOptions.series[0].data = [usedNum.value, totalNum.value - usedNum.value]
       options.value = proxy.clone(initOptions)
+    } else {
+      isEmpty.value = true
     }
   },
   {
@@ -150,5 +154,19 @@ watch(
 </script>
 
 <template>
-  <v-chart class="calc-height" :option="options" autoresize />
+  <template v-if="isEmpty">
+    <o-empty class="h-100%" />
+  </template>
+  <template v-else>
+    <div class="vChart-box">
+      <v-chart class="calc-height" :option="options" autoresize />
+    </div>
+  </template>
 </template>
+
+<style lang="scss" scoped>
+.calc-height {
+  height: 100%;
+  min-height: 100px;
+}
+</style>
