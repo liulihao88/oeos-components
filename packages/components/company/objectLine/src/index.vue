@@ -167,14 +167,13 @@ const option = computed(() => {
         type: 'line',
         smooth: true, // Add smooth curve
         lineStyle: {
-          color: '#90EE90', // Light green color
-          width: 0,
+          color: 'rgb(180, 225, 215)', // Light green color
+          width: 1,
         },
         stack: 'Total',
         areaStyle: {
-          opacity: 0.2,
-          // color: 'rgb(180, 225, 215)',
-          color: 'lightblue',
+          opacity: 1,
+          color: 'rgb(180, 225, 215)',
         },
         showSymbol: false,
         emphasis: {
@@ -188,11 +187,12 @@ const option = computed(() => {
         stack: 'Total',
         smooth: true,
         lineStyle: {
-          width: 0,
+          width: 1,
+          color: proxy.getVariable('--green'),
         },
         showSymbol: false,
         areaStyle: {
-          opacity: 0.8,
+          opacity: 1,
           color: proxy.getVariable('--green'),
         },
         emphasis: {
