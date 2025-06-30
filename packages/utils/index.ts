@@ -903,7 +903,7 @@ export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
     return bytes
   }
   if (bytes <= 0) {
-    return bytes.toFixed(toFixed) + 'B'
+    return bytes.toFixed(toFixed) + ' B'
   }
 
   const k = 1024
@@ -920,6 +920,7 @@ export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
 //formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
 
 export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = {}) {
+  debugger
   if (isStringNumber(oBytes) || isNumber(oBytes) || getType(oBytes) !== 'string') {
     return oBytes
   }

@@ -7,7 +7,7 @@ const tenantDetails = {
   tenantQuota: '0.01 TB',
   allocateQuota: '7.99 GB',
   totalSpace: 10995116032,
-  usedSpace: 292110079,
+  usedSpace: '0 BYTE',
   handleTaskCount: 2,
 }
 </script>

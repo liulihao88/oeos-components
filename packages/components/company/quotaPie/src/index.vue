@@ -34,12 +34,12 @@ const totalNum = ref(0)
 const getValue = computed(() => {
   if (props.type === 'used') {
     let percent = ((usedNum.value / totalNum.value) * 100).toFixed(2) + '%'
-    let num = `${proxy.formatBytes(props.used)} / ${proxy.formatBytes(props.total)}`
+    let num = `${proxy.formatBytes(proxy.formatBytesConvert(props.used))} / ${proxy.formatBytes(proxy.formatBytesConvert(props.total))}`
     // let text = '总使用量 / 总可用量'
     return `${percent}\n\n${num}\n\n${props.text}`
   } else if (props.type === 'quota') {
     let percent = ((usedNum.value / totalNum.value) * 100).toFixed(2) + '%'
-    let num = `${props.used} / ${proxy.toFixed(props.total)}`
+    let num = `${proxy.formatBytes(proxy.formatBytesConvert(props.used))} / ${proxy.formatBytes(proxy.formatBytesConvert(props.total))}`
     // let text = '总分配配额 / 租户总配额'
     return `${percent}\n\n${num}\n\n${props.text}`
   }
@@ -136,6 +136,7 @@ watch(
   () => [props.used, props.total],
   ([usedNew, totalNew]) => {
     if (usedNew || totalNew) {
+      console.log(`57 usedNew`, usedNew)
       isEmpty.value = false
       usedNum.value = proxy.formatBytesConvert(usedNew)
       console.log(`43  usedNum.value`, usedNum.value)
