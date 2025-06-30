@@ -29,7 +29,7 @@ const emits = defineEmits(['dateChange'])
 const data: any = ref([])
 const data2: any = ref([])
 
-const dateRange = ref([new Date(new Date().toLocaleDateString()).getTime() -86400 * 1000 * 365, new Date().getTime()])
+const dateRange = ref([new Date(new Date().toLocaleDateString()).getTime() - 86400 * 1000 * 365, new Date().getTime()])
 
 function formatNumberWithChineseAbbreviation(num) {
   if (num >= 1e12) {
@@ -74,15 +74,28 @@ const option = computed(() => {
     tooltip: {
       trigger: 'axis', // 设置触发方式为坐标轴
       formatter: (params) => {
-        return `${params[0].axisValue} <br> 租户: ${data.value?.[0]?.tenant} <br> 数量: ${formatThousands(params[0].data)} <br> 大小: ${formatBytes(params[1].data)}`
+        let res = `${data.value?.[0]?.tenant} <br> ${params[0].axisValue} <br> `
+        params.forEach((v) => {
+          if (v.seriesName === '大小') {
+            res += ` <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${v.color}; margin-right: 5px;"></span>大小: <span class="bold-700">
+              ${formatBytes(v.data)}
+            </span>`
+          }
+          if (v.seriesName === '数量') {
+            res += ` <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${v.color}; margin-right: 5px;"></span>数量: <span class="bold-700">${formatThousands(v.data)}</span> <br> `
+          }
+        })
+
+        return res
       },
     },
+
     dataZoom: [
       {
         show: true,
         realtime: true,
-        start: 30,
-        end: 70,
+        start: 0,
+        end: 100,
         xAxisIndex: [0, 1],
       },
     ],
@@ -94,15 +107,16 @@ const option = computed(() => {
       left: '4%',
     },
     legend: {
-      data: data.value.map((v) => v.tenant),
+      data: ['数量', '大小'],
     },
     xAxis: {
       type: 'category',
       boundaryGap: false,
       data: data.value?.[0]?.timeValue.map((v) => {
         let time = v.time * 1000
-        let timeToStr = formatTime(time)
-        return removeYear(timeToStr)
+        let timeToStr = formatTime(time, '{y}-{m}-{d}')
+        return timeToStr
+        // return removeYear(timeToStr)
       }),
     },
     yAxis: [
@@ -149,7 +163,7 @@ const option = computed(() => {
     ],
     series: [
       {
-        name: data.value[0].tenant,
+        name: '数量',
         type: 'line',
         smooth: true, // Add smooth curve
         lineStyle: {
@@ -158,8 +172,9 @@ const option = computed(() => {
         },
         stack: 'Total',
         areaStyle: {
-          opacity: 1,
-          color: 'rgb(180, 225, 215)',
+          opacity: 0.2,
+          // color: 'rgb(180, 225, 215)',
+          color: 'lightblue',
         },
         showSymbol: false,
         emphasis: {
@@ -168,7 +183,7 @@ const option = computed(() => {
         data: data.value?.[0]?.timeValue.map((v) => Number(v.value)),
       },
       {
-        name: data2.value[0].tenant,
+        name: '大小',
         type: 'line',
         stack: 'Total',
         smooth: true,
@@ -177,7 +192,7 @@ const option = computed(() => {
         },
         showSymbol: false,
         areaStyle: {
-          opacity: 1,
+          opacity: 0.8,
           color: proxy.getVariable('--green'),
         },
         emphasis: {
