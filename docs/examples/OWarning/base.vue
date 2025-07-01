@@ -46,6 +46,7 @@ const htmlContent = `
       <template #content>
         这是自定义content
         <code>哈哈哈</code>
+        <blue>哈哈哈</blue>
       </template>
     </o-warning>
 

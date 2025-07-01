@@ -128,6 +128,9 @@ function parseClass() {
     border-color: #c3cad2;
     border-radius: 4px;
   }
+  :deep(blue) {
+    color: var(--blue);
+  }
 }
 
 .o-warning__warning {
