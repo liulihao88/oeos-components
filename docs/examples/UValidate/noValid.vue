@@ -2,6 +2,7 @@
 import { ref, getCurrentInstance, computed } from 'vue'
 const { proxy } = getCurrentInstance()
 const sameform = ref({})
+const originForm = ref(proxy.clone(sameform))
 const formRef = ref(null)
 
 const rules = computed(() => {
@@ -30,7 +31,7 @@ const passwordType = computed(() => {
 
 <template>
   <div>
-    <el-form ref="formRef" :model="sameform" :rules="rules" label-width="auto">
+    <el-form ref="formRef" :model="sameform" :rules="rules" label-width="auto" :validate-on-rule-change="false">
       <el-form-item label="旧密码" prop="oldPassword">
         <o-input v-model="sameform.oldPassword" :type="passwordType" />
       </el-form-item>
@@ -38,7 +39,7 @@ const passwordType = computed(() => {
         <o-input v-model="sameform.newPwd" :type="passwordType" />
       </el-form-item>
       <el-form-item label="确认新密码" prop="confirmNewPwd">
-        <o-input v-model="sameform.confirmNewPwd" :type="passwordType" />
+        <o-input v-model="sameform.confirmNewPwd" type="password" />
       </el-form-item>
     </el-form>
 

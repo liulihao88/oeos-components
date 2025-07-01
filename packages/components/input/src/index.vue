@@ -217,7 +217,7 @@ function handleShowWordLimit() {
 // 如果是密码输入框, focus直接选中文本
 function focusHandler(evt) {
   if (attrs.type === 'password') {
-    evt.currentTarget.select()
+    evt.target.select()
   }
 }
 function inputOnMouseOver(event) {

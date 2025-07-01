@@ -84,14 +84,7 @@ const validIp = () => {
     </el-form>
 
     <el-button type="primary" @click="submit">提交</el-button>
-
-    <!-- <div class="mt">
-      <o-input v-model="ip" placeholder="普通校验ip" width="200" class="mr" />
-      <span>
-        <el-tag :type="ipValid ? 'success' : 'danger'">
-          {{ ipValid ? 'ip正确' : 'ip有误' }}
-        </el-tag>
-      </span>
-    </div> -->
+    <el-button type="primary" @click="formRef.clearValidate()">清空校验</el-button>
+ 
   </div>
 </template>
