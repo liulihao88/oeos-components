@@ -3,33 +3,24 @@ import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 const cc = ref(false)
 const dd = ref(false)
-const loading = ref(false)
+const randomValue = ref()
 
 async function random() {
   let random = Math.random()
-  console.log(`37 random`, random)
+  randomValue.value = random
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (random < 0.5) {
-        return resolve()
+      if (random >= 0.5) {
+        return resolve(random)
       } else {
-        return reject()
+        return reject('我错了')
       }
-    }, 2000)
+    }, 500)
   })
 }
 
 const beforeChange = async () => {
-  loading.value = true
-  try {
-    await random()
-    return true
-  } catch (e) {
-    console.log(`43 e`, e)
-    return false
-  } finally {
-    loading.value = false
-  }
+  await random()
 }
 </script>
 
@@ -43,6 +34,8 @@ const beforeChange = async () => {
     <o-switch v-model="cc" active-text="是" inactive-text="否"></o-switch>
     <br />
 
-    <o-switch v-model="dd" :before-change="beforeChange" :loading="loading" active-text="异步"></o-switch>
+    <o-title title="异步方法, 自带loading; 大于等于0.5可切换, 否则不可切换"></o-title>
+    <o-switch v-model="dd" :before-change="beforeChange" inactive-text="异步" active-text="异步"></o-switch>
+    {{ randomValue }}
   </div>
 </template>
