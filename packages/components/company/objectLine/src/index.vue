@@ -29,7 +29,7 @@ const emits = defineEmits(['dateChange'])
 const data: any = ref([])
 const data2: any = ref([])
 
-const dateRange = ref([new Date(new Date().toLocaleDateString()).getTime() - 86400 * 1000 * 365, new Date().getTime()])
+const dateRange = ref([new Date().getTime() - 3600 * 1000 * 24 * (7 - 1), new Date().getTime()])
 
 function formatNumberWithChineseAbbreviation(num) {
   if (num >= 1e12) {
@@ -60,13 +60,13 @@ watch([() => props.objectCount, () => props.objectSize], ([val1, val2]) => {
   data2.value = val2
 })
 
-watch(
-  () => dateRange.value,
-  () => {
-    emits('dateChange', dateRange.value)
-  },
-  { immediate: true },
-)
+// watch(
+//   () => dateRange.value,
+//   () => {
+//     emits('dateChange', dateRange.value)
+//   },
+//   { immediate: true },
+// )
 
 const option = computed(() => {
   return {
@@ -90,28 +90,34 @@ const option = computed(() => {
       },
     },
 
-    dataZoom: [
-      {
-        show: true,
-        realtime: true,
-        start: 0,
-        end: 100,
-        xAxisIndex: [0, 1],
-      },
-    ],
+    // dataZoom: [
+    //   {
+    //     show: true,
+    //     realtime: true,
+    //     start: 0,
+    //     end: 100,
+    //     xAxisIndex: [0, 1],
+    //   },
+    // ],
     grid: {
       containLabel: true,
       top: '10%',
       right: '2%',
-      bottom: '18%',
+      bottom: '4%',
       left: '4%',
     },
     legend: {
       data: ['数量', '大小'],
+      right: '10', // 距离右侧 10px
+      top: '', // 距离顶部 10px
+      orient: 'horizontal', // 水平排列（默认）
+      align: 'left', // 文本左对齐
     },
     xAxis: {
       type: 'category',
       boundaryGap: false,
+      showMinLabel: true, // 强制显示第一个
+      showMaxLabel: true, // 强制显示最后一个
       data: data.value?.[0]?.timeValue.map((v) => {
         let time = v.time * 1000
         let timeToStr = formatTime(time, '{y}-{m}-{d}')
@@ -204,15 +210,19 @@ const option = computed(() => {
     ],
   }
 })
+
+defineExpose({
+  dateRange,
+})
 </script>
 
 <template>
   <oBasicLayout class="h-100%">
     <template #header>
       <o-title title="对象数量/大小历史">
-        <template #right>
+        <!-- <template #right>
           <DisabledCountDate v-model="dateRange" style="height: 24px" />
-        </template>
+        </template> -->
       </o-title>
     </template>
     <o-chart v-if="notEmpty(data)" :option="option" height="100%" />
