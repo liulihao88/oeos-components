@@ -7,3 +7,9 @@
 :::demo
 Company/OCapacityProgress/base
 :::
+
+### 在table中使用
+
+:::demo
+Company/OCapacityProgress/table
+:::

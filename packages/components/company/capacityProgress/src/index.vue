@@ -70,6 +70,15 @@ const adaptiveWidth = async () => {
   }
 }
 
+const showRight = computed(() => {
+  // 如果没有 ref 或没有 offsetWidth，默认显示（防止未加载时报错）
+  console.log(`05 progressBoxRef.value?.$el?.offsetWidth`, progressBoxRef.value?.$el?.offsetWidth)
+  if (!progressBoxRef.value?.$el?.offsetWidth) return true
+
+  // 如果宽度 < 200px，隐藏 slot
+  return progressBoxRef.value.$el.offsetWidth > 174 // 这里174, 对应的就是200px
+})
+
 onMounted(() => {
   window.addEventListener('resize', adaptiveWidth)
 })
@@ -95,10 +104,13 @@ onUnmounted(() => {
     >
       <template #default="{ percentage }">
         <div ref="percentageRef" class="f-bt-ct" :style="{ ...adaptiveWidth() }">
-          <div class="percentage-value">{{ format() }}</div>
+          <div class="percentage-value mr">{{ format() }}</div>
           <div class="">
             <slot>
-              <span>{{ parseSpace(props.used) }} / {{ parseSpace(props.total) }}</span>
+              <span v-if="showRight">{{ parseSpace(props.used) }}/{{ parseSpace(props.total) }}</span>
+              <o-tooltip v-else :content="`${format()} ${parseSpace(props.used)}/${parseSpace(props.total)}`">
+                <span style="opacity: 0">??{{ parseSpace(props.used) }}/{{ parseSpace(props.total) }}</span>
+              </o-tooltip>
             </slot>
           </div>
         </div>

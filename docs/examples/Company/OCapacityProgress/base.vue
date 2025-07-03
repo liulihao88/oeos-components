@@ -1,16 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-
-function parseSpace(space) {
-  if (!space) {
-    return '0B'
-  }
-  if (space < 0) {
-    return '?'
-  }
-  return proxy.formatBytes(space ?? 0)
-}
+import { formatBytes } from '@/utils'
 
 const row = ref({
   noUsed: -234,
@@ -18,23 +9,29 @@ const row = ref({
   usedSpace: 23,
   overUsedSpace: 200,
 })
+
+function parseSpace(space) {
+  if (!space) {
+    return '0.00B'
+  }
+  if (space < 0) {
+    return '?'
+  }
+  return formatBytes(space ?? 0)
+}
 </script>
 
 <template>
   <div>
-    <o-capacity-progress :total="row.totalSpace" :used="row.usedSpace">
-
-    </o-capacity-progress>
+    <o-capacity-progress :total="row.totalSpace" :used="row.usedSpace"></o-capacity-progress>
 
     <hr />
 
-    <o-capacity-progress :total="row.totalSpace" :used="row.overUsedSpace">
-     
-    </o-capacity-progress>
+    <o-capacity-progress :total="row.totalSpace" :used="row.overUsedSpace"></o-capacity-progress>
 
     <hr />
     <o-capacity-progress :total="row.totalSpace" :used="row.noUsed">
- 
+      <span>{{ parseSpace(row.noUsed) }} / {{ parseSpace(row.totalSpace) }}</span>
     </o-capacity-progress>
   </div>
 </template>
