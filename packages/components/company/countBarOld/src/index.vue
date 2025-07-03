@@ -1,4 +1,4 @@
-<script setup lang="ts" name="OCountBar">
+<script setup lang="ts" name="OCountBarOld">
 /**
   "inCount": {
       "<1024B": 2,
@@ -40,10 +40,6 @@ const isEmpty = ref(false)
 let initOption = {
   tooltip: {
     trigger: 'axis', // 设置触发方式为坐标轴
-    axisPointer: {
-      // Use axis to trigger tooltip
-      type: 'shadow', // 'shadow' as default; can also be 'line' or 'shadow'
-    },
     formatter: (params) => {
       const param = params[0]
       return `${param.name}: ${formatThousands(param.value)}个 <br> 总大小: ${formatBytes(params[1].value)}`
@@ -56,44 +52,66 @@ let initOption = {
     bottom: '2%',
     left: '2%',
   },
-  xAxis: [
-    {
-      type: 'value',
-      show:false,
-    },
-    {
-      type: 'value',
-      show:false,
-    },
-  ],
-  yAxis: {
+  xAxis: {
     type: 'category',
-    axisLine: {
-      show: false, // 不显示y轴轴线
-    },
-    splitLine: {
-      lineStyle: {
-        type: 'dashed', // 设置分隔线为虚线
-        color: '#1b78fc', // 设置分隔线颜色
-        opacity: 0.4,
-      },
-    },
-    minInterval: 1,
+    data: [],
     axisLabel: {
       color: '#8e97ae',
-      formatter: (value) => {
-        let res = formatNumberWithChineseAbbreviation(value)
-        return res
-      },
+      interval: 0, // 显示所有标签
+      rotate: 0,
     },
   },
+  yAxis: [
+    {
+      type: 'value',
+      axisLine: {
+        show: false, // 不显示y轴轴线
+      },
+      splitLine: {
+        lineStyle: {
+          type: 'dashed', // 设置分隔线为虚线
+          color: '#1b78fc', // 设置分隔线颜色
+          opacity: 0.4,
+        },
+      },
+      minInterval: 1,
+      axisLabel: {
+        color: '#8e97ae',
+        formatter: (value) => {
+          let res = formatNumberWithChineseAbbreviation(value)
+          return res
+        },
+      },
+    },
+    {
+      type: 'value',
+      position: 'right',
+      axisLine: {
+        show: false, // 不显示y轴轴线
+      },
+      splitLine: {
+        lineStyle: {
+          opacity: 0.4,
+          // type: 'dashed', // 设置分隔线为虚线
+          color: '#30bd82', // 设置分隔线颜色
+        },
+      },
+      axisLabel: {
+        color: '#8e97ae',
+        formatter: (value) => {
+          let res = formatBytes(value, { toFixed: 2 })
+          return res
+        },
+      },
+    },
+  ],
   series: [
     {
       data: [],
       type: 'bar',
       barWidth: '20%',
       label: {
-        show: false,
+        show: true,
         position: 'top',
         formatter: (params) => {
           return formatThousands(params.value)
@@ -106,11 +124,11 @@ let initOption = {
     },
     {
       data: [],
-      xAxisIndex: 1,
       type: 'bar',
+      yAxisIndex: 1,
       barWidth: '20%',
       label: {
-        show: false,
+        show: true,
         position: 'top',
         formatter: (params) => {
           return formatBytes(params.value)
@@ -127,6 +145,18 @@ function formatter(params) {
   let res = `${params.name} \n <span class="cl-blue">${params.value}</span>`
   let { value, name } = params.data
   return `${name}: ${value}\n 占比: (${params.percent}%)`
+}
+
+// 计算y轴的最大值
+function _parseYAxisMax(yData) {
+  let getMax = Math.max(...yData)
+  let toBytes = formatBytes(getMax)
+  console.log(`57 toBytes`, toBytes)
+  let toUpperBytes = roundUpToNearestKB(toBytes)
+  console.log(`22 toUpperBytes`, toUpperBytes)
+  let max = formatBytesConvert(toUpperBytes)
+  console.log(`48 max`, max)
+  initOption.yAxis[1].max = max
 }
 
 function roundUpToNearestKB(bytes) {
@@ -164,12 +194,18 @@ watch(
     let filterEmptyData = val.filter((v) => {
       return v.value
     })
-    let yData = filterEmptyData.map((v) => v.name)
-    let xData = filterEmptyData.map((v) => v.value)
-    let x2Data = filterEmptyData.map((v) => v.value2)
-    initOption.series[0].data = xData
-    initOption.series[1].data = x2Data
-    initOption.yAxis.data = yData
+    let xData = filterEmptyData.map((v) => v.name)
+    let yData = filterEmptyData.map((v) => v.value)
+    let y2Data = filterEmptyData.map((v) => v.value2)
+    if (xData.length > 4) {
+      initOption.xAxis.axisLabel.rotate = 45
+    } else {
+      initOption.xAxis.axisLabel.rotate = 0
+    }
+    // _parseYAxisMax(y2Data)
+    initOption.series[0].data = yData
+    initOption.series[1].data = y2Data
+    initOption.xAxis.data = xData
     option.value = clone(initOption)
   },
   {

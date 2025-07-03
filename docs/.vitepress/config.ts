@@ -209,12 +209,16 @@ export default defineConfig({
               link: '/components/company/basicLayout/base.md',
             },
             {
-              text: 'progress容量组件',
+              text: 'capacityProgress容量组件',
               link: '/components/company/capacityProgress/base.md',
             },
             {
               text: 'countBar数量统计柱状图组件',
               link: '/components/company/countBar/base.md',
+            },
+            {
+              text: 'countBarOld数量统计柱状图组件',
+              link: '/components/company/countBarOld/base.md',
             },
             {
               text: 'objectLine对象数量/大小历史',

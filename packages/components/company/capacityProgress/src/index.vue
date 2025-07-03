@@ -97,7 +97,9 @@ onUnmounted(() => {
         <div ref="percentageRef" class="f-bt-ct" :style="{ ...adaptiveWidth() }">
           <div class="percentage-value">{{ format() }}</div>
           <div class="">
-            <slot>{{ parseSpace(props.used) }} / {{ parseSpace(props.total) }}</slot>
+            <slot>
+              <span>{{ parseSpace(props.used) }} / {{ parseSpace(props.total) }}</span>
+            </slot>
           </div>
         </div>
       </template>
