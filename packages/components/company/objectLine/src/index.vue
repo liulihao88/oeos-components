@@ -82,7 +82,7 @@ const option = computed(() => {
       trigger: 'axis', // 设置触发方式为坐标轴
       formatter: (params, ...arr) => {
         let time = data.value[0].timeValue[params[0].dataIndex].time * 1000
-        let parseTime = formatTime(time, '{m}-{d} {h}')
+        let parseTime = formatTime(time, '{m}-{d} {h}:{m}')
         let res = `<span class='bold'>${data.value?.[0]?.tenant}</span> <br> ${parseTime} <br> `
         params.forEach((v) => {
           if (v.seriesName === '大小') {
