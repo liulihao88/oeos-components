@@ -12,6 +12,6 @@ const details = {
 <template>
   <div>
     <div>docs/examples/Company/OOutService/base.vue</div>
-    <OOutService :details="details"></OOutService>
+    <OOutService :details="details" class="h-300"></OOutService>
   </div>
 </template>
