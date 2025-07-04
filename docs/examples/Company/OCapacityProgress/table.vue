@@ -9,16 +9,20 @@ const data = ref([
 ])
 const columns = [
   {
-    label: '宽度大于200',
+    label: '宽度300(大于200)',
     prop: 'cap',
-    width: 300,
+    width: 210,
     useSlot: true,
   },
   {
-    label: '宽度小于等于200',
+    label: '宽度150(小于200)',
     prop: 'cap2',
     useSlot: true,
-    width: 200,
+  },
+  {
+    label: '宽度自适应',
+    prop: 'cap3',
+    useSlot: true,
   },
   {
     key: 'operation',
@@ -56,6 +60,9 @@ function parseSpace(space) {
         <o-capacity-progress :total="row.totalSpace" :used="row.overUsedSpace"></o-capacity-progress>
       </template>
       <template #cap2="{ row }">
+        <o-capacity-progress :total="row.totalSpace" :used="row.overUsedSpace"></o-capacity-progress>
+      </template>
+      <template #cap3="{ row }">
         <o-capacity-progress :total="row.totalSpace" :used="row.overUsedSpace"></o-capacity-progress>
       </template>
     </o-table>

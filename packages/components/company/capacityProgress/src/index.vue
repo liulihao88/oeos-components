@@ -11,6 +11,7 @@ import { formatBytes } from '@/utils'
 
 const progressBoxRef = ref(null)
 const percentageRef = ref(null)
+const showRight = ref(true)
 const props = defineProps({
   total: {
     type: [String, Number],
@@ -61,6 +62,14 @@ function formatColor(value) {
 
 const adaptiveWidth = async () => {
   await sleep()
+  if (!progressBoxRef.value?.$el?.offsetWidth) {
+    showRight.value = true
+  }
+  if (progressBoxRef.value.$el.offsetWidth > 174) {
+    showRight.value = true
+  } else {
+    showRight.value = false
+  }
   if (progressBoxRef.value && progressBoxRef.value?.$el?.offsetWidth) {
     let width = `${progressBoxRef.value.$el.offsetWidth - 16}px`
     percentageRef.value.style.width = width
@@ -70,13 +79,14 @@ const adaptiveWidth = async () => {
   }
 }
 
-const showRight = computed(() => {
-  // 如果没有 ref 或没有 offsetWidth，默认显示（防止未加载时报错）
-  console.log(`05 progressBoxRef.value?.$el?.offsetWidth`, progressBoxRef.value?.$el?.offsetWidth)
-  if (!progressBoxRef.value?.$el?.offsetWidth) return true
 
-  // 如果宽度 < 200px，隐藏 slot
-  return progressBoxRef.value.$el.offsetWidth > 174 // 这里174, 对应的就是200px
+
+const handleTooltip = computed(() => {
+  if (!showRight.value) {
+    return `${format()} ${parseSpace(props.used)}/${parseSpace(props.total)}`
+  } else {
+    return ''
+  }
 })
 
 onMounted(() => {
@@ -103,17 +113,16 @@ onUnmounted(() => {
       v-bind="$attrs"
     >
       <template #default="{ percentage }">
-        <div ref="percentageRef" class="f-bt-ct" :style="{ ...adaptiveWidth() }">
-          <div class="percentage-value mr">{{ format() }}</div>
-          <div class="">
-            <slot>
-              <span v-if="showRight">{{ parseSpace(props.used) }}/{{ parseSpace(props.total) }}</span>
-              <o-tooltip v-else :content="`${format()} ${parseSpace(props.used)}/${parseSpace(props.total)}`">
-                <span style="opacity: 0">{{ parseSpace(props.used) }}/{{ parseSpace(props.total) }}</span>
-              </o-tooltip>
-            </slot>
+        <el-tooltip :content="handleTooltip" :disabled="showRight">
+          <div ref="percentageRef" class="f-bt-ct" :style="{ ...adaptiveWidth() }">
+            <div class="percentage-value mr">{{ format() }}</div>
+            <div class="">
+              <slot>
+                <span v-if="showRight">{{ parseSpace(props.used) }}/{{ parseSpace(props.total) }}</span>
+              </slot>
+            </div>
           </div>
-        </div>
+        </el-tooltip>
       </template>
     </o-progress>
     <o-icon
