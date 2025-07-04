@@ -235,7 +235,7 @@ defineExpose({
 </script>
 
 <template>
-  <oBasicLayout class="h-100%">
+  <oBasicLayout class="h-100%" :bodyStyle="{ padding: 0 }">
     <template #header>
       <o-title title="对象数量/大小历史">
         <!-- <template #right>
