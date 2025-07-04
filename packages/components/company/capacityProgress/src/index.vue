@@ -109,7 +109,7 @@ onUnmounted(() => {
             <slot>
               <span v-if="showRight">{{ parseSpace(props.used) }}/{{ parseSpace(props.total) }}</span>
               <o-tooltip v-else :content="`${format()} ${parseSpace(props.used)}/${parseSpace(props.total)}`">
-                <span style="opacity: 0">??{{ parseSpace(props.used) }}/{{ parseSpace(props.total) }}</span>
+                <span style="opacity: 0">{{ parseSpace(props.used) }}/{{ parseSpace(props.total) }}</span>
               </o-tooltip>
             </slot>
           </div>
