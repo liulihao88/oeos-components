@@ -30,7 +30,10 @@ const color = ['rgb(180, 225, 215)', getVariable('--green')]
 const data: any = ref([])
 const data2: any = ref([])
 
-const dateRange = ref([new Date().getTime() - 3600 * 1000 * 24 * (30 - 1), new Date().getTime()])
+const dateRange = ref([
+  new Date(new Date().toLocaleDateString()).getTime() - 3600 * 1000 * 24 * (30 - 1),
+  new Date().getTime(),
+])
 
 function formatNumberWithChineseAbbreviation(num) {
   if (num >= 1e12) {
