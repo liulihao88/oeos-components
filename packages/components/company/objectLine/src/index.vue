@@ -3,8 +3,7 @@
   时间最小区间是30分钟, 最大区间是2周
 */
 import { ref, getCurrentInstance, computed, watch } from 'vue'
-import DisabledCountDate from './disabledCountDate.vue'
-import { formatThousands, notEmpty, formatTime, formatBytes } from '@/utils/index.ts'
+import { formatThousands, notEmpty, formatTime, formatBytes, formatBytesConvert, getVariable } from '@/utils'
 import * as echarts from 'echarts'
 
 defineOptions({
@@ -12,6 +11,7 @@ defineOptions({
 })
 
 const { proxy } = getCurrentInstance()
+const chartRef = ref(null)
 
 const props = defineProps({
   objectCount: {
@@ -25,11 +25,12 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['dateChange'])
+const color = ['rgb(180, 225, 215)', getVariable('--green')]
 
 const data: any = ref([])
 const data2: any = ref([])
 
-const dateRange = ref([new Date().getTime() - 3600 * 1000 * 24 * (7 - 1), new Date().getTime()])
+const dateRange = ref([new Date().getTime() - 3600 * 1000 * 24 * (30 - 1), new Date().getTime()])
 
 function formatNumberWithChineseAbbreviation(num) {
   if (num >= 1e12) {
@@ -44,37 +45,42 @@ function formatNumberWithChineseAbbreviation(num) {
 }
 
 /**
- * 移除日期字符串中的年份部分
- * @param {string} dateStr - 格式必须为 "YYYY-MM-DD HH:mm:ss"
- * @returns {string} 格式 "MM-DD HH:mm:ss"
+ * 动态四舍五入到最接近的整十/整百
+ * @param {number} value - 原始值
+ * @returns {number} - 四舍五入后的值
  */
-function removeYear(dateStr) {
-  try {
-    return dateStr.replace(/^\d{4}-/, '')
-  } catch (e) {
-    return dateStr
+function ceilToNearest(value) {
+  if (value <= 10) {
+    return Math.ceil(value) // ≤10：四舍五入到个位（1.2 → 2）
+  } else if (value <= 100) {
+    return Math.ceil(value / 10) * 10 // ≤100：四舍五入到十位（96.34 → 100）
+  } else {
+    return Math.ceil(value / 100) * 100 // >100：四舍五入到百位（1234 → 1300）
   }
 }
-watch([() => props.objectCount, () => props.objectSize], ([val1, val2]) => {
-  data.value = val1
-  data2.value = val2
-})
 
-// watch(
-//   () => dateRange.value,
-//   () => {
-//     emits('dateChange', dateRange.value)
-//   },
-//   { immediate: true },
-// )
+const interval = ref(0)
+
+const calcMax = (value) => {
+  // value.max 是自动计算出的最大值
+  let res = formatBytes(value.max)
+  let [num, unit] = res.split(' ')
+  let ceilToNearestNum = ceilToNearest(num)
+  let maxValue = ceilToNearestNum + ' ' + unit
+  let cc = formatBytesConvert(maxValue)
+  interval.value = cc / 5
+  return cc
+}
 
 const option = computed(() => {
   return {
-    color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+    color: [color[0], color[1], '#37A2FF', '#FF0087', '#FFBF00'],
     tooltip: {
       trigger: 'axis', // 设置触发方式为坐标轴
-      formatter: (params) => {
-        let res = `${data.value?.[0]?.tenant} <br> ${params[0].axisValue} <br> `
+      formatter: (params, ...arr) => {
+        let time = data.value[0].timeValue[params[0].dataIndex].time * 1000
+        let parseTime = formatTime(time, '{m}-{d} {h}')
+        let res = `<span class='bold'>${data.value?.[0]?.tenant}</span> <br> ${parseTime} <br> `
         params.forEach((v) => {
           if (v.seriesName === '大小') {
             res += ` <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${v.color}; margin-right: 5px;"></span>大小: <span class="bold-700">
@@ -89,41 +95,43 @@ const option = computed(() => {
         return res
       },
     },
-
-    // dataZoom: [
-    //   {
-    //     show: true,
-    //     realtime: true,
-    //     start: 0,
-    //     end: 100,
-    //     xAxisIndex: [0, 1],
-    //   },
-    // ],
     grid: {
       containLabel: true,
       top: '10%',
-      right: '2%',
+      right: '4%',
       bottom: '4%',
       left: '4%',
     },
     legend: {
       data: ['数量', '大小'],
       right: '10', // 距离右侧 10px
-      top: '', // 距离顶部 10px
       orient: 'horizontal', // 水平排列（默认）
       align: 'left', // 文本左对齐
     },
     xAxis: {
       type: 'category',
-      boundaryGap: false,
-      showMinLabel: true, // 强制显示第一个
-      showMaxLabel: true, // 强制显示最后一个
-      data: data.value?.[0]?.timeValue.map((v) => {
-        let time = v.time * 1000
-        let timeToStr = formatTime(time, '{y}-{m}-{d}')
-        return timeToStr
-        // return removeYear(timeToStr)
-      }),
+      interval: 0,
+      // showMaxLabel: true, // 强制显示最后一个
+      axisLabel: {
+        formatter: (value, index, ...arr) => {
+          let time = data.value?.[0]?.timeValue[index].time * 1000
+          let timeStr = formatTime(time, '{m}-{d}')
+          if (index === 0) {
+            return timeStr
+          }
+          let beforeDateTime = data.value?.[0]?.timeValue.slice(0, index)
+          let repeatTime = beforeDateTime.some((v) => {
+            let nowTime = v.time * 1000
+            let nowTimeStr = formatTime(nowTime, '{m}-{d}')
+            return nowTimeStr === timeStr
+          })
+          if (repeatTime) {
+            return ''
+          }
+          console.log(`09 timeStr`, timeStr)
+          return timeStr
+        },
+      },
     },
     yAxis: [
       {
@@ -138,13 +146,13 @@ const option = computed(() => {
             opacity: 0.4,
           },
         },
-        minInterval: 1,
         axisLabel: {
           color: '#8e97ae',
           formatter: (value) => {
             let res = formatNumberWithChineseAbbreviation(value)
             return res
           },
+          hideOverlap: true, // 自动隐藏重叠标签
         },
       },
       {
@@ -158,6 +166,8 @@ const option = computed(() => {
           },
         },
         minInterval: 1,
+        interval: interval.value,
+        max: calcMax,
         axisLabel: {
           color: '#8e97ae',
           formatter: (value) => {
@@ -173,13 +183,13 @@ const option = computed(() => {
         type: 'line',
         smooth: true, // Add smooth curve
         lineStyle: {
-          color: 'rgb(180, 225, 215)', // Light green color
+          color: color[0], // Light green color
           width: 1,
         },
         stack: 'Total',
         areaStyle: {
           opacity: 1,
-          color: 'rgb(180, 225, 215)',
+          color: color[0],
         },
         showSymbol: false,
         emphasis: {
@@ -194,12 +204,12 @@ const option = computed(() => {
         smooth: true,
         lineStyle: {
           width: 1,
-          color: proxy.getVariable('--green'),
+          color: color[1],
         },
         showSymbol: false,
         areaStyle: {
           opacity: 1,
-          color: proxy.getVariable('--green'),
+          color: color[1],
         },
         emphasis: {
           focus: 'series',
@@ -209,6 +219,11 @@ const option = computed(() => {
       },
     ],
   }
+})
+
+watch([() => props.objectCount, () => props.objectSize], ([val1, val2]) => {
+  data.value = val1
+  data2.value = val2
 })
 
 defineExpose({
@@ -225,7 +240,7 @@ defineExpose({
         </template> -->
       </o-title>
     </template>
-    <o-chart v-if="notEmpty(data)" :option="option" height="100%" />
+    <o-chart v-if="notEmpty(data)" :option="option" height="100%" ref="chartRef" />
     <o-empty v-else class="h-100%" />
   </oBasicLayout>
 </template>

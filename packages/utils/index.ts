@@ -920,7 +920,6 @@ export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
 //formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
 
 export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = {}) {
-  debugger
   if (isStringNumber(oBytes) || isNumber(oBytes) || getType(oBytes) !== 'string') {
     return oBytes
   }
