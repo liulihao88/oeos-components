@@ -1042,13 +1042,16 @@ export function debounce(fn, delay = 1000) {
  */
 export function confirm(message, options) {
   const resolvedMessage = typeof message === 'function' ? message() : message
+  // 关键点：直接访问 Element Plus 内部维护的全局上下文
+  const elContext =
+    ElMessageBox.install?.context || ElMessageBox._context || document.querySelector('#app')?._vue_app?._context
   const mergeOptions = {
-    title: '提示111',
+    title: '提示',
     draggable: true,
     showCancelButton: false,
     confirmButtonText: '确定',
     dangerouslyUseHTMLString: true, // 允许 HTML
-    appContext: ElMessageBox._context, // 使用 Element Plus 的上下文
+    appContext: elContext, // 强制注入 Element Plus 的上下文
     ...options,
   }
   return ElMessageBox.confirm(resolvedMessage, mergeOptions)

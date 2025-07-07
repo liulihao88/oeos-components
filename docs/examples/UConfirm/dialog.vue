@@ -13,17 +13,16 @@ const useComponent = () => {
     message: h(OWarning, {
       dangerouslyUseHTMLString: true,
       content:
-        '对于光存储开启保持原始对象名称后，对象将作为独立文件在光存储介质直接存储。<br>注意：当桶内文件大小普遍较小 <span class="cl-blue">（<100MB）</span> 或过大（>5GB）时不推荐打开此功能！您确定开启此功能吗?',
-      appContext: appContext,
+        '对于光存储开启保持原始对象名称后，对象将作为独立文件在光存储介质直接存储。<br>注意：当桶内文件大小普遍较小 <span class="cl-blue">（<100MB）</span> 或过大（>51GB）时不推荐打开此功能！您确定开启此功能吗?',
     }),
     showCancelButton: true,
     cancelButtonText: '取消',
-    appendTo: '#highSettingsForm',
   })
 }
 </script>
 
 <template>
+   注意: 这里并没解决 icon 丢失的问题. 如果需要将OWarning作为参数传入, 建议使用原生的ElMessageBox.confirm
   <el-button type="primary" @click="isShow = true">使用组件</el-button>
   <o-dialog ref="dialogRef" title="base" v-model="isShow">
     <div class="h-500">
