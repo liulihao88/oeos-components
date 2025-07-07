@@ -4,7 +4,7 @@
   <o-comp-title :title="props.title" :size="attrs.size" :titleAttrs="$attrs.titleAttrs ?? {}"></o-comp-title>
  */
 import { ref, getCurrentInstance, useAttrs, computed } from 'vue'
-const { proxy } = getCurrentInstance()
+import { processWidth } from '@/utils'
 const attrs = useAttrs()
 
 const props = defineProps({
@@ -23,7 +23,7 @@ const computedTitleAttrs = computed(() => {
   if (props.titleAttrs?.width) {
     return {
       ...props.titleAttrs,
-      width: proxy.processWidth(props.titleAttrs?.width, true),
+      width: processWidth(props.titleAttrs?.width, true),
     }
   } else {
     return props.titleAttrs
@@ -35,13 +35,19 @@ const sizeClass = computed(() => {
   return res
 })
 const sizeStyle = computed(() => {
-  let res = { height: !sizeMap.includes(attrs.size) && '32px' }
+  let res = { height: !sizeMap.includes(String(attrs.size)) && '32px' }
   return res
 })
 </script>
 
 <template>
-  <div class="o-comp-title" :class="sizeClass" :style="{...sizeStyle, ...computedTitleAttrs }" v-bind="$attrs" v-if="props.title">
+  <div
+    class="o-comp-title"
+    :class="sizeClass"
+    :style="{ ...sizeStyle, ...computedTitleAttrs }"
+    v-bind="$attrs"
+    v-if="props.title"
+  >
     {{ props.title }}
   </div>
 </template>
