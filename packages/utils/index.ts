@@ -1043,11 +1043,12 @@ export function debounce(fn, delay = 1000) {
 export function confirm(message, options) {
   const resolvedMessage = typeof message === 'function' ? message() : message
   const mergeOptions = {
-    title: '提示',
+    title: '提示111',
     draggable: true,
     showCancelButton: false,
     confirmButtonText: '确定',
     dangerouslyUseHTMLString: true, // 允许 HTML
+    appContext: ElMessageBox._context, // 使用 Element Plus 的上下文
     ...options,
   }
   return ElMessageBox.confirm(resolvedMessage, mergeOptions)
