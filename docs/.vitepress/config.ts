@@ -51,7 +51,7 @@ export default defineConfig({
       '/components': [
         {
           text: '说明文档',
-          collapsed: true,
+          collapsed: false,
           items: [
             {
               text: '安装指南',
@@ -63,6 +63,7 @@ export default defineConfig({
             },
             {
               text: '函数方法',
+              collapsed: false,
               items: [
                 {
                   text: 'validate校验',

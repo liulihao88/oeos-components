@@ -14,23 +14,23 @@ import OSvg from './components/svg'
 
 const componentsGlobal = import.meta.glob('./components/*/index.ts', { eager: true, import: 'default' }) // 引入全局基础组件
 const componentsCompany = import.meta.glob('./components/company/*/index.ts', { eager: true, import: 'default' }) // 引入公司内部组件
-console.log(`08 componentsCompany`, componentsCompany);
 
 const allComponents = {
   ...componentsGlobal,
   ...componentsCompany,
 }
 
-// Create an object to export all components
-const componentsExport = {}
-Object.keys(allComponents).forEach((key) => {
-  const component = allComponents[key]
-  const componentName = component.name || 'o' + component.__name
-  componentsExport[componentName] = component
-})
+
+// 1. 批量导出所有组件（作为命名导出）
+export const components = Object.entries(allComponents).reduce((acc, [key, component]) => {
+  const name = component.name || 'o' + component.__name
+  acc[name] = component
+  return acc
+}, {})
+console.log(`33 components`, components);
 
 // 按需导入
-export { componentsExport, OSvg }
+export { OSvg }
 const install = (app) => {
   Object.keys(allComponents).forEach((key) => {
     let component = allComponents[key]
@@ -67,5 +67,6 @@ export { utils }
 export default {
   // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
   install,
+  ...components,
   utils,
 }
