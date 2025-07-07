@@ -20,14 +20,12 @@ const allComponents = {
   ...componentsCompany,
 }
 
-
 // 1. 批量导出所有组件（作为命名导出）
 export const components = Object.entries(allComponents).reduce((acc, [key, component]) => {
   const name = component.name || 'o' + component.__name
   acc[name] = component
   return acc
 }, {})
-console.log(`33 components`, components);
 
 // 按需导入
 export { OSvg }

@@ -1041,22 +1041,16 @@ export function debounce(fn, delay = 1000) {
  * 如果是多个dialog嵌套, 可以给上层的dom设置个id如highSettingsForm, 然后appendTo: '#highSettingsForm'
  */
 export function confirm(message, options) {
-  const baseOptions = {
+  const resolvedMessage = typeof message === 'function' ? message() : message
+  const mergeOptions = {
     title: '提示',
     draggable: true,
     showCancelButton: false,
     confirmButtonText: '确定',
+    dangerouslyUseHTMLString: true, // 允许 HTML
+    ...options,
   }
-  let mergeOptions = Object.assign({}, baseOptions, options)
-  return new Promise((r, j) => {
-    ElMessageBox.confirm(message, mergeOptions)
-      .then(() => {
-        r()
-      })
-      .catch(() => {
-        j()
-      })
-  })
+  return ElMessageBox.confirm(resolvedMessage, mergeOptions)
 }
 
 /**
