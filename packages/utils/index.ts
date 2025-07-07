@@ -1,4 +1,4 @@
-import { unref, isRef, toRaw } from 'vue'
+import { unref, isRef, toRaw, getCurrentInstance } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { isStringNumber, isNumber } from './types.js'
 import { consola } from 'consola'
@@ -1041,6 +1041,7 @@ export function debounce(fn, delay = 1000) {
  * 如果是多个dialog嵌套, 可以给上层的dom设置个id如highSettingsForm, 然后appendTo: '#highSettingsForm'
  */
 export function confirm(message, options) {
+  const { appContext } = getCurrentInstance() // 获取当前组件实例的上下文
   const resolvedMessage = typeof message === 'function' ? message() : message
   const mergeOptions = {
     title: '提示',
@@ -1048,6 +1049,7 @@ export function confirm(message, options) {
     showCancelButton: false,
     confirmButtonText: '确定',
     dangerouslyUseHTMLString: true, // 允许 HTML
+    appContext, // 关键点：显式传递上下文
     ...options,
   }
   return ElMessageBox.confirm(resolvedMessage, mergeOptions)
