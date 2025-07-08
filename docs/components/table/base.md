@@ -34,6 +34,12 @@ OTable/edit
 OTable/click
 :::
 
+### 表格里嵌套表格
+
+:::demo
+OTable/wrap
+:::
+
 ### render生成html
 
 :::demo
