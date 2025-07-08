@@ -143,12 +143,9 @@ const option = computed(() => {
           show: false, // 不显示y轴轴线
         },
         splitLine: {
-          lineStyle: {
-            type: 'dashed', // 设置分隔线为虚线
-            color: '#1b78fc', // 设置分隔线颜色
-            opacity: 0.4,
-          },
+          show: false,
         },
+        minInterval: 1,
         axisLabel: {
           color: '#8e97ae',
           formatter: (value) => {
@@ -162,11 +159,7 @@ const option = computed(() => {
         type: 'value',
         position: 'right',
         splitLine: {
-          lineStyle: {
-            type: 'dashed', // 设置分隔线为虚线
-            color: '#1b78fc', // 设置分隔线颜色
-            opacity: 0.4,
-          },
+          show: false,
         },
         minInterval: 1,
         interval: interval.value,
@@ -190,6 +183,7 @@ const option = computed(() => {
           width: 1,
         },
         stack: 'Total',
+        
         areaStyle: {
           opacity: 1,
           color: color[0],

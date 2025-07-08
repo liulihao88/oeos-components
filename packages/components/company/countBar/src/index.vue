@@ -59,19 +59,23 @@ let initOption = {
   xAxis: [
     {
       type: 'value',
-      show:false,
+      show: false,
     },
     {
       type: 'value',
-      show:false,
+      show: false,
     },
   ],
   yAxis: {
     type: 'category',
+    axisTick: {
+      show: false, // 隐藏刻度线
+    },
     axisLine: {
-      show: false, // 不显示y轴轴线
+      show: false // 隐藏轴线（可选项）
     },
     splitLine: {
+      show: false,
       lineStyle: {
         type: 'dashed', // 设置分隔线为虚线
         color: '#1b78fc', // 设置分隔线颜色
@@ -162,7 +166,8 @@ watch(
       return !v.value
     })
     let filterEmptyData = val.filter((v) => {
-      return v.value
+      // return v.value
+      return true
     })
     let yData = filterEmptyData.map((v) => v.name)
     let xData = filterEmptyData.map((v) => v.value)

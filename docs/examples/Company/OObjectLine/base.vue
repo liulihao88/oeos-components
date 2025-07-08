@@ -241,7 +241,6 @@ setTimeout(() => {
 
 <template>
   <div>
-    <o-title title="DisabledCountDate"></o-title>
     <OObjectLine :objectCount="objectCount" :objectSize="objectSize" class="h-400"></OObjectLine>
   </div>
 </template>

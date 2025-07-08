@@ -7,3 +7,9 @@
 :::demo
 Company/OObjectLine/base
 :::
+
+### 简单数据
+
+:::demo
+Company/OObjectLine/simple
+:::
