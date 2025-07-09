@@ -116,7 +116,6 @@ const option = computed(() => {
     xAxis: {
       type: 'category',
       interval: 0,
-      // showMaxLabel: true, // 强制显示最后一个
       axisLabel: {
         formatter: (value, index, ...arr) => {
           let time = data.value?.[0]?.timeValue[index].time * 1000
@@ -180,39 +179,38 @@ const option = computed(() => {
       {
         name: '数量',
         type: 'line',
+        stack: 'Total',
         smooth: true, // Add smooth curve
+        showSymbol: false,
         lineStyle: {
           color: color[0], // Light green color
           width: 1,
         },
-        stack: 'Total',
-
         areaStyle: {
           color: color[0],
         },
-        showSymbol: false,
         emphasis: {
           focus: 'series',
         },
         data: data.value?.[0]?.timeValue.map((v) => Number(v.value)),
       },
       {
+        yAxisIndex: 1,
         name: '大小',
         type: 'line',
         stack: 'Total',
         smooth: true,
+        showSymbol: false,
         lineStyle: {
           width: 1,
           color: color[1],
         },
-        showSymbol: false,
         areaStyle: {
           color: color[1],
         },
         emphasis: {
           focus: 'series',
         },
-        yAxisIndex: 1,
         data: data2.value?.[0]?.timeValue.map((v) => Number(v.value)),
       },
     ],
