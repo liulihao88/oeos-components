@@ -98,11 +98,19 @@ const columns = [
       <el-table-column type="expand">
         <template #default="props">
           <div class="inner-table">
-            <o-table :data="props.row.family" :columns="columns2" :showIndex="false" :showPage="false">
-              <!-- <el-table-column label="Name" prop="name" />
-                <el-table-column label="State" prop="state" />
-                <el-table-column label="City" prop="city" />
-                <el-table-column label="Address" prop="address" /> -->
+            <o-table
+              :data="props.row.family"
+              :columns="columns2"
+              :showIndex="false"
+              :showPage="false"
+              :custom-header-cell-style="{
+                height: '40px !important',
+              }"
+            >
+              <el-table-column label="Name" prop="name" />
+              <el-table-column label="State" prop="state" />
+              <el-table-column label="City" prop="city" />
+              <el-table-column label="Address" prop="address" />
             </o-table>
           </div>
         </template>

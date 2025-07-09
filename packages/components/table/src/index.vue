@@ -224,7 +224,7 @@ const compEmptyText = computed(() => {
         color: 'rgba(39,48,75,0.85)',
         height: '50px',
         textAlign: 'center',
-        ...($attrs['header-cell-style'] || {}),
+        ...($attrs['custom-header-cell-style'] || {}),
       }"
       :empty-text="compEmptyText"
       v-bind="{
