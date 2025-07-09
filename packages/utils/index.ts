@@ -33,6 +33,7 @@ import { consola } from 'consola'
  * debounce(fn, delay = 1000)
  * confirm(message, options)
  * formatNewLines(str)
+ * getVariable('--green')
  */
 
 /**

@@ -25,7 +25,9 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['dateChange'])
-const color = ['rgb(180, 225, 215)', getVariable('--green')]
+// const color = ['rgba(180, 225, 215, .3)', 'rgba(255,0,0, .3)']
+const color = ['rgba(180, 225, 215, .9)', 'rgba(48, 189, 130, .9)']
+// const color = ['rgba(180, 225, 215, 0.5)', getVariable('--green')]
 
 const data: any = ref([])
 const data2: any = ref([])
@@ -82,16 +84,16 @@ const option = computed(() => {
       trigger: 'axis', // 设置触发方式为坐标轴
       formatter: (params, ...arr) => {
         let time = data.value[0].timeValue[params[0].dataIndex].time * 1000
-        let parseTime = formatTime(time, '{m}-{d} {h}:{m}')
-        let res = `<span class='bold'>${data.value?.[0]?.tenant}</span> <br> ${parseTime} <br> `
+        let parseTime = formatTime(time, '{y}-{m}-{d} {h}:{m}')
+        let res = ` ${parseTime} <br> `
         params.forEach((v) => {
+          if (v.seriesName === '数量') {
+            res += `数量: <span class="bold-700">${formatThousands(v.data)}</span> <br> `
+          }
           if (v.seriesName === '大小') {
-            res += ` <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${v.color}; margin-right: 5px;"></span>大小: <span class="bold-700">
+            res += `大小: <span class="bold-700">
               ${formatBytes(v.data)}
             </span>`
-          }
-          if (v.seriesName === '数量') {
-            res += ` <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${v.color}; margin-right: 5px;"></span>数量: <span class="bold-700">${formatThousands(v.data)}</span> <br> `
           }
         })
 
@@ -173,6 +175,7 @@ const option = computed(() => {
         },
       },
     ],
+    blendMode: 'lighter',
     series: [
       {
         name: '数量',
@@ -183,9 +186,8 @@ const option = computed(() => {
           width: 1,
         },
         stack: 'Total',
-        
+
         areaStyle: {
-          opacity: 1,
           color: color[0],
         },
         showSymbol: false,
@@ -205,7 +207,6 @@ const option = computed(() => {
         },
         showSymbol: false,
         areaStyle: {
-          opacity: 1,
           color: color[1],
         },
         emphasis: {
