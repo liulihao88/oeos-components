@@ -104,7 +104,7 @@ const columns = [
               :showIndex="false"
               :showPage="false"
               :custom-header-cell-style="{
-                height: '40px !important',
+                height: 'unset',
               }"
             >
               <el-table-column label="Name" prop="name" />
