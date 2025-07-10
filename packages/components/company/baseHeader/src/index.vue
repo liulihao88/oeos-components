@@ -20,7 +20,7 @@ const { proxy } = getCurrentInstance()
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
-  overflow: hidden;
+  overflow: auto;
   width: 100%;
 
   .base-header-box__left {
