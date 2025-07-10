@@ -25,8 +25,8 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['dateChange'])
-// const color = ['rgba(180, 225, 215, .3)', 'rgba(255,0,0, .3)']
-const color = ['rgba(180, 225, 215, .9)', 'rgba(48, 189, 130, .9)']
+const color = ['rgb(167, 224, 211)', 'rgb(154, 184, 191)']
+// const color = ['rgba(180, 225, 215, .9)', 'rgba(48, 189, 130, .9)']
 // const color = ['rgba(180, 225, 215, 0.5)', getVariable('--green')]
 
 const data: any = ref([])
@@ -174,7 +174,8 @@ const option = computed(() => {
         },
       },
     ],
-    blendMode: 'lighter',
+     // 核心设置：启用混合模式
+    blendMode: 'multiply',
     series: [
       {
         name: '数量',
