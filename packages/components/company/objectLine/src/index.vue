@@ -26,6 +26,7 @@ const props = defineProps({
 
 const emits = defineEmits(['dateChange'])
 const color = ['rgb(167, 224, 211)', 'rgb(154, 184, 191)']
+// const color = [getVariable('--green'), getVariable('--blue')]
 // const color = ['rgba(180, 225, 215, .9)', 'rgba(48, 189, 130, .9)']
 // const color = ['rgba(180, 225, 215, 0.5)', getVariable('--green')]
 
