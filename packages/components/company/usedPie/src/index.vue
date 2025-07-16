@@ -39,7 +39,7 @@ let initOption = {
       hoverOffset: 15,
       itemStyle: {
         color: function (params) {
-          if (params.name === '使用量') {
+          if (params.data.prop === 'used') {
             return getVariable('--blue') // 使用量为蓝色
           } else {
             return getVariable('--green') // 剩余容量为灰色
@@ -101,6 +101,7 @@ watch(
     }
     initOption.series[0].data = [
       {
+        prop: 'used',
         name: '使用量',
         value: newUsed,
       },

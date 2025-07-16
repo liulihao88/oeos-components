@@ -15,6 +15,7 @@ const data = [
     value: 0,
   },
 ]
+const trueData = { "used": 43087420916, "total": "200.00 GB" }
 </script>
 
 <template>
@@ -22,5 +23,6 @@ const data = [
     <OUsedPie :used="211" :total="222" style="height: 300px"></OUsedPie>
     <OUsedPie :used="0" :total="0" style="height: 300px"></OUsedPie>
     <OUsedPie :used="0" :total="34" style="height: 300px"></OUsedPie>
+    <OUsedPie v-bind="trueData" style="height: 300px"></OUsedPie>
   </div>
 </template>
