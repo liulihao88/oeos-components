@@ -6,6 +6,7 @@ const VChart = defineAsyncComponent(() => import('vue-echarts')) // 因为直接
 import '@/utils/useEcharts.ts'
 
 import { getVariable, clone, isEmpty, formatBytes, formatBytesConvert } from '@/utils'
+import { getPieColorByDataIndex } from '@/utils/packageUtils.ts'
 
 const props = defineProps({
   used: {
@@ -38,13 +39,7 @@ let initOption = {
       avoidLabelOverlap: true,
       hoverOffset: 15,
       itemStyle: {
-        color: function (params) {
-          if (params.data.prop === 'used') {
-            return getVariable('--blue') // 使用量为蓝色
-          } else {
-            return getVariable('--green') // 剩余容量为灰色
-          }
-        },
+        color: (params) => getPieColorByDataIndex(params, usedPercent.value),
       },
       label: {
         show: false,
@@ -91,14 +86,6 @@ let initOption = {
   ],
 }
 
-function getPieColorByDataIndex(params: any) {
-  if (params.dataIndex === 0) {
-    return getVariable('--blue')
-  } else {
-    return getVariable('--green')
-  }
-}
-
 watch(
   () => [props.used, props.total],
   ([newUsedOrigin, newTotalOrigin]) => {
@@ -119,7 +106,7 @@ watch(
         name: '剩余量',
         value: newTotal - newUsed,
       })
-      initOption.series[0].itemStyle.color = getPieColorByDataIndex
+      initOption.series[0].itemStyle.color = (params) => getPieColorByDataIndex(params, usedPercent.value)
     } else {
       initOption.series[0].itemStyle.color = getVariable('--green')
     }

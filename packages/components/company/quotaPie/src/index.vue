@@ -2,6 +2,7 @@
 import { ref, getCurrentInstance, onMounted, watch, computed, defineAsyncComponent } from 'vue'
 const VChart = defineAsyncComponent(() => import('vue-echarts')) // 因为直接引入vue-echarts, 使用vitepress打包回报错, 在使用 VitePress 打包时，如果引入的 vue-echarts 中包含对 document 的引用，可能会导致 document is not defined 的错误。这是因为 VitePress 使用了服务器端渲染（SSR），而 document 是浏览器环境中的对象，在服务器端环境中不存在。以下是几种可能的解决
 import '@/utils/useEcharts.ts'
+import { getPieColorByDataIndex } from '@/utils/packageUtils.ts'
 const { proxy } = getCurrentInstance()
 defineOptions({
   name: 'OQuotaPie',
@@ -30,18 +31,19 @@ const options = ref()
 const seriesData = ref([])
 const usedNum = ref(0)
 const totalNum = ref(0)
+const usedPercent = ref('0%')
 
 const getValue = computed(() => {
   if (props.type === 'used') {
-    let percent = ((usedNum.value / totalNum.value) * 100).toFixed(2) + '%'
+    usedPercent.value = ((usedNum.value / totalNum.value) * 100).toFixed(2) + '%'
     let num = `${proxy.formatBytes(proxy.formatBytesConvert(props.used))} / ${proxy.formatBytes(proxy.formatBytesConvert(props.total))}`
     // let text = '总使用量 / 总可用量'
-    return `${percent}\n\n${num}\n\n${props.text}`
+    return `${usedPercent.value}\n\n${num}\n\n${props.text}`
   } else if (props.type === 'quota') {
-    let percent = ((usedNum.value / totalNum.value) * 100).toFixed(2) + '%'
+    usedPercent.value = ((usedNum.value / totalNum.value) * 100).toFixed(2) + '%'
     let num = `${proxy.formatBytes(proxy.formatBytesConvert(props.used))} / ${proxy.formatBytes(proxy.formatBytesConvert(props.total))}`
     // let text = '总分配配额 / 租户总配额'
-    return `${percent}\n\n${num}\n\n${props.text}`
+    return `${usedPercent.value}\n\n${num}\n\n${props.text}`
   }
 })
 
@@ -107,13 +109,7 @@ let initOptions = {
       },
       itemStyle: {
         borderRadius: 8,
-        color: function (params) {
-          if (params.dataIndex === 0) {
-            return proxy.getVariable('--blue')
-          } else {
-            return proxy.getVariable('--green')
-          }
-        },
+        color: (params)=>getPieColorByDataIndex(params, usedPercent.value),
       },
       data: [],
     },
