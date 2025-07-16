@@ -91,6 +91,14 @@ let initOption = {
   ],
 }
 
+function getPieColorByDataIndex(params: any) {
+  if (params.dataIndex === 0) {
+    return getVariable('--blue')
+  } else {
+    return getVariable('--green')
+  }
+}
+
 watch(
   () => [props.used, props.total],
   ([newUsedOrigin, newTotalOrigin]) => {
@@ -111,6 +119,7 @@ watch(
         name: '剩余量',
         value: newTotal - newUsed,
       })
+      initOption.series[0].itemStyle.color = getPieColorByDataIndex
     } else {
       initOption.series[0].itemStyle.color = getVariable('--green')
     }
