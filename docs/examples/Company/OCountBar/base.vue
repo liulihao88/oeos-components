@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, computed } from 'vue'
 const { proxy } = getCurrentInstance()
-const data = ref([
-  { name: '<1023', value: 12345, value2: 9999999999999999999994513 },
-  { name: '<2M', value: 3, value2: 444444 },
-])
+// const data = ref([
+//   { name: '<1023', value: 12345, value2: 9999999999999999999994513 },
+//   { name: '<2M', value: 3, value2: 444444 },
+// ])
 
-const originData = ref({
+const data = ref({
   inCount: {
     '<1024B': 0,
     '1K-1MB': 60,
@@ -31,11 +31,32 @@ const originData = ref({
   },
   updatetime: 0,
 })
+const data2 = {
+  inCount: {
+    '<1024B': 3,
+    '~1MB': 0,
+    '~10MB': 0,
+    '~50MB': 0,
+    '~100MB': 0,
+    '~500MB': 0,
+    '~1GB': 0,
+    '~5GB': 0,
+    '>5GB': 3,
+  },
+  inSize: {
+    '<1024B': 1711,
+    '~1MB': 0,
+    '~10MB': 0,
+    '~50MB': 0,
+    '~100MB': 0,
+    '~500MB': 0,
+    '~1GB': 0,
+    '~5GB': 0,
+    '>5GB': 16106127363,
+  },
+  updatetime: 0,
+}
 
-const data2 = ref([
-  { name: '<1023', value: 1, value2: 123451 },
-  { name: '<2M', value: 1, value2: 444444 },
-])
 
 const newData = computed(() => {
   return Object.entries(originData.value.inCount).map(([keysOf, value]) => {
@@ -52,8 +73,7 @@ const newData = computed(() => {
   <div>
     <OCountBar :data="data" style="height: 300px"></OCountBar>
     <hr />
-    <!-- <OCountBar :data="data2" style="height: 300px"></OCountBar> -->
-    <!-- <hr /> -->
-    <OCountBar :data="newData" style="height: 300px"></OCountBar>
+
+    <OCountBar :data="data2" style="height: 300px"></OCountBar>
   </div>
 </template>

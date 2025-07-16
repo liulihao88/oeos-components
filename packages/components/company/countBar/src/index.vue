@@ -27,7 +27,7 @@ import { ref, getCurrentInstance, onMounted, watch, defineAsyncComponent } from 
 // import VChart from 'vue-echarts'
 const VChart = defineAsyncComponent(() => import('vue-echarts')) // // 因为直接引入vue-echarts, 使用vitepress打包回报错, 在使用 VitePress 打包时，如果引入的 vue-echarts 中包含对 document 的引用，可能会导致 document is not defined 的错误。这是因为 VitePress 使用了服务器端渲染（SSR），而 document 是浏览器环境中的对象，在服务器端环境中不存在。以下是几种可能的解决
 import '@/utils/useEcharts.ts'
-import { clone, formatBytes, formatBytesConvert, formatThousands } from '@/utils/index.ts'
+import { clone, formatBytes, formatBytesConvert, isEmpty, formatThousands } from '@/utils/index.ts'
 const props = defineProps({
   data: {
     type: Array,
@@ -35,7 +35,7 @@ const props = defineProps({
   },
 })
 const option = ref()
-const isEmpty = ref(false)
+const isDataEmpty = ref(false)
 
 let initOption = {
   tooltip: {
@@ -72,7 +72,7 @@ let initOption = {
       show: false, // 隐藏刻度线
     },
     axisLine: {
-      show: false // 隐藏轴线（可选项）
+      show: false, // 隐藏轴线（可选项）
     },
     splitLine: {
       show: false,
@@ -127,11 +127,6 @@ let initOption = {
     },
   ],
 }
-function formatter(params) {
-  let res = `${params.name} \n <span class="cl-blue">${params.value}</span>`
-  let { value, name } = params.data
-  return `${name}: ${value}\n 占比: (${params.percent}%)`
-}
 
 function roundUpToNearestKB(bytes) {
   const regex = /^(\d+(\.\d+)?)\s*([a-zA-Z]+)?$/
@@ -162,10 +157,22 @@ function formatNumberWithChineseAbbreviation(num) {
 watch(
   () => props.data,
   (val) => {
-    isEmpty.value = val.every((v) => {
+    if (isEmpty(val)) {
+      return
+    }
+
+    let parseData = Object.entries(val.inCount).map(([keysOf, value]) => {
+      return {
+        name: keysOf,
+        value: value,
+        value2: val.inSize[keysOf],
+      }
+    })
+
+    isDataEmpty.value = parseData.every((v) => {
       return !v.value
     })
-    let filterEmptyData = val.filter((v) => {
+    let filterEmptyData = parseData.filter((v) => {
       // return v.value
       return true
     })
@@ -185,7 +192,7 @@ watch(
 </script>
 
 <template>
-  <template v-if="isEmpty">
+  <template v-if="isDataEmpty">
     <o-empty class="h-100%" />
   </template>
   <template v-else>
