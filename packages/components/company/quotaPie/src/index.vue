@@ -107,7 +107,13 @@ let initOptions = {
       },
       itemStyle: {
         borderRadius: 8,
-        color: getVariable,
+        color: function (params) {
+          if (params.dataIndex === 0) {
+            return proxy.getVariable('--blue')
+          } else {
+            return proxy.getVariable('--green')
+          }
+        },
       },
       data: [],
     },
