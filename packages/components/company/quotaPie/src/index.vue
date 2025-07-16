@@ -109,9 +109,9 @@ let initOptions = {
         borderRadius: 8,
         color: function (params) {
           if (params.dataIndex === 0) {
-            return proxy.getVariable('--green')
-          } else {
             return proxy.getVariable('--blue')
+          } else {
+            return proxy.getVariable('--green')
           }
         },
       },
