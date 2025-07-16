@@ -72,7 +72,7 @@ const itemList = computed(() => {
           :img="v.img"
           :label="v.label"
           :value="v.value"
-          :itemStyle="{ fontSize: '12px' }"
+          :itemStyle="{ fontSize: '16px' }"
           :boxStyle="{ justifyContent: 'start' }"
         >
           <template #img>
