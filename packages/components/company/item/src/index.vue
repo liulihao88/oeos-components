@@ -32,13 +32,17 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  boxStyle: {
+    type: Object,
+    default: () => ({}),
+  },
 })
 const slots = useSlots()
 const hasImgSlot = !!slots.img // 判断是否使用了 img 插槽
 </script>
 
 <template>
-  <div class="o-item-box" :style="{ ...processWidth(props.width) }">
+  <div class="o-item-box" :style="{ ...processWidth(props.width), ...boxStyle }">
     <div class="o-item-box__img">
       <slot name="img">
         <img :src="props.src" alt="" />
