@@ -55,7 +55,7 @@ const itemList = computed(() => {
     </template>
     <div class="top">
       <div v-for="(v, i) in itemList" :key="i" class="item">
-        <img :src="v.img" class="mr2" width="43" />
+        <img :src="v.img" class="mr" width="43" />
         <div class="item-right">
           <div class="bold tc">{{ v.value }}</div>
           <div class="cl-45 tc">{{ v.label }}</div>
@@ -78,6 +78,7 @@ const itemList = computed(() => {
 
   .item {
     display: flex;
+    justify-content: space-between;
     .item-right {
       display: flex;
       flex-direction: column;
