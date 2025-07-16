@@ -16,6 +16,10 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
+  type: {
+    type: String,
+    default: '', // horizontal
+  },
 })
 
 const itemList = computed(() => {
@@ -53,7 +57,7 @@ const itemList = computed(() => {
         </template>
       </o-title>
     </template>
-    <div class="top">
+    <div class="top" v-if="type !== 'horizontal'">
       <div v-for="(v, i) in itemList" :key="i" class="item">
         <img :src="v.img" class="mr" width="43" />
         <div class="item-right">
@@ -62,6 +66,15 @@ const itemList = computed(() => {
         </div>
       </div>
     </div>
+    <oItemWrapper v-else gap="26px">
+      <template class="item" v-for="(v, i) in itemList" :key="i">
+        <o-item :img="v.img" :label="v.label" :value="v.value" :itemStyle="{ fontSize: '12px' }">
+          <template #img>
+            <img :src="v.img" class="img-contain" width="43" />
+          </template>
+        </o-item>
+      </template>
+    </oItemWrapper>
   </oBasicLayout>
 </template>
 
@@ -128,5 +141,8 @@ const itemList = computed(() => {
   .bottom-item:last-child {
     margin: 0;
   }
+}
+.img-contain {
+  object-fit: contain;
 }
 </style>
