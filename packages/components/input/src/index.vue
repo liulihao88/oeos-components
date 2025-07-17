@@ -304,7 +304,7 @@ const mergedAttrs = computed(() => {
     padding-bottom: 20px;
   }
 
-  :deep(.el-input-group__prepend) {
+  :deep(.el-input-group__prepend), :deep(.el-input-group__append) {
     padding: 0 4px;
   }
 

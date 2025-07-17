@@ -16,6 +16,12 @@ OInput/base
 OInput/usually
 :::
 
+### 复合型输入框
+
+:::demo
+OInput/slot
+:::
+
 ### 封装el-autocomplete的用法
 
 :::demo
