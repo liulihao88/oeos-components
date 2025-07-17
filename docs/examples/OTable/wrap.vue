@@ -85,7 +85,11 @@ const columns = [
     label: '操作',
     btns: [
       {
-        content: '编辑',
+        comp: 'o-icon',
+        attrs: {
+          name: 'edit',
+          content: '编辑'
+        }
       },
     ],
   },

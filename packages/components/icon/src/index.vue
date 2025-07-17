@@ -70,6 +70,6 @@ const parseColor = computed(() => {
   cursor: not-allowed;
 }
 .o-icon + .o-icon {
-  margin-left: 12px;
+  margin-left: 8px;
 }
 </style>

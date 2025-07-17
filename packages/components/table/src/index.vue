@@ -195,7 +195,7 @@ function updatePage() {
 }
 
 const parseTableWidth = (btns, hBtns) => {
-  return 26 + (btns.length + (hBtns.length === 0 ? 0 : 1)) * 36 + 'px'
+  return 32 + (btns.length + (hBtns.length === 0 ? 0 : 1)) * 30 + 'px'
 }
 const parseEmptyText = computed(() => {
   if (props.isLoading === true) {
@@ -314,7 +314,7 @@ const compEmptyText = computed(() => {
                 </template>
 
                 <template v-if="v.hideBtns.length > 0">
-                  <el-dropdown class="" trigger="click">
+                  <el-dropdown class="ml" trigger="click">
                     <o-icon name="more" @click.stop />
                     <template #dropdown>
                       <el-dropdown-menu :hide-on-click="false">

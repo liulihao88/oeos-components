@@ -22,12 +22,34 @@ const columns = [
   {
     key: 'operation',
     label: '操作',
-    isShow: (row, scope) => {
-      return scope.$index % 2 === 0
-    },
     btns: [
       {
         content: '编辑',
+        handler: () => {},
+        comp: 'o-icon',
+        attrs: {
+          name: 'edit',
+          content: '编辑',
+        },
+        disabled: (row) => row.status === 'Loading',
+      },
+      {
+        handler: () => {},
+        comp: 'o-icon',
+        attrs: {
+          name: 'view',
+          content: '查看',
+        },
+        disabled: (row) => row.status === 'Loading',
+      },
+      {
+        handler: () => {},
+        comp: 'o-icon',
+        attrs: {
+          name: 'delete',
+          content: '删除',
+        },
+        disabled: (row) => row.status === 'Loading',
       },
     ],
   },
