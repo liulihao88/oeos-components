@@ -17,6 +17,7 @@ const columns = [
   {
     label: '宽度150(小于200)',
     prop: 'cap2',
+    width: 150,
     useSlot: true,
   },
   {

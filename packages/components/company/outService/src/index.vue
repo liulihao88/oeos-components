@@ -66,8 +66,8 @@ const itemList = computed(() => {
         </div>
       </div>
     </div>
-    <oItemWrapper v-else gap="26px">
-      <template class="item" v-for="(v, i) in itemList" :key="i">
+    <oItemWrapper v-else gap="16px" class="" :columns="2">
+      <template v-for="(v, i) in itemList" :key="i">
         <o-item
           :img="v.img"
           :label="v.label"
@@ -76,7 +76,7 @@ const itemList = computed(() => {
           :boxStyle="{ justifyContent: 'start' }"
         >
           <template #img>
-            <img :src="v.img" class="img-contain" width="43" />
+            <img :src="v.img" class="img-contain" width="43" style="min-width: 43px" />
           </template>
         </o-item>
       </template>
