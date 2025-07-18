@@ -128,10 +128,11 @@ const compItemList = computed(() => {
         <OItem
           :label="v.label"
           :value="v.value"
-          :style="{ background: v.style.background, fontSize: '12px' }"
+          
+          :style="{ background: v.style.background, fontSize: '12px', minWidth: '200px' }"
           :labelStyle="{ color: v.style.color }"
           :itemStyle="{
-            minWidth: '100px'
+            minWidth: '100px',
           }"
           :valueStyle="{ color: v.style.color, fontSize: '16px' }"
         >

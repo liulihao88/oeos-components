@@ -20,6 +20,10 @@ const props = defineProps({
     type: Number,
     default: null, // null 表示不分组，保持原样
   },
+  minWidth: {
+    type: Number,
+    default: 0
+  }
 })
 
 const slots = useSlots()
@@ -27,16 +31,28 @@ const defaultSlots = computed(() => slots.default?.() || [])
 
 // 只保留元素节点 (过滤掉注释和文本节点)
 const validSlots = computed(() => {
-  return (slots.default?.() || []).filter((node) => {
-    // Vue 3 中的 Comment 节点类型
-    const isComment = node.type?.toString() === 'Symbol(v-cmt)'
-    // Vue 3 中的空白 Text 节点类型（`\n    ` 或 `\n  ` 等）
-    const isWhitespaceText = node.type?.toString() === 'Symbol(Text)' && !node.children?.toString()?.trim()
+  const normalizeNodes = (nodes: VNode[]): VNode[] => {
+    return nodes.flatMap(node => {
+      // 1. 跳过注释节点和空白文本节点（原逻辑）
+      const isComment = node.type?.toString() === 'Symbol(v-cmt)';
+      const isWhitespaceText = 
+        node.type?.toString() === 'Symbol(Text)' && 
+        !node.children?.toString()?.trim();
+      if (isComment || isWhitespaceText) return [];
 
-    // 保留元素节点 `<div>`、组件 `<MyComponent>`、有内容的文本 `Hello` 等
-    return !isComment && !isWhitespaceText
-  })
-})
+      // 2. 如果它是一个 Fragment（例如 `<template v-for>` 生成的节点），递归处理其 children
+      if (node.type?.toString() === 'Symbol(v-fgt)') {
+        return normalizeNodes(node.children as VNode[]);
+      }
+
+      // 3. 如果是真实的元素（如 div/span/组件）或合法的文本节点，保留
+      return [node];
+    });
+  };
+
+  return normalizeNodes(slots.default?.() || []);
+});
+
 
 // 根据columns分组插槽内容
 const slotRows = computed(() => {
@@ -80,8 +96,9 @@ const slotRows = computed(() => {
 .item-wrapper-box {
   /* 默认 flex 布局（无 columns） */
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: v-bind('props.gap');
+  overflow: auto;
 
   /* 设置了 columns 时切换为 grid 布局 */
   &.with-columns {
@@ -91,8 +108,8 @@ const slotRows = computed(() => {
 
   /* 所有子项的通用约束 */
   > :deep(.col) {
-    min-width: 0;              /* 关键点2：允许收缩 */
-    width: 100%;               /* 强制占满可用空间 */
+    min-width: v-bind('props.minWidth');              /* 关键点2：允许收缩 */
+    flex: 1;
     overflow: hidden;          /* 超出隐藏 */
     text-overflow: ellipsis;   /* 文字省略号 */
     white-space: wrap;       /* 禁止换行（可选） */

@@ -19,3 +19,9 @@ Company/OItemWrapper/gap
 :::demo
 Company/OItemWrapper/columns
 :::
+
+### 显示在一行, 超出滚动
+
+:::demo
+Company/OItemWrapper/scroll
+:::

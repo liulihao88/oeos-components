@@ -179,7 +179,7 @@ details.value = {
 
 <template>
   <div>
-    <OOverviewItem :details="details"></OOverviewItem>
-    <OOverviewItem :details="details" type="system"></OOverviewItem>
+    <OOverviewItem :details="details" ></OOverviewItem>
+    <OOverviewItem :details="details" style="width: 300%" type="system"></OOverviewItem>
   </div>
 </template>
