@@ -28,7 +28,7 @@ const iptValue = ref('')
       width="500"
       placeholder="请输入名字"
       size="default"
-      :titleAttrs="{
+      :boxStyle="{
         onClick: close,
         style: {
           color: 'blue',

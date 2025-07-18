@@ -58,6 +58,6 @@ const select = ref('')
   background-color: var(--el-fill-color-blank);
 }
 .box :deep(.el-input-group__prepend), .box :deep(.el-input-group__append){
-  padding: 0 20px;
+  padding: 0 20px !important;
 }
 </style>

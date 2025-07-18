@@ -12,7 +12,7 @@
           v-bind="mergedAttrs"
         >
           <template v-if="$attrs.title" #prepend>
-            <div :style="{ ...computedTitleAttrs }" class="o-input__title">
+            <div :style="{ ...computedBoxStyle }" class="o-input__title">
               {{ $attrs.title }}
             </div>
           </template>
@@ -32,7 +32,7 @@
           @mouseover.native="inputOnMouseOver($event)"
         >
           <template v-if="$attrs.title" #prepend>
-            <div :style="{ ...computedTitleAttrs }" class="o-input__title">
+            <div :style="{ ...computedBoxStyle }" class="o-input__title">
               {{ $attrs.title }}
             </div>
           </template>
@@ -86,7 +86,7 @@
   v-model="aaa"
   width="200"
   size="default"
-  :titleAttrs = "{
+  :boxStyle = "{
     onClick: close,
     style: {color: 'blue'}
   }"
@@ -102,7 +102,7 @@ const props = defineProps({
   modelValue: {
     required: true,
   },
-  titleAttrs: {
+  boxStyle: {
     type: Object,
     default: () => {},
   },
@@ -188,15 +188,15 @@ watch(
   },
 )
 
-const computedTitleAttrs = computed(() => {
-  if (props.titleAttrs?.width) {
-    let minusWidth = parseInt(props.titleAttrs.width) - 8 + 'px'
+const computedBoxStyle = computed(() => {
+  if (props.boxStyle?.width) {
+    let minusWidth = parseInt(props.boxStyle.width) - 8 + 'px'
     return {
-      ...props.titleAttrs,
+      ...props.boxStyle,
       width: processWidth(minusWidth, true),
     }
   } else {
-    return props.titleAttrs
+    return props.boxStyle
   }
 })
 

@@ -6,7 +6,7 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  titleAttrs: {
+  boxStyle: {
     type: Object,
     default: () => ({}),
   },
@@ -92,7 +92,7 @@ const scrollStyle = computed(() => {
   <div class="basic-layout-box" :style="boxMergedStyle">
     <div class="basic-layout-box__header" v-if="$slots.header || props.title" :style="headerMergedStyle">
       <slot name="header">
-        <o-title :title="props.title" :style="{ ...titleAttrs }"></o-title>
+        <o-title :title="props.title" :style="{ ...boxStyle }"></o-title>
       </slot>
     </div>
     <div class="basic-layout-box__body" :style="{ ...bodyStyle, ...scrollStyle }">

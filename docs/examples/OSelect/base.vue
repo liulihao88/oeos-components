@@ -24,7 +24,7 @@ const simpleOptions = ref([1, 3, 5, 7, 9])
       :options="changeOptions"
       type="simple"
       title="andy"
-      :titleAttrs="{ width: 100 }"
+      :boxStyle="{ width: 100 }"
     ></o-select>
     <o-select v-model="selectVal" :options="changeOptions" type="simple"></o-select>
   </div>

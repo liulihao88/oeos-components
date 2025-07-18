@@ -19,7 +19,7 @@ const customPrefix = {
       size="small"
       title="选择日期"
       class="m-t-8"
-      :titleAttrs="{ width: 100 }"
+      :boxStyle="{ width: 100 }"
     ></o-date-range>
   </div>
 </template>

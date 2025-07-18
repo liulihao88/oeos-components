@@ -29,7 +29,7 @@ const disabledDate = (time) => {
       class="mb2"
       format="YYYY-MM-DD HH:mm:ss"
       width="500"
-      :titleAttrs="{ width: 80 }"
+      :boxStyle="{ width: 80 }"
       type="datetimerange"
     />
     <o-title title="选择单个日期, 并且是时间戳"></o-title>

@@ -1,7 +1,7 @@
 <script setup lang="ts" name="OCompTitle">
 /**
  *
-  <o-comp-title :title="props.title" :size="attrs.size" :titleAttrs="$attrs.titleAttrs ?? {}"></o-comp-title>
+  <o-comp-title :title="props.title" :size="attrs.size" :boxStyle="$attrs.boxStyle ?? {}"></o-comp-title>
  */
 import { ref, getCurrentInstance, useAttrs, computed } from 'vue'
 import { processWidth } from '@/utils'
@@ -12,21 +12,21 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  titleAttrs: {
+  boxStyle: {
     type: Object,
     default: () => ({}),
   },
 })
 const sizeMap = ['small', 'large']
 
-const computedTitleAttrs = computed(() => {
-  if (props.titleAttrs?.width) {
+const computedBoxStyle = computed(() => {
+  if (props.boxStyle?.width) {
     return {
-      ...props.titleAttrs,
-      width: processWidth(props.titleAttrs?.width, true),
+      ...props.boxStyle,
+      width: processWidth(props.boxStyle?.width, true),
     }
   } else {
-    return props.titleAttrs
+    return props.boxStyle
   }
 })
 
@@ -44,7 +44,7 @@ const sizeStyle = computed(() => {
   <div
     class="o-comp-title"
     :class="sizeClass"
-    :style="{ ...sizeStyle, ...computedTitleAttrs }"
+    :style="{ ...sizeStyle, ...computedBoxStyle }"
     v-bind="$attrs"
     v-if="props.title"
   >

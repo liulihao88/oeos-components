@@ -126,7 +126,7 @@ const parseClass = computed(() => {
     font-size: 16px;
     justify-content: space-between;
     .o-title__slot-icon-wrapper {
-      margin-right: 4px;
+      margin-right: 8px;
       width: 14px;
       height: 14px;
       display: flex;
@@ -155,7 +155,7 @@ const parseClass = computed(() => {
     .title-text {
       letter-spacing: 0;
       font-weight: 600;
-      margin-right: 4px;
+      margin-right: 8px;
       white-space: nowrap;
     }
   }
@@ -181,7 +181,7 @@ const parseClass = computed(() => {
     .title-text {
       letter-spacing: 0;
       font-weight: 600;
-      margin-right: 4px;
+      margin-right: 8px;
       white-space: nowrap;
     }
   }
