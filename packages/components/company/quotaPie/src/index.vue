@@ -132,10 +132,8 @@ watch(
   () => [props.used, props.total],
   ([usedNew, totalNew]) => {
     if (usedNew || totalNew) {
-      console.log(`57 usedNew`, usedNew)
       isEmpty.value = false
       usedNum.value = proxy.formatBytesConvert(usedNew)
-      console.log(`43  usedNum.value`, usedNum.value)
       totalNum.value = proxy.formatBytesConvert(totalNew)
       initOptions.series[0].data = [usedNum.value, totalNum.value - usedNum.value]
       options.value = proxy.clone(initOptions)
