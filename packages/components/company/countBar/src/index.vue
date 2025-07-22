@@ -160,6 +160,8 @@ watch(
     if (isEmpty(val)) {
       isDataEmpty.value = true
       return
+    } else {
+      isDataEmpty.value = false
     }
 
     let parseData = Object.entries(val.inCount).map(([keysOf, value]) => {
