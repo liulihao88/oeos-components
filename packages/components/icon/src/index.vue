@@ -52,12 +52,15 @@ const parseColor = computed(() => {
     class="o-icon"
     :class="props.disabled && 'o-icon__not-allowed'"
     @click="handleClick"
-    >
+  >
     <el-tooltip :disabled="!$attrs.content" v-bind="$attrs">
       <span ref="contentRef">
-        <o-svg v-if="type === 'svg'" v-bind="svgAttrs" :name="name"></o-svg>
-        <component :is="`el-icon-${toLine(props.name || '')}`" v-else></component>
-        <slot></slot>
+        <slot v-if="$slots.default"></slot>
+        <!-- 仅在默认插槽为空时渲染图标 -->
+        <template v-else>
+          <o-svg v-if="type === 'svg'" v-bind="svgAttrs" :name="name"></o-svg>
+          <component :is="`el-icon-${toLine(props.name || '')}`" v-else></component>
+        </template>
       </span>
     </el-tooltip>
   </el-icon>
