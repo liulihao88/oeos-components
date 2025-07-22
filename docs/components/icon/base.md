@@ -10,6 +10,12 @@
 OIcon/base
 :::
 
+### 插槽
+
+:::demo
+OIcon/slot
+:::
+
 ### 所有图标
 
 :::demo

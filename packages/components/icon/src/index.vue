@@ -52,11 +52,12 @@ const parseColor = computed(() => {
     class="o-icon"
     :class="props.disabled && 'o-icon__not-allowed'"
     @click="handleClick"
-  >
+    >
     <el-tooltip :disabled="!$attrs.content" v-bind="$attrs">
       <span ref="contentRef">
         <o-svg v-if="type === 'svg'" v-bind="svgAttrs" :name="name"></o-svg>
-        <component :is="`el-icon-${toLine(props.name)}`" v-else></component>
+        <component :is="`el-icon-${toLine(props.name || '')}`" v-else></component>
+        <slot></slot>
       </span>
     </el-tooltip>
   </el-icon>
