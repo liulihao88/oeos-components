@@ -26,6 +26,9 @@ const props = defineProps({
     default: '总使用量 / 总可用量',
   },
 })
+// 添加容器尺寸的响应式引用
+const containerRef = ref(null)
+const containerSize = ref({ width: 0, height: 0 })
 const isEmpty = ref(false)
 const options = ref()
 
@@ -140,6 +143,56 @@ watch(
     immediate: true,
   },
 )
+
+// 根据容器尺寸调整字体大小的函数
+const adjustFontSize = (width, height) => {
+  let baseSize = Math.min(width, height) / 20
+  
+  const minFontSize = 10
+  const maxFontSize = 24
+  if (baseSize  < minFontSize) {
+    baseSize = minFontSize
+  } else if (baseSize > maxFontSize) {
+    baseSize = maxFontSize
+  }
+  initOptions.graphic.style.fontSize = baseSize + 'px' // 中央文本大小
+
+  initOptions.series[0].label.textStyle = {
+    fontSize: baseSize / 30,
+    color: '#e4393c',
+  }
+
+  initOptions.title.textStyle = {
+    color: 'blue',
+    fontSize: baseSize / 25,
+  }
+
+  initOptions.legend.textStyle = {
+    fontSize: baseSize / 35,
+  }
+
+  // 触发选项更新
+  options.value = { ...initOptions }
+}
+
+// 监听容器大小变化
+onMounted(() => {
+  const resizeObserver = new ResizeObserver((entries) => {
+    for (let entry of entries) {
+      const { width, height } = entry.contentRect
+      containerSize.value = { width, height }
+      adjustFontSize(width, height)
+    }
+  })
+
+  if (containerRef.value) {
+    resizeObserver.observe(containerRef.value)
+  }
+
+  return () => {
+    resizeObserver.disconnect()
+  }
+})
 </script>
 
 <template>
@@ -147,7 +200,7 @@ watch(
     <o-empty class="h-100%" />
   </template>
   <template v-else>
-    <div class="vChart-box">
+    <div class="vChart-box" ref="containerRef">
       <v-chart class="calc-height" :option="options" autoresize />
     </div>
   </template>
