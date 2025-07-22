@@ -39,7 +39,14 @@ const tenantDetailsExceed = {
       text="总分配配额 / 租户总配额"
     ></OQuotaPie>
     <OQuotaPie
-      class="h-300"
+      class="h-200"
+      type="used"
+      :used="tenantDetailsExceed.usedSpace"
+      :total="tenantDetailsExceed.totalSpace"
+      text="总分配配额 / 租户总配额"
+    ></OQuotaPie>
+    <OQuotaPie
+      class="h-500"
       type="used"
       :used="tenantDetailsExceed.usedSpace"
       :total="tenantDetailsExceed.totalSpace"

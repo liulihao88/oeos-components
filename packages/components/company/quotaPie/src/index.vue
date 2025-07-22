@@ -23,6 +23,7 @@ const props = defineProps({
   text: {
     type: String,
     required: true,
+    default: '总使用量 / 总可用量',
   },
 })
 const isEmpty = ref(false)
@@ -34,17 +35,10 @@ const totalNum = ref(0)
 const usedPercent = ref('0%')
 
 const getValue = computed(() => {
-  if (props.type === 'used') {
-    usedPercent.value = ((usedNum.value / totalNum.value) * 100).toFixed(2) + '%'
-    let num = `${proxy.formatBytes(proxy.formatBytesConvert(props.used))} / ${proxy.formatBytes(proxy.formatBytesConvert(props.total))}`
-    // let text = '总使用量 / 总可用量'
-    return `${usedPercent.value}\n\n${num}\n\n${props.text}`
-  } else if (props.type === 'quota') {
-    usedPercent.value = ((usedNum.value / totalNum.value) * 100).toFixed(2) + '%'
-    let num = `${proxy.formatBytes(proxy.formatBytesConvert(props.used))} / ${proxy.formatBytes(proxy.formatBytesConvert(props.total))}`
-    // let text = '总分配配额 / 租户总配额'
-    return `${usedPercent.value}\n\n${num}\n\n${props.text}`
-  }
+  usedPercent.value = ((usedNum.value / totalNum.value) * 100).toFixed(2) + '%'
+  let num = `${proxy.formatBytes(proxy.formatBytesConvert(props.used))} / ${proxy.formatBytes(proxy.formatBytesConvert(props.total))}`
+  // let text = '总使用量 / 总可用量'
+  return `${usedPercent.value}\n\n${num}\n\n${props.text}`
 })
 
 let initOptions = {
@@ -109,7 +103,7 @@ let initOptions = {
       },
       itemStyle: {
         borderRadius: 8,
-        color: (params)=>getPieColorByDataIndex(params, usedPercent.value),
+        color: (params) => getPieColorByDataIndex(params, usedPercent.value),
       },
       data: [],
     },
