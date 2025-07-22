@@ -57,16 +57,33 @@ const data2 = {
   updatetime: 0,
 }
 
+const data3 = {
+  "inCount": {
+    "~1MB": 0,
+    "~100MB": 0,
+    "~10MB": 0,
+    "~1GB": 0,
+    "~50MB": 0,
+    "~500MB": 0,
+    "~5GB": 0,
+    "<1024B": 0,
+    ">5GB": 0
+  },
+  "inSize": {
+    "~1MB": 0,
+    "~100MB": 0,
+    "~10MB": 0,
+    "~1GB": 0,
+    "~50MB": 0,
+    "~500MB": 0,
+    "~5GB": 0,
+    "<1024B": 0,
+    ">5GB": 0
+  },
+  "updatetime": 1753177062959
+}
 
-const newData = computed(() => {
-  return Object.entries(originData.value.inCount).map(([keysOf, value]) => {
-    return {
-      name: keysOf,
-      value: value,
-      value2: originData.value.inSize[keysOf],
-    }
-  })
-})
+
 </script>
 
 <template>
@@ -75,5 +92,7 @@ const newData = computed(() => {
     <hr />
 
     <OCountBar :data="data2" style="height: 300px"></OCountBar>
+    <hr />
+    <OCountBar :data="data3" style="height: 300px"></OCountBar>
   </div>
 </template>

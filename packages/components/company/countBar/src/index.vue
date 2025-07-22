@@ -158,6 +158,7 @@ watch(
   () => props.data,
   (val) => {
     if (isEmpty(val)) {
+      isDataEmpty.value = true
       return
     }
 
@@ -169,9 +170,6 @@ watch(
       }
     })
 
-    isDataEmpty.value = parseData.every((v) => {
-      return !v.value
-    })
     let filterEmptyData = parseData.filter((v) => {
       // return v.value
       return true
