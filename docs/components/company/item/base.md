@@ -19,3 +19,9 @@ Company/OItem/wrapper
 :::demo
 Company/OItem/style
 :::
+
+### 不同类型
+
+:::demo
+Company/OItem/type
+:::

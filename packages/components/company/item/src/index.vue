@@ -1,6 +1,6 @@
 <script setup lang="ts" name="OItem">
-import { ref, getCurrentInstance, useSlots } from 'vue'
-import { processWidth } from '@/utils'
+import { ref, getCurrentInstance, useSlots, computed } from 'vue'
+import { processWidth, formatThousands, toFixed } from '@/utils'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
   src: {
@@ -20,6 +20,10 @@ const props = defineProps({
     type: [String, Number],
     default: '',
   },
+  height: {
+    type: [String, Number],
+    default: '',
+  },
   labelStyle: {
     type: Object,
     default: () => ({}),
@@ -32,18 +36,48 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  imgStyle: {
+    type: Object,
+    default: () => ({}),
+  },
   boxStyle: {
     type: Object,
     default: () => ({}),
   },
+  type: {
+    type: String, // 'value'
+    default: '', // 不传时为 ''
+    validator: (value) => ['', 'value'].includes(value),
+  },
+  attrs: {
+    type: Object,
+    default: () => {},
+  },
 })
 const slots = useSlots()
 const hasImgSlot = !!slots.img // 判断是否使用了 img 插槽
+
+const parseValue = computed(() => {
+  let { value, attrs } = props
+  let finalValue = value
+  if (attrs?.toFixed) {
+    finalValue = toFixed(finalValue, attrs.toFixed === true ? 2 : attrs.toFixed)
+  }
+  if (attrs?.thousands) {
+    finalValue = formatThousands(finalValue)
+  }
+
+  return finalValue
+})
 </script>
 
 <template>
-  <div class="o-item-box" :style="{ ...processWidth(props.width), ...boxStyle }">
-    <div class="o-item-box__img">
+  <div
+    class="o-item-box"
+    :style="{ ...{ height: processWidth(props.height, true) }, ...processWidth(props.width), ...boxStyle }"
+    v-if="props.type === ''"
+  >
+    <div class="o-item-box__img" :style="props.imgStyle">
       <slot name="img">
         <img :src="props.src" alt="" />
       </slot>
@@ -56,9 +90,32 @@ const hasImgSlot = !!slots.img // 判断是否使用了 img 插槽
       </div>
       <div class="o-item_box__value" :style="props.valueStyle">
         <slot name="value">
-          {{ props.value }}
+          {{ parseValue }}
         </slot>
       </div>
+    </div>
+  </div>
+  <div
+    class="o-item-box__value"
+    :style="{ ...{ height: processWidth(props.height, true) }, ...processWidth(props.width), ...boxStyle }"
+    v-else-if="props.type === 'value'"
+  >
+    <div>
+      <div class="o-item_box__value__value" :style="props.valueStyle">
+        <slot name="value">
+          {{ parseValue }}
+        </slot>
+      </div>
+      <div class="o-item_box__label__value" :style="props.labelStyle">
+        <slot name="label">
+          {{ props.label }}
+        </slot>
+      </div>
+    </div>
+    <div class="o-item-box__img__value" :style="props.imgStyle">
+      <slot name="img">
+        <img :src="props.src" alt="" />
+      </slot>
     </div>
   </div>
 </template>
@@ -95,6 +152,34 @@ const hasImgSlot = !!slots.img // 判断是否使用了 img 插槽
     .o-item_box__value {
       font-weight: 700;
     }
+  }
+}
+
+.o-item-box__value {
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 4px;
+  color: var(--85);
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: space-between;
+  font-size: 18px;
+  justify-content: v-bind('props.src || hasImgSlot ? "space-between" : "center"');
+  .o-item-box__img__value {
+    height: 100%;
+    margin-right: 8px;
+    :deep(img) {
+      height: 100%;
+    }
+  }
+  .o-item_box__label__value {
+    color: var(--45);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .o-item_box__value__value {
+    font-weight: 700;
   }
 }
 </style>
