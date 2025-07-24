@@ -166,6 +166,10 @@ export default defineConfig({
               link: '/components/tabs/base.md',
             },
             {
+              text: 'tag组件',
+              link: '/components/tag/base.md',
+            },
+            {
               text: 'text组件',
               link: '/components/text/base.md',
             },
