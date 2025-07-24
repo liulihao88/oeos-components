@@ -1,6 +1,6 @@
 <script setup lang="ts" name="OItem">
 import { ref, getCurrentInstance, useSlots, computed } from 'vue'
-import { processWidth, formatThousands, toFixed } from '@/utils'
+import { processWidth, formatThousands, toFixed, formatBytes } from '@/utils'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
   src: {
@@ -60,10 +60,13 @@ const hasImgSlot = !!slots.img // 判断是否使用了 img 插槽
 const parseValue = computed(() => {
   let { value, attrs } = props
   let finalValue = value
+  if (attrs?.formatBytes) {
+    finalValue = formatBytes(finalValue)
+  }
   if (attrs?.toFixed) {
     finalValue = toFixed(finalValue, attrs.toFixed === true ? 2 : attrs.toFixed)
   }
-  if (attrs?.thousands) {
+  if (attrs?.formatThousands) {
     finalValue = formatThousands(finalValue)
   }
 
@@ -180,6 +183,8 @@ const parseValue = computed(() => {
   }
   .o-item_box__value__value {
     font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 8px;
   }
 }
 </style>

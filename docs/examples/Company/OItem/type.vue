@@ -23,11 +23,12 @@ const { proxy } = getCurrentInstance()
     <OItem
       label="这个类型是type='value'且加属性"
       type="value"
-      value="123456"
+      value="123456789233412"
       src="https://img.yzcdn.cn/vant/logo.png"
       :imgStyle="{ height: '100px' }"
       :attrs="{
-        thousands: true,
+        formatBytes: true,
+        formatThousands: true,
         toFixed: true,
       }"
       height="300"
