@@ -61,8 +61,13 @@
       </el-option>
     </el-select>
 
-    <div class="o-select__select-box" @click="quickSelect" v-if="showQuick && !parseDisabled && sOptions.length > 0">
-      <img :src="Loop" alt="" width="12px" />
+    <div class="o-select__select-box" v-if="showQuick && !parseDisabled && sOptions.length > 0">
+      <div class="o-select__select-box__inner">
+        <o-icon name="ArrowUp" :size="attrs.size === 'small' ? 10 : 14" @click="quickSelect(false)"></o-icon>
+        <div class="h-1 w-100% cl-blue bg-line"></div>
+        <o-icon name="ArrowDown" :size="attrs.size === 'small' ? 10 : 14" @click="quickSelect(true)"></o-icon>
+      </div>
+      <!-- <img :src="Loop" alt="" width="12px" /> -->
     </div>
   </div>
 </template>
@@ -280,7 +285,7 @@ function handleLabel(item) {
   }
 }
 
-const quickSelect = () => {
+const quickSelect = (isPlus) => {
   if (disOptions.value.length === 0 || attrs.disabled === '' || !!attrs.disabled === true) {
     return
   }
@@ -295,13 +300,15 @@ const quickSelect = () => {
         return handleDifValue(v) === props.modelValue
       }
     })
-    nextIdx = nowIdx + 1
+    nextIdx = nowIdx + (isPlus ? 1 : -1)
     if (nextIdx === disOptions.value.length) {
       nextIdx = 0
     }
+    if (nextIdx < 0) {
+      nextIdx = disOptions.value.length - 1
+    }
   }
   let getValue = props.type === 'simple' ? disOptions.value[nextIdx] : disOptions.value[nextIdx][props.value]
-  console.log(`81 getValue`, getValue)
   if (props.multiple === true) {
     selectRef.value.$emit('change', [getValue])
   } else {
@@ -466,8 +473,8 @@ const urlParams = translateToPageinfo({
   position: relative;
   border: 1px solid #dcdfe6;
   border-left: none;
-  padding: 0 2px;
   white-space: nowrap;
+  width: 14px;
   cursor: pointer;
   border-radius: 0px 2px 2px 0px;
   align-items: center;
@@ -477,5 +484,20 @@ const urlParams = translateToPageinfo({
   height: var(--el-input-height);
   min-height: 100%;
   color: var(--el-color-info);
+  .o-select__select-box__inner {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    :hover {
+      color: var(--blue);
+      background: lightblue;
+    }
+    .o-icon + .o-icon {
+      margin-left: 0;
+    }
+  }
 }
 </style>
