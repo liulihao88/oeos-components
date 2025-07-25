@@ -79,13 +79,17 @@ const calcMax = (value) => {
 }
 
 const option = computed(() => {
-  // 预处理数据，标记需要显示的标签
+  let baseInterval = chartRef.value?.$el?.offsetWidth < 1000 ? 4 : 2
+  // 预处理数据，标记哪些节点需要强制显示
   const processedData = data.value[0].timeValue.map((item, index, array) => {
-    const timeStr = formatTime(item.time * 1000, '{m}-{d}')
-    const isFirstOccurrence = array.slice(0, index).every((v) => formatTime(v.time * 1000, '{m}-{d}') !== timeStr)
+    const time = item.time * 1000
+    const timeStr = formatTime(time, '{m}-{d}')
+    // 只有当当前日期与前一天不同时才标记为需要显示
+    const isFirstOccurrence = index === 0 || formatTime(array[index - 1].time * 1000, '{m}-{d}') !== timeStr
     return {
       ...item,
-      displayLabel: isFirstOccurrence ? timeStr : '',
+      timeStr,
+      isKeyPoint: isFirstOccurrence, // 标记关键节点
     }
   })
   return {
@@ -127,9 +131,27 @@ const option = computed(() => {
     // 在图表配置中
     xAxis: {
       type: 'category',
-      data: processedData.map((item) => item.displayLabel), // 直接使用处理后的标签
+      data: processedData.map((d) => {
+        if (d.isKeyPoint) {
+          return d.timeStr
+        } else {
+          return ''
+        }
+      }), // 原始时间数据
       axisLabel: {
-        interval: 0, // 确保所有标签都显示
+        showMinLabel: true, // 强制显示第一个标签
+        showMaxLabel: true, // 强制显示最后一个标签
+        // 动态间隔：只显示标记为关键节点的标签
+        // interval: (index) => {
+        //   return processedData[index].isKeyPoint ? 0 : 1 // 关键节点显示，其他隐藏
+        // },
+        interval: baseInterval,
+      },
+      axisTick: {
+        alignWithLabel: true,
+        // 刻度线跟随标签显示
+        interval: baseInterval,
+        // interval: (index) => (processedData[index].isKeyPoint ? 0 : 1),
       },
     },
 
