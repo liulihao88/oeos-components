@@ -79,6 +79,15 @@ const calcMax = (value) => {
 }
 
 const option = computed(() => {
+  // 预处理数据，标记需要显示的标签
+  const processedData = data.value[0].timeValue.map((item, index, array) => {
+    const timeStr = formatTime(item.time * 1000, '{m}-{d}')
+    const isFirstOccurrence = array.slice(0, index).every((v) => formatTime(v.time * 1000, '{m}-{d}') !== timeStr)
+    return {
+      ...item,
+      displayLabel: isFirstOccurrence ? timeStr : '',
+    }
+  })
   return {
     color: [color[0], color[1], '#37A2FF', '#FF0087', '#FFBF00'],
     tooltip: {
@@ -114,30 +123,16 @@ const option = computed(() => {
       orient: 'horizontal', // 水平排列（默认）
       align: 'left', // 文本左对齐
     },
+
+    // 在图表配置中
     xAxis: {
       type: 'category',
-      interval: 0,
+      data: processedData.map((item) => item.displayLabel), // 直接使用处理后的标签
       axisLabel: {
-        formatter: (value, index, ...arr) => {
-          let time = data.value?.[0]?.timeValue[index].time * 1000
-          let timeStr = formatTime(time, '{m}-{d}')
-          if (index === 0) {
-            return timeStr
-          }
-          let beforeDateTime = data.value?.[0]?.timeValue.slice(0, index)
-          let repeatTime = beforeDateTime.some((v) => {
-            let nowTime = v.time * 1000
-            let nowTimeStr = formatTime(nowTime, '{m}-{d}')
-            return nowTimeStr === timeStr
-          })
-          if (repeatTime) {
-            return ''
-          }
-          console.log(`09 timeStr`, timeStr)
-          return timeStr
-        },
+        interval: 0, // 确保所有标签都显示
       },
     },
+
     yAxis: [
       {
         type: 'value',
@@ -175,7 +170,7 @@ const option = computed(() => {
         },
       },
     ],
-     // 核心设置：启用混合模式
+    // 核心设置：启用混合模式
     blendMode: 'multiply',
     series: [
       {
