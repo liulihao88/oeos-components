@@ -8,6 +8,7 @@ import VueTippy from 'vue-tippy'
 import registerDirectives from './directives/gDirectives.js'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as utils from './utils/src/index.ts'
+export * from './utils/src/index.ts'
 
 import OSvg from './components/svg'
 
@@ -46,6 +47,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   // @ts-ignore
   install(window.Vue)
 }
+
 
 export function createSvg(iconDirs) {
   let res = {
