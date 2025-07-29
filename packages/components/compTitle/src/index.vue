@@ -4,7 +4,7 @@
   <o-comp-title :title="props.title" :size="attrs.size" :boxStyle="$attrs.boxStyle ?? {}"></o-comp-title>
  */
 import { ref, getCurrentInstance, useAttrs, computed } from 'vue'
-import { processWidth } from '@/utils'
+import { processWidth } from '@/utils/src'
 const attrs = useAttrs()
 
 const props = defineProps({

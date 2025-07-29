@@ -6,7 +6,7 @@ let string = proxy.toFixed('22')
 let digit4 = proxy.toFixed('22', 4)
 let toNumber = proxy.toFixed('22.321321', 2, true)
 
-import { toFixed, getType } from '@/utils/index.ts'
+import { toFixed, getType } from '@/utils/src/index.ts'
 let arr = [
   { label: '基本用法22', value: 22 },
   { label: '字符串22', value: '22' },

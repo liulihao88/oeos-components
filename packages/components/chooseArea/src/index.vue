@@ -1,7 +1,7 @@
 <script setup lang="ts" name="OChooseArea">
 import { ref, getCurrentInstance } from 'vue'
 import address from './pca-code.json'
-import { processWidth } from '@/utils'
+import { processWidth } from '@/utils/src'
 const props = defineProps({
   width: {
     type: [String, Number],

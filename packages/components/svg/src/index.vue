@@ -6,7 +6,7 @@
 
 <script setup lang="ts" name="OSvg">
 import { computed } from 'vue'
-import { processWidth } from '@/utils'
+import { processWidth } from '@/utils/src'
 const props = defineProps({
   prefix: {
     type: String,

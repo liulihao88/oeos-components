@@ -30,7 +30,7 @@
 <o-title title="我说呢" sub-title="test/t2.vue"></o-title>
 *
 */
-import { processWidth } from '@/utils'
+import { processWidth } from '@/utils/src'
 import { ref, computed } from 'vue'
 const props = defineProps({
   title: {

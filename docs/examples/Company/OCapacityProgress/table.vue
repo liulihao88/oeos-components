@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-import { formatBytes } from '@/utils'
+import { formatBytes } from '@/utils/src/index.ts'
 
 const data = ref([
   { name: 'andy', totalSpace: 1234, overUsedSpace: 1000 },

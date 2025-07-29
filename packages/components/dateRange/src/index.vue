@@ -1,6 +1,6 @@
 <script setup lang="ts" name="ODateRange">
 import { ref, useAttrs, getCurrentInstance, computed } from 'vue'
-import { processWidth } from '@/utils'
+import { processWidth } from '@/utils/src'
 import OCompTitle from '@/components/compTitle'
 const attrs = useAttrs()
 const props = defineProps({

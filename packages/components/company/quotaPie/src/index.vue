@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance, onMounted, watch, computed, defineAsyncComponent } from 'vue'
+import { ref, onMounted, watch, computed, defineAsyncComponent } from 'vue'
 const VChart = defineAsyncComponent(() => import('vue-echarts')) // 因为直接引入vue-echarts, 使用vitepress打包回报错, 在使用 VitePress 打包时，如果引入的 vue-echarts 中包含对 document 的引用，可能会导致 document is not defined 的错误。这是因为 VitePress 使用了服务器端渲染（SSR），而 document 是浏览器环境中的对象，在服务器端环境中不存在。以下是几种可能的解决
-import '@/utils/useEcharts.ts'
-import { getPieColorByDataIndex } from '@/utils/packageUtils.ts'
-const { proxy } = getCurrentInstance()
+import '@/utils/local/useEcharts'
+import { getPieColorByDataIndex } from '@/utils/local/packageUtils'
+import { formatBytes, formatBytesConvert, clone } from '@oeos-components/utils'
 defineOptions({
   name: 'OQuotaPie',
 })
@@ -39,7 +39,7 @@ const usedPercent = ref('0%')
 
 const getValue = computed(() => {
   usedPercent.value = ((usedNum.value / totalNum.value) * 100).toFixed(2) + '%'
-  let num = `${proxy.formatBytes(proxy.formatBytesConvert(props.used))} / ${proxy.formatBytes(proxy.formatBytesConvert(props.total))}`
+  let num = `${formatBytes(formatBytesConvert(props.used))} / ${formatBytes(formatBytesConvert(props.total))}`
   // let text = '总使用量 / 总可用量'
   return `${usedPercent.value}\n\n${num}\n\n${props.text}`
 })
@@ -130,10 +130,10 @@ watch(
   ([usedNew, totalNew]) => {
     if (usedNew || totalNew) {
       isEmpty.value = false
-      usedNum.value = proxy.formatBytesConvert(usedNew)
-      totalNum.value = proxy.formatBytesConvert(totalNew)
+      usedNum.value = formatBytesConvert(usedNew)
+      totalNum.value = formatBytesConvert(totalNew)
       initOptions.series[0].data = [usedNum.value, totalNum.value - usedNum.value]
-      options.value = proxy.clone(initOptions)
+      options.value =clone(initOptions)
     } else {
       isEmpty.value = true
     }
@@ -147,10 +147,10 @@ watch(
 // 根据容器尺寸调整字体大小的函数
 const adjustFontSize = (width, height) => {
   let baseSize = Math.min(width, height) / 20
-  
+
   const minFontSize = 10
   const maxFontSize = 24
-  if (baseSize  < minFontSize) {
+  if (baseSize < minFontSize) {
     baseSize = minFontSize
   } else if (baseSize > maxFontSize) {
     baseSize = maxFontSize

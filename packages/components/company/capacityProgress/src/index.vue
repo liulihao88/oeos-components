@@ -6,8 +6,8 @@
  */
 
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { sleep, getVariable } from '@/utils/index.ts'
-import { formatBytes } from '@/utils'
+import { sleep, getVariable } from '@/utils/src'
+import { formatBytes } from '@/utils/src'
 
 const progressBoxRef = ref(null)
 const percentageRef = ref(null)
@@ -78,8 +78,6 @@ const adaptiveWidth = async () => {
     return { width: '200px' }
   }
 }
-
-
 
 const handleTooltip = computed(() => {
   if (!showRight.value) {

@@ -6,7 +6,7 @@
   <o-icon name="loading" class="is-loading p-l-200"></o-icon>
  */
 import { ref, computed } from 'vue'
-import { toLine } from '@/utils'
+import { toLine } from '@/utils/src'
 import OSvg from '@/components/svg'
 const props = defineProps({
   name: {

@@ -21,13 +21,16 @@
     "docsserve": "vitepress serve docs",
     "deploy": "sh -x deploy.sh",
     "release-deploy": "pnpm release && npm run deploy",
-    "deploy-no-build": "sh -x deploy.sh -k"
+    "deploy-no-build": "sh -x deploy.sh -k",
+    "build:utils": "pnpm run -C packages/utils build",
+    "build:release": "pnpm run -C pakages/utils release"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/vue-fontawesome": "^3.0.6",
+    "@oeos-components/utils": "^0.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
@@ -40,6 +43,7 @@
     "echarts": "^5.5.0",
     "element-plus": "^2.9.7",
     "escape-html": "^1.0.3",
+    "fast-glob": "^3.3.3",
     "lodash-es": "^4.17.21",
     "markdown-it": "^13.0.1",
     "markdown-it-container": "^3.0.0",
@@ -50,6 +54,7 @@
     "sass": "^1.70.0",
     "tippy.js": "^6.3.7",
     "typescript": "^5.3.3",
+    "unbuild": "^3.6.0",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-vue-setup-extend": "^0.4.0",
     "vitepress": "1.0.0-rc.1",

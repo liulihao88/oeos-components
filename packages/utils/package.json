@@ -1,0 +1,31 @@
+{
+  "name": "@oeos-components/utils",
+  "version": "0.0.3",
+  "description": "utils of oeos-components",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "scripts": {
+    "build": "npx unbuild",
+    "stub": "npx unbuild --stub",
+    "release": "npx unbuild && npm version patch && npm publish"
+  },
+  "author": "",
+  "dependencies": {
+    "@vue/reactivity": "^3.5.18",
+    "@vue/shared": "^3.5.18",
+    "consola": "^3.4.2",
+    "element-plus": "^2.10.4",
+    "lodash-es": "^4.17.21",
+    "vue": "3.4.15"
+  }
+}

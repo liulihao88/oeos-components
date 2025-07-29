@@ -75,7 +75,7 @@
 <script setup lang="ts" name="OSelect">
 import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed } from 'vue'
 import Loop from '@/assets/images/loop.png'
-import { processWidth, isEmpty } from '@/utils'
+import { processWidth, isEmpty } from '@/utils/src'
 
 import OIcon from '@/components/icon'
 import OCompTitle from '@/components/compTitle'

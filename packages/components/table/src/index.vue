@@ -3,7 +3,7 @@ import { ref, watch, computed, useAttrs } from 'vue'
 import RenderComp from './renderComp.vue'
 import OPopconfirm from '@/components/popconfirm'
 import OIcon from '@/components/icon'
-import { getType } from '@/utils'
+import { getType } from '@/utils/src'
 
 const attrs = useAttrs()
 

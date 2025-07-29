@@ -1,7 +1,7 @@
 <script setup lang="ts" name="OWarning">
 import { getCurrentInstance, computed, useAttrs } from 'vue'
 import OIcon from '@/components/icon'
-import { processWidth } from '@/utils'
+import { processWidth } from '@/utils/src'
 const props = defineProps({
   content: {
     type: String,

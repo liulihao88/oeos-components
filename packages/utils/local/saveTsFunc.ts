@@ -1,5 +1,5 @@
 import { intersectionWith, isEqual, mergeWith, unionWith } from 'lodash-es'
-import { isArray, isObject } from '@/utils/is'
+import { isArray, isObject } from './is'
 /**
  * Add the object as a parameter to the URL
  * @param baseUrl url
@@ -64,17 +64,4 @@ export function deepMerge<T extends object | null | undefined, U extends object 
     }
     return undefined
   })
-}
-
-export function openWindow(
-  url: string,
-  opt?: { target?: TargetContext | string; noopener?: boolean; noreferrer?: boolean },
-) {
-  const { target = '__blank', noopener = true, noreferrer = true } = opt || {}
-  const feature: string[] = []
-
-  noopener && feature.push('noopener=yes')
-  noreferrer && feature.push('noreferrer=yes')
-
-  window.open(url, target, feature.join(','))
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts" name="OEmpty">
 import { ref, getCurrentInstance, withDefaults } from 'vue'
-import { processWidth } from '@/utils'
+import { processWidth } from '@/utils/src'
 import group_null from '@/assets/images/group_null.png'
 // const props = defineProps({
 //   description: {
@@ -37,7 +37,7 @@ const props = withDefaults(
   {
     description: '暂无数据',
     width: 60,
-    src: group_null
+    src: group_null,
   },
 )
 /** @使用方式

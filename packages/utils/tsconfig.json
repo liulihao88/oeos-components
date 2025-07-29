@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "removeComments": false,
+    "module": "CommonJS",
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "local/useEcharts.ts",
+    "local/dom.ts",
+    "local/packageUtils.ts",
+    "local/saveTsFunc.ts",
+    "local/customVitePluginFilePath.ts",
+    "local/is.ts",
+    "local/types.ts"
+, "withInstall.ts", "oldIndex.ts"  ]
+}

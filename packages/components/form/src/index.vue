@@ -1,7 +1,7 @@
 <script setup lang="ts" name="OForm">
 import { ref } from 'vue'
 import RenderComp from './renderComp.vue'
-import { validForm, isEmpty } from '@/utils'
+import { validForm, isEmpty } from '@/utils/src'
 import OIcon from '@/components/icon'
 import OTooltip from '@/components/tooltip'
 

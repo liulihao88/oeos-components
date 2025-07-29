@@ -51,7 +51,7 @@
 <script setup lang="ts" name="ODialog">
 import { ref, computed, useAttrs, useSlots, watch, onBeforeUnmount, onMounted } from 'vue'
 import dialogImg from '@/assets/images/dialog.png'
-import { getType } from '@/utils/index'
+import { getType } from '@/utils/src/index'
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({

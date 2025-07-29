@@ -20,7 +20,7 @@
 <script setup lang="ts" name="ODescription">
 import { computed, getCurrentInstance } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
-import { processWidth } from '@/utils'
+import { processWidth } from '@/utils/src'
 import OTooltip from '@/components/tooltip'
 
 type Options = {

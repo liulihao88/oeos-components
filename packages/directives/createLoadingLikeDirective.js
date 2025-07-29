@@ -1,5 +1,5 @@
 import { createApp, nextTick } from 'vue'
-import { addClass, removeClass } from '../utils/dom.js'
+import { addClass, removeClass } from '@/utils/local/dom.ts'
 const relativeCls = 'po-r'
 
 export default function createLoadingLikeDirective(comp) {

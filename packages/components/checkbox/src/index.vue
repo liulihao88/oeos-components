@@ -10,7 +10,7 @@
 ></o-checkbox>
 */
 import { ref, watch, computed, useAttrs } from 'vue'
-import { isEmpty } from '@/utils'
+import { isEmpty } from '@/utils/src'
 const attrs = useAttrs()
 const props = defineProps({
   type: {
@@ -131,9 +131,9 @@ function handleLabel(item, index) {
   }
 }
 const filteredAttrs = computed(() => {
-  const { label, ...rest } = attrs;
-  return rest;
-});
+  const { label, ...rest } = attrs
+  return rest
+})
 </script>
 
 <template>

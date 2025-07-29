@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import Loading from './cusLoading.vue'
-import { addClass, removeClass } from '../../utils/dom.js'
+import { addClass, removeClass } from '@/utils/local/dom.ts'
 
 const loadingDirective = {
   mounted(el, binding) {

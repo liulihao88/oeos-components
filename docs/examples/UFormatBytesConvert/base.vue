@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-import { formatBytesConvert, getType } from '@/utils/index.ts'
+import { formatBytesConvert, getType } from '@/utils/src/index.ts'
 let arr = [
   { label: '基本用法', value: '0.5GB' },
   { label: '加千分位', value: ['1,234 GB', { thounsand: true }] },

@@ -3,7 +3,7 @@
   时间最小区间是30分钟, 最大区间是2周
 */
 import { ref, getCurrentInstance, computed, watch } from 'vue'
-import { formatThousands, notEmpty, formatTime, formatBytes, formatBytesConvert, getVariable } from '@/utils'
+import { formatThousands, notEmpty, formatTime, formatBytes, formatBytesConvert, getVariable } from '@/utils/src'
 import * as echarts from 'echarts'
 
 defineOptions({

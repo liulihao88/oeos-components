@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import OInput from '@/components/input'
 import OIcon from '@/components/icon'
-import { notEmpty, $toast } from '@/utils'
+import { notEmpty, $toast } from '@/utils/src'
 
 const currentval = ref('')
 const labelarr = ref([])

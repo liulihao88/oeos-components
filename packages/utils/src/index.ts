@@ -1,7 +1,7 @@
-import { unref, isRef, toRaw, getCurrentInstance } from 'vue'
+import { unref, isRef, toRaw } from '@vue/reactivity'
 import { cloneDeep } from 'lodash-es'
-import { isStringNumber, isNumber } from './types.js'
 import { consola } from 'consola'
+import { ElMessage, ElMessageBox } from 'element-plus'
 /**
  * 现有方法如下
  * $toast(message, type: string | object = 'success', otherParams: object = {})
@@ -35,6 +35,15 @@ import { consola } from 'consola'
  * formatNewLines(str)
  * getVariable('--green')
  */
+export const isString = (val: any): val is string => typeof val === 'string'
+export const isStringNumber = (val: string): boolean => {
+  if (!isString(val)) {
+    return false
+  }
+  return !Number.isNaN(Number(val))
+}
+
+export const isNumber = (val: any): val is number => typeof val === 'number'
 
 /**
  * @example
@@ -53,7 +62,7 @@ import { consola } from 'consola'
     duration: 5000,
   })
 */
-import { ElMessage, ElMessageBox } from 'element-plus'
+
 export function $toast(message, type: string | object = 'success', otherParams: object = {}) {
   const map = {
     s: 'success',

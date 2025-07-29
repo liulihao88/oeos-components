@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
-import { sleep } from '../../../packages/utils'
+import { sleep } from '@oeos-components/utils'
 
 const { proxy } = getCurrentInstance()
 const confirmLoading = ref(false)
