@@ -23,7 +23,7 @@
     "release-deploy": "pnpm release && npm run deploy",
     "deploy-no-build": "sh -x deploy.sh -k",
     "build:utils": "pnpm run -C packages/utils build",
-    "build:release": "pnpm run -C pakages/utils release"
+    "build:release": "pnpm run -C packages/utils release"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
