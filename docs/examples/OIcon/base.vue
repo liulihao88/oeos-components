@@ -29,6 +29,8 @@ function isTest13() {
     <o-icon name="more"></o-icon>
     <o-icon name="zoom-in"></o-icon>
     <o-icon name="zoom-out"></o-icon>
+    <o-icon name="lock" content="锁定"></o-icon>
+    <o-icon name="unlock" content="未锁定"></o-icon>
 
     <div>支持首字母大写, 驼峰, 中划线命名</div>
     <o-icon name="AddLocation"></o-icon>

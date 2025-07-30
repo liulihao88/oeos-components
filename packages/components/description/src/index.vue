@@ -4,7 +4,10 @@
       <template #label>
         <o-tooltip :content="item.label"></o-tooltip>
       </template>
-      <template v-if="item.slotName">
+      <template v-if="item.render">
+        <render-comp :render="item.render" :item="item" />
+      </template>
+      <template v-else-if="item.slotName">
         <slot :name="item.slotName" :item="item" :label="item.label" :value="parseValue(item)" :index="index"></slot>
       </template>
       <template v-else>
@@ -18,7 +21,8 @@
 </template>
 
 <script setup lang="ts" name="ODescription">
-import { computed, getCurrentInstance } from 'vue'
+import RenderComp from '@/components/common/renderComp.vue'
+import { computed, getCurrentInstance, VNode } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import { processWidth } from '@oeos-components/utils'
 import OTooltip from '@/components/tooltip'
@@ -27,6 +31,8 @@ type Options = {
   label: string
   value: string
   slotName?: string
+  render?: (item: any) => VNode | string
+  filter?: (value: any) => any // 明确 filter 类型
 }
 
 const props = defineProps({
