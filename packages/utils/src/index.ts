@@ -879,11 +879,22 @@ export function processWidth(initValue, isBase = false) {
 /**
  * 增加小数点
  * toFixed(22) -> '22.00'
- * proxy.toFixed('22') -> '22.00'
- * proxy.toFixed('22', 4) -> '22.0000'
- * proxy.toFixed('22', 2, true) -> 22
+ * toFixed('22') -> '22.00'
+ * toFixed('22', 4) -> '22.0000'
+ * toFixed('22', 2) -> 22
+ * toFixed('22 TB', {prefix: '$', suffix: '%', unit: false}) -> $22.00%
  */
-export function toFixed(value, digits = 2) {
+export function toFixed(
+  value: any,
+  options: { digit?: number; prefix?: string; suffix?: string; unit?: boolean } | number = {},
+) {
+  // 如果第二个参数是数字，则将其视为 digit
+  if (typeof options === 'number') {
+    options = { digit: options }
+  }
+
+  // 默认为 digit=2, prefix='', suffix=''
+  let { digit = 2, prefix = '', suffix = '', unit = true } = options
   // 提取数字部分、小数点和小数部分
   let matches = ('' + value).match(/^([\d,]+)(\.?)(\d+)?(\D+)?$/)
   if (!matches) {
@@ -892,13 +903,16 @@ export function toFixed(value, digits = 2) {
 
   let numericString = matches[1].replace(/\D/g, '') // 仅保留数字
   let decimalString = matches[3] ? `.${matches[3]}` : '' // 小数部分，如果没有则为空字符串
-  let unit = matches[4] || '' // 单位部分，如果没有则为空字符串
+  let finalUnit = matches[4] || '' // 单位部分，如果没有则为空字符串
 
   let res = numericString
   if (isStringNumber(numericString) || isNumber(numericString)) {
-    res = Number(numericString + decimalString).toFixed(digits)
+    res = Number(numericString + decimalString).toFixed(digit)
   }
-  return `${res}${unit}`
+  if (!unit) {
+    finalUnit = ''
+  }
+  return `${prefix}${res}${finalUnit}${suffix}`
 }
 
 /**
