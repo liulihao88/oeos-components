@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, computed } from 'vue'
 const { proxy } = getCurrentInstance()
+import { formatTime } from '@oeos-components/utils'
 const data = ref({})
 const options = computed(() => {
   return [
@@ -10,6 +11,11 @@ const options = computed(() => {
       value: () => {
         return proxy.formatTime(data.value.time)
       },
+    },
+    {
+      label: 'filter的时间',
+      value: data.value.time,
+      filter: (val) => formatTime(val),
     },
   ]
 })
@@ -27,6 +33,6 @@ init()
 <template>
   <div>
     <div>docs/examples/ODescription/base.vue</div>
-    <o-description :options="options" class="w-100%"></o-description>
+    <o-description :options="options" class="w-100%" :column="1"></o-description>
   </div>
 </template>

@@ -5,13 +5,13 @@
         <o-tooltip :content="item.label"></o-tooltip>
       </template>
       <template v-if="item.slotName">
-        <slot :name="item.slotName" :item="item" :label="item.label" :value="item.value" :index="index"></slot>
+        <slot :name="item.slotName" :item="item" :label="item.label" :value="parseValue(item)" :index="index"></slot>
       </template>
       <template v-else>
         <template v-if="showAll">
-          {{ item.value }}
+          {{ parseValue(item) }}
         </template>
-        <o-tooltip class="w-100%" :content="parseContent(item.value)" v-else></o-tooltip>
+        <o-tooltip class="w-100%" :content="parseContent(parseValue(item))" v-else></o-tooltip>
       </template>
     </el-descriptions-item>
   </el-descriptions>
@@ -20,7 +20,7 @@
 <script setup lang="ts" name="ODescription">
 import { computed, getCurrentInstance } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
-import { processWidth } from '@/utils/src'
+import { processWidth } from '@oeos-components/utils'
 import OTooltip from '@/components/tooltip'
 
 type Options = {
@@ -47,6 +47,13 @@ const props = defineProps({
     default: false,
   },
 })
+const parseValue = (item) => {
+  if (item.filter) {
+    return item.filter(item.value)
+  } else {
+    return item.value
+  }
+}
 const labelWidth = computed(() => {
   let maxLabelLength = 1
   ;(props.options ?? []).forEach((v) => {
