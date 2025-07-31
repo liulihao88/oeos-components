@@ -1,4 +1,5 @@
 import { unref, isRef, toRaw } from '@vue/reactivity'
+import type { Ref } from '@vue/reactivity'
 import { cloneDeep } from 'lodash-es'
 import { consola } from 'consola'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -46,15 +47,17 @@ export const isStringNumber = (val: string): boolean => {
 export const isNumber = (val: any): val is number => typeof val === 'number'
 
 /**
- * @example
+ * @example1
   proxy.$toast('保存成功')
   proxy.$toast('保存失败', 'e')
   proxy.$toast({
     message: 'andy',
     type: 'warning',
+    duration: 300,
+    closeAll: true,
   })
 * $toast.success('This is a success message')
-* @example 显示对象 
+* @example2 显示对象 
 * $toast({
     dangerouslyUseHTMLString: true,
     message: `<h6>复制成功</h6><pre>${JSON.stringify(obj, null, 2)}</pre>`,
@@ -62,7 +65,6 @@ export const isNumber = (val: any): val is number => typeof val === 'number'
     duration: 5000,
   })
 */
-
 export function $toast(message, type: string | object = 'success', otherParams: object = {}) {
   const map = {
     s: 'success',
@@ -295,7 +297,7 @@ export function clone(data, times = 1) {
     return cloneDeep(data)
   }
   const clonedData = cloneDeep(data)
-  const result = []
+  const result: typeof clonedData = []
   for (let i = 0; i < times; i++) {
     result.push(...clonedData)
   }
@@ -358,7 +360,7 @@ export function formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
  * @example
  * formatDurationTime(1162821) => 19分24秒
  */
-export function formatDurationTime(timestamp, cFormat = '{d} 天 {h} 时 {i} 分 {s} 秒') {
+export function formatDurationTime(timestamp, cFormat = '{d}天{h}时{i}分{s}秒') {
   const secondsPerMinute = 60
   const minutesPerHour = 60
   const hoursPerDay = 24
@@ -1040,7 +1042,10 @@ export function throttle(fn, delay = 1000) {
  * @example2 // 无视 loading 状态
  * const { data, error } = await tryCatch(fetchUserData());
  */
-export function tryCatch<T>(promise: Promise<T>, sendLoading?: Ref<boolean> | null): Promise<{ data: T | null; error: any }> {
+export function tryCatch<T>(
+  promise: Promise<T>,
+  sendLoading?: Ref<boolean> | null,
+): Promise<{ data: T | null; error: any }> {
   const updateLoading = (value: boolean): void => {
     if (isRef(sendLoading)) {
       sendLoading.value = value
