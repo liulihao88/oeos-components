@@ -1029,6 +1029,40 @@ export function throttle(fn, delay = 1000) {
   }
 }
 
+/**
+ * 封装 Promise 执行，提供自动 loading 状态管理
+ * @param promise 需要执行的 Promise
+ * @param sendLoading 可选的 loading 状态(支持 Ref<boolean> 或 boolean)
+ * @returns Promise<{ data: T | null; error: any }>
+ * @example1
+ * const loading = ref(false);
+ * const { data, error } = await tryCatch(fetchUserData(), loading);
+ * @example2 // 无视 loading 状态
+ * const { data, error } = await tryCatch(fetchUserData());
+ */
+export function tryCatch<T>(promise: Promise<T>, sendLoading?: Ref<boolean> | null): Promise<{ data: T | null; error: any }> {
+  const updateLoading = (value: boolean): void => {
+    if (isRef(sendLoading)) {
+      sendLoading.value = value
+    } else if (sendLoading !== null) {
+      console.warn('Cannot modify non-ref sendLoading directly!')
+    }
+  }
+
+  // 初始化 loading 状态
+  updateLoading(true)
+
+  return promise
+    .then((data: T) => {
+      updateLoading(false)
+      return { data, error: null }
+    })
+    .catch((error: any) => {
+      updateLoading(false)
+      return { data: null, error }
+    })
+}
+
 export function debounce(fn, delay = 1000) {
   let timer = null
   return function () {

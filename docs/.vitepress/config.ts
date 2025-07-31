@@ -78,6 +78,10 @@ export default defineConfig({
                   link: '/components/utils/toFixed/base.md',
                 },
                 {
+                  text: 'tryCatch函数封装',
+                  link: '/components/utils/tryCatch/base.md',
+                },
+                {
                   text: 'formatBytesConvert翻转字节为数字',
                   link: '/components/utils/formatBytesConvert/base.md',
                 },
