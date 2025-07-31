@@ -31,12 +31,12 @@ const closeOther = async () => {
   $toast('天下之大唯我独尊', { closeAll: true })
 }
 
-const obj = {
-  name: 'andy',
-  age: 18,
-  hobbies: ['羽毛球', '乒乓球', '排期', '水球'],
-}
 const showObject = () => {
+  const obj = {
+    name: 'andy',
+    age: 18,
+    hobbies: ['羽毛球', '乒乓球', '排球', '编码'],
+  }
   $toast({
     dangerouslyUseHTMLString: true,
     message: `<pre>${JSON.stringify(obj, null, 2)}</pre>`,
