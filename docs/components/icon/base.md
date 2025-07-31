@@ -16,8 +16,14 @@ OIcon/base
 OIcon/slot
 :::
 
-### 所有图标
+### 常用图标查找
 
 :::demo
 OIcon/usually
+:::
+
+### 所有图标
+
+:::demo
+OIcon/all
 :::

@@ -1,43 +1,36 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-import * as icons from '@element-plus/icons-vue'
-function copyIcon(name) {
-  console.log(`1105 6行 docs/examples/OIcon/usually.vue name `, name)
-  let res = `<o-icon name="${proxy.toLine(name)}"></o-icon>`
-  proxy.copy(res, { duration: 500 })
-}
+const lists = [
+  { label: '新增', value: 'plus' },
+  { label: '删除', value: 'delete' },
+  { label: '搜索', value: 'search' },
+  { label: '查看', value: 'view' },
+  { label: '编辑', value: 'edit' },
+  { label: '等待', value: 'loading' },
+  { label: '下载', value: 'download' },
+  { label: '正确', value: 'check' },
+  { label: '关闭', value: 'close' },
+  { label: '圆环关闭', value: 'circle-close' },
+  { label: '更多', value: 'more' },
+  { label: '刷新', value: 'refresh' },
+  { label: '右箭头', value: 'arrow-right' },
+  { label: '放大', value: 'zoom-in' },
+  { label: '缩小', value: 'zoom-out' },
+  { label: '锁定', value: 'lock' },
+  { label: '未锁定', value: 'unlock' },
+]
 </script>
 
 <template>
-  <div class="icon-box">
-    <template v-for="(v, i) in icons" :key="i">
-      <div class="box-inner" @click="copyIcon(v.name)">
-        <o-icon :name="`${proxy.toLine(v.name)}`" size="30" class="item"></o-icon>
-        <div>{{ v.name }}</div>
-        <!-- <o-tooltip :content="v.name"></o-tooltip> -->
+  <div>
+    <oItemWrapper :columns="3">
+      <div v-for="(v, i) in lists" :key="i">
+        <div class="f-st-ct">
+          <div class="mr">{{ v.label }} ({{ v.value }}) -></div>
+          <o-icon :name="v.value" color="var(--blue)"></o-icon>
+        </div>
       </div>
-    </template>
+    </oItemWrapper>
   </div>
 </template>
-
-<style scoped lang="scss">
-.icon-box {
-  display: flex;
-  align-items: center;
-  // flex-direction: column;
-  flex-wrap: wrap;
-  .box-inner {
-    display: flex;
-    width: 60px;
-    align-items: center;
-    flex-direction: column;
-    margin: 24px;
-    cursor: pointer;
-    .item {
-      margin-bottom: 8px;
-      font-size: 12px;
-    }
-  }
-}
-</style>
