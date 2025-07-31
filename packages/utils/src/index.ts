@@ -947,6 +947,8 @@ export function toFixed(
 /**
  * 只有对正整数或者字符串正整数才进行单位的转换,
  * 否则返回原始数据
+ * @example
+ * proxy.formatBytes(536870912) // 512MB
  * proxy.formatBytes(536870912) // 512MB
  */
 export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
@@ -968,10 +970,17 @@ export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
   }
   return res
 }
-//formatBytesConvert('0.5GB') 536870912
-//formatBytesConvert('1,234 GB') 1324997410816
-//formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
 
+/**
+ * 字节转数字
+ * @param oBytes 
+ * @param param1 
+ * @returns number
+ * formatBytesConvert('0.5GB') 536870912
+ * formatBytesConvert('1,234 GB') 1324997410816
+ * formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
+ * formatBytesConvert('1,234 GB', {toFixed: 2}) 1324997410816.00
+ */
 export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = {}) {
   if (isStringNumber(oBytes) || isNumber(oBytes) || getType(oBytes) !== 'string') {
     return oBytes
@@ -1021,7 +1030,7 @@ export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = 
   }
   let finalRes = size * units[unit]
   if (toFixed) {
-    finalRes = parseFloat(finalRes.toFixed(toFixed))
+    finalRes = Number(finalRes).toFixed(toFixed)
   }
   if (thounsand) {
     finalRes = formatThousands(finalRes)
