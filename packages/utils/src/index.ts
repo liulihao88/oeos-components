@@ -2,7 +2,7 @@ import { unref, isRef, toRaw } from '@vue/reactivity'
 import type { Ref } from '@vue/reactivity'
 import { cloneDeep } from 'lodash-es'
 import { consola } from 'consola'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox, ElMessageOptions } from 'element-plus'
 /**
  * 现有方法如下
  * $toast(message, type: string | object = 'success', otherParams: object = {})
@@ -48,8 +48,9 @@ export const isNumber = (val: any): val is number => typeof val === 'number'
 
 /**
  * @example1
-  proxy.$toast('保存成功')
+  proxy.$toast('保存成功') // s:success; i: info; w: warning; e: error;  
   proxy.$toast('保存失败', 'e')
+  proxy.$toast('永不关闭', {duration: 0})
   proxy.$toast({
     message: 'andy',
     type: 'warning',
@@ -65,41 +66,67 @@ export const isNumber = (val: any): val is number => typeof val === 'number'
     duration: 5000,
   })
 */
-export function $toast(message, type: string | object = 'success', otherParams: object = {}) {
-  const map = {
+type MessageType = 'success' | 'info' | 'error' | 'warning'
+type ShortType = 's' | 'i' | 'e' | 'w'
+type ToastType = MessageType | ShortType
+type ToastOptions = Partial<ElMessageOptions> & { closeAll?: boolean }
+
+export function $toast(
+  message: string | ToastOptions,
+  type: ToastType | ToastOptions = 'success',
+  otherParams: ToastOptions = {},
+): void {
+  const typeMap: Record<ShortType, MessageType> = {
     s: 'success',
     i: 'info',
     e: 'error',
     w: 'warning',
   }
 
-  if (getType(message) === 'object') {
-    if (message.clodeAll) {
+  function isShortType(t: any): t is ShortType {
+    return ['s', 'i', 'e', 'w'].includes(t)
+  }
+
+  function isToastOptions(obj: any): obj is ToastOptions {
+    return typeof obj === 'object' && obj !== null
+  }
+
+  // Case 1: message is options object
+  if (isToastOptions(message)) {
+    if (message.closeAll) {
       ElMessage.closeAll()
     }
     ElMessage(message)
     return
   }
-  if (getType(type) === 'object') {
-    if (type.clodeAll) {
+
+  // Case 2: type is options object
+  if (isToastOptions(type)) {
+    if (type.closeAll) {
       ElMessage.closeAll()
     }
     ElMessage({
-      message: message,
+      message,
       type: 'success',
-      ...(type as object),
+      ...type,
     })
     return
   }
+
+  // Case 3: regular message with type and options
   if (otherParams.closeAll) {
     ElMessage.closeAll()
   }
+
+  const resolvedType = isShortType(type) ? typeMap[type] : type
+
   ElMessage({
-    message: message,
-    type: map[type as string] || type,
+    message,
+    type: resolvedType,
     ...otherParams,
   })
 }
+
 // Add shorthand methods for each type of message
 $toast.success = (message, otherParams = {}) => $toast(message, 'success', otherParams)
 $toast.info = (message, otherParams = {}) => $toast(message, 'info', otherParams)

@@ -66,6 +66,10 @@ export default defineConfig({
               collapsed: false,
               items: [
                 {
+                  text: '$toast提示',
+                  link: '/components/utils/$toast/base.md',
+                },
+                {
                   text: 'validate校验',
                   link: '/components/utils/validate/base.md',
                 },
