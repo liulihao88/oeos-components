@@ -70,10 +70,6 @@ export default defineConfig({
                   link: '/components/utils/$toast/base.md',
                 },
                 {
-                  text: 'validate校验',
-                  link: '/components/utils/validate/base.md',
-                },
-                {
                   text: 'confirm确认框',
                   link: '/components/utils/confirm/base.md',
                 },
@@ -84,6 +80,14 @@ export default defineConfig({
                 {
                   text: 'tryCatch函数封装',
                   link: '/components/utils/tryCatch/base.md',
+                },
+                {
+                  text: 'validate校验',
+                  link: '/components/utils/validate/base.md',
+                },
+                {
+                  text: 'validForm校验form函数封装',
+                  link: '/components/utils/validForm/base.md',
                 },
                 {
                   text: 'formatBytesConvert翻转字节为数字',

@@ -44,7 +44,7 @@ const passwordType = computed(() => {
     </el-form>
 
     <el-button type="primary" @click="confirm">提交</el-button>
-    <el-button type="primary" @click="formRef.clearValidate()">清空校验</el-button>
+    <el-button type="info" @click="formRef.clearValidate()">清空校验</el-button>
 
     <o-warning type="icon" content="密码规则: 1-40位字符组合、特殊字符可选" />
   </div>

@@ -84,7 +84,7 @@ const validIp = () => {
     </el-form>
 
     <el-button type="primary" @click="submit">提交</el-button>
-    <el-button type="primary" @click="formRef.clearValidate()">清空校验</el-button>
+    <el-button type="info" @click="formRef.clearValidate()">清空校验</el-button>
  
   </div>
 </template>

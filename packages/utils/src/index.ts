@@ -228,8 +228,18 @@ function _isObjectWithExclude(obj: object | string | []): obj is { exclude: { [k
   return typeof obj === 'object' && obj !== null && 'exclude' in obj && typeof obj.exclude === 'object'
 }
 
-// await proxy.validForm(formRef);
-// await proxy.validForm(formRef, {showMessage: false})
+
+/**
+ * element-plus的form表单使用promise进行封装
+ * @param ref 
+ * @param param1 
+ * @returns Promise
+ * await proxy.validForm(formRef);
+ * await proxy.validForm(formRef, {message: '自定义错误'});
+ * await proxy.validForm(formRef, {showMessage: false});
+ * await proxy.validForm(formRef, {detail: true});
+ */
+
 export function validForm(ref, { message = '表单校验错误, 请检查', detail = false, showMessage = true } = {}) {
   return new Promise((resolve, reject) => {
     unref(ref).validate((valid, status) => {
@@ -973,8 +983,8 @@ export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
 
 /**
  * 字节转数字
- * @param oBytes 
- * @param param1 
+ * @param oBytes
+ * @param param1
  * @returns number
  * formatBytesConvert('0.5GB') 536870912
  * formatBytesConvert('1,234 GB') 1324997410816
