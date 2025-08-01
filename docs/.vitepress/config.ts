@@ -74,6 +74,10 @@ export default defineConfig({
                   link: '/components/utils/confirm/base.md',
                 },
                 {
+                  text: 'isEmpty判断是否空值',
+                  link: '/components/utils/isEmpty/base.md',
+                },
+                {
                   text: 'toFixed给数字加小数点',
                   link: '/components/utils/toFixed/base.md',
                 },

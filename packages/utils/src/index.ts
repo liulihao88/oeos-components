@@ -228,11 +228,10 @@ function _isObjectWithExclude(obj: object | string | []): obj is { exclude: { [k
   return typeof obj === 'object' && obj !== null && 'exclude' in obj && typeof obj.exclude === 'object'
 }
 
-
 /**
  * element-plus的form表单使用promise进行封装
- * @param ref 
- * @param param1 
+ * @param ref
+ * @param param1
  * @returns Promise
  * await proxy.validForm(formRef);
  * await proxy.validForm(formRef, {message: '自定义错误'});
@@ -262,36 +261,54 @@ export function validForm(ref, { message = '表单校验错误, 请检查', deta
 
 /**
  * 判断变量是否空值
- * undefined, null, '', '   ', false, 0, [], {} 均返回true，否则返回false
+ * undefined, null, '', '   ', false, 0, [], {}, NaN, new Set(), new Map(), BigInt(0), new Date('无效日期') 均返回true，否则返回false
  */
-export function isEmpty(data: any): boolean {
+export function isEmpty(data: any, strict = false): boolean {
   if (isRef(data)) {
     data = unref(data)
   }
+
+  // 处理严格模式（strict=true 时，0/false 不算空）
+  if (strict) {
+    if (data === false || data === 0 || data === BigInt(0)) {
+      return false
+    }
+  }
+
+  // 处理 null/undefined
+  if (data == null) return true
   // 如果是日期对象，检查它是否是有效的日期
   if (data instanceof Date) {
     return isNaN(data.getTime())
   }
+  // 处理基础类型
   switch (typeof data) {
-    case 'undefined':
-      return true
     case 'string':
-      if (data.trim().length === 0) return true
-      break
+      return data.trim().length === 0
     case 'boolean':
-      if (!data) return true
-      break
+      return !data
     case 'number':
-      if (0 === data) return true
-      break
-    case 'object':
-      if (null === data) return true
-      if (undefined !== data.length && data.length === 0) return true
-      for (var k in data) {
-        return false
-      }
-      return true
+      return 0 === data || isNaN(data) // ❗ `NaN`或者0 被认为是空
+    case 'symbol':
+      return false
+    case 'bigint':
+      return data === BigInt(0)
   }
+  // 处理集合类型
+  if (data instanceof Map || data instanceof Set) return data.size === 0
+  // 处理数组/类数组
+  if (
+    Array.isArray(data) ||
+    (typeof data.length === 'number' && Object.prototype.toString.call(data) === '[object Object]')
+  ) {
+    return data.length === 0
+  }
+
+  // 处理普通对象
+  if (typeof data === 'object') {
+    return Object.keys(data).length === 0
+  }
+
   return false
 }
 // 非空
