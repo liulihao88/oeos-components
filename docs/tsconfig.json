@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
@@ -11,6 +13,11 @@
     "noImplicitAny": false,
     "skipLibCheck": true,
     "jsx": "preserve",
+    "paths": {
+      "@/*": [
+        "../packages/*"
+      ]
+    },
     "types": [
       // 用来指定需要包含的模块，并将其包含在全局范围内。
       "element-plus/global"

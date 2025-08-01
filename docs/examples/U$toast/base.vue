@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 // import { $toast, sleep } from '@oeos-components/utils'
-import { $toast, sleep } from '@/utils/src/index.ts'
+import { $toast, sleep } from '@/utils/src/index'
 const { proxy } = getCurrentInstance()
 const base = () => {
   $toast('基础成功')
