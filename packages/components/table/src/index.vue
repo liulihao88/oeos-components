@@ -44,6 +44,10 @@ const props = defineProps({
   isLoading: {
     type: Boolean,
   },
+  indexAttrs: {
+    type: Object,
+    default: () => {},
+  },
 })
 const tableRef = ref(null)
 const tableTotal = computed(() => {
@@ -234,7 +238,7 @@ const compEmptyText = computed(() => {
       }"
     >
       <slot />
-      <el-table-column v-if="showIndex" type="index" width="60" align="center" :index="indexMethod">
+      <el-table-column v-if="showIndex" type="index" width="60" align="center" :index="indexMethod" v-bind="indexAttrs">
         <!-- 使用 #header 插槽自定义表头 -->
         <template #header="{ column }">
           <span>序号</span>
