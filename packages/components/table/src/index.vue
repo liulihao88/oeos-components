@@ -238,7 +238,14 @@ const compEmptyText = computed(() => {
       }"
     >
       <slot />
-      <el-table-column v-if="showIndex" type="index" width="60" align="center" :index="indexMethod" v-bind="indexAttrs">
+      <el-table-column
+        v-if="showIndex"
+        type="index"
+        :width="props.data?.length >= 1000 ? 70 : 60"
+        align="center"
+        :index="indexMethod"
+        v-bind="indexAttrs"
+      >
         <!-- 使用 #header 插槽自定义表头 -->
         <template #header="{ column }">
           <span>序号</span>
