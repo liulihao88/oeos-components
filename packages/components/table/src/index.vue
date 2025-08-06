@@ -28,6 +28,10 @@ const props = defineProps({
     type: Number,
     default: 30,
   },
+  pageNumber: {
+    type: Number,
+    default: 1,
+  },
   pageSizes: {
     type: Array,
     default: () => {
@@ -54,6 +58,7 @@ const tableTotal = computed(() => {
   return props.total || props.data.length
 })
 const sPageSize = ref(props.pageSize)
+const sPageNumber = ref(props.pageNumber)
 const emits = defineEmits(['update'])
 const finalColumns = ref([])
 
@@ -101,6 +106,15 @@ watch(
   () => props.pageSize,
   (val) => {
     sPageSize.value = val
+  },
+  {
+    immediate: true,
+  },
+)
+watch(
+  () => props.pageNumber,
+  (val) => {
+    sPageNumber.value = val
   },
   {
     immediate: true,
@@ -174,7 +188,7 @@ const handleCompClick = (handler, row, scope, event) => {
 const indexMethod = (index) => {
   // 如果当前页是最后一页（数据量不足 pageSize），则基于实际数据量计算
   const isLastPage = props.data.length < sPageSize.value
-  const offset = isLastPage ? props.total - props.data.length : (pageNumber.value - 1) * sPageSize.value
+  const offset = isLastPage ? props.total - props.data.length : (sPageNumber.value - 1) * sPageSize.value
   return offset + index + 1
 }
 
@@ -189,13 +203,15 @@ const handleEmptyText = (scope, v) => {
 const pageNumber = ref(1)
 
 function handleSizeChange(val) {
-  sPageSize.value = val
-  pageNumber.value = 1
-  updatePage()
+  // sPageSize.value = val
+  // pageNumber.value = 1
+  // updatePage()
+  emits('update', 1, val)
 }
 function handleCurrentChange(val) {
-  pageNumber.value = val
-  updatePage()
+  // pageNumber.value = val
+  // updatePage()
+  emits('update', val, sPageSize.value)
 }
 function updatePage() {
   emits('update', pageNumber.value, sPageSize.value)
@@ -407,7 +423,7 @@ const compEmptyText = computed(() => {
         <el-pagination
           class="tab_pagination"
           background
-          :current-page="pageNumber"
+          :current-page="sPageNumber"
           :page-size="sPageSize"
           :page-sizes="pageSizes"
           layout="prev, pager, next, sizes, jumper"
