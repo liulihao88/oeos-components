@@ -94,6 +94,10 @@ export default defineConfig({
                   link: '/components/utils/validForm/base.md',
                 },
                 {
+                  text: 'formatBytes数字变为字节',
+                  link: '/components/utils/formatBytes/base.md',
+                },
+                {
                   text: 'formatBytesConvert翻转字节为数字',
                   link: '/components/utils/formatBytesConvert/base.md',
                 },

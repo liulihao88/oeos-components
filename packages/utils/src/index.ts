@@ -978,24 +978,28 @@ export function toFixed(
  * proxy.formatBytes(536870912) // 512MB
  * proxy.formatBytes(536870912) // 512MB
  */
-export function formatBytes(bytes, { toFixed = 2, thousands = true } = {}) {
+export function formatBytes(
+  bytes,
+  options: { digit?: number; thousands?: boolean; prefix?: string; suffix?: string } | number = {},
+) {
+  let { digit = 2, thousands = true, prefix = '', suffix = '' } = options
   if (isStringNumber(bytes) || isNumber(bytes)) {
     bytes = Number(bytes)
   } else {
     return bytes
   }
   if (bytes <= 0) {
-    return bytes.toFixed(toFixed) + ' B'
+    return bytes.toFixed(digit) + ' B'
   }
 
   const k = 1024
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
-  let res = (bytes / Math.pow(k, i)).toFixed(toFixed) + ' ' + sizes[i]
+  let res = (bytes / Math.pow(k, i)).toFixed(digit) + ' ' + sizes[i]
   if (thousands) {
     res = formatThousands(res)
   }
-  return res
+  return `${prefix}${res}${suffix}`
 }
 
 /**
