@@ -200,8 +200,6 @@ const handleEmptyText = (scope, v) => {
   }
   return scope.row[v.prop]
 }
-const pageNumber = ref(1)
-
 function handleSizeChange(val) {
   // sPageSize.value = val
   // pageNumber.value = 1
