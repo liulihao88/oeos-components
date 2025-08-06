@@ -172,7 +172,10 @@ const handleCompClick = (handler, row, scope, event) => {
 }
 
 const indexMethod = (index) => {
-  return index + 1 + (pageNumber.value - 1) * sPageSize.value
+  // 如果当前页是最后一页（数据量不足 pageSize），则基于实际数据量计算
+  const isLastPage = props.data.length < sPageSize.value
+  const offset = isLastPage ? props.total - props.data.length : (pageNumber.value - 1) * sPageSize.value
+  return offset + index + 1
 }
 
 const handleEmptyText = (scope, v) => {
@@ -241,7 +244,7 @@ const compEmptyText = computed(() => {
       <el-table-column
         v-if="showIndex"
         type="index"
-        :width="props.data?.length >= 1000 ? 70 : 60"
+        :width="props.total >= 10000 ? 70 : 60"
         align="center"
         :index="indexMethod"
         v-bind="indexAttrs"
