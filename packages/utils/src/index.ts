@@ -980,7 +980,7 @@ export function toFixed(
  */
 export function formatBytes(
   bytes,
-  options: { digit?: number; thousands?: boolean; prefix?: string; suffix?: string } | number = {},
+  options: { digit?: number; thousands?: boolean; prefix?: string; suffix?: string } = {},
 ) {
   let { digit = 2, thousands = true, prefix = '', suffix = '' } = options
   if (isStringNumber(bytes) || isNumber(bytes)) {
