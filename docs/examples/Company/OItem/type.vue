@@ -4,7 +4,7 @@ const { proxy } = getCurrentInstance()
 </script>
 
 <template>
-  <OItemWrapper>
+  <OItemWrapper :columns="2">
     <OItem
       label="这是默认类型"
       value="123456"
@@ -30,6 +30,20 @@ const { proxy } = getCurrentInstance()
         formatBytes: true,
         formatThousands: true,
         toFixed: true,
+      }"
+      height="300"
+    ></OItem>
+    <OItem
+      label="这个类型是type='value'且加attrs加center属性"
+      type="value"
+      value="123456789233412"
+      src="https://img.yzcdn.cn/vant/logo.png"
+      :imgStyle="{ height: '100px' }"
+      :attrs="{
+        formatBytes: true,
+        formatThousands: true,
+        toFixed: true,
+        center: true
       }"
       height="300"
     ></OItem>

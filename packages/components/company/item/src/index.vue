@@ -45,7 +45,7 @@ const props = defineProps({
     default: () => ({}),
   },
   type: {
-    type: String, // 'value'
+    type: String, // 'value',
     default: '', // 不传时为 ''
     validator: (value) => ['', 'value'].includes(value),
   },
@@ -103,7 +103,8 @@ const parseValue = computed(() => {
     :style="{ ...{ height: processWidth(props.height, true) }, ...processWidth(props.width), ...boxStyle }"
     v-else-if="props.type === 'value'"
   >
-    <div>
+  
+    <div class="o_item_box_value_item" :class="{ o_item_box_value_item_center: props.attrs?.center===true }">
       <div class="o-item_box__value__value" :style="props.valueStyle">
         <slot name="value">
           {{ parseValue }}
@@ -134,6 +135,7 @@ const parseValue = computed(() => {
   align-items: center;
   font-size: 18px;
   justify-content: v-bind('props.src || hasImgSlot ? "space-between" : "center"');
+  // justify-content: center;
   .o-item-box__img {
     height: 100%;
     margin-right: 8px;
@@ -166,9 +168,9 @@ const parseValue = computed(() => {
   display: flex;
   flex-direction: column;
   height: 100px;
-  justify-content: space-between;
   font-size: 18px;
   justify-content: v-bind('props.src || hasImgSlot ? "space-between" : "center"');
+  // justify-content: center;
   .o-item-box__img__value {
     height: 100%;
     margin-right: 8px;
@@ -176,15 +178,22 @@ const parseValue = computed(() => {
       height: 100%;
     }
   }
-  .o-item_box__label__value {
-    color: var(--45);
-    font-size: 14px;
-    font-weight: 500;
+  .o_item_box_value_item {
+    .o-item_box__label__value {
+      color: var(--45);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .o-item_box__value__value {
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
   }
-  .o-item_box__value__value {
-    font-weight: 700;
-    font-size: 24px;
-    margin-bottom: 8px;
+  .o_item_box_value_item_center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 </style>
