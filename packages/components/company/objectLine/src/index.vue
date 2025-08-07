@@ -79,7 +79,8 @@ const calcMax = (value) => {
 }
 
 const option = computed(() => {
-  let baseInterval = chartRef.value?.$el?.offsetWidth < 1000 ? 4 : 3
+  // let baseInterval = chartRef.value?.$el?.offsetWidth < 1000 ? 4 : 3
+  let baseInterval = 4
   // 预处理数据，标记哪些节点需要强制显示
   const processedData = data.value[0].timeValue.map((item, index, array) => {
     const time = item.time * 1000
