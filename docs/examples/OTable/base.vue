@@ -13,6 +13,8 @@ const data = ref([
   { name: '李四', address: '上海市浦东新区' },
   { name: '王五', address: '广州市天河区' },
   { name: '赵六', address: '深圳市南山区' },
+  { name: '赵六', address: '深圳市南山区' },
+  { name: '赵六', address: '深圳市南山区' },
 ])
 const columns = [
   {

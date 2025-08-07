@@ -52,6 +52,10 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
+  asyncUpdate: {
+    type: Boolean,
+    default: false,
+  },
 })
 const tableRef = ref(null)
 const tableTotal = computed(() => {
@@ -187,9 +191,7 @@ const handleCompClick = (handler, row, scope, event) => {
 
 const indexMethod = (index) => {
   // 如果当前页是最后一页（数据量不足 pageSize），则基于实际数据量计算
-  const isLastPage = props.data.length < sPageSize.value
-  const offset = isLastPage ? props.total - props.data.length : (sPageNumber.value - 1) * sPageSize.value
-  return offset + index + 1
+  return (sPageNumber.value - 1) * sPageSize.value + index + 1
 }
 
 const handleEmptyText = (scope, v) => {
@@ -201,18 +203,28 @@ const handleEmptyText = (scope, v) => {
   return scope.row[v.prop]
 }
 function handleSizeChange(val) {
-  // sPageSize.value = val
-  // pageNumber.value = 1
-  // updatePage()
-  emits('update', 1, val)
+  if (props.asyncUpdate) {
+    // emits('update', 1, val)
+    updatePage(1, val);
+  } else {
+    sPageSize.value = val
+    sPageNumber.value = 1
+    updatePage(1, val)
+  }
 }
 function handleCurrentChange(val) {
+  if(props.asyncUpdate){
+    updatePage(1, val)
+  }else{
+    sPageNumber.value = val;
+    updatePage(val, val)
+  }
   // pageNumber.value = val
   // updatePage()
-  emits('update', val, sPageSize.value)
+  // emits('update', val, sPageSize.value)
 }
-function updatePage() {
-  emits('update', pageNumber.value, sPageSize.value)
+function updatePage(number, size){
+  emits('update', number, size)
 }
 
 const parseTableWidth = (btns, hBtns) => {
