@@ -202,10 +202,10 @@ const handleEmptyText = (scope, v) => {
   }
   return scope.row[v.prop]
 }
+
 function handleSizeChange(val) {
   if (props.asyncUpdate) {
-    // emits('update', 1, val)
-    updatePage(1, val);
+    updatePage(1, val)
   } else {
     sPageSize.value = val
     sPageNumber.value = 1
@@ -213,22 +213,19 @@ function handleSizeChange(val) {
   }
 }
 function handleCurrentChange(val) {
-  if(props.asyncUpdate){
-    updatePage(1, val)
-  }else{
-    sPageNumber.value = val;
-    updatePage(val, val)
+  if (props.asyncUpdate) {
+    updatePage(val, sPageSize.value)
+  } else {
+    sPageNumber.value = val
+    updatePage(val, sPageSize.value)
   }
-  // pageNumber.value = val
-  // updatePage()
-  // emits('update', val, sPageSize.value)
 }
-function updatePage(number, size){
+function updatePage(number, size) {
   emits('update', number, size)
 }
 
 const parseTableWidth = (btns, hBtns) => {
-  return 32 + (btns.length + (hBtns.length === 0 ? 0 : 1)) * 30 + 'px'
+  return 34 + (btns.length + (hBtns.length === 0 ? 0 : 1)) * 30 + 'px'
 }
 const parseEmptyText = computed(() => {
   if (props.isLoading === true) {
@@ -250,8 +247,8 @@ const compEmptyText = computed(() => {
 <template>
   <div class="o-table">
     <el-table
-      :data="props.data"
       ref="tableRef"
+      :data="props.data"
       :header-cell-style="{
         background: '#f7f8fa',
         color: 'rgba(39,48,75,0.85)',
@@ -310,8 +307,8 @@ const compEmptyText = computed(() => {
                       <oPopconfirm
                         trigger="click"
                         :title="val.title ?? '确定删除吗?'"
-                        @confirm="val.handler?.(scope.row, scope)"
                         class="f-st-ct"
+                        @confirm="val.handler?.(scope.row, scope)"
                       >
                         <component
                           :is="val.comp"
@@ -319,7 +316,7 @@ const compEmptyText = computed(() => {
                           class="mlr cp"
                           v-bind="val.attrs"
                           :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                        ></component>
+                        />
                         <el-button
                           v-else
                           v-bind="{ ...val }"
@@ -338,7 +335,7 @@ const compEmptyText = computed(() => {
                       v-bind="val.attrs"
                       :disabled="parseDisabled(val.disabled, scope.row, scope)"
                       @click="($event) => handleCompClick(val.handler, scope.row, scope, $event)"
-                    ></component>
+                    />
                     <template v-else>
                       <el-button
                         v-bind="{ ...val }"
@@ -454,6 +451,7 @@ const compEmptyText = computed(() => {
 
 .o-table {
   box-shadow: none !important;
+
   .page-wrap {
     box-sizing: border-box;
     display: flex;
@@ -469,6 +467,7 @@ const compEmptyText = computed(() => {
   .page-wrap .page-left {
     color: rgb(39 48 75 / 85%);
   }
+
   :deep(.el-table) {
     box-shadow: none !important;
   }
@@ -512,9 +511,11 @@ const compEmptyText = computed(() => {
     height: 30px;
     line-height: 30px;
   }
+
   :deep(.el-table tr:not(:last-child) td.el-table__cell) {
     border-bottom: none !important;
   }
+
   :deep(.el-pagination .el-select) {
     width: 100px;
   }
