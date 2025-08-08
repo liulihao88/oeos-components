@@ -192,8 +192,7 @@ onBeforeUnmount(() => {
 .o-dialog {
   :deep(.el-dialog__header),
   :deep(.el-drawer__header) {
-    padding: 8px 16px;
-    height: 46px;
+    padding: 10px 16px;
     border-bottom: 1px solid var(--line);
     font-weight: 700;
   }
@@ -218,8 +217,7 @@ onBeforeUnmount(() => {
   :deep(.el-dialog__footer),
   :deep(.el-drawer__footer) {
     border-top: 1px solid var(--line);
-    padding: 16px;
-    height: 46px;
+    padding: 10px 16px;
     box-sizing: border-box;
     display: flex;
     justify-content: end;
@@ -234,8 +232,8 @@ onBeforeUnmount(() => {
     }
   }
   :deep(.el-dialog__headerbtn) {
-    width: 46px;
-    height: 46px;
+    width: 45px;
+    height: 45px;
   }
   .o-dialog__header {
     font-size: 16px;
