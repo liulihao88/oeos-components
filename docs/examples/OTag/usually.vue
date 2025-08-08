@@ -12,6 +12,6 @@ setInterval(() => {
 
 <template>
   <div>
-    <o-tag :success="[1, 2]" :content="content" :info="3" :warning="[4, 5]" :danger="[6, 7]"></o-tag>
+    <o-tag :primary="[1, 2]" :content="content" :info="3" :warning="[4, 5]" :danger="[6, 7]" width="100" height="100"></o-tag>
   </div>
 </template>

@@ -4,13 +4,17 @@ defineOptions({
 })
 
 import { ref, getCurrentInstance, computed } from 'vue'
+import { processWidth } from '@oeos-components/utils'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
   primary: {
     type: [String, Number, Array],
   },
-  success: {
-    type: [String, Number, Array],
+  width: {
+    type: [String, Number],
+  },
+  height: {
+    type: [String, Number],
   },
   info: {
     type: [String, Number, Array],
@@ -34,8 +38,22 @@ const props = defineProps({
   },
 })
 
+const handleWidthHeight = () => {
+  if (!props.width && !props.height) {
+    return {}
+  }
+  let widthHeightobj: Record<string, string> = {}
+  if (props.width) {
+    widthHeightobj.width = processWidth(props.width, true)
+  }
+  if (props.height) {
+    widthHeightobj.height = processWidth(props.height, true)
+  }
+  return widthHeightobj
+}
+
 const parseType = computed(() => {
-  const { primary, success, warning, info, danger, content, other, type } = props
+  const { primary, warning, info, danger, content, other, type } = props
   if (type) {
     return type
   }
@@ -47,7 +65,6 @@ const parseType = computed(() => {
 
   return (
     getMatchType(primary, 'primary') ||
-    getMatchType(success, 'success') ||
     getMatchType(info, 'info') ||
     getMatchType(warning, 'warning') ||
     getMatchType(danger, 'danger') ||
@@ -57,7 +74,7 @@ const parseType = computed(() => {
 </script>
 
 <template>
-  <el-tag v-bind="$attrs" effect="dark" :type="parseType">
+  <el-tag v-bind="$attrs" effect="dark" :type="parseType" :style="{ ...handleWidthHeight() }">
     <slot>
       {{ content }}
     </slot>
