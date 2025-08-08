@@ -38,7 +38,7 @@ const props = defineProps({
   },
   other: {
     type: String,
-    default: 'danger',
+    default: 'primary',
   },
   type: {
     type: String,
