@@ -38,7 +38,7 @@ const props = defineProps({
   },
   other: {
     type: String,
-    default: 'primary',
+    default: 'danger',
   },
   type: {
     type: String,
@@ -72,15 +72,14 @@ const optionsGetName = ref()
 const parseType = computed(() => {
   if (props.options.length > 0 && props.value) {
     for (const item of props.options) {
-      // 获取每个对象的 key（如 'danger'）和对应的数组
-      const [type, items] = Object.entries(item)[0]
+      // 遍历 item 的所有键值对（而不是只取第一个）
+      for (const [type, items] of Object.entries(item)) {
+        const foundItem = items.find((obj) => props.value in obj)
 
-      // 在 items 数组中查找是否有包含 searchKey 的对象
-      const foundItem = items.find((obj) => obj.hasOwnProperty(props.value))
-
-      if (foundItem) {
-        optionsGetName.value = foundItem[props.value]
-        return type
+        if (foundItem) {
+          optionsGetName.value = foundItem[props.value]
+          return type
+        }
       }
     }
     return null
@@ -90,13 +89,16 @@ const parseType = computed(() => {
   if (type) {
     return type
   }
+
   // 先检查是否是数组，确保统一处理
   const getMatchType = (types, type) => {
     const normalizedTypes = Array.isArray(types) ? types : [types]
     if (getType(types) === 'array') {
       return normalizedTypes.includes(content) ? type : null
-    } else {
+    } else if (getType(types) === 'boolean') {
       return types === true ? type : null
+    } else {
+      return null
     }
   }
 
