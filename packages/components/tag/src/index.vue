@@ -68,6 +68,9 @@ const parseContent = computed(() => {
 })
 
 const optionsGetName = ref()
+const changeGetName = (foundItem) => {
+  optionsGetName.value = foundItem[props.value]
+}
 
 const parseType = computed(() => {
   if (props.options.length > 0 && props.value) {
@@ -75,10 +78,11 @@ const parseType = computed(() => {
       // 遍历 item 的所有键值对（而不是只取第一个）
       for (const [type, items] of Object.entries(item)) {
         const foundItem = items.find((obj) => props.value in obj)
-
+        changeGetName(foundItem)
         if (foundItem) {
-          optionsGetName.value = foundItem[props.value]
           return type
+        } else {
+          return null
         }
       }
     }
