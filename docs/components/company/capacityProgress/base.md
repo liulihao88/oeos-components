@@ -13,3 +13,9 @@ Company/OCapacityProgress/base
 :::demo
 Company/OCapacityProgress/table
 :::
+
+### 自定义颜色(其他用法与tag一致)
+
+:::demo
+Company/OCapacityProgress/customColor
+:::

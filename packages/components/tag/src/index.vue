@@ -6,10 +6,8 @@ defineOptions({
 import { ref, getCurrentInstance, computed } from 'vue'
 import { processWidth, getType, notEmpty } from '@oeos-components/utils'
 const { proxy } = getCurrentInstance()
+import { handleWidthHeight } from '@/components/utils/local.ts'
 const props = defineProps({
-  primary: {
-    type: [String, Number, Array],
-  },
   options: {
     type: Array,
     default: () => [],
@@ -23,13 +21,16 @@ const props = defineProps({
   height: {
     type: [String, Number],
   },
-  info: {
+  primary: {
     type: [String, Number, Array],
   },
   warning: {
     type: [String, Number, Array],
   },
   danger: {
+    type: [String, Number, Array],
+  },
+  info: {
     type: [String, Number, Array],
   },
   content: {
@@ -44,20 +45,6 @@ const props = defineProps({
     type: String,
   },
 })
-
-const handleWidthHeight = () => {
-  if (!props.width && !props.height) {
-    return {}
-  }
-  let widthHeightobj: Record<string, string> = {}
-  if (props.width) {
-    widthHeightobj.width = processWidth(props.width, true)
-  }
-  if (props.height) {
-    widthHeightobj.height = processWidth(props.height, true)
-  }
-  return widthHeightobj
-}
 
 const parseContent = computed(() => {
   if (props.options.length > 0 && props.value) {
@@ -78,8 +65,8 @@ const parseType = computed(() => {
       // 遍历 item 的所有键值对（而不是只取第一个）
       for (const [type, items] of Object.entries(item)) {
         const foundItem = items.find((obj) => props.value in obj)
-        changeGetName(foundItem)
         if (foundItem) {
+          changeGetName(foundItem)
           return type
         } else {
           return null
@@ -117,7 +104,7 @@ const parseType = computed(() => {
 </script>
 
 <template>
-  <el-tag v-bind="$attrs" effect="dark" :type="parseType" :style="{ ...handleWidthHeight() }">
+  <el-tag v-bind="$attrs" effect="dark" :type="parseType" :style="{ ...handleWidthHeight(props.width, props.height) }">
     <slot>
       {{ parseContent }}
     </slot>

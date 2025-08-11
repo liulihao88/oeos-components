@@ -56,7 +56,7 @@ function parseSpace(space) {
 
 <template>
   <div>
-    <o-table :columns="columns" :data="data" ref="tableRef">
+    <o-table :columns="columns" :data="data" ref="tableRef" :showPage="false">
       <template #cap="{ row }">
         <o-capacity-progress :total="row.totalSpace" :used="row.overUsedSpace"></o-capacity-progress>
       </template>

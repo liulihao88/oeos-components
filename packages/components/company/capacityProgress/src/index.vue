@@ -7,7 +7,8 @@
 
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { sleep, getVariable } from '@/utils/src'
-import { formatBytes } from '@/utils/src'
+import { formatBytes, getType } from '@/utils/src'
+import { handleWidthHeight } from '@/components/utils/local.ts'
 
 const progressBoxRef = ref(null)
 const percentageRef = ref(null)
@@ -25,6 +26,46 @@ const props = defineProps({
     // 超出容量的显示icon
     type: Object,
     default: () => {},
+  },
+  width: {
+    type: [String, Number],
+  },
+  height: {
+    type: [String, Number],
+  },
+  options: {
+    type: Array,
+    default: () => [],
+  },
+  warning: {
+    type: [String, Number, Array],
+  },
+  primary: {
+    type: [String, Number, Array],
+  },
+  danger: {
+    type: [String, Number, Array],
+  },
+  info: {
+    type: [String, Number, Array],
+  },
+  value: {
+    type: [String, Number],
+  },
+  content: {
+    type: [String, Number],
+    required: true,
+  },
+  other: {
+    type: String,
+    default: 'primary',
+  },
+  type: {
+    type: String,
+  },
+  customColor: {
+    type: Boolean,
+    default: false,
   },
 })
 function format() {
@@ -52,11 +93,84 @@ const percentage = computed(() => {
   let percentRes = Number(divideNum.toFixed(2))
   return percentRes
 })
-function formatColor(value) {
-  if (value < 90) {
-    return getVariable('--blue')
+
+const parseContent = computed(() => {
+  if (props.options.length > 0 && props.value) {
+    return optionsGetName.value
   } else {
-    return getVariable('--red')
+    return props.content
+  }
+})
+
+const optionsGetName = ref()
+const changeGetName = (foundItem) => {
+  optionsGetName.value = foundItem[props.value]
+}
+
+const parseType = computed(() => {
+  if (props.options.length > 0 && props.value) {
+    for (const item of props.options) {
+      // 遍历 item 的所有键值对（而不是只取第一个）
+      for (const [type, items] of Object.entries(item)) {
+        const foundItem = items.find((obj) => props.value in obj)
+        if (foundItem) {
+          changeGetName(foundItem)
+          return type
+        } else {
+          return null
+        }
+      }
+    }
+    return null
+  }
+
+  const { primary, warning, info, danger, content, other, type } = props
+  if (type) {
+    return type
+  }
+
+  // 先检查是否是数组，确保统一处理
+  const getMatchType = (types, type) => {
+    const normalizedTypes = Array.isArray(types) ? types : [types]
+    if (getType(types) === 'array') {
+      return normalizedTypes.includes(content || props.value) ? type : null
+    } else if (getType(types) === 'boolean') {
+      return types === true ? type : null
+    } else {
+      return null
+    }
+  }
+
+  return (
+    getMatchType(primary, 'primary') ||
+    getMatchType(info, 'info') ||
+    getMatchType(warning, 'warning') ||
+    getMatchType(danger, 'danger') ||
+    other // 默认返回值
+  )
+})
+
+const setColorByType = (pType) => {
+  if (pType === 'primary') {
+    return getVariable('--el-color-primary')
+  } else if (pType === 'info') {
+    return getVariable('--el-color-info')
+  } else if (pType === 'warning') {
+    return getVariable('--el-color-warning')
+  } else if (pType === 'danger') {
+    return getVariable('--el-color-danger')
+  } else {
+    return getVariable('--el-color-primary')
+  }
+}
+function formatColor(value) {
+  if (value < 100) {
+    if (props.customColor) {
+      return setColorByType(parseType.value)
+    }
+    return getVariable('--el-color-primary')
+  } else {
+    return getVariable('--el-color-danger')
   }
 }
 
@@ -97,7 +211,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="f-st-ct w-100%">
+  <div class="f-st-ct w-100%" :style="{ ...handleWidthHeight(props.width, props.height) }">
     <o-progress
       ref="progressBoxRef"
       class="progress-box"
@@ -140,6 +254,6 @@ onUnmounted(() => {
 }
 .progress-box.prgress-less-zero :deep(.el-progress-bar__outer) {
   width: 100%;
-  background: #9b9a93;
+  background: var(--el-color-info);
 }
 </style>

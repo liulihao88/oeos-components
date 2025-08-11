@@ -23,7 +23,7 @@ function parseSpace(space) {
 
 <template>
   <div>
-    <o-capacity-progress :total="row.totalSpace" :used="row.usedSpace"></o-capacity-progress>
+    <o-capacity-progress :total="row.totalSpace" :used="row.usedSpace" width="300"></o-capacity-progress>
 
     <hr />
 
