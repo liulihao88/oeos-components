@@ -10,6 +10,9 @@ function handleDetail(row) {
 function handleDetail2() {
   console.log('handleDetail2')
 }
+const downloadRow = (row) => {
+  console.log(`56 row`, row)
+}
 const columns = [
   {
     label:
@@ -45,25 +48,37 @@ const columns = [
     label: '操作',
     btns: [
       {
-        content: '查看',
-        type: 'primary',
-        isShowColumn: false,
-        handler: handleDetail,
-        disabled: (ddd, scope) => {
-          return true
-        },
-      },
-      {
         content: '编辑',
-        handler: handleDetail,
-        reConfirm: true,
+        handler: () => {},
+        comp: 'o-icon',
+        attrs: {
+          name: 'edit',
+          content: '编辑',
+        },
+        disabled: (row) => row.status === 'Loading',
       },
       {
-        content: '发布',
-        disabled: true,
+        handler: () => {},
+        comp: 'o-icon',
+        attrs: {
+          name: 'view',
+          content: '查看',
+        },
+        disabled: (row) => row.status === 'Loading',
       },
       {
-        content: '下线',
+        handler: () => {},
+        comp: 'o-icon',
+        attrs: {
+          name: 'delete',
+          content: '删除',
+        },
+        disabled: (row) => row.status === 'Loading',
+      },
+      {
+        prop: 'download',
+        useSlot: true,
+        handler: downloadRow,
       },
       {
         content: '删除11',
@@ -107,6 +122,7 @@ const orgData = [
 ]
 const num = ref(1)
 const total = ref(0)
+
 async function init() {
   await proxy.sleep(300)
   num.value++
@@ -122,9 +138,21 @@ init()
     <el-button type="primary" @click="init">新增数据</el-button>
     {{ total }}
     <o-table :columns="columns" :total="total" :data="data" ref="tableRef">
-      <!-- <template #endTime="{ scope, row }">
-        {{ row.endTime }}
-      </template> -->
+      <template #download="{ row }">
+        <el-button
+          type="text"
+          :disabled="
+            (() => {
+              return row.status === 'Loading'
+            })()
+          "
+        >
+          <template #icon>
+            <o-icon name="download" />
+          </template>
+          下载
+        </el-button>
+      </template>
     </o-table>
   </div>
 </template>

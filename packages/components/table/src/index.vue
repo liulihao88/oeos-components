@@ -496,6 +496,10 @@ const compEmptyText = computed(() => {
       margin-left: 0;
     }
   }
+  :deep(.el-table-fixed-column--right .cell.el-tooltip:has(> :only-child)) {
+    justify-content: center;
+    color: blue !important;
+  }
 
   :deep(
       .el-table__body-wrapper .el-table-column--selection > .cell,
