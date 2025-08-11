@@ -42,7 +42,14 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  square: {
+    type: Boolean,
+    default: false,
+  },
 })
+
+const boxRef = ref(null)
+const headerRef = ref(null)
 
 const boxMergedStyle = computed(() => {
   let brStyle = {}
@@ -78,10 +85,28 @@ const headerMergedStyle = computed(() => {
     ...props.headerStyle,
   }
 })
+
 const scrollStyle = computed(() => {
   if (props.scroll) {
     return {
+      flex: 1,
       overflow: 'auto',
+    }
+  }
+  return {}
+})
+const squareStyle = computed(() => {
+  if (props.square) {
+    if (boxRef.value) {
+      boxRef.value.style.display = 'inline-flex'
+      let boxWidth = boxRef.value.offsetWidth
+      let boxHeight = boxRef.value?.offsetHeight - headerRef.value.offsetHeight
+      let max = Math.max(boxWidth, boxHeight)
+      return {
+        width: `${max}px`,
+        height: `${max}px`,
+        flex: 'unset',
+      }
     }
   }
   return {}
@@ -89,13 +114,18 @@ const scrollStyle = computed(() => {
 </script>
 
 <template>
-  <div class="basic-layout-box" :style="boxMergedStyle">
-    <div class="basic-layout-box__header" v-if="$slots.header || props.title" :style="headerMergedStyle">
+  <div class="basic-layout-box" :style="boxMergedStyle" ref="boxRef">
+    <div
+      class="basic-layout-box__header"
+      v-if="$slots.header || props.title"
+      :style="headerMergedStyle"
+      ref="headerRef"
+    >
       <slot name="header">
         <o-title :title="props.title" :style="{ ...boxStyle }"></o-title>
       </slot>
     </div>
-    <div class="basic-layout-box__body" :style="{ ...bodyStyle, ...scrollStyle }">
+    <div class="basic-layout-box__body" :style="{ ...bodyStyle, ...scrollStyle, ...squareStyle }">
       <slot></slot>
     </div>
     <div class="basic-layout-box__footer" v-if="$slots.footer" :style="footerStyle">
@@ -107,18 +137,17 @@ const scrollStyle = computed(() => {
 <style lang="scss" scoped>
 .basic-layout-box {
   background: #fff;
-  overflow: auto;
   border: 1px solud var(--line);
   border-radius: 4px;
   display: flex;
   flex-direction: column;
+  overflow: auto;
   &__header {
     padding: 16px;
     border-bottom: 1px solid var(--line);
   }
   &__body {
     padding: 16px;
-    flex: 1;
   }
   &__footer {
     border-top: 1px solid var(--line);

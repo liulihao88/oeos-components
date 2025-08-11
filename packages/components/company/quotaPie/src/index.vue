@@ -72,7 +72,7 @@ let initOptions = {
   series: [
     {
       type: 'pie',
-      radius: ['70%', '90%'], // 设置饼图的内外半径，内容显示在内部
+      radius: ['75%', '95%'], // 设置饼图的内外半径，内容显示在内部
       center: ['50%', '50%'], // 设置饼图的中心位置
       label: {
         backgroundColor: '#F6F8FC',

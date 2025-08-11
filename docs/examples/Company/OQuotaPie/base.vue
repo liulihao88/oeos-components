@@ -24,13 +24,17 @@ const tenantDetailsExceed = {
 
 <template>
   <div>
-    <OQuotaPie
-      class="h-300"
-      type="quota"
-      :used="tenantDetails.allocateQuota"
-      :total="tenantDetails.tenantQuota"
-      text="总使用量 / 总可用量"
-    ></OQuotaPie>
+    <oBasicLayout title="租户容量配额" class="w-200" :square="true">
+      <template #header></template>
+      <OQuotaPie
+        class="h-100%"
+        type="quota"
+        :used="tenantDetails.allocateQuota"
+        :total="tenantDetails.tenantQuota"
+        text="总使用量 / 总可用量"
+      ></OQuotaPie>
+    </oBasicLayout>
+
     <OQuotaPie
       class="h-300"
       type="used"
