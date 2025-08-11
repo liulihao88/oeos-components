@@ -3,6 +3,7 @@ import { ref, watch, computed, useAttrs } from 'vue'
 import RenderComp from './renderComp.vue'
 import OPopconfirm from '@/components/popconfirm'
 import OIcon from '@/components/icon'
+
 import { getType } from '@oeos-components/utils'
 
 const attrs = useAttrs()
@@ -225,7 +226,7 @@ function updatePage(number, size) {
 }
 
 const parseTableWidth = (btns, hBtns) => {
-  return 34 + (btns.length + (hBtns.length === 0 ? 0 : 1)) * 30 + 'px'
+  return 32 + (btns.length + (hBtns.length === 0 ? 0 : 1)) * 30 + 'px'
 }
 const parseEmptyText = computed(() => {
   if (props.isLoading === true) {
@@ -313,7 +314,7 @@ const compEmptyText = computed(() => {
                         <component
                           :is="val.comp"
                           v-if="val.comp"
-                          class="mlr cp"
+                          class="cp"
                           v-bind="val.attrs"
                           :disabled="parseDisabled(val.disabled, scope.row, scope)"
                         />
@@ -331,7 +332,7 @@ const compEmptyText = computed(() => {
                     <component
                       :is="val.comp"
                       v-else-if="val.comp"
-                      class="mlr cp"
+                      class="cp"
                       v-bind="val.attrs"
                       :disabled="parseDisabled(val.disabled, scope.row, scope)"
                       @click="($event) => handleCompClick(val.handler, scope.row, scope, $event)"
@@ -351,7 +352,7 @@ const compEmptyText = computed(() => {
                 </template>
 
                 <template v-if="v.hideBtns.length > 0">
-                  <el-dropdown class="ml" trigger="click">
+                  <el-dropdown class="" trigger="click">
                     <o-icon name="more" @click.stop />
                     <template #dropdown>
                       <el-dropdown-menu :hide-on-click="false">
@@ -488,8 +489,12 @@ const compEmptyText = computed(() => {
   :deep(.el-table-fixed-column--right .cell.el-tooltip) {
     display: inline-flex;
     align-items: center;
+    justify-content: space-between;
     min-height: 23px;
     line-height: 23px;
+    .o-icon + .o-icon {
+      margin-left: 0;
+    }
   }
 
   :deep(
