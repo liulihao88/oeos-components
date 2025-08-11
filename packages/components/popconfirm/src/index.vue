@@ -1,7 +1,11 @@
-<script setup lang="ts" name="OPopconfirm">
+<script setup lang="ts">
 /**
  * <g-popover @confirm="confirm" trigger="click"></g-popover>
  */
+
+defineOptions({
+  name: 'OPopconfirm',
+})
 import { ref, onMounted } from 'vue'
 const isPopoverVisible = ref(false)
 const handleShow = () => {
@@ -51,29 +55,28 @@ defineExpose({
 </script>
 
 <template>
-  <div v-if="props.reConfirm">
-    <el-popover
-      class="o-popconfirm"
-      :title="props.title"
-      :width="props.width"
-      v-bind="$attrs"
-      @show="handleShow"
-      v-model:visible="isPopoverVisible"
-    >
-      <slot name="content">
-        <div class="o-popconfirm__content">{{ props.content }}</div>
+  <el-popover
+    v-if="props.reConfirm"
+    class="o-popconfirm"
+    :title="props.title"
+    :width="props.width"
+    v-bind="$attrs"
+    @show="handleShow"
+    v-model:visible="isPopoverVisible"
+  >
+    <slot name="content">
+      <div class="o-popconfirm__content">{{ props.content }}</div>
+    </slot>
+    <div class="o-popconfirm__footer">
+      <slot name="footer">
+        <el-button size="small" type="info" @click="cancel">取消</el-button>
+        <el-button size="small" type="primary" @click="confirm">确定</el-button>
       </slot>
-      <div class="o-popconfirm__footer">
-        <slot name="footer">
-          <el-button size="small" type="info" @click="cancel">取消</el-button>
-          <el-button size="small" type="primary" @click="confirm">确定</el-button>
-        </slot>
-      </div>
-      <template v-slot:reference>
-        <slot></slot>
-      </template>
-    </el-popover>
-  </div>
+    </div>
+    <template v-slot:reference>
+      <slot></slot>
+    </template>
+  </el-popover>
   <div v-else @click="confirm">
     <slot></slot>
   </div>

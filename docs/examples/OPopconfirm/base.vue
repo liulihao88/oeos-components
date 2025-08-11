@@ -12,7 +12,7 @@ function confirm() {
 }
 
 function isTest65() {
-  console.log('isTest65')
+  proxy.$toast("保存成功");
 }
 </script>
 
@@ -21,12 +21,14 @@ function isTest65() {
     <o-popconfirm @confirm="confirm">
       <el-button type="primary" @click="isTest65">最基础用法</el-button>
     </o-popconfirm>
+    <br />
 
     <br />
     <o-popconfirm @confirm="confirm" content="我是删除content">
       <el-button type="primary" @click="isTest65">测试66</el-button>
     </o-popconfirm>
 
+    <br />
     <br />
 
     <o-popconfirm @confirm="confirm" :reConfirm="false">
