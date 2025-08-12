@@ -101,6 +101,10 @@ export default defineConfig({
                   text: 'formatBytesConvert翻转字节为数字',
                   link: '/components/utils/formatBytesConvert/base.md',
                 },
+                {
+                  text: 'formatTime转换日期',
+                  link: '/components/utils/formatTime/base.md',
+                },
               ],
             },
           ],

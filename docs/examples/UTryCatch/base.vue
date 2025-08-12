@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { tryCatch } from '@/utils/src/index.ts'
+import { tryCatch, $toast } from '@/utils/src/index.ts'
 
+import type { Ref } from 'vue'
 const loading = ref(false)
 
 async function random() {
@@ -13,12 +14,17 @@ async function random() {
       } else {
         return reject('失败')
       }
-    }, 1000)
+    }, 300)
   })
 }
 
 const init = async () => {
   let { data, error } = await tryCatch(random(), loading)
+  if (error) {
+    $toast(error, 'e')
+  }else{
+    $toast(data)
+  }
   console.log(`35 error`, error)
   console.log(`05 data`, data)
 }
