@@ -2,7 +2,7 @@ import { unref, isRef, toRaw } from '@vue/reactivity'
 import type { Ref } from '@vue/reactivity'
 import { cloneDeep } from 'lodash-es'
 import { consola } from 'consola'
-import { ElMessage, ElMessageBox, ElMessageOptions } from 'element-plus'
+import { ElMessage, ElMessageBox, MessageOptions } from 'element-plus'
 /**
  * 现有方法如下
  * $toast(message, type: string | object = 'success', otherParams: object = {})
@@ -69,7 +69,7 @@ export const isNumber = (val: any): val is number => typeof val === 'number'
 type MessageType = 'success' | 'info' | 'error' | 'warning'
 type ShortType = 's' | 'i' | 'e' | 'w'
 type ToastType = MessageType | ShortType
-type ToastOptions = Partial<ElMessageOptions> & { closeAll?: boolean }
+type ToastOptions = Partial<MessageOptions> & { closeAll?: boolean }
 
 export function $toast(
   message: string | ToastOptions,
