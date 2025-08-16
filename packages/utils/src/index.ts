@@ -1012,21 +1012,21 @@ export function formatBytes(
  * formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
  * formatBytesConvert('1,234 GB', {toFixed: 2}) 1324997410816.00
  */
-export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = {}) {
+export function formatBytesConvert(oBytes, { thounsands = false, digit = 0 } = {}) {
+  let bytes = oBytes
   if (isStringNumber(oBytes) || isNumber(oBytes) || getType(oBytes) !== 'string') {
-    return oBytes
+    return parseDigitThounsands(oBytes)
   }
   if (!oBytes) {
-    return oBytes
+    return parseDigitThounsands(oBytes)
   }
 
   // 如果有千分位, 先将千分位的,去掉
   const regex = /^\d{1,3}(,\d{3})*(\.\d+)?[a-zA-Z ]*$/
-  let bytes = oBytes
   if (regex.test(oBytes)) {
     bytes = oBytes.replace(/,/g, '')
     if (isStringNumber(bytes) || isNumber(bytes) || getType(bytes) !== 'string') {
-      return bytes
+      return parseDigitThounsands(bytes)
     }
   }
 
@@ -1059,15 +1059,17 @@ export function formatBytesConvert(oBytes, { thounsand = false, toFixed = 0 } = 
     )
     return
   }
-  let finalRes = size * units[unit]
-  if (toFixed) {
-    finalRes = Number(finalRes).toFixed(toFixed)
+  function parseDigitThounsands(val) {
+    let finalRes = val
+    if (digit) {
+      finalRes = Number(finalRes).toFixed(digit)
+    }
+    if (thounsands) {
+      finalRes = formatThousands(finalRes)
+    }
+    return finalRes
   }
-  if (thounsand) {
-    finalRes = formatThousands(finalRes)
-  }
-
-  return finalRes
+  return parseDigitThounsands(size * units[unit])
 }
 
 export function throttle(fn, delay = 1000) {

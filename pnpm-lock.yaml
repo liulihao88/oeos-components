@@ -109,7 +109,7 @@ importers:
         version: 3.4.15(typescript@5.3.3)
       vue-echarts:
         specifier: ^7.0.3
-        version: 7.0.3(@vue/runtime-core@3.4.21)(echarts@5.5.0)(vue@3.4.15(typescript@5.3.3))
+        version: 7.0.3(@vue/runtime-core@3.5.18)(echarts@5.5.0)(vue@3.4.15(typescript@5.3.3))
       vue-router:
         specifier: ^4.2.5
         version: 4.2.5(vue@3.4.15(typescript@5.3.3))
@@ -1467,6 +1467,9 @@ packages:
 
   '@vue/runtime-core@3.4.21':
     resolution: {integrity: sha512-pQthsuYzE1XcGZznTKn73G0s14eCJcjaLvp3/DKeYWoFacD9glJoqlNBxt3W2c5S40t6CCcpPf+jG01N3ULyrA==}
+
+  '@vue/runtime-core@3.5.18':
+    resolution: {integrity: sha512-DUpHa1HpeOQEt6+3nheUfqVXRog2kivkXHUhoqJiKR33SO4x+a5uNOMkV487WPerQkL0vUuRvq/7JhRgLW3S+w==}
 
   '@vue/runtime-dom@3.4.15':
     resolution: {integrity: sha512-EVW8D6vfFVq3V/yDKNPBFkZKGMFSvZrUQmx196o/v2tHKdwWdiZjYUBS+0Ez3+ohRyF8Njwy/6FH5gYJ75liUw==}
@@ -5225,6 +5228,12 @@ snapshots:
       '@vue/reactivity': 3.4.21
       '@vue/shared': 3.4.21
 
+  '@vue/runtime-core@3.5.18':
+    dependencies:
+      '@vue/reactivity': 3.5.18
+      '@vue/shared': 3.5.18
+    optional: true
+
   '@vue/runtime-dom@3.4.15':
     dependencies:
       '@vue/runtime-core': 3.4.15
@@ -8217,13 +8226,13 @@ snapshots:
     dependencies:
       vue: 3.4.21(typescript@5.3.3)
 
-  vue-echarts@7.0.3(@vue/runtime-core@3.4.21)(echarts@5.5.0)(vue@3.4.15(typescript@5.3.3)):
+  vue-echarts@7.0.3(@vue/runtime-core@3.5.18)(echarts@5.5.0)(vue@3.4.15(typescript@5.3.3)):
     dependencies:
       echarts: 5.5.0
       vue: 3.4.15(typescript@5.3.3)
       vue-demi: 0.13.11(vue@3.4.15(typescript@5.3.3))
     optionalDependencies:
-      '@vue/runtime-core': 3.4.21
+      '@vue/runtime-core': 3.5.18
     transitivePeerDependencies:
       - '@vue/composition-api'
 
