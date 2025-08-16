@@ -1,6 +1,6 @@
 {
   "name": "@oeos-components/utils",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "utils of oeos-components",
   "license": "MIT",
   "type": "commonjs",
