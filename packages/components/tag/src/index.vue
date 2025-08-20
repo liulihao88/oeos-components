@@ -68,8 +68,6 @@ const parseType = computed(() => {
         if (foundItem) {
           changeGetName(foundItem)
           return type
-        } else {
-          return null
         }
       }
     }

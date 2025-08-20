@@ -20,7 +20,6 @@ import '/public/css/index.css'
 import Logo from './logo.vue'
 import './assets/styles/index.css'
 import VueTippy from 'vue-tippy'
-import OTip from '../components/OTip.vue'
 
 // import 'virtual:svg-icons-register'
 const svgIconConfig = createSvg(
@@ -56,7 +55,6 @@ export default {
 
 
     ctx.app.component('Demo', VPDemo)
-    ctx.app.component('OTip', OTip)
     DefaultTheme.enhanceApp(ctx)
   },
 }

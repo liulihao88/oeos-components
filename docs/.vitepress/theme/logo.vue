@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getStorage, setStorage, copy } from '@/utils'
+import { getStorage, setStorage, copy } from '@oeos-components/utils'
 import { ref, onUnmounted, onMounted } from 'vue'
 const isDev = ref(import.meta.env.DEV)
 import pkg from '../../../package.json'

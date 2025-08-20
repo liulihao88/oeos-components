@@ -28,6 +28,12 @@ OTag/map
 OTag/slot
 :::
 
+### async
+
+:::demo
+OTag/async
+:::
+
 ### 属性
 
 |            属性名             | 说明                         | 类型                | 默认值  |
