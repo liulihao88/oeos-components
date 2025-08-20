@@ -25,6 +25,7 @@
     "@vue/shared": "^3.5.18",
     "consola": "^3.4.2",
     "element-plus": "^2.10.4",
+    "es-toolkit": "^1.39.10",
     "lodash-es": "^4.17.21",
     "vue": "3.4.15"
   }
