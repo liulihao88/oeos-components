@@ -1,8 +1,23 @@
 import { unref, isRef, toRaw } from '@vue/reactivity'
 import type { Ref } from '@vue/reactivity'
-import  cloneDeep  from 'lodash-es/cloneDeep'
 import { consola } from 'consola'
 import { ElMessage, ElMessageBox, MessageOptions } from 'element-plus'
+
+export function cloneDeep(source) {
+  if (!source && typeof source !== 'object') {
+    throw new Error('error arguments', 'cloneDeep')
+  }
+  const targetObj = source.constructor === Array ? [] : {}
+  Object.keys(source).forEach((keys) => {
+    if (source[keys] && typeof source[keys] === 'object') {
+      targetObj[keys] = cloneDeep(source[keys])
+    } else {
+      targetObj[keys] = source[keys]
+    }
+  })
+  return targetObj
+}
+
 /**
  * 现有方法如下
  * $toast(message, type: string | object = 'success', otherParams: object = {})
