@@ -44,7 +44,7 @@
     "element-plus": "^2.9.7",
     "escape-html": "^1.0.3",
     "fast-glob": "^3.3.3",
-    "lodash-es": "^4.17.21",
+    "lodash": "^4.17.21",
     "markdown-it": "^13.0.1",
     "markdown-it-container": "^3.0.0",
     "normalize.css": "^8.0.1",

@@ -3,7 +3,7 @@ import { ref, getCurrentInstance, computed, onMounted, shallowRef, watch } from 
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
-import _ from 'lodash-es'
+import _ from 'lodash'
 const { proxy } = getCurrentInstance()
 const modules = import.meta.glob('./views/**/*.vue')
 const componentList = shallowRef({})
