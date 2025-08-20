@@ -1,6 +1,6 @@
 ```python
 import { unref, isRef, toRaw } from 'vue'
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { isStringNumber, isNumber } from './types.js'
 
 /**

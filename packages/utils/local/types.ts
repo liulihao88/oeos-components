@@ -1,5 +1,5 @@
 import { isArray, isObject, isString } from '@vue/shared'
-import { isNil } from 'lodash'
+import { isNil } from 'lodash-es'
 
 export { isArray, isFunction, isObject, isString, isDate, isPromise, isSymbol } from '@vue/shared'
 export { isVNode } from 'vue'

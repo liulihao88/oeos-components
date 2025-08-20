@@ -1,4 +1,4 @@
-import { intersectionWith, isEqual, mergeWith, unionWith } from 'lodash'
+import { intersectionWith, isEqual, mergeWith, unionWith } from 'lodash-es'
 import { isArray, isObject } from './is'
 /**
  * Add the object as a parameter to the URL
