@@ -44,6 +44,6 @@ init()
 <template>
   <div>
     <div>docs/examples/ODescription/base.vue</div>
-    <o-description :options="options" class="w-100%" :column="1"></o-description>
+    <o-descriptions :options="options" class="w-100%" :column="1"></o-descriptions>
   </div>
 </template>

@@ -18,6 +18,6 @@ const options = [
 
 <template>
   <div>
-    <o-description :options="options" title="时间转换"  :column="1"></o-description>
+    <o-descriptions :options="options" title="时间转换" :column="1"></o-descriptions>
   </div>
 </template>

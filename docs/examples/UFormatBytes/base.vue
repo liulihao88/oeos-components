@@ -19,6 +19,6 @@ const options = [
 
 <template>
   <div>
-    <o-description :options="options" :column="1"></o-description>
+    <o-descriptions :options="options" :column="1"></o-descriptions>
   </div>
 </template>

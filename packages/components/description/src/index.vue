@@ -1,5 +1,5 @@
 <template>
-  <el-descriptions v-bind="{ border: true, ...$attrs }" :column="column" class="o-description">
+  <el-descriptions v-bind="{ border: true, ...$attrs }" :column="column" class="o-descriptions">
     <el-descriptions-item v-for="(item, index) in options" :key="index">
       <template #label>
         <o-tooltip :content="item.label"></o-tooltip>
@@ -20,12 +20,16 @@
   </el-descriptions>
 </template>
 
-<script setup lang="ts" name="ODescription">
+<script setup lang="ts">
 import RenderComp from '@/components/common/renderComp.vue'
 import { computed, getCurrentInstance, VNode } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import { processWidth } from '@oeos-components/utils'
 import OTooltip from '@/components/tooltip'
+
+defineOptions({
+  name: 'ODescriptions',
+})
 
 type Options = {
   label: string
@@ -85,7 +89,7 @@ const parseContent = (value) => {
 </script>
 
 <style scoped lang="scss">
-.o-description {
+.o-descriptions {
   :deep(.el-descriptions__body),
   :deep(.el-descriptions__table) {
     table-layout: fixed;

@@ -74,6 +74,10 @@ export default defineConfig({
                   link: '/components/utils/confirm/base.md',
                 },
                 {
+                  text: 'clone深克隆',
+                  link: '/components/utils/clone/base.md',
+                },
+                {
                   text: 'isEmpty判断是否空值',
                   link: '/components/utils/isEmpty/base.md',
                 },
@@ -134,8 +138,8 @@ export default defineConfig({
               link: '/components/dateRange/base.md',
             },
             {
-              text: 'description组件',
-              link: '/components/description/base.md',
+              text: 'descriptions组件',
+              link: '/components/descriptions/base.md',
             },
             {
               text: 'dialog组件',

@@ -1,19 +1,19 @@
-# Description 描述列表
+# Descriptions 描述列表
 
-[Element Plus 描述组件文档](https://element-plus.org/zh-CN/component/description.html)
+[Element Plus 描述组件文档](https://element-plus.org/zh-CN/component/descriptions.html)
 
 ## Hidden Title {.md-hidden}
 
 ### 基础用法
 
 :::demo
-ODescription/base
+ODescriptions/base
 :::
 
 ### 通常用法
 
 :::demo
-ODescription/usually
+ODescriptions/usually
 :::
 
 ### 属性
