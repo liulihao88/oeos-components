@@ -1,7 +1,7 @@
 import { unref, isRef, toRaw } from '@vue/reactivity'
 import type { Ref } from '@vue/reactivity'
 import { consola } from 'consola'
-import { cloneDeep } from 'es-toolkit'
+import { cloneDeep } from 'es-toolkit' // 这里不要lodash-es的原因是, 体积太大, 超过500kb无法打包
 import { ElMessage, ElMessageBox, MessageOptions } from 'element-plus'
 
 /**
