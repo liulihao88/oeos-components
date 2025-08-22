@@ -1,7 +1,7 @@
 import { unref, isRef, toRaw } from '@vue/reactivity'
 import type { Ref } from '@vue/reactivity'
 import { consola } from 'consola'
-import { cloneDeep } from 'lodash-es'
+import { cloneDeep } from 'es-toolkit'
 import { ElMessage, ElMessageBox, MessageOptions } from 'element-plus'
 
 /**
