@@ -152,15 +152,15 @@ const parseType = computed(() => {
 
 const setColorByType = (pType) => {
   if (pType === 'primary') {
-    return getVariable('--el-color-primary')
+    return getVariable('--blue')
   } else if (pType === 'info') {
     return getVariable('--el-color-info')
   } else if (pType === 'warning') {
     return getVariable('--el-color-warning')
   } else if (pType === 'danger') {
-    return getVariable('--el-color-danger')
+    return getVariable('--red')
   } else {
-    return getVariable('--el-color-primary')
+    return getVariable('--blue')
   }
 }
 function formatColor(value) {
@@ -168,9 +168,9 @@ function formatColor(value) {
     if (props.customColor) {
       return setColorByType(parseType.value)
     }
-    return getVariable('--el-color-primary')
+    return getVariable('--blue')
   } else {
-    return getVariable('--el-color-danger')
+    return getVariable('--red')
   }
 }
 
