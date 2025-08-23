@@ -3,7 +3,6 @@ import { ref, watch, computed, useAttrs } from 'vue'
 import RenderComp from './renderComp.vue'
 import OPopconfirm from '@/components/popconfirm'
 import OIcon from '@/components/icon'
-
 import { getType } from '@oeos-components/utils'
 
 const attrs = useAttrs()
@@ -226,7 +225,10 @@ function updatePage(number, size) {
 }
 
 const parseTableWidth = (btns, hBtns) => {
-  return 32 + (btns.length + (hBtns.length === 0 ? 0 : 1)) * 30 + 'px'
+  if (btns.length === 1) {
+    return '60px'
+  }
+  return 16 + (btns.length + (hBtns.length === 0 ? 0 : 1)) * 32 - 8 + 'px'
 }
 const parseEmptyText = computed(() => {
   if (props.isLoading === true) {
@@ -498,13 +500,12 @@ const compEmptyText = computed(() => {
   }
   :deep(.el-table-fixed-column--right .cell.el-tooltip:has(> :only-child)) {
     justify-content: center;
-    color: blue !important;
   }
 
   :deep(
-      .el-table__body-wrapper .el-table-column--selection > .cell,
-      .el-table__header-wrapper .el-table-column--selection > .cell
-    ) {
+    .el-table__body-wrapper .el-table-column--selection > .cell,
+    .el-table__header-wrapper .el-table-column--selection > .cell
+  ) {
     justify-content: center;
     min-width: unset;
   }
