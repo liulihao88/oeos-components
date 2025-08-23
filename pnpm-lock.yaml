@@ -21,8 +21,8 @@ importers:
         specifier: ^3.0.6
         version: 3.0.6(@fortawesome/fontawesome-svg-core@6.5.1)(vue@3.4.15(typescript@5.3.3))
       '@oeos-components/utils':
-        specifier: ^0.0.3
-        version: 0.0.3(typescript@5.3.3)
+        specifier: ^0.0.13
+        version: 0.0.13(typescript@5.3.3)
       '@rollup/plugin-terser':
         specifier: ^0.4.4
         version: 0.4.4(rollup@4.9.6)
@@ -923,8 +923,8 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@oeos-components/utils@0.0.3':
-    resolution: {integrity: sha512-w312ACUap2w8CxHa/QQZfv8gAgSzfjWYeWrWNA1LIXg/NAPzIfWm9DlkKSUq8ybIQ8jfsvdA3w+680wGpgaplw==}
+  '@oeos-components/utils@0.0.13':
+    resolution: {integrity: sha512-xAJDxnDOeP7iKjDm2PAWD1P2gjJZtM+QbaCEaXKvDgCrs5YUh6hszlbAN72UN0suE4gHjsO7MPfNaCkAKvKWRw==}
 
   '@pkgr/core@0.1.1':
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
@@ -2146,6 +2146,9 @@ packages:
   es-to-primitive@1.2.1:
     resolution: {integrity: sha512-QCOllgZJtaUo9miYBcLChTUaHNjJF3PYs1VidD7AwiEj1kYxKeQTctLAezAOH5ZKRH0g2IgPn6KwB4IT8iRpvA==}
     engines: {node: '>= 0.4'}
+
+  es-toolkit@1.39.10:
+    resolution: {integrity: sha512-E0iGnTtbDhkeczB0T+mxmoVlT4YNweEKBLq7oaU4p11mecdsZpNWOglI4895Vh4usbQ+LsJiuLuI2L0Vdmfm2w==}
 
   esbuild@0.18.20:
     resolution: {integrity: sha512-ceqxoedUrcayh7Y7ZX6NdbbDzGROiyVBgC4PriJThBKSVPWnnFHZAkfI1lJT8QFkOwH4qOS2SJkS4wvpGl8BpA==}
@@ -4719,12 +4722,13 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
 
-  '@oeos-components/utils@0.0.3(typescript@5.3.3)':
+  '@oeos-components/utils@0.0.13(typescript@5.3.3)':
     dependencies:
       '@vue/reactivity': 3.5.18
       '@vue/shared': 3.5.18
       consola: 3.4.2
       element-plus: 2.10.4(vue@3.4.15(typescript@5.3.3))
+      es-toolkit: 1.39.10
       lodash-es: 4.17.21
       vue: 3.4.15(typescript@5.3.3)
     transitivePeerDependencies:
@@ -6142,6 +6146,8 @@ snapshots:
       is-callable: 1.2.7
       is-date-object: 1.0.5
       is-symbol: 1.0.4
+
+  es-toolkit@1.39.10: {}
 
   esbuild@0.18.20:
     optionalDependencies:
