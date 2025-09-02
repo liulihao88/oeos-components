@@ -994,7 +994,7 @@ export function formatBytes(
   let { digit = 2, thousands = true, prefix = '', suffix = '', roundType = 'floor' } = options
 
   // 校验输入
-  if (isStringNumber(bytes) || isNumber(bytes)) {
+  if (isStringNumber(bytes as any) || isNumber(bytes)) {
     bytes = Number(bytes)
   } else {
     return bytes
