@@ -68,16 +68,16 @@ const parseType = computed(() => {
         const foundItem = props.options.find((obj) => props.value === obj[props.config.value || 'value'])
         if (foundItem) {
           optionsGetName.value = foundItem[props.config.label || 'label']
-          if (primary.includes(props.value)) {
+          if (primary?.includes(props.value)) {
             return 'primary'
           }
-          if (info.includes(props.value)) {
+          if (info?.includes(props.value)) {
             return 'info'
           }
-          if (warning.includes(props.value)) {
+          if (warning?.includes(props.value)) {
             return 'warning'
           }
-          if (danger.includes(props.value)) {
+          if (danger?.includes(props.value)) {
             return 'danger'
           }
         }
