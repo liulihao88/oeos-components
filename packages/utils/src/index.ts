@@ -971,19 +971,29 @@ export function toFixed(
   }
   return `${prefix}${res}${finalUnit}${suffix}`
 }
-
 /**
- * 只有对正整数或者字符串正整数才进行单位的转换,
- * 否则返回原始数据
- * @example
- * proxy.formatBytes(536870912) // 512MB
- * proxy.formatBytes(536870912) // 512MB
+ * 格式化字节单位
+ * @param bytes - 字节数
+ * @param options - 配置项
+ * @param options.digit - 小数位数（默认2）
+ * @param options.thousands - 是否千分位分隔（默认true）
+ * @param options.prefix - 前缀（默认空）
+ * @param options.suffix - 后缀（默认空）
+ * @param options.roundType - 取整方式：'floor'（向下, 默认） | 'ceil'（向上） | 'round'（四舍五入）
  */
 export function formatBytes(
-  bytes,
-  options: { digit?: number; thousands?: boolean; prefix?: string; suffix?: string } = {},
+  bytes: number | string,
+  options: {
+    digit?: number
+    thousands?: boolean
+    prefix?: string
+    suffix?: string
+    roundType?: 'floor' | 'ceil' | 'round'
+  } = {},
 ) {
-  let { digit = 2, thousands = true, prefix = '', suffix = '' } = options
+  let { digit = 2, thousands = true, prefix = '', suffix = '', roundType = 'floor' } = options
+
+  // 校验输入
   if (isStringNumber(bytes) || isNumber(bytes)) {
     bytes = Number(bytes)
   } else {
@@ -996,10 +1006,30 @@ export function formatBytes(
   const k = 1024
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
-  let res = (bytes / Math.pow(k, i)).toFixed(digit) + ' ' + sizes[i]
+
+  // 根据 roundType 选择取整方式
+  const power = Math.pow(k, i)
+  let num = bytes / power
+
+  switch (roundType) {
+    case 'ceil':
+      num = Math.ceil(num * Math.pow(10, digit)) / Math.pow(10, digit)
+      break
+    case 'round':
+      num = Math.round(num * Math.pow(10, digit)) / Math.pow(10, digit)
+      break
+    case 'floor':
+    default:
+      num = Math.floor(num * Math.pow(10, digit)) / Math.pow(10, digit)
+      break
+  }
+
+  let res = num.toFixed(digit) + ' ' + sizes[i]
+
   if (thousands) {
     res = formatThousands(res)
   }
+
   return `${prefix}${res}${suffix}`
 }
 
