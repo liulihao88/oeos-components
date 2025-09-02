@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-const content = ref(0)
+const value = ref(0)
 setInterval(() => {
-  content.value++
-  if (content.value === 8) {
-    content.value = 0
+  value.value++
+  if (value.value === 8) {
+    value.value = 0
   }
 }, 1000)
 
@@ -17,9 +17,15 @@ setInterval(() => {
 
 <template>
   <div>
-    <o-tag :primary="[1, 2]" :content="content" :warning="[4, 5]" :danger="[6, 7]" width="100" height="100">
-      
-    </o-tag>
+    <o-tag
+      :primary="[1, 2]"
+      :value="value"
+      :warning="[3, 4]"
+      :danger="[5, 6]"
+      :info="7"
+      width="100"
+      height="100"
+    ></o-tag>
     <o-tag
       :primary="randomValue === 2"
       :danger="randomValue === 3"

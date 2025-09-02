@@ -1,17 +1,29 @@
-520 
-520
-520
-520
-520.99
-500
-520
-520
-1314
-66.66
-188.88 = 1569.54
-3888.88
-
-
-520 * 8 = 4160
-1314 + 66.66 + 188.88 = 1569.54
-4160 + 1569.54 + 3888.88 = 9618.42
+nodeStatus = [
+  {
+    name: '未知',
+    value: 'Unknown',
+  },
+  {
+    name: '正常',
+    value: 'Normal',
+  },
+  {
+    name: '问题',
+    value: 'Issue',
+  },
+  {
+    name: '维护',
+    value: 'Maintenance',
+  },
+  {
+    name: '重启中',
+    value: 'Rebooting',
+  },
+  {
+    name: '关闭中',
+    value: 'Shuttingdown',
+  },
+  {
+    name: '断电',
+    value: 'PowerOff',
+  },

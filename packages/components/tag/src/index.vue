@@ -33,10 +33,7 @@ const props = defineProps({
   info: {
     type: [String, Number, Array],
   },
-  content: {
-    type: [String, Number],
-    required: true,
-  },
+
   other: {
     type: String,
     default: 'primary',
@@ -44,13 +41,17 @@ const props = defineProps({
   type: {
     type: String,
   },
+  config: {
+    type: Object,
+    default: () => {},
+  },
 })
 
 const parseContent = computed(() => {
   if (props.options.length > 0 && props.value) {
     return optionsGetName.value
   } else {
-    return props.content
+    return props.value
   }
 })
 
@@ -60,21 +61,43 @@ const changeGetName = (foundItem) => {
 }
 
 const parseType = computed(() => {
+  const { primary, warning, info, danger, other, type } = props
   if (props.options.length > 0 && props.value) {
-    for (const item of props.options) {
-      // 遍历 item 的所有键值对（而不是只取第一个）
-      for (const [type, items] of Object.entries(item)) {
-        const foundItem = items.find((obj) => props.value in obj)
+    if (notEmpty(props.config)) {
+      for (let i = 0; i < props.options.length; i++) {
+        const foundItem = props.options.find((obj) => props.value === obj[props.config.value || 'value'])
         if (foundItem) {
-          changeGetName(foundItem)
-          return type
+          optionsGetName.value = foundItem[props.config.label || 'label']
+          if (primary.includes(props.value)) {
+            return 'primary'
+          }
+          if (info.includes(props.value)) {
+            return 'info'
+          }
+          if (warning.includes(props.value)) {
+            return 'warning'
+          }
+          if (danger.includes(props.value)) {
+            return 'danger'
+          }
         }
       }
+      return other
+    } else {
+      for (const item of props.options) {
+        // 遍历 item 的所有键值对（而不是只取第一个）
+        for (const [type, items] of Object.entries(item)) {
+          const foundItem = items.find((obj) => props.value in obj)
+          if (foundItem) {
+            changeGetName(foundItem)
+            return type
+          }
+        }
+      }
+      return null
     }
-    return null
   }
 
-  const { primary, warning, info, danger, content, other, type } = props
   if (type) {
     return type
   }
@@ -83,7 +106,7 @@ const parseType = computed(() => {
   const getMatchType = (types, type) => {
     const normalizedTypes = Array.isArray(types) ? types : [types]
     if (getType(types) === 'array') {
-      return normalizedTypes.includes(content) ? type : null
+      return normalizedTypes.includes(props.value) ? type : null
     } else if (getType(types) === 'boolean') {
       return types === true ? type : null
     } else {

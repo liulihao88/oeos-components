@@ -16,6 +16,23 @@ OTag/base
 OTag/usually
 :::
 
+### company(公司常用数据)
+
+[
+{
+name: '未知',
+value: 'Unknown',
+},
+{
+name: '正常',
+value: 'Normal',
+},
+]
+
+:::demo
+OTag/company
+:::
+
 ### map数据
 
 :::demo
@@ -38,11 +55,13 @@ OTag/async
 
 |            属性名             | 说明                         | 类型                | 默认值  |
 | :---------------------------: | ---------------------------- | ------------------- | ------- |
-|             type              | Tag 的类型                   | string              | -       |
+|             type              | 绑定值                      | string/number       | -       |
+|             value             |                              | string              | -       |
 |             other             | 如果都匹配不到显示的type类型 | string              | primary |
 | `primary/info/warning/danger` | 不同类型匹配到的数组或字符串 | string/number/array | -       |
 |             width             | 宽度                         | string/number/array | -       |
 |            height             | 高度                         | string/number/array | -       |
+|            config             | 相关配置                         | object<label/value> | -       |
 
 ### 颜色使用原则
 
