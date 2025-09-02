@@ -1,6 +1,6 @@
 {
   "name": "@oeos-components/utils",
-  "version": "0.0.13",
+  "version": "0.0.15",
   "description": "utils of oeos-components",
   "license": "MIT",
   "type": "commonjs",
@@ -15,9 +15,10 @@
     "registry": "https://registry.npmjs.org"
   },
   "scripts": {
-    "build": "npx unbuild",
     "stub": "npx unbuild --stub",
-    "release": "npx unbuild && npm version patch && npm publish"
+    "version": "git add . && git commit -am \"chore: release v$npm_package_version\"",
+    "postversion": "git push && git push origin --tags && npm publish",
+    "release": "npx unbuild && npm version patch && gg \"chore: release v$(npm pkg get version | sed 's/\"//g')\" && npm publish"
   },
   "author": "",
   "dependencies": {
