@@ -99,19 +99,10 @@ const parseType = computed(() => {
     other // 默认返回值
   )
 })
-
-const parseEffect = computed(() => {
-  return ['warning', 'info'].includes(parseType.value) ? 'dark' : ''
-})
 </script>
 
 <template>
-  <el-tag
-    v-bind="$attrs"
-    :type="parseType"
-    :effect="parseEffect"
-    :style="{ ...handleWidthHeight(props.width, props.height) }"
-  >
+  <el-tag v-bind="$attrs" :type="parseType" :style="{ ...handleWidthHeight(props.width, props.height) }">
     <slot>
       {{ parseContent }}
     </slot>
