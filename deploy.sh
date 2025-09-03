@@ -30,4 +30,4 @@ git push -f https://github.com/liulihao88/oeos-components.git main:github-pages
 cd ../../../
 git add .
 git commit -m "$commit_message"
-git push
+git push -u origin main
