@@ -77,9 +77,9 @@ defineExpose({
       <slot></slot>
     </template>
   </el-popover>
-  <div v-else @click="confirm">
+  <template v-else @click="confirm">
     <slot></slot>
-  </div>
+  </template>
 </template>
 
 <style scoped lang="scss">
