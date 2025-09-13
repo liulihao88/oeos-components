@@ -40,7 +40,7 @@
 import { computed, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useClipboard } from '@vueuse/core'
-import { getStorage, setStorage } from '../../../../../packages/utils'
+import { getStorage, setStorage } from '@oeos-components/utils'
 
 import Example from './vp-example.vue'
 import SourceCode from './vp-source-code.vue'
