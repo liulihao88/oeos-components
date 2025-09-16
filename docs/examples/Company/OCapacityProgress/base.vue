@@ -10,6 +10,11 @@ const row = ref({
   overUsedSpace: 200,
 })
 
+const testRow = ref({
+  used: 103922671616,
+  total: 32390658146304,
+})
+
 function parseSpace(space) {
   if (!space) {
     return '0.00B'
@@ -32,6 +37,12 @@ function parseSpace(space) {
     <hr />
     <o-capacity-progress :total="row.totalSpace" :used="row.noUsed">
       <span>{{ parseSpace(row.noUsed) }} / {{ parseSpace(row.totalSpace) }}</span>
+    </o-capacity-progress>
+
+    <br />
+
+    <o-capacity-progress :total="testRow.total" :used="testRow.used">
+      <span>{{ parseSpace(testRow.used) }} / {{ parseSpace(testRow.total) }}</span>
     </o-capacity-progress>
   </div>
 </template>
