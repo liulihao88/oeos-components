@@ -503,9 +503,9 @@ const compEmptyText = computed(() => {
   }
 
   :deep(
-    .el-table__body-wrapper .el-table-column--selection > .cell,
-    .el-table__header-wrapper .el-table-column--selection > .cell
-  ) {
+      .el-table__body-wrapper .el-table-column--selection > .cell,
+      .el-table__header-wrapper .el-table-column--selection > .cell
+    ) {
     justify-content: center;
     min-width: unset;
   }
@@ -528,6 +528,12 @@ const compEmptyText = computed(() => {
 
   :deep(.el-pagination .el-select) {
     width: 100px;
+  }
+
+  // 解决屏幕宽度改变, 可能导致操作那一列的左侧线条不显示的问题
+  :deep(.el-table-fixed-column--right.is-last-column:before),
+  :deep(.el-table-fixed-column--right.is-first-column:before) {
+    box-shadow: 1px 0 0 0 rgba(242, 243, 245, 1);
   }
 }
 </style>
