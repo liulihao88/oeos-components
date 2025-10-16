@@ -75,7 +75,7 @@ defineExpose({
         v-bind="v.itemAttrs"
         :rules="mergeRules(v.rules)"
       >
-        <!-- 将 Element Plus 表格的默认 slot  传递给您的组件   -->
+        <!-- 将 Element Plus 表格的默认 slot  传递给您的组件 11  -->
         <template #label>
           <slot :name="v.prop + '-label'">
             <o-tooltip :content="v.label"></o-tooltip>
