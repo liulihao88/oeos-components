@@ -220,7 +220,7 @@ onBeforeUnmount(() => {
     padding: 10px 16px;
     box-sizing: border-box;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
   }
   :deep(.el-drawer__footer) {
