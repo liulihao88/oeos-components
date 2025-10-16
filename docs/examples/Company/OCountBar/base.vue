@@ -86,6 +86,23 @@ setTimeout(() => {
     updatetime: 1753177062959,
   }
 }, 1000)
+
+const newData = {
+  magazineList: ['701101', '701149', '701198', '701247'],
+  magazineInCount: {
+    '701101': 994,
+    '701149': 2690,
+    '701198': 2690,
+    '701247': 2690,
+  },
+  magazineInSize: {
+    '701101': 524469369,
+    '701149': 10760002690,
+    '701198': 10760002690,
+    '701247': 10760002690,
+  },
+  updateTime: 1760582692416,
+}
 </script>
 
 <template>
@@ -96,5 +113,10 @@ setTimeout(() => {
     <OCountBar :data="data2" style="height: 300px"></OCountBar>
     <hr />
     <OCountBar :data="data3" style="height: 300px"></OCountBar>
+    <OCountBar
+      :data="newData"
+      :options="{ count: 'magazineInCount', size: 'magazineInSize' }"
+      style="height: 300px"
+    ></OCountBar>
   </div>
 </template>

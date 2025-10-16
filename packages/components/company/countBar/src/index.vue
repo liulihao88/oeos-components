@@ -33,6 +33,16 @@ const props = defineProps({
     type: Array,
     default: () => [], // [{name: '<1024kb', value: 22}]
   },
+  options: {
+    type: Object,
+    default: () => {
+      return {
+        count: 'inCount',
+        size: 'inSize',
+        format: '',
+      }
+    },
+  },
 })
 const option = ref()
 const isDataEmpty = ref(false)
@@ -86,8 +96,9 @@ let initOption = {
     axisLabel: {
       color: '#8e97ae',
       formatter: (value) => {
-        let res = formatNumberWithChineseAbbreviation(value)
-        return res
+        // let res = formatNumberWithChineseAbbreviation(value)
+        // return res
+        return value
       },
     },
   },
@@ -164,11 +175,11 @@ watch(
       isDataEmpty.value = false
     }
 
-    let parseData = Object.entries(val.inCount).map(([keysOf, value]) => {
+    let parseData = Object.entries(val[props.options.count]).map(([keysOf, value]) => {
       return {
         name: keysOf,
         value: value,
-        value2: val.inSize[keysOf],
+        value2: val[props.options.count][keysOf],
       }
     })
 
