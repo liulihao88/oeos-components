@@ -40,6 +40,12 @@ OSelect/multyChange
 OSelect/all
 :::
 
+### customLabel自定义显示label
+
+:::demo
+OSelect/customLabel
+:::
+
 ### 解析html
 
 :::demo
