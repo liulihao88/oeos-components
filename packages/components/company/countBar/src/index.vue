@@ -56,7 +56,7 @@ let initOption = {
     },
     formatter: (params) => {
       const param = params[0]
-      return `${param.name}: ${formatThousands(param.value)}个 <br> 总大小: ${formatBytes(params[1].value)}`
+      return `总数量: ${formatThousands(param.value)}个 <br> 总大小: ${formatBytes(params[1].value)}`
     },
   },
   grid: {
@@ -179,7 +179,7 @@ watch(
       return {
         name: keysOf,
         value: value,
-        value2: val[props.options.count][keysOf],
+        value2: val[props.options.size][keysOf],
       }
     })
 
