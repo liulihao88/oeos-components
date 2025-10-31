@@ -274,6 +274,10 @@ export default defineConfig({
               link: '/components/company/quotaPie/base.md',
             },
             {
+              text: 'quotaUnit容量单位组件',
+              link: '/components/company/quotaUnit/base.md',
+            },
+            {
               text: 'item列表组件',
               link: '/components/company/item/base.md',
             },
