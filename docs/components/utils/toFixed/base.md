@@ -5,11 +5,11 @@
 ### 基础用法
 
 :::demo
-UToFixed/base
+Utils/UToFixed/base
 :::
 
 ### 通常用法
 
 :::demo
-UToFixed/usually
+Utils/UToFixed/usually
 :::

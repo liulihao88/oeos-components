@@ -5,5 +5,5 @@
 ### 基础用法
 
 :::demo
-UTryCatch/base
+Utils/UTryCatch/base
 :::

@@ -5,5 +5,5 @@
 ### 基础用法
 
 :::demo
-UValidForm/base
+Utils/UValidForm/base
 :::

@@ -5,5 +5,5 @@
 ### 基础用法
 
 :::demo
-UFormatBytes/base
+Utils/UFormatBytes/base
 :::

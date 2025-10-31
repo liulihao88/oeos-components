@@ -5,5 +5,5 @@
 ### 基础用法
 
 :::demo
-UFormatTime/base
+Utils/UFormatTime/base
 :::

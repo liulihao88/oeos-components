@@ -5,5 +5,5 @@
 ### 基础用法
 
 :::demo
-UIsEmpty/base
+Utils/UIsEmpty/base
 :::

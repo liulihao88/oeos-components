@@ -5,7 +5,7 @@
 ### 基础用法
 
 :::demo
-UClone/base
+Utils/UClone/base
 :::
 
 ```javascript

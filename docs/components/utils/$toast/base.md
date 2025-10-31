@@ -5,7 +5,7 @@
 ### 基础用法
 
 :::demo
-U$toast/base
+Utils/U$toast/base
 :::
 
 ```javascript

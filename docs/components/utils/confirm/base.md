@@ -5,11 +5,11 @@
 ### 基础用法
 
 :::demo
-UConfirm/base
+Utils/UConfirm/base
 :::
 
 ### 在弹框中使用
 
 :::demo
-UConfirm/dialog
+Utils/UConfirm/dialog
 :::
