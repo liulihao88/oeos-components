@@ -558,8 +558,37 @@ export function getType(type) {
   }
 }
 
+/**
+ * 一个辅助函数，用于在代码中创建一个暂停（延迟）。
+ * 它返回一个 Promise，你可以在 `await` 后使用它来实现类似 "sleep" 的效果。
+ *
+ * @param delay - 等待的毫秒数。默认值为 0，表示不延迟。
+ * @param fn - (可选) 一个在延迟结束后立即执行的函数。
+ *
+ * @returns 一个 Promise，当延迟结束后解析（resolve）。
+ *
+ * @example
+ * // 基本用法：延迟 2 秒后打印消息
+ * console.log('开始');
+ * await sleep(2000);
+ * console.log('2秒后执行');
+ *
+ * @example
+ * // 带回调函数的用法：延迟 1 秒后执行清理工作
+ * sleep(1000, () => {
+ *   console.log('执行清理操作...');
+ *   // 清理代码...
+ * });
+ *
+ * @example
+ * // 在循环中使用：每次迭代后延迟 500 毫秒
+ * for (let i = 0; i < 5; i++) {
+ *   console.log(`当前值: ${i}`);
+ *   await sleep(500);
+ * }
+ */
 export function sleep(delay = 0, fn?: () => void) {
-  return new Promise((resolve) =>
+  return new Promise<void>((resolve) =>
     setTimeout(() => {
       fn?.()
       resolve()

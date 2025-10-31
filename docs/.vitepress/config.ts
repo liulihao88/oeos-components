@@ -113,6 +113,18 @@ export default defineConfig({
                   text: 'formatDutationTime持续时间',
                   link: '/components/utils/formatDurationTime/base.md',
                 },
+                {
+                  text: 'uuid生成随机字符串',
+                  link: '/components/utils/uuid/base.md',
+                },
+                {
+                  text: 'getType获取类型',
+                  link: '/components/utils/getType/base.md',
+                },
+                {
+                  text: 'sleep延迟函数',
+                  link: '/components/utils/sleep/base.md',
+                },
               ],
             },
           ],
