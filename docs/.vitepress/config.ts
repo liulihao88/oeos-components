@@ -109,6 +109,10 @@ export default defineConfig({
                   text: 'formatTime转换日期',
                   link: '/components/utils/formatTime/base.md',
                 },
+                {
+                  text: 'formatDutationTime持续时间',
+                  link: '/components/utils/formatDurationTime/base.md',
+                },
               ],
             },
           ],
