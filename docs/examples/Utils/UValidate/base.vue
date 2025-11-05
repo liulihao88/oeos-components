@@ -49,6 +49,7 @@ const validIp = () => {
 </script>
 
 <template>
+  <OFunctionSourceCode functionName="validate"></OFunctionSourceCode>
   <div>
     <o-warning
       content="由于新旧密码比较相同的时候, 需要实时的获取新旧密码的值, 所以需要使用computed去监听当新旧密码值变化使的值. 如果不需要校验新旧密码值, 则不需要加compued"

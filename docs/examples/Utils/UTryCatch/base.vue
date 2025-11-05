@@ -31,6 +31,7 @@ const init = async () => {
 </script>
 
 <template>
+  <OFunctionSourceCode functionName="tryCatch"></OFunctionSourceCode>
   <div>
     <el-button type="primary" @click="init()" :loading="loading">测试25</el-button>
   </div>

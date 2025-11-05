@@ -2,6 +2,8 @@
 import { ref, getCurrentInstance } from 'vue'
 // import { $toast, sleep } from '@oeos-components/utils'
 import { $toast, sleep } from '@/utils/src/index'
+import * as utils from '@oeos-components/utils'
+console.log(`87 utils`, utils);
 const { proxy } = getCurrentInstance()
 const base = () => {
   $toast('基础成功')
@@ -47,11 +49,13 @@ const showObject = () => {
 </script>
 
 <template>
+  <OFunctionSourceCode functionName="$toast"></OFunctionSourceCode>
   <div>
     <el-button type="primary" @click="base">基础</el-button>
     <el-button type="primary" @click="duration5000">持续5秒</el-button>
     <el-button type="primary" @click="noClose">永不关闭</el-button>
     <el-button type="primary" @click="closeOther">关闭其他, 只保留一个</el-button>
     <el-button type="primary" @click="showObject">显示对象</el-button>
+
   </div>
 </template>

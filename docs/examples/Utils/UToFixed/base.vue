@@ -20,6 +20,7 @@ let arr = [
 </script>
 
 <template>
+  <OFunctionSourceCode functionName="toFixed"></OFunctionSourceCode>
   <div>
     <div v-for="(v, i) in arr" :key="i">
       <div v-if="getType(v.value) !== 'array'" class="f">

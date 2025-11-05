@@ -12,6 +12,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
+defineOptions({
+  name: 'OFunctionSourceCode',
+})
+
 // 从父组件接收函数名
 const props = defineProps({
   functionName: {
@@ -26,7 +30,7 @@ onMounted(() => {
   loadUtils()
 })
 
-// .vitepress/components/FunctionSource.vue
+// .vitepress/components/FunctionSourceCode.vue
 
 // Helper function to convert PascalCase to kebab-case
 const pascalToKebab = (str: string) => {

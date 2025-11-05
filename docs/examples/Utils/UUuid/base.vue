@@ -24,8 +24,8 @@ const options = [
 </script>
 
 <template>
+  <OFunctionSourceCode functionName="uuid"></OFunctionSourceCode>
   <div>
-    123
     <o-descriptions :options="options" title="uuid随机字符" :column="1" label-width="600"></o-descriptions>
   </div>
 </template>

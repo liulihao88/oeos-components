@@ -36,6 +36,7 @@ const options = [
 </script>
 
 <template>
+  <OFunctionSourceCode functionName="clone"></OFunctionSourceCode>
   <div>
     <o-descriptions :options="options" :column="1" labelWidth="300" :showAll="true"></o-descriptions>
   </div>

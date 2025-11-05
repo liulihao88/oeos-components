@@ -26,6 +26,7 @@ const items = [
 </script>
 
 <template>
+  <OFunctionSourceCode functionName="isEmpty"></OFunctionSourceCode>
   <o-warning
     class="mb2"
     content="undefined, null, '', '   ', false, 0, [], {}, NaN, new Set(), new Map(), BigInt(0), new Date('无效日期') 均返回true，否则返回false <br> 如果参数2为true, 处理严格模式（strict=true 时，0/false 不算空）"

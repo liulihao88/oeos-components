@@ -26,6 +26,7 @@ const submit4 = async () => {
 </script>
 
 <template>
+  <OFunctionSourceCode functionName="validForm"></OFunctionSourceCode>
   <div>
     <el-form ref="formRef" :model="form" :rules="rules">
       <el-form-item label="基础用法" prop="name">
