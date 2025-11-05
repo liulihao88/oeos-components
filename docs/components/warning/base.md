@@ -5,7 +5,7 @@
 ### 基础用法
 
 :::demo 这是warning的最基础用法
-Utils/OWarning/base
+OWarning/base
 :::
 
 ### 属性
