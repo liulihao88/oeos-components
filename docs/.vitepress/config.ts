@@ -134,6 +134,10 @@ export default defineConfig({
           collapsed: false,
           items: [
             {
+              text: '测试组件',
+              link: '/components/test/base.md',
+            },
+            {
               text: 'checkbox组件',
               link: '/components/checkbox/base.md',
             },
@@ -146,8 +150,8 @@ export default defineConfig({
               link: '/components/chart/base.md',
             },
             {
-              text: '测试组件',
-              link: '/components/test/base.md',
+              text: 'clickOutside外部点击组件',
+              link: '/components/clickOutside/base.md',
             },
             {
               text: 'dateRange组件',
