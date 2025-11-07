@@ -128,10 +128,11 @@ defineExpose({
       <o-input
         :placeholder="props.inputAttrs.placeholder || '输入后回车'"
         :width="props.inputAttrs.width || 120"
-        v-model="currentval"
+        v-model.trim="currentval"
         @keyup.enter.stop="addlabel"
         clearable
         type="text"
+        v-bind="props.inputAttrs"
       />
     </div>
     <o-icon name="circle-close" class="o-input-label__clear" v-if="labelarr.length > 0" @click="clearAll"></o-icon>
