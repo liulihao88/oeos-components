@@ -112,6 +112,12 @@ function clearAll() {
   emit('update:modelValue', [])
 }
 
+const blurInput = ()=>{
+  if(currentval.value){
+    addlabel()
+  }
+}
+
 defineExpose({
   $getValue,
 })
@@ -130,6 +136,7 @@ defineExpose({
         :width="props.inputAttrs.width || 120"
         v-model.trim="currentval"
         @keyup.enter.stop="addlabel"
+        @blur="blurInput"
         clearable
         type="text"
         v-bind="props.inputAttrs"
