@@ -3,7 +3,7 @@
   <el-form-item label="配额" prop="quota" :rules="rules" ref="formItemRef" required v-bind="$attrs">
     <div class="f-st-ct">
       <div class="f-st-ct w-100% mr2">
-        <el-input-number v-model="internalValue" :min="1" style="min-width: 150px" class="mr" />
+        <el-input-number v-model="internalValue" style="min-width: 150px" class="mr" />
         <o-radio v-model="unitValue" :options="QUOTA_UNIT" showType="button" />
       </div>
     </div>
