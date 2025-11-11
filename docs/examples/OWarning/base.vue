@@ -12,7 +12,12 @@ const htmlContent = `
   <div>
     <o-warning content="这是基础用法"></o-warning>
     <br />
-    <o-warning content="这是基础用法-size为small, 且dotted" size="small" dotted left></o-warning>
+    <o-warning
+      content="这是基础用法-size为small, 且dotted"
+      size="small"
+      dotted
+      left
+    ></o-warning>
     <br />
     <o-warning
       content="这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法"
@@ -27,7 +32,10 @@ const htmlContent = `
       </template>
     </o-warning>
     <br />
-    <o-warning content="这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法"  type="simple"></o-warning>
+    <o-warning
+      content="这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法"
+      type="simple"
+    ></o-warning>
     <br />
     <o-warning content="这是info的基础用法" type="info"></o-warning>
     <br />
