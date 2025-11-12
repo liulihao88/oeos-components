@@ -13,7 +13,7 @@ const htmlContent = `
   <div>
     <o-warning content="这是基础用法" title="我是title"></o-warning>
     <br />
-    <o-warning content="这是基础用法-size为small <code>你好啊</code>" size="small" left></o-warning>
+    <o-warning content="这是基础用法-size为small <code>这是code包裹内容</code> <blue></blue> " size="small" left></o-warning>
     <br />
     <div class="f-st-ct">
       <o-warning title="我是title" content="默认类型, <code>这是code包裹内容</code>" class="mr" />
