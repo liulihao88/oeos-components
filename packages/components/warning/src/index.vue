@@ -109,8 +109,10 @@ function parseClass() {
     /> -->
 
     <div class="o-warning-box__container">
-      <div v-if="title" class="o-warning-box__title" :class="`o-warning-box__title--${type}`">
-        {{ title }}
+      <div v-if="$slots.title || title" class="o-warning-box__title" :class="`o-warning-box__title--${type}`">
+        <slot name="title">
+          {{ title }}
+        </slot>
       </div>
       <slot name="content">
         <span class="o-warning-box__content" :class="type === 'icon' && 'cl-45 fs-14'" v-bind="bindProps" />

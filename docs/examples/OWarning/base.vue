@@ -5,6 +5,7 @@ const htmlContent = `
   <div>这是html</div> 
   <span class="cl-blue">这是蓝色</span>  <br />
   <span class="cl-yellow">这是黄色</span> 
+  
 `
 </script>
 
@@ -51,10 +52,14 @@ const htmlContent = `
     <o-warning content="这是更改样式" style="border-style: dotted"></o-warning>
     <br />
     <o-warning>
+      <template #title>
+        我是插槽的title
+      </template>
       <template #content>
-        这是自定义content
+        我是插槽的content
         <code>哈哈哈</code>
         <blue>哈哈哈</blue>
+        <el-button type="primary" icon="el-icon-plus" size="small">添加: (注意: dangerouslyUseHTMLString 方式渲染 HTML 内容，这种方式只能渲染原生 HTML 标签，无法渲染 Vue 组件; 所以只能使用插槽)</el-button>
       </template>
     </o-warning>
 
