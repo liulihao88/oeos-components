@@ -180,7 +180,19 @@ function parseClass() {
       background-color 0.25s;
   }
   :deep(blue) {
+    margin: 0;
+    padding: 3px 6px;
+    border-radius: 4px;
+    background-color: rgba(142, 150, 170, 0.14);
     color: var(--blue);
+    border-radius: 4px;
+    padding: 0.15rem 0.5rem;
+    font-family: var(--code-font-family);
+    font-size: var(--vp-code-font-size);
+    line-height: var(--code-line-height);
+    transition:
+      color 0.25s,
+      background-color 0.25s;
   }
 }
 

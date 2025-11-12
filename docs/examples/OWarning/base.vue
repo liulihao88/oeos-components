@@ -13,7 +13,11 @@ const htmlContent = `
   <div>
     <o-warning content="这是基础用法" title="我是title"></o-warning>
     <br />
-    <o-warning content="这是基础用法-size为small <code>这是code包裹内容</code> <blue></blue> " size="small" left></o-warning>
+    <o-warning
+      content="这是基础用法-size为small <code>这是code包裹内容</code> <blue>这是blue包裹内容</blue> "
+      size="small"
+      left
+    ></o-warning>
     <br />
     <div class="f-st-ct">
       <o-warning title="我是title" content="默认类型, <code>这是code包裹内容</code>" class="mr" />
@@ -52,14 +56,15 @@ const htmlContent = `
     <o-warning content="这是更改样式" style="border-style: dotted"></o-warning>
     <br />
     <o-warning>
-      <template #title>
-        我是插槽的title
-      </template>
+      <template #title>我是插槽的title</template>
       <template #content>
         我是插槽的content
         <code>哈哈哈</code>
         <blue>哈哈哈</blue>
-        <el-button type="primary" icon="el-icon-plus" size="small">添加: (注意: dangerouslyUseHTMLString 方式渲染 HTML 内容，这种方式只能渲染原生 HTML 标签，无法渲染 Vue 组件; 所以只能使用插槽)</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="small">
+          添加: (注意: dangerouslyUseHTMLString 方式渲染 HTML 内容，这种方式只能渲染原生 HTML 标签，无法渲染 Vue 组件;
+          所以只能使用插槽)
+        </el-button>
       </template>
     </o-warning>
 
