@@ -10,14 +10,16 @@ const htmlContent = `
 
 <template>
   <div>
-    <o-warning content="这是基础用法"></o-warning>
+    <o-warning content="这是基础用法" title="我是title"></o-warning>
     <br />
-    <o-warning
-      content="这是基础用法-size为small, 且dotted"
-      size="small"
-      dotted
-      left
-    ></o-warning>
+    <o-warning content="这是基础用法-size为small <code>你好啊</code>" size="small" left></o-warning>
+    <br />
+    <div class="f-st-ct">
+      <o-warning title="我是title" content="默认类型, <code>这是code包裹内容</code>" class="mr" />
+      <o-warning title="我是title" content="type=warning <code>这是code包裹内容</code>" type="warning" class="mr" />
+      <o-warning title="我是title" content="type=simple <code>这是code包裹内容</code>" type="simple" class="mr" />
+      <o-warning title="我是title" content="type=error <code>这是code包裹内容</code>" type="error" class="mr" />
+    </div>
     <br />
     <o-warning
       content="这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法"
@@ -36,8 +38,6 @@ const htmlContent = `
       content="这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法这是simple的基础用法"
       type="simple"
     ></o-warning>
-    <br />
-    <o-warning content="这是info的基础用法" type="info"></o-warning>
     <br />
     <o-warning
       type="info"
@@ -61,8 +61,6 @@ const htmlContent = `
     <br />
     <o-warning :content="htmlContent"></o-warning>
     <br />
-    <o-warning :content="htmlContent"></o-warning>
-    <br />
-    <o-warning content="不要icon按钮" :dangerouslyUseHTMLString="true" :icon="false"></o-warning>
+    <o-warning content="不要icon按钮" title="我是title" :dangerouslyUseHTMLString="true" :icon="false"></o-warning>
   </div>
 </template>
