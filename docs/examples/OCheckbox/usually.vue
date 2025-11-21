@@ -15,7 +15,7 @@ const simpleOptions = ['1', '2', '3', '4', '5']
 <template>
   <div>
     <o-checkbox v-model="checkboxValue" :options="options" label="name" value="id"></o-checkbox>
-    <o-checkbox v-model="simpleValue" :options="simpleOptions" type="simple"></o-checkbox>
+    <o-checkbox v-model="simpleValue" :options="simpleOptions" type="simple" size="small"></o-checkbox>
   </div>
 </template>
 

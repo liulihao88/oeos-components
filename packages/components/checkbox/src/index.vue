@@ -57,6 +57,10 @@ const props = defineProps({
     type: [Function, String],
     default: '',
   },
+  gap: {
+    type: [Number, String, undefined],
+    default: undefined,
+  },
 })
 const checkAll = ref(false)
 const isIndeterminate = ref(false)
@@ -134,13 +138,25 @@ const filteredAttrs = computed(() => {
   const { label, ...rest } = attrs
   return rest
 })
+// 修改 getGapValue 计算属性
+const getGapValue = computed(() => {
+  if (props.gap === undefined || props.gap === null) {
+    return ''
+  }
+
+  if (typeof props.gap === 'number') {
+    return `${props.gap}px`
+  }
+
+  return props.gap
+})
 </script>
 
 <template>
-  <div class="checkbox">
+  <div class="o-checkbox" :class="{ 'o-gap-checkbox': !isEmpty(props.gap, true) }">
     <el-checkbox
       v-model="checkAll"
-      class="checkbox__all"
+      class="o-checkbox__all"
       :indeterminate="isIndeterminate"
       @change="checkAllChange"
       v-if="showAll"
@@ -148,7 +164,12 @@ const filteredAttrs = computed(() => {
     >
       全选
     </el-checkbox>
-    <el-checkbox-group v-model="props.modelValue" @change="groupChange" v-bind="filteredAttrs">
+    <el-checkbox-group
+      v-model="props.modelValue"
+      @change="groupChange"
+      v-bind="filteredAttrs"
+      class="o-checkbox__wrapper"
+    >
       <slot>
         <component
           :is="checkType"
@@ -158,6 +179,7 @@ const filteredAttrs = computed(() => {
           :value="props.type === 'simple' ? item : item[props.value!]"
           :label="props.type === 'simple' ? item : item[props.label!]"
           :disabled="props.customDisabled(item)"
+          class="o-checkbox__item"
         >
           <slot :name="props.type === 'simple' ? item : item.slot" v-bind="props.type === 'simple' ? {} : item">
             {{ handleLabel(item, index) }}
@@ -169,10 +191,38 @@ const filteredAttrs = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.checkbox {
+.o-checkbox {
   display: flex;
-  .checkbox__all {
-    padding-right: 24px;
+  align-items: flex-start;
+  .o-checkbox__all {
+    font-weight: bold;
+    margin-bottom: 0;
+    white-space: nowrap;
+    margin-right: var(--el-checkbox-margin-right, 24px);
+  }
+}
+
+.o-gap-checkbox {
+  .o-checkbox__all {
+    font-weight: bold;
+    margin-bottom: 0;
+    white-space: nowrap;
+    margin-right: v-bind('getGapValue') !important;
+  }
+
+  .o-checkbox__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: v-bind('getGapValue'); // 只设置列间距
+    row-gap: 8px; // 固定行间距或根据需要设置
+
+    .o-checkbox__item {
+      display: inline-flex;
+      align-items: center;
+    }
+    :deep(.el-checkbox) {
+      margin-right: 0;
+    }
   }
 }
 </style>
