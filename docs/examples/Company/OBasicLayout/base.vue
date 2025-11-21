@@ -21,6 +21,7 @@ const { proxy } = getCurrentInstance()
       class="mt2"
       :mainStyle="{ paddingLeft: 0 }"
       :footerStyle="{ paddingBottom: 0 }"
+      :style="{ 'border-radius': '20px' }"
     >
       无paddingLeft
       <template #header>
@@ -31,15 +32,14 @@ const { proxy } = getCurrentInstance()
       </template>
     </OBasicLayout>
 
-    <OBasicLayout title="无border" :border="false" class="mt2">
-      我是内部的文件111
-      <template #footer>
-        <el-button type="primary">测试07</el-button>
-        <el-button type="primary">测试07</el-button>
+    <OBasicLayout :border="false" class="mt2">
+      <template #header>
+        <o-title title="更多">
+          <template #right>
+            <a href="#">more</a>
+          </template>
+        </o-title>
       </template>
-    </OBasicLayout>
-
-    <OBasicLayout title="自定义样式" :style="{ 'border-radius': '100px' }" class="mt2">
       我是内部的文件111
       <template #footer>
         <el-button type="primary">测试07</el-button>
@@ -53,7 +53,5 @@ const { proxy } = getCurrentInstance()
         <el-button type="primary">测试07</el-button>
       </template>
     </OBasicLayout>
-
-    
   </div>
 </template>
