@@ -236,6 +236,16 @@ export default defineConfig({
           ],
         },
         {
+          text: '原生js组件',
+          collapsed: false,
+          items: [
+            {
+              text: 'flex布局组件',
+              link: '/components/flex/base.md',
+            },
+          ],
+        },
+        {
           text: 'Complex复杂组件',
           collapsed: false,
           items: [
