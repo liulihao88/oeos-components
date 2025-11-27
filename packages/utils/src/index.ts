@@ -1021,15 +1021,14 @@ export function formatBytes(
   } = {},
 ) {
   let { digit = 2, thousands = true, prefix = '', suffix = '', roundType = 'floor' } = options
-
   // 校验输入
   if (isStringNumber(bytes as any) || isNumber(bytes)) {
     bytes = Number(bytes)
   } else {
     return bytes
   }
-  if (bytes <= 0) {
-    return bytes.toFixed(digit) + ' B'
+  if (bytes <= 1) {
+    return Math[roundType](bytes * Math.pow(10, digit)) / Math.pow(10, digit) + ' B'
   }
 
   const k = 1024
@@ -1040,18 +1039,7 @@ export function formatBytes(
   const power = Math.pow(k, i)
   let num = bytes / power
 
-  switch (roundType) {
-    case 'ceil':
-      num = Math.ceil(num * Math.pow(10, digit)) / Math.pow(10, digit)
-      break
-    case 'round':
-      num = Math.round(num * Math.pow(10, digit)) / Math.pow(10, digit)
-      break
-    case 'floor':
-    default:
-      num = Math.floor(num * Math.pow(10, digit)) / Math.pow(10, digit)
-      break
-  }
+  num = Math[roundType](num * Math.pow(10, digit)) / Math.pow(10, digit)
 
   let res = num.toFixed(digit) + ' ' + sizes[i]
 
