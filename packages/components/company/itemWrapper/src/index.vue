@@ -1,5 +1,5 @@
 <template>
-  <div class="item-wrapper-box" :class="{ 'with-columns': props.columns }">
+  <div class="o-item-wrapper" :class="{ 'with-columns': props.columns }">
     <component :is="item" class="col" v-for="(item, index) in validSlots" :key="index" />
   </div>
 </template>
@@ -22,8 +22,8 @@ const props = defineProps({
   },
   minWidth: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 })
 
 const slots = useSlots()
@@ -32,27 +32,24 @@ const defaultSlots = computed(() => slots.default?.() || [])
 // 只保留元素节点 (过滤掉注释和文本节点)
 const validSlots = computed(() => {
   const normalizeNodes = (nodes: VNode[]): VNode[] => {
-    return nodes.flatMap(node => {
+    return nodes.flatMap((node) => {
       // 1. 跳过注释节点和空白文本节点（原逻辑）
-      const isComment = node.type?.toString() === 'Symbol(v-cmt)';
-      const isWhitespaceText = 
-        node.type?.toString() === 'Symbol(Text)' && 
-        !node.children?.toString()?.trim();
-      if (isComment || isWhitespaceText) return [];
+      const isComment = node.type?.toString() === 'Symbol(v-cmt)'
+      const isWhitespaceText = node.type?.toString() === 'Symbol(Text)' && !node.children?.toString()?.trim()
+      if (isComment || isWhitespaceText) return []
 
       // 2. 如果它是一个 Fragment（例如 `<template v-for>` 生成的节点），递归处理其 children
       if (node.type?.toString() === 'Symbol(v-fgt)') {
-        return normalizeNodes(node.children as VNode[]);
+        return normalizeNodes(node.children as VNode[])
       }
 
       // 3. 如果是真实的元素（如 div/span/组件）或合法的文本节点，保留
-      return [node];
-    });
-  };
+      return [node]
+    })
+  }
 
-  return normalizeNodes(slots.default?.() || []);
-});
-
+  return normalizeNodes(slots.default?.() || [])
+})
 
 // 根据columns分组插槽内容
 const slotRows = computed(() => {
@@ -69,7 +66,7 @@ const slotRows = computed(() => {
 </script>
 
 <!-- <style lang="scss" scoped>
-.item-wrapper-box {
+.o-item-wrapper {
   display: flex;
   flex-direction: column;
   gap: v-bind('props.gap');
@@ -93,7 +90,7 @@ const slotRows = computed(() => {
 </style> -->
 
 <style lang="scss" scoped>
-.item-wrapper-box {
+.o-item-wrapper {
   /* 默认 flex 布局（无 columns） */
   display: flex;
   flex-wrap: nowrap;
@@ -108,11 +105,11 @@ const slotRows = computed(() => {
 
   /* 所有子项的通用约束 */
   > :deep(.col) {
-    min-width: v-bind('props.minWidth');              /* 关键点2：允许收缩 */
+    min-width: v-bind('props.minWidth'); /* 关键点2：允许收缩 */
     flex: 1;
-    overflow: hidden;          /* 超出隐藏 */
-    text-overflow: ellipsis;   /* 文字省略号 */
-    white-space: wrap;       /* 禁止换行（可选） */
+    overflow: hidden; /* 超出隐藏 */
+    text-overflow: ellipsis; /* 文字省略号 */
+    white-space: wrap; /* 禁止换行（可选） */
 
     /* 如果内容需要换行（如多行文本），改用以下方案 */
     /*
@@ -123,5 +120,4 @@ const slotRows = computed(() => {
     */
   }
 }
-
 </style>
