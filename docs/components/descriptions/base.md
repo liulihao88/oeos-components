@@ -22,7 +22,7 @@ ODescriptions/usually
 ODescriptions/slot
 :::
 
-### 属性
+## 属性
 
 |   属性名    | 说明                          | 类型    | 默认值 |
 | :---------: | ----------------------------- | ------- | ------ |
@@ -32,3 +32,10 @@ ODescriptions/slot
 |    title    | 标题文本，显示在左上方        | string  | ''     |
 |    extra    | 操作区文本，显示在右上方      | string  | ''     |
 |   showAll   | 是否显示全部文本              | boolean | false  |
+
+## slot
+
+|  插槽名   | 说明             |
+| :-------: | ---------------- |
+| labelSlot | 自定义label      |
+| valueSlot | 自定义valuevalue |
