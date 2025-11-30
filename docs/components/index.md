@@ -10,17 +10,26 @@ oeos-components 是基于 Vue3 + Element-plus 再次封装的基础组件, 适�
 
 ### 安装
 
-> npm
+## 使用包管理器 <el-tag  effect="dark">推荐</el-tag>
 
-```bash:no-line-numbers
-npm install oeos-components
+**建议您使用包管理器 ([pnpm](https://pnpm.io/)<el-tag  effect="dark">推荐</el-tag> ， [yarn](https://classic.yarnpkg.com/lang/en/)，[npm](https://www.npmjs.com/)) 安装 oeos-components**。
+
+::: code-group
+
+```sh [pnpm]
+pnpm install oeos-components -S
 ```
 
-> pnpm
-
-```bash:no-line-numbers
-pnpm add oeos-components
+```sh [yarn]
+yarn add oeos-components
 ```
+
+```sh [npm]
+npm install oeos-components -S
+```
+
+:::
+
 
 ### 使用
 
