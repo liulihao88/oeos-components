@@ -2,10 +2,17 @@
   <el-descriptions v-bind="{ border: true, ...$attrs }" :column="column" class="o-descriptions">
     <el-descriptions-item v-for="(item, index) in options" :key="index">
       <template #label>
-        <slot :name="item.labelSlot ?? 'label'" :item="item" :label="item.label" :value="parseValue(item)" :index="index">
+        <template v-if="item.labelRender">
+          <render-comp :render="item.labelRender" :item="item" />
+        </template>
+        <template v-else-if="item.labelSlot">
+          <slot :name="item.labelSlot" :item="item" :label="item.label" :value="parseValue(item)" :index="index"></slot>
+        </template>
+        <template v-else>
           <o-tooltip :content="item.label"></o-tooltip>
-        </slot>
+        </template>
       </template>
+
       <template v-if="item.render">
         <render-comp :render="item.render" :item="item" />
       </template>
@@ -24,7 +31,7 @@
 
 <script setup lang="ts">
 import RenderComp from '@/components/common/renderComp.vue'
-import { computed, getCurrentInstance, VNode } from 'vue'
+import { computed, VNode } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import { processWidth } from '@oeos-components/utils'
 import OTooltip from '@/components/tooltip'
@@ -35,11 +42,12 @@ defineOptions({
 
 type Options = {
   label: string
-  value: string
+  value: any
   labelSlot?: string
   valueSlot?: string
+  labelRender?: (item: any) => VNode | string
   render?: (item: any) => VNode | string
-  filter?: (value: any) => any // 明确 filter 类型
+  filter?: (value: any) => any
 }
 
 const props = defineProps({
@@ -60,13 +68,15 @@ const props = defineProps({
     default: false,
   },
 })
-const parseValue = (item) => {
+
+const parseValue = (item: Options) => {
   if (item.filter) {
     return item.filter(item.value)
   } else {
     return item.value
   }
 }
+
 const labelWidth = computed(() => {
   let maxLabelLength = 1
   ;(props.options ?? []).forEach((v) => {
@@ -81,8 +91,10 @@ const labelWidth = computed(() => {
     return maxLabelLength * 12 + 'px'
   }
 })
+
 const column = computed(() => props.column)
-const parseContent = (value) => {
+
+const parseContent = (value: any) => {
   if (typeof value === 'function') {
     return value()
   } else {
