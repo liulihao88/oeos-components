@@ -371,8 +371,9 @@ export function clone(data, times = 1) {
  * formatTime(1541927611000); //2018-11-11 17:13:21
  * formatTime(1541927611000, "{y}年{m}月{d}日 {h}时{m}分{s}秒"); // 2018年11月11日 17时11分31秒
  * formatTime(1541927611, "{y}/{m}/{d} {h}:{m}:{s}"); // 2018/11/11 17:11:31
- * formatTime(new Date()); //2018-11-11 17:13:21
- * formatTime(new Date().getTime()); //2018-11-11 17:13:21
+ * formatTime(new Date()); // 2018-11-11 17:13:21
+ * formatTime(new Date().getTime()); // 2018-11-11 17:13:21
+ * formatTime('1764128798.456'); // 2025/11/26 11:11:38
  */
 export function formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
   if (!time) {
@@ -382,7 +383,13 @@ export function formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
   if (typeof time === 'object') {
     date = time
   } else {
-    if (('' + time).length === 10) time = parseInt(time) * 1000
+    const timeStr = '' + time
+    // 处理带小数的时间戳格式，如 1764128798.456
+    if (timeStr.includes('.') && !isNaN(parseFloat(timeStr))) {
+      time = parseFloat(time) * 1000
+    } else if (timeStr.length === 10) {
+      time = parseInt(time) * 1000
+    }
     date = new Date(time)
   }
   const formatObj = {

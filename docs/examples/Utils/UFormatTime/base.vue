@@ -13,12 +13,20 @@ const options = [
     label: `formatTime(1541927611, '{y}/{m}/{d} {h}:{m}:{s}')`,
     value: formatTime(1541927611, '{y}/{m}/{d} {h}:{m}:{s}'),
   },
+  {
+    label: `formatTime(1764128798.456)`,
+    value: formatTime(1764128798.456),
+  },
+  {
+    label: `formatTime(1764128798.456, '{m}/{d}')`,
+    value: formatTime(1764128798.456, '{m}/{d}'),
+  },
 ]
 </script>
 
 <template>
   <OFunctionSourceCode functionName="formatTime"></OFunctionSourceCode>
   <div>
-    <o-descriptions :options="options" title="时间转换" :column="1"></o-descriptions>
+    <o-descriptions :options="options" title="时间转换" :column="1" label-width="500"></o-descriptions>
   </div>
 </template>
