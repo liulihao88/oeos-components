@@ -114,9 +114,9 @@ const squareStyle = computed(() => {
 </script>
 
 <template>
-  <div class="basic-layout-box" :style="boxMergedStyle" ref="boxRef">
+  <div class="o-basic-layout" :style="boxMergedStyle" ref="boxRef">
     <div
-      class="basic-layout-box__header"
+      class="o-basic-layout__header"
       v-if="$slots.header || props.title"
       :style="headerMergedStyle"
       ref="headerRef"
@@ -125,17 +125,17 @@ const squareStyle = computed(() => {
         <o-title :title="props.title" :style="{ ...boxStyle }"></o-title>
       </slot>
     </div>
-    <div class="basic-layout-box__body" :style="{ ...bodyStyle, ...scrollStyle, ...squareStyle }">
+    <div class="o-basic-layout__body" :style="{ ...bodyStyle, ...scrollStyle, ...squareStyle }">
       <slot></slot>
     </div>
-    <div class="basic-layout-box__footer" v-if="$slots.footer" :style="footerStyle">
+    <div class="o-basic-layout__footer" v-if="$slots.footer" :style="footerStyle">
       <slot name="footer"></slot>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.basic-layout-box {
+.o-basic-layout {
   background: #fff;
   border: 1px solud var(--line);
   border-radius: 4px;
