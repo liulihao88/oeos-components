@@ -255,7 +255,6 @@ const compEmptyText = computed(() => {
       :header-cell-style="{
         background: '#f7f8fa',
         color: 'rgba(39,48,75,0.85)',
-        height: '50px',
         textAlign: 'center',
         ...($attrs['custom-header-cell-style'] || {}),
       }"
@@ -270,7 +269,7 @@ const compEmptyText = computed(() => {
       <el-table-column
         v-if="showIndex"
         type="index"
-        :width="props.total >= 10000 ? 70 : 60"
+        :width="props.total >= 10000 || $attrs.size === 'large' ? 70 : 60"
         align="center"
         :index="indexMethod"
         v-bind="indexAttrs"

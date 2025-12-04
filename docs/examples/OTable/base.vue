@@ -66,14 +66,7 @@ function editRow(row, scope, evt) {
 <template>
   <div>
     <el-button type="primary" @click="num++">测试13</el-button>
-    <o-table
-      :columns="columns"
-      :data="data"
-      ref="tableRef"
-      :header-cell-style="{
-        textAlign: 'left',
-      }"
-    ></o-table>
+    <o-table size="large" :columns="columns" :data="data" ref="tableRef"></o-table>
   </div>
 </template>
 
