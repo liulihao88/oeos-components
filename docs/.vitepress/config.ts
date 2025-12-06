@@ -138,6 +138,10 @@ export default defineConfig({
               link: '/components/test/base.md',
             },
             {
+              text: 'button组件',
+              link: '/components/button/base.md',
+            },
+            {
               text: 'checkbox组件',
               link: '/components/checkbox/base.md',
             },
