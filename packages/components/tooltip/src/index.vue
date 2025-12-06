@@ -1,14 +1,14 @@
 <template>
-  <el-tooltip class="tooltip-box" :disabled="handleDisabled" :effect="effect" v-bind="tooltipAttrs">
+  <el-tooltip class="o-tooltip-box" :disabled="handleDisabled" :effect="effect" v-bind="tooltipAttrs">
     <span
       @click="contentClick"
       v-if="props.showSlot"
-      class="tooltip-box__text"
+      class="o-tooltip-box__text"
       :style="{ maxWidth: processWidth(width, true) }"
       @mouseover="onMouseOver"
       v-bind="$attrs"
     >
-      <span ref="contentRef" class="tooltip-box__content">
+      <span ref="contentRef" class="o-tooltip-box__content">
         <slot>
           {{ $attrs.content }}
         </slot>
@@ -20,7 +20,7 @@
 
 <script setup lang="ts" name="OTooltip">
 import { ref, useSlots, computed, useAttrs } from 'vue'
-import { processWidth } from '@/utils/src'
+import { processWidth } from '@oeos-components/utils'
 const slots = useSlots()
 const attrs = useAttrs()
 
@@ -72,14 +72,17 @@ function contentClick() {
 }
 </script>
 <style lang="scss" scoped>
-.tooltip-box__text {
+.o-tooltip-box__text {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: bottom;
 }
-.tooltip-box__content {
-  // height: inherit;
+
+.o-tooltip-box__text:has(.el-button) + :deep(.el-button),
+.el-button + .o-tooltip-box__text :deep(.el-button),
+.o-tooltip-box__text:has(.el-button) + .o-tooltip-box__text:has(.el-button) {
+  margin-left: 12px !important;
 }
 </style>
