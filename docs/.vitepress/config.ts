@@ -190,6 +190,10 @@ export default defineConfig({
               link: '/components/radio/base.md',
             },
             {
+              text: 'row布局组件',
+              link: '/components/row/base.md',
+            },
+            {
               text: 'select组件',
               link: '/components/select/base.md',
             },
