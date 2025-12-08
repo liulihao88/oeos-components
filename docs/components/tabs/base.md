@@ -21,3 +21,13 @@ OTabs/usually
 :::demo
 OTabs/slot
 :::
+
+### 位置
+
+可以通过 tab-position 设置标签的位置
+
+标签一共有四个方向的设置 tabPosition="left|right|top|bottom"
+
+:::demo
+OTabs/location
+:::
