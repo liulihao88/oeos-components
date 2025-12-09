@@ -1,15 +1,15 @@
 <script setup lang="tsx">
 import { ref, getCurrentInstance, computed } from 'vue'
-const { proxy } = getCurrentInstance()
-import { formatTime } from '@oeos-components/utils'
-const data = ref({})
+const instance = getCurrentInstance()
+import { formatTime, sleep } from '@oeos-components/utils'
+const data: any = ref({})
 const options = computed(() => {
   return [
     { label: '名1111111111111字', value: data.value.name },
     {
       label: '时间',
       value: () => {
-        return proxy.formatTime(data.value.time)
+        return formatTime(data.value.time)
       },
     },
     {
@@ -31,7 +31,7 @@ const options = computed(() => {
 })
 
 const init = async () => {
-  await proxy.sleep(1000)
+  await sleep(1000)
   data.value = {
     name: 'andy',
     time: 1638720415900,
