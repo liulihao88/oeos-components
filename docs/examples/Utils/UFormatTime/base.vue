@@ -4,7 +4,7 @@ const { proxy } = getCurrentInstance()
 import { formatTime, getType } from '@/utils/src/index.ts'
 
 const options = [
-  { label: 'formatTime', value: formatTime(new Date()) },
+  { label: 'formatTime(new Date())', value: formatTime(new Date()) },
   { label: "formatTime('2018-02-13T06:17')", value: formatTime('2018-02-13T06:17') },
   { label: `formatTime('2020/03/02 06:02')`, value: formatTime('2020/03/02 06:02') },
   { label: `formatTime(1541927611000)`, value: formatTime(1541927611000) },
@@ -12,6 +12,10 @@ const options = [
   {
     label: `formatTime(1541927611, '{y}/{m}/{d} {h}:{m}:{s}')`,
     value: formatTime(1541927611, '{y}/{m}/{d} {h}:{m}:{s}'),
+  },
+  {
+    label: `formatTime(new Date(), '{y}/{m}/{d} {h}:{m}:{s}')`,
+    value: formatTime(new Date(), '{y}/{m}/{d} {h}:{m}:{s}'),
   },
   {
     label: `formatTime(1764128798.456)`,

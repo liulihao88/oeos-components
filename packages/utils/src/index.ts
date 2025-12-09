@@ -474,7 +474,7 @@ export function formatDurationTime(timestamp, cFormat = '{d}天{h}时{i}分{s}�
  * @param options.startStr - 起始字符串（默认为空）
  * @param options.optionsIndex - 数组索引（默认为随机）
  * @returns 生成的 UUID (字符串或数字)
- * uuid("名字") => 名字hc8f
+ * * uuid("名字") => 名字hc8f
  * uuid() => abcd
  * uuid('time') => 25MR 10-27 17:34:01
  * uuid('time', 0, {startStr:'andy', timeStr:"{h}:{i}:{s}"}) => andy 17:38:23
@@ -493,7 +493,7 @@ export function uuid(
     optionsIndex?: number | null
   } = {},
 ): string | number {
-  const { emailStr = '@qq.com', timeStr = '{m}-{d} {h}:{i}:{s}', startStr = '', optionsIndex = null } = options
+  const { emailStr = '@qq.com', timeStr = '{y}-{m}-{d} {h}:{i}:{s}', startStr = '', optionsIndex = null } = options
 
   // 辅助函数：判断是否为ref对象
   function isRef(obj: any): obj is Ref<any> {
@@ -508,25 +508,6 @@ export function uuid(
   // 辅助函数：生成随机数
   function random(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1) + min)
-  }
-
-  // 辅助函数：格式化时间
-  function formatTime(date: Date, format: string): string {
-    const o: Record<string, number> = {
-      'm+': date.getMonth() + 1,
-      'd+': date.getDate(),
-      'h+': date.getHours(),
-      'i+': date.getMinutes(),
-      's+': date.getSeconds(),
-    }
-
-    for (const k in o) {
-      if (new RegExp('(' + k + ')').test(format)) {
-        const str = o[k].toString()
-        format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? str : str.padStart(2, '0'))
-      }
-    }
-    return format
   }
 
   // 解包可能为ref的参数
@@ -571,8 +552,7 @@ export function uuid(
 
   // 生成时间
   if (type === 'time') {
-    const timePart = formatTime(new Date(), timeStr)
-    return `${result} ${timePart}`
+    return uuid(startStr, length, options) + ' ' + formatTime(new Date(), timeStr)
   }
 
   // 生成数字
