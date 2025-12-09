@@ -14,7 +14,7 @@ const options = [
   { label: 'uuid("number")', value: uuid('number') },
   { label: 'uuid("email")', value: uuid('email') },
   {
-    label: 'uuid([ { label: "小泽泽", value: "xzz" },{ label: "小月月", value: "xyy" }]) => xzz',
+    label: 'uuid([{label: "小泽泽",value: "xzz"},{ label: "小月月",value:"xyy"}=>xzz',
     value: uuid([
       { label: '小泽泽', value: 'xzz' },
       { label: '小月月', value: 'xyy' },
@@ -26,6 +26,6 @@ const options = [
 <template>
   <OFunctionSourceCode functionName="uuid"></OFunctionSourceCode>
   <div>
-    <o-descriptions :options="options" title="uuid随机字符" :column="1" label-width="600"></o-descriptions>
+    <o-descriptions :options="options" title="uuid随机字符" ></o-descriptions>
   </div>
 </template>

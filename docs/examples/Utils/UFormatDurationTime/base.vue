@@ -13,7 +13,6 @@ const options = [
   { label: 'formatDurationTime(116282134567)', value: formatDurationTime(116282134567) },
   { label: 'formatDurationTime(1162821345678)', value: formatDurationTime(1162821345678) },
 ]
-
 </script>
 
 <template>

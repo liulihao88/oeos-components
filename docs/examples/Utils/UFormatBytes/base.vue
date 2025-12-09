@@ -29,6 +29,6 @@ const options = [
 <template>
   <OFunctionSourceCode functionName="formatBytes"></OFunctionSourceCode>
   <div>
-    <o-descriptions :options="options" :column="1" :showAll="true"></o-descriptions>
+    <o-descriptions :options="options" :column="1" :showAll="true" ></o-descriptions>
   </div>
 </template>

@@ -22,6 +22,6 @@ const options = [
 <template>
   <OFunctionSourceCode functionName="getType"></OFunctionSourceCode>
   <div>
-    <o-descriptions :options="options" title="uuid随机字符" :column="1" label-width="600"></o-descriptions>
+    <o-descriptions :options="options" title="uuid随机字符" :column="1"></o-descriptions>
   </div>
 </template>

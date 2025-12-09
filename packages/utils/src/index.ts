@@ -466,14 +466,14 @@ export function formatDurationTime(timestamp, cFormat = '{d}天{h}时{i}分{s}�
 
 /**
  * 生成 UUID
- * @param {string} [type=''] - 生成 UUID 的类型，可以是 'phone', 'email', 'time', 'number' 或空字符串
- * @param {number} [length=4] - 生成字符串的长度
- * @param {object} [options={}] - 额外的选项
- * @param {string} [options.emailStr='@qq.com'] - 生成 email 时使用的后缀
- * @param {string} [options.timeStr='{m}-{d} {h}:{i}:{s}'] - 生成时间字符串的格式
- * @param {string} [options.startStr=''] - 起始字符串
- * @param {number|null} [options.optionsIndex=null] - 数组索引
- * @returns {string|number} - 生成的 UUID
+ * @param type - 生成 UUID 的类型，可以是 'phone', 'email', 'time', 'number', 'ip', 'port' 或空字符串
+ * @param length - 生成字符串的长度（默认为4）
+ * @param options - 额外的选项
+ * @param options.emailStr - 生成 email 时使用的后缀（默认为 '@qq.com'）
+ * @param options.timeStr - 生成时间字符串的格式（默认为 '{m}-{d} {h}:{i}:{s}'）
+ * @param options.startStr - 起始字符串（默认为空）
+ * @param options.optionsIndex - 数组索引（默认为随机）
+ * @returns 生成的 UUID (字符串或数字)
  * uuid("名字") => 名字hc8f
  * uuid() => abcd
  * uuid('time') => 25MR 10-27 17:34:01
@@ -483,67 +483,132 @@ export function formatDurationTime(timestamp, cFormat = '{d}天{h}时{i}分{s}�
  * uuid('number') => 2319
  * uuid([ { label: "小泽泽", value: "xzz" },{ label: "小月月", value: "xyy" }]) => xzz
  */
-
 export function uuid(
-  type = '',
+  type: string | Array<{ label: string; value: any }> = '',
   length = 4,
-  { emailStr = '@qq.com', timeStr = '{m}-{d} {h}:{i}:{s}', startStr = '', optionsIndex = null } = {},
-) {
-  let randomStr = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
-  let res = type
-  if (isRef(type)) {
-    type = unref(type)
+  options: {
+    emailStr?: string
+    timeStr?: string
+    startStr?: string
+    optionsIndex?: number | null
+  } = {},
+): string | number {
+  const { emailStr = '@qq.com', timeStr = '{m}-{d} {h}:{i}:{s}', startStr = '', optionsIndex = null } = options
+
+  // 辅助函数：判断是否为ref对象
+  function isRef(obj: any): obj is Ref<any> {
+    return obj && typeof obj === 'object' && obj._isRef === true
   }
-  // 如果传的第一个参数的数组， 说明是下拉框。 下拉框获取的是数组的第一项的值
-  if (getType(type) === 'array' && type.length > 0) {
-    let randNum = random(0, type.length - 1)
-    // 如果length传空, 说明数组里是基本数据类型, 那直接返回数组里的值
-    if (!length) {
-      return type[optionsIndex ?? randNum]
+
+  // 辅助函数：获取ref的实际值
+  function unref<T>(ref: Ref<T> | T): T {
+    return isRef(ref) ? ref.value : ref
+  }
+
+  // 辅助函数：生成随机数
+  function random(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
+  // 辅助函数：格式化时间
+  function formatTime(date: Date, format: string): string {
+    const o: Record<string, number> = {
+      'm+': date.getMonth() + 1,
+      'd+': date.getDate(),
+      'h+': date.getHours(),
+      'i+': date.getMinutes(),
+      's+': date.getSeconds(),
     }
-    // 否则返回数组里对象里的值
-    return type[optionsIndex ?? randNum][length === 4 ? 'value' : length]
-  }
-  // 如果是手机号, 生成随机手机号
-  if (type === 'phone') {
-    let prefixArray = new Array('130', '131', '132', '133', '135', '136', '137', '138', '170', '187', '189')
-    let i = parseInt(Math.random() * 10)
-    let res = prefixArray[i]
-    for (var j = 0; j < 8; j++) {
-      res += Math.floor(Math.random() * 10)
+
+    for (const k in o) {
+      if (new RegExp('(' + k + ')').test(format)) {
+        const str = o[k].toString()
+        format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? str : str.padStart(2, '0'))
+      }
     }
-    return res
+    return format
   }
-  // 如果是email, 生成随机email
-  if (type === 'email') {
-    return uuid(startStr, length) + emailStr
-  }
-  // 如果是时间, 生成时间字符串
-  if (type === 'time') {
-    return uuid(startStr, length) + ' ' + formatTime(new Date(), timeStr)
-  }
-  // 如果是数字, 生成除了0的随机数字
-  if (type === 'number') {
-    let randomStr = '123456789'
-    let res = ''
-    for (let i = length; i > 0; --i) {
-      res += randomStr[Math.floor(Math.random() * randomStr.length)]
+
+  // 解包可能为ref的参数
+  type = unref(type)
+
+  // 处理数组类型参数（下拉框选项）
+  if (Array.isArray(type)) {
+    if (type.length === 0) return ''
+
+    const randIndex = optionsIndex ?? random(0, type.length - 1)
+    const selectedItem = type[randIndex]
+
+    // 如果数组项是对象且有value属性，则返回value
+    if (typeof selectedItem === 'object' && selectedItem !== null && 'value' in selectedItem) {
+      return selectedItem.value
     }
-    return Number(res)
+
+    // 否则直接返回数组项
+    return selectedItem
   }
-  if (type === 'ip') {
-    let randomNum = random(1, 99)
-    return `10.0.11.` + randomNum
-  }
-  if (type === 'port') {
-    let randomNum = random(1, 65535)
-    return randomNum
-  }
+
   // 生成随机字符串
-  for (let i = length; i > 0; --i) {
-    res += randomStr[Math.floor(Math.random() * randomStr.length)]
+  let randomChars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+  let result = startStr
+
+  // 生成手机号
+  if (type === 'phone') {
+    const prefixes = ['130', '131', '132', '133', '135', '136', '137', '138', '170', '187', '189']
+    result = prefixes[random(0, prefixes.length - 1)]
+
+    for (let i = 0; i < 8; i++) {
+      result += Math.floor(Math.random() * 10)
+    }
+    return result
   }
-  return res
+
+  // 生成邮箱
+  if (type === 'email') {
+    result = uuid(startStr, length) + emailStr
+    return result
+  }
+
+  // 生成时间
+  if (type === 'time') {
+    const timePart = formatTime(new Date(), timeStr)
+    return `${result} ${timePart}`
+  }
+
+  // 生成数字
+  if (type === 'number') {
+    const numChars = '123456789'
+    result = ''
+
+    for (let i = 0; i < length; i++) {
+      result += numChars[random(0, numChars.length - 1)]
+    }
+    return Number(result)
+  }
+
+  // 生成IP地址
+  if (type === 'ip') {
+    const randomNum = random(1, 99)
+    return `10.0.11.${randomNum}`
+  }
+
+  // 生成端口号
+  if (type === 'port') {
+    return random(1, 65535)
+  }
+
+  // 生成普通随机字符串
+  for (let i = 0; i < length; i++) {
+    result += randomChars[random(0, randomChars.length - 1)]
+  }
+
+  return result
+}
+
+// 声明全局的Ref接口
+declare interface Ref<T = any> {
+  _isRef: boolean
+  value: T
 }
 
 /**
