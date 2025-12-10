@@ -64,13 +64,11 @@ const jumpUrl = (type: string) => {
     let middleStr = 'docs/components'
     vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/base.md`
   } else if (type === 'packages') {
-    //  /Users/liulihao/cyrd/oeos-components/packages/components/button/src/index.vue
-    // vscode://file/Users/liulihao/cyrd/oeos-componentspackages/oeos-components/components/button.vue
-    // packages/oeos-components/components/button.vue
-    const reg = /\/[^/]*$/
     let middleStr = 'packages/components'
     vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/src/index.vue`
-    console.log(`83 vascodeUrl`, vascodeUrl)
+    if (compStr.startsWith('utils')) {
+      vascodeUrl = `vscode://file${baseUrl}/packages/utils/src/index.ts`
+    }
   }
   window.open(vascodeUrl, '_blank')
 }
