@@ -152,10 +152,10 @@ const jumpPath = async () => {
     }
   }
 
-  const vscodeUri = `vscode://file/${fullPath}`
-  console.log(`75 vscodeUri`, vscodeUri)
+  const vscodeUrl = `vscode://file/${fullPath}`
+  console.log(`75 vscodeUrl`, vscodeUrl)
   // 尝试跳转
-  window.open(vscodeUri, '_blank')
+  window.open(vscodeUrl, '_blank')
 }
 </script>
 <style lang="scss" scoped>
