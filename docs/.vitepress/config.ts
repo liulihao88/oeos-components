@@ -58,7 +58,7 @@ export default defineConfig({
               link: '/components/',
             },
             {
-              text: '函数库文件',
+              text: '函数库文件代码',
               link: '/components/utils/base.md',
             },
             {

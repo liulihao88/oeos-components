@@ -6,11 +6,17 @@
     </div>
   </el-button>
 
-  <div class="code-toggle" ref="toggleRef" v-if="isDev">
+  <div class="code-toggle" ref="toggleRef" v-if="isDev && !isHome">
     <el-button type="primary" size="small" @click.stop.prevent="jumpUrl('md')" class="dev-md-copy">
       <div class="visible-text">跳转base.md(仅本地)</div>
     </el-button>
-    <el-button type="primary" size="small" @click.stop.prevent="jumpUrl('packages')" class="dev-package-copy">
+    <el-button
+      type="primary"
+      size="small"
+      @click.stop.prevent="jumpUrl('packages')"
+      class="dev-package-copy"
+      v-if="showPackagesButton"
+    >
       <div class="visible-text">跳转packages(仅本地)</div>
     </el-button>
   </div>
@@ -18,16 +24,42 @@
 
 <script lang="ts" setup>
 import { getStorage, setStorage, copy } from '@oeos-components/utils'
-import { ref, onUnmounted, onMounted } from 'vue'
-const isDev = ref(import.meta.env.DEV)
+import { ref, onUnmounted, onMounted, computed, watch } from 'vue'
+import { useData } from 'vitepress'
 import pkg from '../../../package.json'
 
+const { page } = useData()
+
 const toggleRef = ref(null)
+const isDev = ref(import.meta.env.DEV)
 
 const pkgVersion = ref(pkg.version)
 
 const sourceVisible = ref(false)
+const showPackagesButton = ref(true) // 控制按钮显示/隐藏的状态
+
+// 根据路由判断是否应该显示按钮
+const shouldshowPackagesButton = (routePath: string) => {
+  // 在这里添加您的路由判断逻辑
+  // 示例：只在特定路径下显示按钮
+  const hiddenRoutes = ['components/index.md']
+  return !hiddenRoutes.includes(routePath)
+}
+
 sourceVisible.value = getStorage('codeVisible') || false
+
+// 监听路由变化，更新按钮显示状态
+watch(
+  () => page.value.relativePath,
+  (newPath) => {
+    console.log(`22 newPath`, newPath)
+    showPackagesButton.value = shouldshowPackagesButton(newPath)
+  },
+  {
+    immediate: true,
+  },
+)
+
 const toggleSourceVisible = () => {
   setStorage('codeVisible', !sourceVisible.value)
   location.reload()
@@ -63,11 +95,20 @@ const jumpUrl = (type: string) => {
   if (type === 'md') {
     let middleStr = 'docs/components'
     vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/base.md`
+    if (compStr === '') {
+      vascodeUrl = `vscode://file${baseUrl}/${middleStr}/index.md`
+    }
+    if (compStr.startsWith('directives')) {
+      vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}.md`
+    }
   } else if (type === 'packages') {
     let middleStr = 'packages/components'
     vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/src/index.vue`
     if (compStr.startsWith('utils')) {
       vascodeUrl = `vscode://file${baseUrl}/packages/utils/src/index.ts`
+    }
+    if (compStr.startsWith('directives')) {
+      vascodeUrl = `vscode://file${baseUrl}/packages/directives/gDirectives.js`
     }
   }
   window.open(vascodeUrl, '_blank')
