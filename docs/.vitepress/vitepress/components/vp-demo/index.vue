@@ -6,9 +6,10 @@
       <Example :path="path" />
       <ElDivider class="m-0" />
       <div class="op-btns">
-        <ElTooltip content="复制路径" :show-arrow="false" v-if="isDev">
-          <ElIcon :size="16" class="op-btn" @click="copyPath">
-            <CopyDocument />
+        <ElTooltip content="跳转页面" :show-arrow="false" v-if="isDev">
+          <ElIcon :size="16" class="op-btn" @click="jumpPath">
+            <promotion />
+            <!-- <o-icon name="promotion"></o-icon> -->
           </ElIcon>
         </ElTooltip>
         <ElTooltip content="复制代码" :show-arrow="false">
@@ -86,9 +87,23 @@ const copyCode = async () => {
     ElMessage.error(e.message)
   }
 }
-const copyPath = async () => {
-  await copy2()
-  ElMessage.success('已复制路径')
+
+// 处理绝对路径（简化版，实际项目中可能需要更复杂的逻辑）
+const processAbsolutePath = (path: string): string => {
+  // 确保路径是绝对路径
+  if (!path.startsWith('/')) {
+    // 如果是相对路径，这里可以根据项目结构处理
+    // 这里简单处理为从项目根目录开始
+    return `/${path}`
+  }
+  return path
+}
+const jumpPath = async () => {
+  // 处理路径 - 转换为绝对路径并编码
+  let fullPath = '/Users/liulihao/cyrd/oeos-components/docs/examples/' + props.path + '.vue'
+  const vscodeUri = `vscode://file/${fullPath}`
+  // 尝试跳转
+  window.open(vscodeUri, '_blank')
 }
 </script>
 <style lang="scss" scoped>
