@@ -100,8 +100,60 @@ const processAbsolutePath = (path: string): string => {
 }
 const jumpPath = async () => {
   // 处理路径 - 转换为绝对路径并编码
-  let fullPath = '/Users/liulihao/cyrd/oeos-components/docs/examples/' + props.path + '.vue'
+  // 基于实际的basePath构建完整路径
+  const basePath = import.meta.env.BASE_URL || '/'
+  console.log(`43 basePath`, basePath)
+
+  // 移除开头和结尾的斜杠，然后重新构建路径
+  const cleanBasePath = basePath.replace(/^\/|\/$/g, '')
+  let fullPath = cleanBasePath ? `/${cleanBasePath}/examples/${props.path}.vue` : `/examples/${props.path}.vue`
+
+  // 如果是开发环境，尝试获取更准确的文件系统路径
+  if (isDev.value) {
+    try {
+      // 尝试通过Vite环境变量获取源码目录
+      const viteBase = import.meta.env.VITE_SOURCE_DIR
+      console.log(`98 viteBase`, viteBase)
+      // 修改: 添加判断条件，只有当viteBase存在且不是undefined字符串时才使用它
+      if (viteBase && typeof viteBase === 'string' && viteBase !== 'undefined') {
+        // 修改: 使用processAbsolutePath确保路径是绝对路径
+        fullPath = processAbsolutePath(`${viteBase}/docs/examples/${props.path}.vue`)
+      } else {
+        // fallback到基于当前文档的相对路径计算
+        // 修改: 增强fallback逻辑，尝试从当前URL推断真实路径
+        const currentPath = window.location.pathname
+        console.log('Current location:', currentPath)
+
+        // 更准确地推断项目根路径
+        // 假设项目结构为 /Users/liulihao/cyrd/oeos-components/docs/...
+        const pathParts = currentPath.split('/').filter((part) => part !== '')
+        console.log('Path parts:', pathParts)
+
+        // 查找docs目录位置并重建真实路径
+        const docsIndex = pathParts.indexOf('docs')
+        console.log(`84 docsIndex`, docsIndex)
+        if (docsIndex > 0) {
+          // 提取项目根路径部分
+          const projectRootParts = pathParts.slice(0, docsIndex)
+          const projectRoot = '/' + projectRootParts.join('/')
+          fullPath = `${projectRoot}/docs/examples/${props.path}.vue`
+          console.log('Reconstructed project root path:', projectRoot)
+        } else {
+          // 最后fallback方案
+          fullPath = `/Users/liulihao/cyrd/oeos-components/docs/examples/${props.path}.vue`
+        }
+      }
+
+      console.log('Final full path:', fullPath)
+    } catch (e) {
+      console.warn('无法获取源码目录，使用默认路径', e)
+      // 最终fallback方案
+      fullPath = `/Users/liulihao/cyrd/oeos-components/docs/examples/${props.path}.vue`
+    }
+  }
+
   const vscodeUri = `vscode://file/${fullPath}`
+  console.log(`75 vscodeUri`, vscodeUri)
   // 尝试跳转
   window.open(vscodeUri, '_blank')
 }
