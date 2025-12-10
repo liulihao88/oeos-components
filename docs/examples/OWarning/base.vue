@@ -14,6 +14,11 @@ const htmlContent = `
     <o-warning content="这是基础用法" title="我是title"></o-warning>
     <br />
     <o-warning
+      content='这是基础用法 <a href="http://www.baidu.com">设置根路径</a>'
+      title="我是title"
+    ></o-warning>
+    <br />
+    <o-warning
       content="这是基础用法-size为small <code>这是code包裹内容</code> <blue>这是blue包裹内容</blue> "
       size="small"
       left

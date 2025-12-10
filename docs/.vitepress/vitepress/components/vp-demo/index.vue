@@ -6,6 +6,11 @@
       <Example :path="path" />
       <ElDivider class="m-0" />
       <div class="op-btns">
+        <ElTooltip content="复制路径" :show-arrow="false" v-if="isDev">
+          <ElIcon :size="16" class="op-btn" @click="copyPath">
+            <CopyDocument />
+          </ElIcon>
+        </ElTooltip>
         <ElTooltip content="复制代码" :show-arrow="false">
           <ElIcon :size="16" class="op-btn" @click="copyCode">
             <CopyDocument />
@@ -21,11 +26,7 @@
         <SourceCode v-show="sourceVisible" :source="source" />
       </ElCollapseTransition>
       <Transition name="el-fade-in-linear">
-        <div
-          v-show="sourceVisible"
-          class="example-float-control"
-          @click="toggleSourceVisible(false)"
-        >
+        <div v-show="sourceVisible" class="example-float-control" @click="toggleSourceVisible(false)">
           <ElIcon :size="16">
             <CaretTop />
           </ElIcon>
@@ -44,6 +45,7 @@ import { getStorage, setStorage } from '@oeos-components/utils'
 
 import Example from './vp-example.vue'
 import SourceCode from './vp-source-code.vue'
+const isDev = ref(import.meta.env.DEV)
 
 const props = defineProps<{
   rawSource: string // 源码
@@ -56,6 +58,11 @@ const { copy, isSupported } = useClipboard({
   source: decodeURIComponent(props.rawSource),
   read: false,
 })
+
+const { copy: copy2 } = useClipboard({
+  source: props.path,
+  read: false,
+})
 const sourceVisible = ref(true)
 sourceVisible.value = getStorage('codeVisible') || false
 const toggleSourceVisible = (isOpen) => {
@@ -66,9 +73,7 @@ const toggleSourceVisible = (isOpen) => {
   }
 }
 
-const decodedDescription = computed(() =>
-  decodeURIComponent(props.description!),
-)
+const decodedDescription = computed(() => decodeURIComponent(props.description!))
 
 const copyCode = async () => {
   if (!isSupported) {
@@ -80,6 +85,10 @@ const copyCode = async () => {
   } catch (e: any) {
     ElMessage.error(e.message)
   }
+}
+const copyPath = async () => {
+  await copy2()
+  ElMessage.success('已复制路径')
 }
 </script>
 <style lang="scss" scoped>
