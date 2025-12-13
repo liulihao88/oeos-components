@@ -8,7 +8,7 @@
 Company/OCountBar/base
 :::
 
-### 数据过多
+### 数据量大
 
 :::demo
 Company/OCountBar/moreData

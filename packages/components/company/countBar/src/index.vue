@@ -56,7 +56,7 @@ let initOption = {
     },
     formatter: (params) => {
       const param = params[0]
-      return `总数量: ${formatThousands(param.value)}个 <br> 总大小: ${formatBytes(params[1].value)}`
+      return `<div  style="font-weight: bold; font-size:16px">${param.axisValueLabel}</div>总数量: ${formatThousands(param.value)}个 <br> 总大小: ${formatBytes(params[1].value)}`
     },
   },
   grid: {
@@ -102,6 +102,7 @@ let initOption = {
       },
     },
   },
+
   series: [
     {
       data: [],
@@ -123,7 +124,6 @@ let initOption = {
       data: [],
       xAxisIndex: 1,
       type: 'bar',
-      barWidth: '20%',
       label: {
         show: false,
         position: 'top',
@@ -207,9 +207,7 @@ watch(
     <o-empty class="h-100%" />
   </template>
   <template v-else>
-    <div class="vChart-box">
-      <VChart class="calc-height" :option="option" autoresize />
-    </div>
+    <VChart class="calc-height" :option="option" autoresize />
   </template>
 </template>
 
