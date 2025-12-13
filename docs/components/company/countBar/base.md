@@ -7,3 +7,9 @@
 :::demo
 Company/OCountBar/base
 :::
+
+### 数据过多
+
+:::demo
+Company/OCountBar/moreData
+:::
