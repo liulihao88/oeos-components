@@ -124,6 +124,7 @@ let initOption = {
       data: [],
       xAxisIndex: 1,
       type: 'bar',
+      barWidth: '20%',
       label: {
         show: false,
         position: 'top',
