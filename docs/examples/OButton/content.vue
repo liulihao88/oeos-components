@@ -4,6 +4,9 @@ const { proxy } = getCurrentInstance()
 const handleClick = () => {
   console.log('handleClick')
 }
+const isTest39 = () => {
+  console.log("isTest39");
+}
 </script>
 
 <template>
