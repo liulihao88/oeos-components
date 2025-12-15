@@ -91,7 +91,7 @@ watch(
       <o-chart :option="options2" class="g-100"></o-chart>
     </div>
     <div class="f-1">
-      <o-chart :option="options3" h="100px"></o-chart>
+      <o-chart :option="options3" height="100px"></o-chart>
     </div>
   </div>
 */
