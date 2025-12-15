@@ -45,17 +45,17 @@ OCheckbox/customGap
 |     value      | 后台的值需要的字段                  | string             | value  |
 |    showAll     | 是否显示全选                        | boolean            | true   |
 |     attrs      | 控制el-checkbox组件的参数           | object             | {}     |
-| customDisabled | 自定义的disabled                    | function           | {} |
-|  customLabel   | 自定义显示的label                   | function/string/'' |   {}     |
-|  gap   |        多个复选框之间的水平间距            | number/string | -       |
+| customDisabled | 自定义的disabled                    | function           | {}     |
+|  customLabel   | 自定义显示的label                   | function/string/'' | {}     |
+|      gap       | 多个复选框之间的水平间距            | number/string      | -      |
 
-## 方法
+### 方法
 
 | 属性名 | 说明                           | 类型     |
 | :----: | ------------------------------ | -------- |
 | change | 值的改变可以通过change事件监听 | Function |
 
-## Slots
+### Slots插槽
 
 | 插槽名  | 说明             |
 | :-----: | ---------------- |
