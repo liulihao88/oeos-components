@@ -22,3 +22,11 @@ OButton/content
 OButton/throttle
 :::
 
+### 属性
+
+
+|    属性名    | 说明                | 类型         | 默认值 |
+| :----------: | ------------------- | ------------ | ------ |
+|   content    | tooltip的提示文字   | string       | ''     |
+|     time     | 防抖时长            | number(毫秒) | 0      |
+| tooltipAttrs | o-tooltip组件的属性 | Object       | {}     |

@@ -1,6 +1,6 @@
 # chart图表组件
 
-[https://element-plus.org/zh-CN/component/checkbox.html](https://element-plus.org/zh-CN/component/checkbox.html)
+[https://echarts.apache.org/handbook/zh/get-started](https://echarts.apache.org/handbook/zh/get-started)
 
 ## Hidden Title {.md-hidden}
 
