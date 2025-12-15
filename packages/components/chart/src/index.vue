@@ -2,7 +2,7 @@
 import { ref, getCurrentInstance, onMounted, watch } from 'vue'
 const { proxy } = getCurrentInstance()
 import * as echarts from 'echarts'
-import { processWidth } from '@/utils/src/index'
+import { processWidth } from '@oeos-components/utils'
 import type { EChartsOption } from 'echarts'
 import { useEcharts } from './useEcharts.ts'
 const echartDivRef = ref<HTMLElement>(null)
