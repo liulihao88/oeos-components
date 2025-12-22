@@ -2,6 +2,7 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 let option = {
+  theme: 'dark',
   title: {
     text: 'ECharts 入门示例',
   },

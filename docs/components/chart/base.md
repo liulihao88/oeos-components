@@ -10,6 +10,18 @@
 OChart/base
 :::
 
+### dataset 数据集
+
+:::demo
+OChart/dataset
+:::
+
+### 多种情况
+
+:::demo 多种chart图
+OChart/multiple
+:::
+
 ### 属性
 
 | 属性名 | 说明                   | 类型           | 默认值 |

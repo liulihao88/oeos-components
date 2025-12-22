@@ -34,9 +34,9 @@ const props = withDefaults(
   },
 )
 
-const initChart = () => {
+const initChart = (sendOption = {}) => {
   if (echartDivRef.value) {
-    let myChart = echarts.init(echartDivRef.value)
+    let myChart = echarts.init(echartDivRef.value, sendOption?.theme || 'light')
     if (myChart) {
       useEcharts(myChart, props.option)
     }
@@ -68,7 +68,7 @@ watch(
   () => props.option,
   (val) => {
     setTimeout(() => {
-      initChart()
+      initChart(props.option)
       resizeChart()
     }, 0)
   },
@@ -99,7 +99,7 @@ watch(
 defineExpose({
   initChart,
   resizeChart,
-});
+})
 </script>
 
 <template>
