@@ -50,7 +50,7 @@ app.mount('#app')
 // 将oeos-components下的公共函数赋值到全局
 import { utils } from 'oeos-components'
 Object.keys(utils).forEach((v) => {
-app.config.globalProperties[v] = utils[v]
+  app.config.globalProperties[v] = utils[v]
 })
 
 // 按需引入
@@ -58,23 +58,6 @@ import { $toast } from 'oeos-components'
 $toast('我是成功提示')
 $toast('我是失败提示', 'e')
 
-// 方法列表
-setStorage,
-getStorage,
-clearStorage,
-isEmpty,
-notEmpty,
-merge,
-clone,
-uuid,
-getType,
-sleep,
-validate,
-asyncWrapper,
-formatImg,
-copy,
-addThousandSeparator
-$toast,
 ```
 
 ### 自定义指令
