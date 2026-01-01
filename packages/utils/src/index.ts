@@ -676,7 +676,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
   }
   // let trigger = rules.trigger || ['blur', 'change']
   let trigger = rules.trigger || []
-  const typeMaps = ['required', 'pwd', 'number', 'mobile', 'between', 'length', 'same', 'ip', 'port', 'custom']
+  const typeMaps = ['required', 'pwd', 'number', 'mobile', 'email', 'between', 'length', 'same', 'ip', 'port', 'custom']
   let parseRequired = rules.required ?? true
 
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
@@ -728,6 +728,9 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
   }
   if (type === 'mobile') {
     return _validValue(rules, '请输入正确的手机号', pureValid, /^[1][0-9]{10}$/)
+  }
+  if (type === 'email') {
+    return _validValue(rules, '请输入正确的email', pureValid, /^[^\s@]+@[^\s@]+\.[^\s@]+$/)
   }
   if (type === 'ip') {
     return _validValue(

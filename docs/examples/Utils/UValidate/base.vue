@@ -18,6 +18,7 @@ const rules = computed(() => {
     between: [validate('between', { min: 3, max: 99 })],
     length: [validate('length', { min: 3, max: 10 })],
     mobile: [validate('mobile')],
+    email: [validate('email')],
     ip: [validate('ip')],
     custom: [proxy.validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })],
     oldPwd: [validate('length', { min: 1, max: 40 }), validate('same', { value: form.value.newPwd })],
@@ -70,6 +71,9 @@ const validIp = () => {
       <el-form-item label="手机号" prop="mobile">
         <o-input v-model="form.mobile" />
       </el-form-item>
+      <el-form-item label="email" prop="email">
+        <o-input v-model="form.email" />
+      </el-form-item>
       <el-form-item label="ip地址" prop="ip">
         <o-input v-model="form.ip" />
       </el-form-item>
@@ -86,6 +90,5 @@ const validIp = () => {
 
     <el-button type="primary" @click="submit">提交</el-button>
     <el-button type="info" @click="formRef.clearValidate()">清空校验</el-button>
- 
   </div>
 </template>
