@@ -15,11 +15,12 @@ const navList = [
     value: 'task',
   },
 ]
+const navValue = ref('base')
 </script>
 
 <template>
   <div>
-    <o-tabs :options="navList">
+    <o-tabs :options="navList" trigger="hover" v-model="navValue">
       <template #sys>系统服务</template>
       <template #base>基础服务</template>
       <template #task>高级定时</template>
