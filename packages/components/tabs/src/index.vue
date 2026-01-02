@@ -5,7 +5,7 @@
         <el-tab-pane :name="tab[props.value]" :label="tab[props.label]" v-bind="subAttrs">
           <template #label>
             <slot :name="tab[props.value] + '-label'">
-              {{ tab[props.label] }}
+              <span @mouseenter="handleMouseEnter(tab[props.value])">{{ tab[props.label] }}</span>
             </slot>
           </template>
           <slot :name="tab[props.value]"></slot>
@@ -18,7 +18,8 @@
 import { computed } from 'vue'
 const props: any = defineProps({
   modelValue: {
-    type: String,
+    type: [String, Number, Boolean],
+    required: true,
   },
   options: {
     type: Array,
@@ -38,6 +39,10 @@ const props: any = defineProps({
     type: Object,
     default: () => {},
   },
+  trigger: {
+    type: String,
+    default: 'click', // 默认为点击触发，可选值为 'click' 或 'hover'
+  },
 })
 const emits = defineEmits(['update:modelValue'])
 
@@ -49,13 +54,20 @@ const tabsValue = computed({
     emits('update:modelValue', val)
   },
 })
+
+// 鼠标悬停时切换标签页
+const handleMouseEnter = (tabVal: string) => {
+  if (props.trigger === 'hover') {
+    emits('update:modelValue', tabVal)
+  }
+}
 </script>
 <style lang="scss" scoped>
 .tabs-box {
   :deep(.el-tabs__item) {
     font-size: 16px;
   }
-  :deep(.el-tabs__nav-wrap:after){
+  :deep(.el-tabs__nav-wrap:after) {
     height: 1px;
   }
 }
