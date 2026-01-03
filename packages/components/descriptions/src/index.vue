@@ -8,8 +8,11 @@
         <template v-else-if="item.labelSlot">
           <slot :name="item.labelSlot" :item="item" :label="item.label" :value="parseValue(item)" :index="index"></slot>
         </template>
-        <template v-else>
+        <template v-else-if="!props.showAll">
           <o-tooltip :content="item.label"></o-tooltip>
+        </template>
+        <template v-else>
+          {{ item.label }}
         </template>
       </template>
 
@@ -20,7 +23,7 @@
         <slot :name="item.valueSlot" :item="item" :label="item.label" :value="parseValue(item)" :index="index"></slot>
       </template>
       <template v-else>
-        <template v-if="showAll">
+        <template v-if="props.showAll">
           {{ parseValue(item) }}
         </template>
         <o-tooltip class="w-100%" :content="parseContent(parseValue(item))" v-else></o-tooltip>

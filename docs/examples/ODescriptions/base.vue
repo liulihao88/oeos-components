@@ -6,7 +6,7 @@ const options = ref([
   { label: '王五', value: 'w5' },
   { label: '王五', value: 'w5' },
   {
-    label: '王五',
+    label: 'w52024-07-232024-07-23 19:22:19I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. have a nice day!',
     value:
       'w52024-07-232024-07-23 19:22:19I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. have a nice day!',
   },
