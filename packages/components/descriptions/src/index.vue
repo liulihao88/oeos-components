@@ -1,5 +1,4 @@
 <template>
-  {{ labelWidth2 }} ?? {{ props.labelWidth }}
   <el-descriptions v-bind="{ border: true, ...$attrs }" :column="column" class="o-descriptions">
     <el-descriptions-item v-for="(item, index) in options" :key="index">
       <template #label>
@@ -96,7 +95,7 @@ const getLabelWidth = (label: string): number => {
     measureElement.value = tempEl
   }
 
-  console.log(`73 label`, label);
+  console.log(`73 label`, label)
   measureElement.value.textContent = label
   const width = measureElement.value.getBoundingClientRect().width
   return Math.ceil(width)
