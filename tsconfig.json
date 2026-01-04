@@ -3,6 +3,7 @@
     "module": "NodeNext",
     "allowImportingTsExtensions": true,
     "noEmit": true,
+    "jsx": "preserve",
     "moduleResolution": "nodenext",
     "paths": {
       "@/*": [
