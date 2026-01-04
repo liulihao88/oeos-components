@@ -1,34 +1,42 @@
 <template>
   <el-descriptions v-bind="{ border: true, ...$attrs }" :column="column" class="o-descriptions">
-    <el-descriptions-item v-for="(item, index) in options" :key="index">
-      <template #label>
-        <template v-if="item.labelRender">
-          <render-comp :render="item.labelRender" :item="item" />
+    <slot>
+      <el-descriptions-item v-for="(item, index) in options" :key="index">
+        <template #label>
+          <template v-if="item.labelRender">
+            <render-comp :render="item.labelRender" :item="item" />
+          </template>
+          <template v-else-if="item.labelSlot">
+            <slot
+              :name="item.labelSlot"
+              :item="item"
+              :label="item.label"
+              :value="parseValue(item)"
+              :index="index"
+            ></slot>
+          </template>
+          <template v-else-if="!props.showAll">
+            <o-tooltip :content="item.label"></o-tooltip>
+          </template>
+          <template v-else>
+            {{ item.label }}
+          </template>
         </template>
-        <template v-else-if="item.labelSlot">
-          <slot :name="item.labelSlot" :item="item" :label="item.label" :value="parseValue(item)" :index="index"></slot>
+
+        <template v-if="item.render">
+          <render-comp :render="item.render" :item="item" />
         </template>
-        <template v-else-if="!props.showAll">
-          <o-tooltip :content="item.label"></o-tooltip>
+        <template v-else-if="item.valueSlot">
+          <slot :name="item.valueSlot" :item="item" :label="item.label" :value="parseValue(item)" :index="index"></slot>
         </template>
         <template v-else>
-          {{ item.label }}
+          <template v-if="props.showAll">
+            {{ parseValue(item) }}
+          </template>
+          <o-tooltip class="w-100%" :content="parseContent(parseValue(item))" v-else></o-tooltip>
         </template>
-      </template>
-
-      <template v-if="item.render">
-        <render-comp :render="item.render" :item="item" />
-      </template>
-      <template v-else-if="item.valueSlot">
-        <slot :name="item.valueSlot" :item="item" :label="item.label" :value="parseValue(item)" :index="index"></slot>
-      </template>
-      <template v-else>
-        <template v-if="props.showAll">
-          {{ parseValue(item) }}
-        </template>
-        <o-tooltip class="w-100%" :content="parseContent(parseValue(item))" v-else></o-tooltip>
-      </template>
-    </el-descriptions-item>
+      </el-descriptions-item>
+    </slot>
   </el-descriptions>
 </template>
 
