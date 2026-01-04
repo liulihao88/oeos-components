@@ -52,4 +52,6 @@ const handleClick = () => {
     }, props.time)
   }
 }
+
+
 </script>
