@@ -667,6 +667,14 @@ confirmRegPwd: [
  let ip = proxy.validate('ip', 122322, true)
  let custom = proxy.validate('custom', { value: -123, reg: /^-\d+\.?\d{0,2}$/ }, true)
 */
+
+export function validateTrigger(type = 'required', rules = {}, pureValid = false){
+  let mergeRules = {
+    trigger: ['blur', 'change'],
+    ...rules,
+  }
+  return validate(type, mergeRules, pureValid)
+}
 export function validate(type = 'required', rules = {}, pureValid = false) {
   // 如果第一个参数是对象, 则相当于重载
   if (getType(type) === 'object') {
