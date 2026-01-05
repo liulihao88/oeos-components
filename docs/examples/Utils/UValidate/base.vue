@@ -13,15 +13,15 @@ const ipValid = ref()
 
 const rules = computed(() => {
   return {
-    name: [proxy.validate()],
-    number: [proxy.validate('number')],
+    name: [validate()],
+    number: [validate('number')],
     between: [validate('between', { min: 3, max: 99 })],
-    between2: [validate('between', { min: 3 })],
+    between2: [validate('between', { min: 1 })],
     length: [validate('length', { min: 3, max: 10 })],
     mobile: [validate('mobile')],
     email: [validate('email')],
     ip: [validate('ip')],
-    custom: [proxy.validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })],
+    custom: [validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })],
     oldPwd: [validate('length', { min: 1, max: 40 }), validate('same', { value: form.value.newPwd })],
     newPwd: [validate('length', { min: 1, max: 40 }), validate('same', { value: form.value.oldPwd })],
   }
@@ -56,7 +56,7 @@ const validIp = () => {
     <o-warning
       content="由于新旧密码比较相同的时候, 需要实时的获取新旧密码的值, 所以需要使用computed去监听当新旧密码值变化使的值. 如果不需要校验新旧密码值, 则不需要加compued"
     ></o-warning>
-    <el-form ref="formRef" :model="form" :rules="rules">
+    <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
       <el-form-item label="基础用法" prop="name">
         <o-input v-model="form.name" />
       </el-form-item>
@@ -66,7 +66,7 @@ const validIp = () => {
       <el-form-item label="数字最小为3, 最大为99" prop="between">
         <o-input v-model="form.between" />
       </el-form-item>
-      <el-form-item label="数字最小为3, 最大不限" prop="between2">
+      <el-form-item label="数字最小为1, 最大不限" prop="between2">
         <o-input v-model="form.between2" />
       </el-form-item>
       <el-form-item label="长度最短3, 最长10的位数" prop="length">

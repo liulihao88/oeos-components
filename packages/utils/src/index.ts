@@ -744,7 +744,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
     let min = rules.min
     let max = rules.max
     const validateBetween = (rule, value, callback) => {
-      let validFlag = /^[0-9]+$/.test(value)
+      let validFlag = /^-?[0-9]+$/.test(value)
       if (!validFlag) {
         callback(new Error('请输入数字'))
       }
