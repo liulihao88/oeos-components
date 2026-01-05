@@ -5,7 +5,6 @@ import { uuid } from '@/utils/src/index.ts'
 
 const options = [
   { label: 'uuid()', value: uuid() },
-  { label: 'uuid("名字")', value: uuid('名字') },
   {
     label: 'uuid("time")',
     value: uuid('time'),
@@ -16,11 +15,12 @@ const options = [
   },
   { label: 'uuid("phone")', value: uuid('phone') },
   { label: 'uuid("number")', value: uuid('number') },
+  { label: 'uuid("number", 8)', value: uuid('number', 8) },
   { label: 'uuid("email")', value: uuid('email') },
   { label: 'uuid("ip")', value: uuid('ip') },
   { label: 'uuid("port")', value: uuid('port') },
   {
-    label: 'uuid([{label: "小泽泽",value: "xzz"},{ label: "小月月",value:"xyy"}=>xzz',
+    label: 'uuid([{ label: "小泽泽", value: "xzz" },{ label: "小月月", value: "xyy" }])',
     value: uuid([
       { label: '小泽泽', value: 'xzz' },
       { label: '小月月', value: 'xyy' },
