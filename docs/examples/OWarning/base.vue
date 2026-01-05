@@ -5,7 +5,14 @@ const htmlContent = `
   <div>这是html</div> 
   <span class="cl-blue">这是蓝色</span>  <br />
   <span class="cl-yellow">这是黄色</span> 
-  
+`
+
+const ulContent = `
+  <ul>
+    <li>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fuga a eveniet corporis, maiores ab laboriosam eligendi quia ex atque aspernatur odit sint numquam assumenda impedit voluptas reiciendis inventore eos veniam!</li>  
+    <li>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fuga a eveniet corporis, maiores ab laboriosam eligendi quia ex atque aspernatur odit sint numquam assumenda impedit voluptas reiciendis inventore eos veniam!</li>  
+    <li>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fuga a eveniet corporis, maiores ab laboriosam eligendi quia ex atque aspernatur odit sint numquam assumenda impedit voluptas reiciendis inventore eos veniam!</li>  
+  </ul>
 `
 </script>
 
@@ -13,23 +20,22 @@ const htmlContent = `
   <div>
     <o-warning content="这是基础用法" title="我是title"></o-warning>
     <br />
-    <o-warning
-      content='这是基础用法 <a href="http://www.baidu.com">设置根路径</a>'
-      title="我是title"
-    ></o-warning>
+    <o-warning content='这是基础用法 <a href="http://www.baidu.com">设置根路径</a>' title="我是title"></o-warning>
     <br />
     <o-warning
-      content="这是基础用法-size为small <code>这是code包裹内容</code> <blue>这是blue包裹内容</blue> "
+      content="这是基础用法-size为small <code>这是code包裹内容</code> <blue>这是blue包裹内容</blue>, 并且设置了left "
       size="small"
       left
     ></o-warning>
     <br />
-    <div class="f-st-ct">
+    <o-warning :content="ulContent" :dangerouslyUseHTMLString="true" :icon="false" :style="{ paddingLeft: '20px' }" />
+    <br />
+    <o-flex>
       <o-warning title="我是title" content="默认类型, <code>这是code包裹内容</code>" class="mr" />
       <o-warning title="我是title" content="type=warning <code>这是code包裹内容</code>" type="warning" class="mr" />
       <o-warning title="我是title" content="type=simple <code>这是code包裹内容</code>" type="simple" class="mr" />
       <o-warning title="我是title" content="type=error <code>这是code包裹内容</code>" type="error" class="mr" />
-    </div>
+    </o-flex>
     <br />
     <o-warning
       content="这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法这是基础用法"
