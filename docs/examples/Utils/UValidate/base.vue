@@ -16,6 +16,7 @@ const rules = computed(() => {
     name: [proxy.validate()],
     number: [proxy.validate('number')],
     between: [validate('between', { min: 3, max: 99 })],
+    between2: [validate('between', { min: 3 })],
     length: [validate('length', { min: 3, max: 10 })],
     mobile: [validate('mobile')],
     email: [validate('email')],
@@ -64,6 +65,9 @@ const validIp = () => {
       </el-form-item>
       <el-form-item label="数字最小为3, 最大为99" prop="between">
         <o-input v-model="form.between" />
+      </el-form-item>
+      <el-form-item label="数字最小为3, 最大不限" prop="between2">
+        <o-input v-model="form.between2" />
       </el-form-item>
       <el-form-item label="长度最短3, 最长10的位数" prop="length">
         <o-input v-model="form.length" />

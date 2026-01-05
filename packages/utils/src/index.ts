@@ -741,17 +741,17 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
     )
   }
   if (type === 'between') {
-    let min = rules.min || 1
-    let max = rules.max || 10
+    let min = rules.min
+    let max = rules.max
     const validateBetween = (rule, value, callback) => {
       let validFlag = /^[0-9]+$/.test(value)
       if (!validFlag) {
         callback(new Error('请输入数字'))
       }
-      if (value < min) {
+      if (value < min && min !== undefined) {
         callback(new Error(`数字不能小于${min}`))
       }
-      if (value > max) {
+      if (value > max && max !== undefined) {
         callback(new Error(`数字不能大于${max}`))
       }
       callback()
