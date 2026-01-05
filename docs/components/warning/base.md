@@ -8,6 +8,12 @@
 OWarning/base
 :::
 
+### 插槽
+
+:::demo 插槽
+OWarning/slot
+:::
+
 ### 属性
 
 |     属性名     | 说明                                | 类型            | 默认值 |

@@ -44,7 +44,7 @@ const props = defineProps({
     default: () => ({}),
   },
   left: {
-    type: Boolean,
+    type: [Boolean, Number, String],
     default: false,
   },
 })
@@ -63,7 +63,11 @@ const mergedStyle = computed(() => {
     obj['border-style'] = 'dotted'
   }
   if (props.left) {
-    obj.marginLeft = '8px'
+    if (Array.isArray(props.left)) {
+      obj.marginLeft = '8px'
+    } else {
+      obj.marginLeft = processWidth(props.left, true)
+    }
   }
   let res = { ...obj, ...props.customStyle }
   return res
@@ -99,15 +103,6 @@ function parseClass() {
       class="o-warning-box__icon"
       size="16"
     />
-    <!-- <o-icon
-      v-if="type !== 'warning' && props.icon"
-      name="warning"
-      :color="'var(--45)'"
-      v-bind="iconAttrs"
-      class="o-warning-box__icon"
-      size="16"
-    /> -->
-
     <div class="o-warning-box__container">
       <div v-if="$slots.title || title" class="o-warning-box__title" :class="`o-warning-box__title--${type}`">
         <slot name="title">
