@@ -1,60 +1,43 @@
 <script setup lang="ts" name="OWarning">
 import { getCurrentInstance, computed, useAttrs } from 'vue'
-import OIcon from '@/components/icon'
-import { processWidth } from '@/utils/src'
-const props = defineProps({
-  content: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    default: '',
-  },
-  type: {
-    type: String,
-    default: 'info', // info, simple, warning, error
-  },
-  width: {
-    type: [String, Number],
-    default: '100%',
-  },
-  dangerouslyUseHTMLString: {
-    type: Boolean,
-    default: true,
-  },
-  icon: {
-    type: Boolean,
-    default: true,
-  },
-  size: {
-    type: String, // small, default
-    default: 'default',
-  },
-  dotted: {
-    type: Boolean,
-    default: false,
-  },
-  customStyle: {
-    type: Object,
-    default: () => ({}),
-  },
-  iconAttrs: {
-    type: Object,
-    default: () => ({}),
-  },
-  left: {
-    type: [Boolean, Number, String],
-    default: false,
-  },
+import OIcon from '@/components/icon/src/index.vue'
+import { processWidth } from '@oeos-components/utils'
+
+interface Props {
+  content: string
+  title?: string
+  type?: 'info' | 'simple' | 'warning' | 'error'
+  width?: string | number
+  dangerouslyUseHTMLString?: boolean
+  icon?: boolean
+  size?: 'small' | 'default'
+  dotted?: boolean
+  customStyle?: Record<string, any>
+  iconAttrs?: Record<string, any>
+  left?: boolean | number | string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  title: '',
+  type: 'info',
+  width: '100%',
+  dangerouslyUseHTMLString: true,
+  icon: true,
+  size: 'default',
+  dotted: false,
+  customStyle: () => ({}),
+  iconAttrs: () => ({}),
+  left: false,
 })
+
+const attrs = useAttrs()
 
 const bindProps = computed(() => {
   return props.dangerouslyUseHTMLString ? { innerHTML: props.content } : { textContent: props.content }
 })
 
 const mergedStyle = computed(() => {
-  let obj = {}
+  let obj: Record<string, any> = {}
   if (props.size === 'small') {
     obj.paddingTop = 0
     obj.paddingBottom = 0
@@ -63,7 +46,7 @@ const mergedStyle = computed(() => {
     obj['border-style'] = 'dotted'
   }
   if (props.left) {
-    if (Array.isArray(props.left)) {
+    if (typeof props.left === 'boolean') {
       obj.marginLeft = '8px'
     } else {
       obj.marginLeft = processWidth(props.left, true)
@@ -73,7 +56,7 @@ const mergedStyle = computed(() => {
   return res
 })
 
-function parseClass() {
+function parseClass(): string {
   let type = props.type
   return `o-warning__${type}`
 }
@@ -84,7 +67,7 @@ function parseClass() {
     :class="parseClass()"
     class="o-warning-box"
     :style="{ ...processWidth(props.width), ...mergedStyle }"
-    v-bind="$attrs"
+    v-bind="attrs"
   >
     <img v-if="type === 'warning' && props.icon" src="../notic.png" class="o-warning-box__img" />
     <o-icon
