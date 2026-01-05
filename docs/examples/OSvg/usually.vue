@@ -5,6 +5,6 @@ const { proxy } = getCurrentInstance()
 
 <template>
   <div>
-    <o-svg name="403" :customStyle="{width: '100px', height: '100px', color: 'yellow'}" ></o-svg>
+    <o-svg name="icon_file-cloud-line" :customStyle="{width: '100px', height: '100px', color: 'red'}" ></o-svg>
   </div>
 </template>
