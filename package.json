@@ -40,7 +40,7 @@
     "chalk": "^5.3.0",
     "consola": "^3.2.3",
     "echarts": "^5.5.0",
-    "element-plus": "^2.9.7",
+    "element-plus": "^2.11.5",
     "escape-html": "^1.0.3",
     "fast-glob": "^3.3.3",
     "lodash-es": "^4.17.21",
