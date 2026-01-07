@@ -1,8 +1,8 @@
 <script setup lang="ts" name="OTable">
 import { ref, watch, computed, useAttrs } from 'vue'
 import RenderComp from './renderComp.vue'
-import OPopconfirm from '@/components/popconfirm'
-import OIcon from '@/components/icon'
+import OPopconfirm from '@/components/popconfirm/src/index.vue'
+import OIcon from '@/components/icon/src/index.vue'
 import { getType } from '@oeos-components/utils'
 
 const attrs = useAttrs()
