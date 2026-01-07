@@ -1329,3 +1329,7 @@ export function getVariable(propertyName) {
   let res = getComputedStyle(document.documentElement).getPropertyValue(propertyName).trim()
   return res
 }
+
+export function test() {
+  return '哈哈哈' + new Date()
+}
