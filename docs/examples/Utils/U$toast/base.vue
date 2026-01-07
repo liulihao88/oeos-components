@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
-// import { $toast, sleep } from '@oeos-components/utils'
-import { $toast, sleep } from '@/utils/src/index'
 import * as utils from '@oeos-components/utils'
-console.log(`87 utils`, utils);
+console.log(`87 utils`, utils)
+console.log(`87 utils.validateTrigger`, utils.validateTrigger)
+const { $toast, sleep } = utils
 const { proxy } = getCurrentInstance()
 const base = () => {
   $toast('基础成功')
@@ -13,7 +13,7 @@ const base = () => {
   $toast('基础错误', 'e')
 }
 const duration5000 = () => {
-  $toast('持续5秒', {
+  utils.$toast('持续5秒', {
     duration: 5000,
   })
 }
@@ -56,6 +56,5 @@ const showObject = () => {
     <el-button type="primary" @click="noClose">永不关闭</el-button>
     <el-button type="primary" @click="closeOther">关闭其他, 只保留一个</el-button>
     <el-button type="primary" @click="showObject">显示对象</el-button>
-
   </div>
 </template>

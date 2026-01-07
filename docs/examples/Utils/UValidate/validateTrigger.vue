@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, watch, computed } from 'vue'
+import * as utils from '@oeos-components/utils'
+console.log(`01 utils`, utils);
 const { proxy } = getCurrentInstance()
+console.log(`89 proxy`, proxy)
+console.log(`89 proxy.$toast(123)`, proxy.$toast(123))
+ utils.$toast(1234)
+console.log(`89 proxy.isEmpty(345)`, proxy.isEmpty(345))
+console.log(`89 proxy.getType(345)`, proxy.getType(345))
 const { validate, validForm } = proxy
 const formRef = ref(null)
 const form = ref({})
