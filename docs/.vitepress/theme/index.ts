@@ -13,9 +13,9 @@ import * as echarts from 'echarts' // 引入echarts
 import { VPDemo } from '../vitepress'
 // 基于element-plus二次封装基础组件
 import '~dist/style.css'
-import oeosV3Components, { utils, createSvg } from '@/index.ts' // 开发时使用的入口文件
+import oeosV3Components, {utils, createSvg } from '@/index.ts' // 开发时使用的入口文件
 // import oeosV3Components, { utils, createSvg } from '~dist/oeos-components-es.js' // 打包后的入口文件
-console.log(`55 oeosV3Components`, oeosV3Components);
+// import * as utils from '@oeos-components/utils'
 import '/public/css/index.css'
 import Logo from './logo.vue'
 import './assets/styles/index.css'
@@ -52,7 +52,6 @@ export default {
     // 全局注册基础组件
     ctx.app.use(oeosV3Components)
     ctx.app.use(VueTippy)
-
 
     ctx.app.component('Demo', VPDemo)
     DefaultTheme.enhanceApp(ctx)
