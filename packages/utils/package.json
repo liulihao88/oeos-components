@@ -18,7 +18,7 @@
     "stub": "npx unbuild --stub",
     "version": "git add . && git commit -am \"chore: release v$npm_package_version\"",
     "postversion": "git push && git push origin --tags && npm publish",
-    "release": "npx unbuild && npm version patch && gg \"chore: release @oeos-components/utils v$(npm pkg get version | sed 's/\"//g')\" && npm publish"
+    "release": "npx unbuild && npm version patch && git add . && git commit -m \"chore: release @oeos-components/utils v$(npm pkg get version | sed 's/\"//g')\" && git push && git push origin && npm publish"
   },
   "author": "",
   "dependencies": {
