@@ -30,7 +30,6 @@ npm install oeos-components -S
 
 :::
 
-
 ### 使用
 
 > #### 前提条件：使用项目必须全局注册 Element-plus组件库
@@ -54,10 +53,9 @@ Object.keys(utils).forEach((v) => {
 })
 
 // 按需引入
-import { $toast } from 'oeos-components'
+import { $toast } from '@oeos-components/utils'
 $toast('我是成功提示')
 $toast('我是失败提示', 'e')
-
 ```
 
 ### 自定义指令

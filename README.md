@@ -19,11 +19,11 @@ app.use(OeosComponets)
 <o-title title="这是o-title"></o-title>
 ```
 
-## 2. 在vue3项目中使用公共函数
+## 2. 在vue3项目中使用公共函数, 安装@oeos-components/utils
 
 ```js
 // 如果想将所有函数挂载至全局使用
-import { utils } from 'oeos-components'
+import * as utils from '@oeos-components/utils'
 // 将oeos-components下的公共函数赋值到全局
 Object.keys(utils).forEach((v) => {
   app.config.globalProperties[v] = utils[v]
@@ -31,7 +31,7 @@ Object.keys(utils).forEach((v) => {
 然后通过`proxy.$toast('哈哈')`, 这种方式去使用函数
 
 // 如果想单独的引用某个函数
-import { $toast } from 'oeos-components'
+import { $toast } from '@oeos-components/utils'
 $toast('嘿嘿')
 ```
 
