@@ -585,12 +585,6 @@ export function uuid(
   return result
 }
 
-// 声明全局的Ref接口
-declare interface Ref<T = any> {
-  _isRef: boolean
-  value: T
-}
-
 /**
  * 判断传入参数的类型
  * @param {*} type
@@ -668,7 +662,7 @@ confirmRegPwd: [
  let custom = proxy.validate('custom', { value: -123, reg: /^-\d+\.?\d{0,2}$/ }, true)
 */
 
-export function validateTrigger(type = 'required', rules = {}, pureValid = false){
+export function validateTrigger(type = 'required', rules = {}, pureValid = false) {
   let mergeRules = {
     trigger: ['blur', 'change'],
     ...rules,
