@@ -22,6 +22,12 @@ OButton/content
 OButton/throttle
 :::
 
+### slots
+
+:::demo 这是chart的最基础用法
+OButton/slots
+:::
+
 ### 属性
 
 |    属性名    | 说明                | 类型         | 默认值 |
