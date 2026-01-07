@@ -7,8 +7,7 @@ import VueTippy from 'vue-tippy'
 
 import registerDirectives from './directives/gDirectives.js'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import * as utils from './utils/src/index.ts'
-export * from './utils/src/index.ts'
+import { toLine } from './utils/src/index.ts'
 
 import OSvg from './components/svg/index.ts'
 
@@ -37,7 +36,7 @@ const install = (app) => {
   registerDirectives(app)
 
   for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(`el-icon-${utils.toLine(key)}`, component)
+    app.component(`el-icon-${toLine(key)}`, component)
   }
   app.use(VueTippy)
 }
@@ -47,7 +46,6 @@ if (typeof window !== 'undefined' && window.Vue) {
   // @ts-ignore
   install(window.Vue)
 }
-
 
 export function createSvg(iconDirs) {
   let res = {
@@ -59,11 +57,8 @@ export function createSvg(iconDirs) {
   return res
 }
 
-export { utils }
-
 export default {
   // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
   install,
   ...components,
-  utils,
 }
