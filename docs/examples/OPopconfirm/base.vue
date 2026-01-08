@@ -25,7 +25,7 @@ function isTest65() {
     <br />
 
     <br />
-    <o-popconfirm @confirm="confirm" content="我是删除content">
+    <o-popconfirm @confirm="confirm" content="我是删除content" :reConfirm="false">
       <el-button type="primary" @click="isTest65">测试66</el-button>
     </o-popconfirm>
 
