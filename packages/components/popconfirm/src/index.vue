@@ -57,7 +57,7 @@ defineExpose({
 <template>
   <el-popover
     v-if="props.reConfirm"
-    class="o-popconfirm"
+    class="o-popconfirm__box"
     :title="props.title"
     :width="props.width"
     v-bind="$attrs"
@@ -77,9 +77,9 @@ defineExpose({
       <slot></slot>
     </template>
   </el-popover>
-  <template v-else @click="confirm">
+  <span class="o-popconfirm__simple_box" v-else @click="confirm">
     <slot></slot>
-  </template>
+  </span>
 </template>
 
 <style scoped lang="scss">
@@ -87,5 +87,11 @@ defineExpose({
   text-align: right;
   margin: 0;
   margin-top: 16px;
+}
+
+.o-popconfirm__simple_box:has(.el-button) + :deep(.el-button),
+.el-button + .o-popconfirm__simple_box :deep(.el-button),
+.o-popconfirm__simple_box:has(.el-button) + .o-popconfirm__simple_box:has(.el-button) {
+  margin-left: 12px !important;
 }
 </style>

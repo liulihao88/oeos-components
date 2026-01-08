@@ -4,6 +4,7 @@ const { proxy } = getCurrentInstance()
 const reConfirm = ref(false)
 function confirm() {
   console.log('confirm')
+  proxy.$toast('confirm')
 }
 </script>
 
@@ -16,7 +17,7 @@ function confirm() {
     <br />
     <br />
 
-    <o-popconfirm title="自定义title" width="500" :reConfirm="reConfirm">
+    <o-popconfirm title="自定义title" width="500" :reConfirm="reConfirm" @confirm="confirm">
       <el-button type="danger" :disabled="reConfirm">自定义popconfirm</el-button>
     </o-popconfirm>
     <el-button type="primary" @click="reConfirm = !reConfirm">reConfirm切换</el-button>
