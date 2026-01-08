@@ -17,7 +17,7 @@ oeos-components 是基于 Vue3 + Element-plus 再次封装的基础组件, 适�
 ::: code-group
 
 ```sh [pnpm]
-pnpm install oeos-components -S
+pnpm add oeos-components -S
 ```
 
 ```sh [yarn]
@@ -36,26 +36,50 @@ npm install oeos-components -S
 
 ```js
 // main.ts
-import oeosComponents from 'oeos-components'
+import OeosComponents from 'oeos-components'
 import 'oeos-components/dist/style.css'
 const app = createApp(App)
-app.use(oeosComponents)
-app.mount('#app')
+app.use(OeosComponents).mount('#app')
 ```
 
-### 引入函数库方法
+### 安装函数库方法
+
+首先安装`@oeos-components/utils`
+
+::: code-group
+
+```sh [pnpm]
+pnpm add @oeos-components/utils -S
+```
+
+```sh [yarn]
+yarn add @oeos-components/utils
+```
+
+```sh [npm]
+npm install @oeos-components/utils -S
+```
+
+:::
 
 ```js
 // 将oeos-components下的公共函数赋值到全局
-import { utils } from 'oeos-components'
+import * as utils from '@oeos-components/utils'
 Object.keys(utils).forEach((v) => {
   app.config.globalProperties[v] = utils[v]
 })
+proxy.$toast('全局提示')
 
 // 按需引入
 import { $toast } from '@oeos-components/utils'
 $toast('我是成功提示')
 $toast('我是失败提示', 'e')
+```
+
+### 升级包
+
+```javascript
+pnpm add oeos-components@latest && pnpm add @oeos-components/utils@latest
 ```
 
 ### 自定义指令
