@@ -4,7 +4,7 @@
     <o-radio v-model="value" :options="options" :disabled="true" />
 
     <o-title title="选项1,3disabled"></o-title>
-    <o-radio v-model="value" :options="options" :optionsDisabled="optionsDisabled" />
+    <o-radio v-model="value" :options="options" :itemDisabled="itemDisabled" />
   </div>
 </template>
 <script setup lang="ts">
@@ -16,7 +16,7 @@ const options = ref([
   { label: 'Option 3', value: 3 },
   { label: 'Option 3', value: 4 },
 ])
-const optionsDisabled = (item, index, parseOptions) => {
+const itemDisabled = (item, index, parseOptions) => {
   return item.value === 1 || item.value === 3
 }
 </script>

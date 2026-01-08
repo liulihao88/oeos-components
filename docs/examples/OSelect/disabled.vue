@@ -11,10 +11,10 @@ const selectValue1 = ref([])
 const selectValue2 = ref([])
 const selectValue3 = ref([])
 const selectValue4 = ref([])
-const optionsDisabled = (item, index) => {
+const itemDisabled = (item, index) => {
   return index % 2 === 0
 }
-const optionsDisabled2 = (item, index) => {
+const itemDisabled2 = (item, index) => {
   return index % 2 !== 0
 }
 
@@ -23,22 +23,16 @@ const options2 = ref(['男人', '女人', '爱情'])
 
 <template>
   <div>
-    <o-select v-model="selectValue1" :options="options" :optionsDisabled="optionsDisabled" title="单选正常" />
-    <o-select
-      v-model="selectValue2"
-      :options="options2"
-      :optionsDisabled="optionsDisabled2"
-      type="simple"
-      title="单选简单"
-    />
-    <o-select v-model="selectValue3" :options="options" multiple :optionsDisabled="optionsDisabled" title="多选正常" />
+    <o-select v-model="selectValue1" :options="options" :itemDisabled="itemDisabled" title="单选正常" />
+    <o-select v-model="selectValue2" :options="options2" :itemDisabled="itemDisabled2" type="simple" title="单选简单" />
+    <o-select v-model="selectValue3" :options="options" multiple :itemDisabled="itemDisabled" title="多选正常" />
 
     <o-select
       v-model="selectValue4"
       :options="options2"
       multiple
       type="simple"
-      :optionsDisabled="optionsDisabled2"
+      :itemDisabled="itemDisabled2"
       title="多选简单"
     />
   </div>

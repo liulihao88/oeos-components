@@ -55,7 +55,7 @@
         :key="type === 'simple' ? item : item[props.value]"
         :label="type === 'simple' ? item : handleLabel(item)"
         :value="type === 'simple' ? item : item[props.value]"
-        :disabled="optionsDisabled(item, index, sOptions)"
+        :disabled="itemDisabled(item, index, sOptions)"
       >
         <slot :options="sOptions" :item="item"></slot>
       </el-option>
@@ -152,7 +152,7 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  optionsDisabled: {
+  itemDisabled: {
     type: Function,
     default: () => {},
   },
@@ -189,7 +189,7 @@ watch(
 
 const disOptions = computed(() => {
   return sOptions.value.filter((...rest) => {
-    return !props.optionsDisabled(...rest)
+    return !props.itemDisabled(...rest)
   })
 })
 

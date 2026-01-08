@@ -68,7 +68,7 @@ const handleCheckAll = (val) => {
   <div>
     <o-select v-model="selectVal" :options="options" label="name" value="id"></o-select>
     <o-title title="有禁用选项" t="10">
-      <o-select v-model="selectVal" :options="baseOptions" :optionsDisabled="(item) => item.disabled"></o-select>
+      <o-select v-model="selectVal" :options="baseOptions" :itemDisabled="(item) => item.disabled"></o-select>
     </o-title>
     <o-title title="输入框尺寸 " sub-title="size: '' | 'large' | 'default' | 'small'" t="10">
       <o-select v-model="selectVal" :options="baseOptions" size="small"></o-select>

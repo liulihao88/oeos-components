@@ -9,7 +9,7 @@
         :label="item[props.label!]"
         :value="item[props.value!]"
         :border="border"
-        :disabled="optionsDisabled(item, index, parseOptions)"
+        :disabled="itemDisabled(item, index, parseOptions)"
       >
         <slot :name="item.slot" v-bind="item">
           {{ item[props.label!] }}
@@ -50,7 +50,7 @@ const props = defineProps({
     type: [String, Number, Boolean],
     default: 'label',
   },
-  optionsDisabled: {
+  itemDisabled: {
     type: Function,
     default: () => {},
   },

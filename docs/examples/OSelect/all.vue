@@ -7,7 +7,7 @@ const options = ref([
   { name: '小月月', id: 'xyy' },
   { name: '小鑫鑫', id: 'xxx' },
 ])
-function optionsDisabled(item) {
+function itemDisabled(item) {
   if (item.id === 'xyy') {
     return true
   }
@@ -23,7 +23,7 @@ function optionsDisabled(item) {
       :options="options"
       label="name"
       value="id"
-      :optionsDisabled="optionsDisabled"
+      :itemDisabled="itemDisabled"
       :customLabel="(item) => item.name + '(' + item.id + ')'"
     ></o-select>
   </div>
