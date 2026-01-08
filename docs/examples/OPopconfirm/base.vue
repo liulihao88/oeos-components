@@ -9,10 +9,11 @@ confirm2.value = [
 ]
 function confirm() {
   console.log('confirm')
+  proxy.$toast('confirm')
 }
 
 function isTest65() {
-  proxy.$toast("保存成功");
+  console.log('保存成功')
 }
 </script>
 
