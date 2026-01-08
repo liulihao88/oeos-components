@@ -62,6 +62,10 @@ export default defineConfig({
               link: '/components/utils/base.md',
             },
             {
+              text: 'vitepress常用语法',
+              link: '/components/utils/grammar.md',
+            },
+            {
               text: '函数方法',
               collapsed: false,
               items: [
