@@ -10,6 +10,12 @@
 ORadio/base
 :::
 
+### disabled
+
+:::demo 基于 Element-plus 的 `el-radio` 二次封装的**单选组件**，继承原组件的所有属性
+ORadio/disabled
+:::
+
 ### 通常用法
 
 :::demo

@@ -9,7 +9,7 @@
         :label="item[props.label!]"
         :value="item[props.value!]"
         :border="border"
-        :disabled="item[subAttrs.disabled!]"
+        :disabled="optionsDisabled(item, index, parseOptions)"
       >
         <slot :name="item.slot" v-bind="item">
           {{ item[props.label!] }}
@@ -50,11 +50,9 @@ const props = defineProps({
     type: [String, Number, Boolean],
     default: 'label',
   },
-  subAttrs: {
-    type: Object,
-    default: () => {
-      return {}
-    },
+  optionsDisabled: {
+    type: Function,
+    default: () => {},
   },
 })
 const radioType = computed(() => {
