@@ -359,39 +359,52 @@ export function clone(data, times = 1) {
   return result
 }
 
+type TimeType = Date | string | number | null | undefined
+type FormatType = string
+
 /**
- * 格式化时间为年月日时分秒的格式， 格式可以自定义。
- * ① 时间戳10位和13位都可以转换成格式化的日期
- * ② java8格式的日期和有效的日期都可以转换成定义的日期格式
- * @param {Date, string}  都有默认参数
- * @example
- * formatTime() // 2020-07-17 09:53:07
- * formatTime('2018-02-13T06:17') // 2018-02-13 06:17:00
- * formatTime('2020/03/02 06:02') // 2020-03-02 06:02:00
- * formatTime(1541927611000); //2018-11-11 17:13:21
- * formatTime(1541927611000, "{y}年{m}月{d}日 {h}时{m}分{s}秒"); // 2018年11月11日 17时11分31秒
- * formatTime(1541927611, "{y}/{m}/{d} {h}:{m}:{s}"); // 2018/11/11 17:11:31
- * formatTime(new Date()); // 2018-11-11 17:13:21
- * formatTime(new Date().getTime()); // 2018-11-11 17:13:21
- * formatTime('1764128798.456'); // 2025/11/26 11:11:38
+ * 时间格式化函数
+ * @param {TimeType} time - 可选时间参数，可以是 Date 对象、时间戳字符串或数字
+ * @param {FormatType} [cFormat='{y}-{m}-{d} {h}:{i}:{s}'] - 格式化字符串
+ * @returns {string} 格式化后的时间字符串
  */
-export function formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
+export function formatTime(time: TimeType = new Date(), cFormat: FormatType = '{y}-{m}-{d} {h}:{i}:{s}'): string {
   if (!time) {
-    return time
+    return String(time)
   }
-  let date
-  if (typeof time === 'object') {
+
+  let date: Date
+  const timeStr = String(time)
+
+  if (typeof time === 'object' && time instanceof Date) {
     date = time
   } else {
-    const timeStr = '' + time
-    // 处理带小数的时间戳格式，如 1764128798.456
-    if (timeStr.includes('.') && !isNaN(parseFloat(timeStr))) {
-      time = parseFloat(time) * 1000
-    } else if (timeStr.length === 10) {
-      time = parseInt(time) * 1000
+    // ISO格式正则表达式
+    const isoRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,3})?)?$/
+
+    if (isoRegex.test(timeStr)) {
+      date = new Date(time)
+    } else {
+      // 处理小数时间戳（如 1764128798.456）
+      if (timeStr.includes('.') && !isNaN(parseFloat(timeStr))) {
+        date = new Date(parseFloat(timeStr) * 1000)
+      }
+      // 处理整数时间戳（10位数字）
+      else if (/^\d{10}$/.test(timeStr)) {
+        date = new Date(parseInt(timeStr) * 1000)
+      }
+      // 其他情况直接解析
+      else {
+        date = new Date(time)
+      }
     }
-    date = new Date(time)
   }
+
+  // 验证日期是否有效
+  if (isNaN(date.getTime())) {
+    throw new Error('Invalid Date')
+  }
+
   const formatObj = {
     y: date.getFullYear(),
     m: date.getMonth() + 1,
@@ -401,17 +414,22 @@ export function formatTime(time, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
     s: date.getSeconds(),
     a: date.getDay(),
   }
-  const time_str = cFormat.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
-    let value = formatObj[key] // Note: getDay() returns 0 on Sunday
+
+  return cFormat.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+    const value = formatObj[key]
+
+    // 处理星期几
     if (key === 'a') {
       return ['日', '一', '二', '三', '四', '五', '六'][value]
     }
+
+    // 处理补零
     if (result.length > 0 && value < 10) {
-      value = '0' + value
+      return '0' + value
     }
-    return value || 0
+
+    return value
   })
-  return time_str
 }
 
 /**
