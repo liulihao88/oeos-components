@@ -1,6 +1,14 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance, watch } from 'vue'
+import { ref, getCurrentInstance, watch, provide } from 'vue'
 const { proxy } = getCurrentInstance()
+
+// main.js
+provide('GLOBAL_COMPONENT_CONFIG', {
+  oSelect: {
+    showPrefix: true,
+  },
+})
+
 const selectVal = ref('xxx')
 const options = ref([
   { name: '小瑞瑞', id: 'xrr' },

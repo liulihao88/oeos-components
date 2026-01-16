@@ -1,10 +1,10 @@
 <template>
   <div
     class="o-select"
-    :style="{ ...processWidth(props.width) }"
-    :class="{ 'has-title': props.title, 'has-quick': props.showQuick && !parseDisabled && sOptions.length > 0 }"
+    :style="{ ...processWidth(mergedProps.width) }"
+    :class="{ 'has-title': mergedProps.title, 'has-quick': mergedProps.showQuick && !parseDisabled && sOptions.length > 0 }"
   >
-    <o-comp-title :title="props.title" :size="attrs.size" :boxStyle="$attrs.boxStyle ?? {}"></o-comp-title>
+    <o-comp-title :title="mergedProps.title" :size="attrs.size" :boxStyle="$attrs.boxStyle ?? {}"></o-comp-title>
     <el-select
       ref="selectRef"
       class="o-select__select"
@@ -25,7 +25,7 @@
         }, {}),
       }"
     >
-      <template #prefix v-if="props.showPrefix">
+      <template #prefix v-if="mergedProps.showPrefix">
         <slot name="prefix">
           <span v-if="Array.isArray(childSelectedValue)">{{ childSelectedValue.length }}/{{ sOptions.length }}</span>
           <span v-else>{{ sOptions.length }}个</span>
@@ -38,7 +38,7 @@
         <slot :name="name" v-bind="arg" :index="index" />
       </template>
 
-      <div class="po-r" v-if="multiple && props.showAll">
+      <div class="po-r" v-if="multiple && mergedProps.showAll">
         <el-checkbox
           :indeterminate="indeterminate"
           v-model="selectChecked"
@@ -52,9 +52,9 @@
 
       <el-option
         v-for="(item, index) in sOptions"
-        :key="type === 'simple' ? item : item[props.value]"
+        :key="type === 'simple' ? item : item[mergedProps.value]"
         :label="type === 'simple' ? item : handleLabel(item)"
-        :value="type === 'simple' ? item : item[props.value]"
+        :value="type === 'simple' ? item : item[mergedProps.value]"
         :disabled="itemDisabled(item, index, sOptions)"
       >
         <slot :options="sOptions" :item="item"></slot>
@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts" name="OSelect">
-import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed } from 'vue'
+import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed, inject } from 'vue'
 import Loop from '@/assets/images/loop.png'
 import { processWidth, isEmpty } from '@/utils/src'
 
@@ -260,8 +260,19 @@ const reverseSelect = () => {
   changeMulty(noSelectedValue)
 }
 
+// 注入全局配置
+const globalConfig = inject('GLOBAL_COMPONENT_CONFIG', {})
+const mergedProps = computed(() => {
+  // 合并全局配置和本地props，本地props优先级更高
+  return {
+    ...props,
+    ...globalConfig?.oSelect,
+  }
+})
+// console.log(`82 mergedProps.value`, mergedProps.value);
+
 function handlePlaceholder() {
-  let res = attrs.disabled ? props.disPlaceholder : attrs.placeholder || '请选择'
+  let res = attrs.disabled ? mergedProps.disPlaceholder : attrs.placeholder || '请选择'
   return res
 }
 // 将label作为多个值连接起来。 比如 admin/管理员, 这是两个属性拼接出来的
