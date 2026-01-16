@@ -41,14 +41,14 @@ const options = ref([
   <div>
     <o-descriptions :options="options" :column="1" labelWidth="300" :showAll="true">
       <template #refValue="{ item }">
-        <div class="f-st-ct">
+        <o-flex justify="end">
           <div class="mr">clone(refValue)</div>
           <div class="f-st-ct">
             <o-tooltip content="const refValue = ref([11, 22, 33])">
               <o-icon name="warning"></o-icon>
             </o-tooltip>
           </div>
-        </div>
+        </o-flex>
       </template>
     </o-descriptions>
   </div>
