@@ -4,6 +4,7 @@
   "private": false,
   "type": "module",
   "main": "dist/oeos-components-es.js",
+  "unpkg": "dist/oeos-components-umd.js",
   "module": "dist/oeos-components-es.js",
   "style": "dist/style.css",
   "files": [
