@@ -10,6 +10,7 @@
   "files": [
     "dist"
   ],
+  
   "scripts": {
     "dev": "vitepress dev docs",
     "build": "vite build",
