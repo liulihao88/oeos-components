@@ -34,6 +34,12 @@ OChart/pie
 OChart/theme
 :::
 
+### 空状态
+
+:::demo 设置 isEmpty=true，即可显示空状态
+OChart/empty
+:::
+
 ### dataset 数据集
 
 :::demo

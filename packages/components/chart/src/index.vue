@@ -1,9 +1,8 @@
 <script setup lang="ts" name="OChart">
-import { ref, getCurrentInstance, onMounted, watch, nextTick, markRaw } from 'vue'
+import { ref, getCurrentInstance, onMounted, watch, nextTick, markRaw, onBeforeUnmount, computed } from 'vue'
 const { proxy } = getCurrentInstance()
 import * as echarts from 'echarts'
 import { processWidth, debounce } from '../../../../packages/utils/src/index.ts'
-import type { EChartsOption } from 'echarts'
 import { useEcharts } from './useEcharts.ts'
 const echartDivRef = ref<HTMLElement>(null)
 
@@ -30,12 +29,18 @@ const props = withDefaults(
   defineProps<{
     width?: string
     height?: string
-    option: EChartsOption
+    id?: string
+    option:  Record<string, any>
     theme?: string
+    isEmpty: boolean | ((options: Record<string, any>) => boolean)
+    description: string
   }>(),
   {
     height: '400px',
+    isEmpty: false,
     width: '100%',
+    description: '暂无数据',
+    id: () => Math.random().toString(36).substring(2, 8),
   },
 )
 
@@ -102,32 +107,40 @@ watch(
   },
 )
 
-/**
-* @使用方法
-  <div class="f">
-    <div class="f-1">
-      <o-chart
-        :option="option"
-        style="height: 700px"
-      ></o-chart>
-    </div>
-    <div class="f-1">
-      <o-chart :option="options2" class="g-100"></o-chart>
-    </div>
-    <div class="f-1">
-      <o-chart :option="options3" height="100px"></o-chart>
-    </div>
-  </div>
-*/
+const formatEmpty = computed(() => {
+  if (typeof props.isEmpty === 'function') {
+    return props.isEmpty(props.option)
+  }
+  return props.isEmpty
+})
 
 defineExpose({
   initChart,
   resizeChart,
 })
+
+onBeforeUnmount(() => {
+  // 取消监听
+  // window.removeEventListener('resize', resizeChart)
+  // 销毁echarts实例
+  chart.value.dispose()
+  chart.value = null
+})
 </script>
 
 <template>
-  <div ref="echartDivRef" :style="{ height: processWidth(height, true), width: processWidth(width, true) }" />
+  <div class="o-chart">
+    <div
+      ref="echartDivRef"
+      :style="{ height: processWidth(height, true), width: processWidth(width, true) }"
+      :id="id"
+      v-show="!formatEmpty"
+    />
+    <slot v-if="formatEmpty" name="empty">
+      <el-empty v-bind="$attrs" :description="description" />
+    </slot>
+    <slot></slot>
+  </div>
 </template>
 
 <style scoped lang="scss"></style>
