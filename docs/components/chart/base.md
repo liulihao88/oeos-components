@@ -10,6 +10,30 @@
 OChart/base
 :::
 
+### 折线图
+
+:::demo
+OChart/line
+:::
+
+### 柱状图
+
+:::demo
+OChart/bar
+:::
+
+### 饼图
+
+:::demo
+OChart/pie
+:::
+
+### 主题切换
+
+:::demo
+OChart/theme
+:::
+
 ### dataset 数据集
 
 :::demo

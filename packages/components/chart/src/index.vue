@@ -1,11 +1,13 @@
 <script setup lang="ts" name="OChart">
-import { ref, getCurrentInstance, onMounted, watch } from 'vue'
+import { ref, getCurrentInstance, onMounted, watch, nextTick, markRaw } from 'vue'
 const { proxy } = getCurrentInstance()
 import * as echarts from 'echarts'
-import { processWidth } from '@oeos-components/utils'
+import { processWidth, debounce } from '../../../../packages/utils/src/index.ts'
 import type { EChartsOption } from 'echarts'
 import { useEcharts } from './useEcharts.ts'
 const echartDivRef = ref<HTMLElement>(null)
+
+const emits = defineEmits()
 
 // const props = defineProps({
 //   height: {
@@ -22,11 +24,14 @@ const echartDivRef = ref<HTMLElement>(null)
 //   },
 // })
 
+const chart = ref()
+
 const props = withDefaults(
   defineProps<{
     width?: string
     height?: string
     option: EChartsOption
+    theme?: string
   }>(),
   {
     height: '400px',
@@ -34,25 +39,36 @@ const props = withDefaults(
   },
 )
 
-const initChart = (sendOption = {}) => {
-  if (echartDivRef.value) {
-    let myChart = echarts.init(echartDivRef.value, sendOption?.theme || 'light')
-    if (myChart) {
-      useEcharts(myChart, props.option)
-    }
-  }
+// 设置图表函数
+const setOption = debounce(
+  async (data) => {
+    if (!chart.value) return
+    chart.value.setOption(data, true, true)
+    await nextTick()
+    resizeChart()
+  },
+  300,
+  true,
+)
+
+const initChart = () => {
+  chart.value = markRaw(echarts.init(echartDivRef.value, props.theme))
+  // setOption(props.option)
+  // 返回chart实例
+  emits('chart', chart.value)
+  setTimeout(() => {
+    useEcharts(chart.value, props.option)
+  }, 0)
 }
 
-const resizeChart = () => {
-  if (echartDivRef.value) {
-    let myChart = echarts.init(echartDivRef.value)
-    if (myChart) {
-      setTimeout(() => {
-        myChart.resize()
-      }, 0)
-    }
-  }
-}
+// 重绘图表函数
+const resizeChart = debounce(
+  () => {
+    chart.value?.resize()
+  },
+  300,
+  true,
+)
 
 watch(
   [() => props.width, () => props.height],
@@ -65,16 +81,24 @@ watch(
   },
 )
 watch(
-  () => props.option,
-  (val) => {
+  () => [props.option],
+  () => {
     setTimeout(() => {
-      initChart(props.option)
+      initChart()
       resizeChart()
     }, 0)
   },
   {
     deep: true,
     immediate: true,
+  },
+)
+
+watch(
+  () => props.theme,
+  async () => {
+    chart.value.dispose()
+    initChart()
   },
 )
 

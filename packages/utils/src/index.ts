@@ -4,6 +4,8 @@ import { consola } from 'consola'
 import { cloneDeep } from 'es-toolkit' // 这里不要lodash-es的原因是, 体积太大, 超过500kb无法打包
 import { ElMessage, ElMessageBox, MessageOptions } from 'element-plus'
 
+type Func = (...args: any[]) => any
+
 /**
  * 现有方法如下
  * $toast(message, type: string | object = 'success', otherParams: object = {})
@@ -1260,17 +1262,49 @@ export function tryCatch<T>(
     })
 }
 
-export function debounce(fn, delay = 1000) {
-  let timer = null
-  return function () {
-    if (timer) {
-      clearTimeout(timer)
-    }
-    timer = setTimeout(() => {
-      fn.apply(this, arguments)
-      timer = null
-    }, delay)
+/**
+ * 防抖函数
+ * @param { Function } func 函数
+ * @param { Number } delay 防抖时间
+ * @param { Boolean } immediate 是否立即执行
+ * @param { Function } resultCallback
+ */
+export function debounce(func: Func, delay: number = 500, immediate?: boolean, resultCallback?: Func) {
+  let timer: null | ReturnType<typeof setTimeout> = null
+  let isInvoke = false
+  const _debounce = function (this: unknown, ...args: any[]) {
+    return new Promise((resolve, reject) => {
+      if (timer) clearTimeout(timer)
+      if (immediate && !isInvoke) {
+        try {
+          const result = func.apply(this, args)
+          if (resultCallback) resultCallback(result)
+          resolve(result)
+        } catch (e) {
+          reject(e)
+        }
+        isInvoke = true
+      } else {
+        timer = setTimeout(() => {
+          try {
+            const result = func.apply(this, args)
+            if (resultCallback) resultCallback(result)
+            resolve(result)
+          } catch (e) {
+            reject(e)
+          }
+          isInvoke = false
+          timer = null
+        }, delay)
+      }
+    })
   }
+  _debounce.cancel = function () {
+    if (timer) clearTimeout(timer)
+    isInvoke = false
+    timer = null
+  }
+  return _debounce
 }
 
 /**
