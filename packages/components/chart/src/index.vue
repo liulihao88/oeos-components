@@ -30,7 +30,7 @@ const props = withDefaults(
     width?: string
     height?: string
     id?: string
-    option:  Record<string, any>
+    option: Record<string, any>
     theme?: string
     isEmpty: boolean | ((options: Record<string, any>) => boolean)
     description: string
@@ -129,13 +129,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="o-chart">
-    <div
-      ref="echartDivRef"
-      :style="{ height: processWidth(height, true), width: processWidth(width, true) }"
-      :id="id"
-      v-show="!formatEmpty"
-    />
+  <div class="o-chart po-r" :style="{ height: processWidth(height, true), width: processWidth(width, true) }">
+    <div ref="echartDivRef" :id="id" class="o-chart-container" v-show="!formatEmpty" />
     <slot v-if="formatEmpty" name="empty">
       <el-empty v-bind="$attrs" :description="description" />
     </slot>
@@ -143,4 +138,9 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.o-chart-container {
+  height: 100%;
+  width: 100%;
+}
+</style>

@@ -40,6 +40,12 @@ OChart/theme
 OChart/empty
 :::
 
+### 插槽
+
+:::demo
+OChart/slot
+:::
+
 ### dataset 数据集
 
 :::demo
