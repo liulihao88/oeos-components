@@ -4,6 +4,13 @@ const { proxy } = getCurrentInstance()
 import { formatDurationTime, getType } from '@/utils/src/index.ts'
 
 const options = [
+  { label: 'formatDurationTime(null)', value: formatDurationTime(null) },
+  { label: 'formatDurationTime(0)', value: formatDurationTime(0) },
+  { label: 'formatDurationTime(0, "{h}时{i}分")', value: formatDurationTime(0, '{h}时{i}分') },
+  {
+    label: 'formatDurationTime(999999999, "{d}天{h}时{i}分{s}秒")',
+    value: formatDurationTime(999999999, '{d}天{h}时{i}分{s}秒'),
+  },
   { label: 'formatDurationTime(11628)', value: formatDurationTime(11628) },
   { label: 'formatDurationTime(1162821)', value: formatDurationTime(1162821) },
   { label: 'formatDurationTime(11628213)', value: formatDurationTime(11628213) },

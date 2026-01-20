@@ -437,7 +437,7 @@ export function formatTime(time: TimeType = new Date(), cFormat: FormatType = '{
 /**
  *
  * @param timestamp 持续的时间戳
- * @param cFormat 格式化的规则
+ * @param cFormat 格式化的规则 {d}天{h}时{i}分{s}秒
  * @returns 天时分秒的字符串
  * @example
  * formatDurationTime(1162821) => 19分24秒
@@ -466,11 +466,11 @@ export function formatDurationTime(timestamp, cFormat = '{d}天{h}时{i}分{s}�
   }
   let parseFormat = cFormat
   if (days === 0) {
-    parseFormat = cFormat.match(/{h}.*/g)[0]
+    parseFormat = cFormat.match(/{h}.*/g)?.[0] ?? ''
     if (hours === 0) {
-      parseFormat = cFormat.match(/{i}.*/g)[0]
+      parseFormat = cFormat.match(/{i}.*/g)?.[0] ?? ''
       if (minutes === 0) {
-        parseFormat = cFormat.match(/{s}.*/g)[0]
+        parseFormat = cFormat.match(/{s}.*/g)?.[0] ?? ''
       }
     }
   }
