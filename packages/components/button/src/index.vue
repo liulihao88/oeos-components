@@ -1,6 +1,6 @@
 <template>
   <o-tooltip v-if="content" :content="content" v-bind="tooltipAttrs">
-    <el-button v-bind="{ loading: loading, ...$attrs }" @click="handleClick">
+    <el-button v-bind="{ loading: loading, ...$attrs }" @click="handleClick" class="o-button-content">
       <template v-for="(arg, name, index) in $slots" v-slot:[name]>
         <slot :name="name" v-bind="arg" :index="index" />
       </template>
@@ -68,3 +68,7 @@ const ButtonContent = defineComponent({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+
+</style>
