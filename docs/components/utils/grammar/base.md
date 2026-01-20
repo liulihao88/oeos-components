@@ -71,9 +71,9 @@ OButton/base
 
 ### 7. 直接在md文档中引入文件
 
-`<<< ../../../packages/components/test/src/index.vue`
+`<<< ../../../../packages/components/test/src/index.vue`
 
-<<< ../../../packages/components/test/src/index.vue
+<<< ../../../../packages/components/test/src/index.vue
 
 ### 8. 代码组
 
@@ -94,3 +94,7 @@ npm install oeos-components -S
 ### 9. md中常用组件`el-tag`
 
 <el-tag  effect="dark">推荐</el-tag>
+
+
+### 10. md中进行跳转
+[去tooltip组件](../../tooltip/base)
