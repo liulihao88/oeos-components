@@ -1,8 +1,8 @@
 <template>
   <el-radio-group v-model="size">
-    <el-radio value="large">Large</el-radio>
-    <el-radio value="default">Default</el-radio>
-    <el-radio value="small">Small</el-radio>
+    <el-radio value="large">large</el-radio>
+    <el-radio value="default">default</el-radio>
+    <el-radio value="small">small</el-radio>
   </el-radio-group>
 
   <o-descriptions title="Vertical list with border" direction="vertical" :column="4" :size="size" border>

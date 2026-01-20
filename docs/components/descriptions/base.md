@@ -34,6 +34,12 @@ ODescriptions/vertical
 ODescriptions/slot
 :::
 
+### 自定义样式
+
+:::demo
+ODescriptions/customStyle
+:::
+
 ## 属性
 
 |   属性名    | 说明                          | 类型     | 默认值 |

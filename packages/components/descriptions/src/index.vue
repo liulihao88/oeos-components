@@ -1,7 +1,7 @@
 <template>
   <el-descriptions v-bind="{ border: true, ...$attrs }" :column="column" class="o-descriptions">
     <slot>
-      <el-descriptions-item v-for="(item, index) in options" :key="index">
+      <el-descriptions-item v-for="(item, index) in options" :key="index" v-bind="item.attrs">
         <template #label>
           <template v-if="item.labelRender">
             <render-comp :render="item.labelRender" :item="item" />
@@ -61,6 +61,7 @@ type Options = {
   labelRender?: (item: any) => VNode | string
   render?: (item: any) => VNode | string
   filter?: (value: any) => any
+  attrs?: Record<string, any>
 }
 
 const props = defineProps({
