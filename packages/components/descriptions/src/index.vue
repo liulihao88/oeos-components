@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import RenderComp from '@/components/common/renderComp.vue'
-import { computed, VNode, ref } from 'vue'
+import { computed, VNode, ref, useAttrs } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import { processWidth } from '@oeos-components/utils'
 import OTooltip from '@/components/tooltip'
@@ -50,6 +50,8 @@ import OTooltip from '@/components/tooltip'
 defineOptions({
   name: 'ODescriptions',
 })
+
+const attrs = useAttrs()
 
 type Options = {
   label: string
@@ -106,7 +108,6 @@ const getLabelWidth = (label: string): number => {
     measureElement.value = tempEl
   }
 
-  console.log(`73 label`, label)
   measureElement.value.textContent = label
   const width = measureElement.value.getBoundingClientRect().width
   return Math.ceil(width)
@@ -117,7 +118,6 @@ const LABEL_EXTRA_WIDTH = 24
 
 const labelWidth2 = computed(() => {
   // 如果设置了 labelWidth 为 "auto" 或者空值，则计算最大宽度
-  console.log(`53 props.labelWidth`, props.labelWidth)
   if (props.labelWidth === 'auto' || !props.labelWidth) {
     let maxWidth = 0
     ;(props.options ?? []).forEach((v) => {
@@ -127,7 +127,6 @@ const labelWidth2 = computed(() => {
       }
     })
     // 添加一些padding确保文本不会紧贴边界
-    console.log(`64 maxWidth`, maxWidth)
     return maxWidth + LABEL_EXTRA_WIDTH + 'px'
   }
 
@@ -146,6 +145,11 @@ const parseContent = (value: any) => {
   }
 }
 
+const getTextAlign = computed(() => {
+  console.log(`3356 152行 packages/components/descriptions/src/index.vue attrs `, attrs)
+  return attrs.direction === 'vertical' ? 'left' : 'right'
+})
+
 // 在组件卸载时清理测量元素
 import { onUnmounted } from 'vue'
 onUnmounted(() => {
@@ -160,16 +164,19 @@ onUnmounted(() => {
   :deep(.el-descriptions__body),
   :deep(.el-descriptions__table) {
     table-layout: fixed;
+    .el-descriptions__table:not(.is-bordered) .el-descriptions__cell {
+      display: flex;
+    }
   }
 
-  :deep(.el-descriptions__table) tr {
+  :deep(.el-descriptions__table) tr:has(td.is-bordered) {
     display: flex;
   }
 
   :deep(.el-descriptions__label) {
     width: v-bind(labelWidth2);
     min-width: 100px;
-    text-align: right;
+    text-align: v-bind(getTextAlign);
   }
 
   // 当labelWidth为auto时的样式处理

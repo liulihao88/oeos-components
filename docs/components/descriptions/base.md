@@ -16,6 +16,18 @@ ODescriptions/base
 ODescriptions/usually
 :::
 
+### 每行展示多少项
+
+:::demo
+ODescriptions/column
+:::
+
+### 垂直列表
+
+:::demo
+ODescriptions/vertical
+:::
+
 ### slot插槽
 
 :::demo

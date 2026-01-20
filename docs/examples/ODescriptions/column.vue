@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance, reactive, onMounted } from 'vue'
+import { ref, getCurrentInstance, onMounted, reactive } from 'vue'
+const { proxy } = getCurrentInstance()
+const options = ref([
+  { label: '一行展示', value: 1 },
+  { label: '一行展示2项', value: 2 },
+  { label: '一行展示3项', value: 3 },
+  { label: '一行展示4项', value: 4 },
+])
+const radioValue = ref(1)
 
 const DataSource: any = reactive({
   dataList: {
@@ -39,6 +47,7 @@ const DataSource: any = reactive({
     {
       label: '计划盘点日期',
       fieldName: 'planStocktakeDate',
+      bind: { 'label-class-name': 'custom_name' },
       value: '',
     },
     {
@@ -72,5 +81,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <o-descriptions :options="DataSource.descData"></o-descriptions>
+  <div>
+    <o-radio v-model="radioValue" :options="options" showType="button" class="mb"></o-radio>
+
+    <o-descriptions :options="DataSource.descData" :column="radioValue" ></o-descriptions>
+  </div>
 </template>
