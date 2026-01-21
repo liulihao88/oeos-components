@@ -10,16 +10,16 @@
 OForm/base
 :::
 
-### 通常用法
-
-:::demo
-OForm/usually
-:::
-
 ### 每行展示多少项
 
 :::demo
 OForm/column
+:::
+
+<!-- ### 通常用法
+
+:::demo
+OForm/usually
 :::
 
 ### 远程返回的表单数据
@@ -32,7 +32,7 @@ OForm/remote
 
 :::demo 直接在一个对象里, 处理默认数据和校验规则
 OForm/directives
-:::
+::: -->
 
 ## 属性
 
@@ -48,7 +48,7 @@ OForm/directives
 |    label    | 左侧显示的label值     | string, slot, render | -         |
 |    prop     | 值对应的属性          | string               | -         |
 |    comp     | 要渲染的组件名称      | string               | 'o-input' |
-|  formAttrs  | form绑定的属性        | object               | -         |
+|    attrs    | form绑定的属性        | object               | -         |
 |    rules    | 每一项对应的rules规则 | object               | -         |
 | labelRender | 对label的render渲染   | Function             | -         |
 |  imgAttrs   | 左侧图片的属性        | object               | -         |

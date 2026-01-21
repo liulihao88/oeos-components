@@ -1,23 +1,20 @@
 <script setup lang="ts" name="OForm">
 import { ref } from 'vue'
 import RenderComp from './renderComp.vue'
-import { validForm, isEmpty } from '@/utils/src'
-import OIcon from '@/components/icon'
-import OTooltip from '@/components/tooltip'
+import { validForm, isEmpty } from '@oeos-components/utils'
+import OIcon from '@/components/icon/src/index.vue'
+import OTooltip from '@/components/tooltip/src/index.vue'
 
-const props = defineProps({
-  fieldList: {
-    type: Object,
-    required: true,
-  },
-  model: {
-    type: Object,
-    required: true,
-  },
-  showFooter: {
-    type: Boolean,
-    default: true,
-  },
+export interface FormSelfProps {
+  fieldList: Record<string, any>
+  model: Record<string, any>
+  showFooter: boolean
+  column: 1 | 2 | 3 | 4 | 5 | 6
+}
+
+const props = withDefaults(defineProps<FormSelfProps>(), {
+  showFooter: true,
+  column: 1,
 })
 
 // placeholder的显示
@@ -38,6 +35,9 @@ async function validate(isResetFields = false, otherParams = {}) {
   if (isResetFields) {
     resetFields()
   }
+}
+const submit = () => {
+  validate()
 }
 function resetFields() {
   oFormRef.value.resetFields()
@@ -63,6 +63,13 @@ function mergeRules(rules) {
   return mRules
 }
 
+// label与输入框的布局方式
+const getChildWidth = (item: { widthSize: any }) => {
+  console.log(`71 item`, item)
+  console.log(`51 props.column`, props.column)
+  return `flex: 0 1 ${100 / (item.column || props.column)}%;`
+}
+
 defineExpose({
   validate: validate,
   resetFields: resetFields,
@@ -71,13 +78,14 @@ defineExpose({
 
 <template>
   <div>
-    <el-form ref="oFormRef" :model="model" v-bind="{ 'label-width': 'auto', ...$attrs }">
+    <el-form ref="oFormRef" :model="model" v-bind="{ 'label-width': 'auto', ...$attrs }" class="o-form">
       <el-form-item
         v-for="(v, i) in fieldList"
         :key="i"
         :prop="v.prop"
         :label="v.label"
-        v-bind="v.formAttrs"
+        v-bind="v.attrs"
+        :style="getChildWidth(v)"
         :rules="mergeRules(v.rules)"
       >
         <template #label>
@@ -101,14 +109,14 @@ defineExpose({
             :is="v.comp || 'o-input'"
             :placeholder="getPlaceholder(v)"
             :rules="v.rules"
-            v-bind="{ clearable: true, filterable: true, ...v.attrs }"
+            v-bind="{ clearable: true, filterable: true, width: '100%', ...v.attrs }"
             v-directives="v.directives"
           ></component>
         </template>
       </el-form-item>
     </el-form>
     <o-flex justify="center" v-if="showFooter">
-      <el-button type="primary" @click="validate" size="small">提交</el-button>
+      <el-button type="primary" @click="submit" size="small">提交</el-button>
       <el-button type="" @click="resetFields" size="small">重置</el-button>
       <el-button type="danger" @click="clearFieldsValidate" size="small">清除校验</el-button>
     </o-flex>
@@ -116,7 +124,24 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
+.o-form {
+  display: flex;
+  flex-wrap: wrap;
+}
 :deep(.el-form-item__label) {
   align-items: center;
+}
+:deep(.el-form-item) {
+  align-items: center;
+
+  .el-form-item__content {
+    .el-input,
+    .el-select,
+    .el-date-editor,
+    .el-input-number,
+    .el-textarea {
+      width: 100%;
+    }
+  }
 }
 </style>
