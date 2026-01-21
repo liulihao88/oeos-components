@@ -43,8 +43,7 @@ const handleWidth = computed(() => {
 
 <template>
   <el-switch
-    v-bind="$attrs"
-    inline-prompt
+    v-bind="{ 'inline-prompt': true, ...$attrs }"
     class="o-custom-switch"
     :loading="loading"
     :before-change="beforeChangeHandler"
