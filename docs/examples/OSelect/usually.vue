@@ -74,13 +74,17 @@ const handleCheckAll = (val) => {
 
 <template>
   <div>
-    <o-select v-model="selectVal" :options="options" label="name" value="id"></o-select>
-    <o-title title="有禁用选项" t="10">
-      <o-select v-model="selectVal" :options="baseOptions" :itemDisabled="(item) => item.disabled"></o-select>
-    </o-title>
-    <o-title title="输入框尺寸 " sub-title="size: '' | 'large' | 'default' | 'small'" t="10">
-      <o-select v-model="selectVal" :options="baseOptions" size="small"></o-select>
-    </o-title>
+    <o-flex direction="column" gap="8">
+      <o-select v-model="selectVal" :options="options" label="name" value="id" title="value和label分别设置"></o-select>
+      <o-select
+        title="有禁用状态"
+        v-model="selectVal"
+        :options="baseOptions"
+        :itemDisabled="(item) => item.disabled"
+      ></o-select>
+  
+    </o-flex>
+
     <o-title title="禁用状态, 可清空" sub-title="disabled, clearable" t="10">
       <o-select v-model="selectVal" :options="baseOptions" size="large" disabled clearable></o-select>
     </o-title>
@@ -95,7 +99,7 @@ const handleCheckAll = (val) => {
       </o-select>
     </o-title>
 
-    <o-title title="filterable: 筛选选项"></o-title>
+    
   </div>
 </template>
 

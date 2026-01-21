@@ -21,6 +21,7 @@ function change(...rest) {
 <template>
   <div>
     <o-select
+      title="你好"
       v-model="optionsId"
       multiple
       label="name"
