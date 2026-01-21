@@ -95,7 +95,7 @@
 */
 import { ref, getCurrentInstance, computed, useAttrs, watch } from 'vue'
 import { useVModel } from '@vueuse/core'
-import { processWidth, getType } from '@/utils/src'
+import { processWidth, getType } from '@oeos-components/utils'
 const attrs = useAttrs()
 
 const props = defineProps({

@@ -7,10 +7,6 @@
     <el-radio-button :value="5">一行展示5项</el-radio-button>
   </el-radio-group>
   <o-form ref="TFormDemo" :model="formData" :fieldList="fieldList" :column="widthSize" />
-
-  {{ formData }}
-
-  o-switch
 </template>
 
 <script setup lang="tsx">

@@ -1,17 +1,20 @@
-<script setup lang="ts" name="OSwitch">
-/** @使用方式
- <o-switch
-    v-model="form.enableMetaDataInject"
-    disabled
-    active-text="开启管理控制1"
-  ></o-switch>
-*/
+<script setup lang="ts">
+import { computed } from 'vue'
+import { processWidth } from '@oeos-components/utils'
 import { ref, getCurrentInstance } from 'vue'
+
+defineOptions({
+  name: 'OSwitch',
+})
 const { proxy } = getCurrentInstance()
 
 const props = defineProps({
   beforeChange: {
     type: Function,
+  },
+  width: {
+    type: [String, Number],
+    default: '',
   },
 })
 
@@ -29,6 +32,15 @@ const beforeChangeHandler = async () => {
     loading.value = false // 无论成功失败，都关闭 loading
   }
 }
+
+const handleWidth = computed(() => {
+  if (!props.width) {
+    return 'unset'
+  }
+  let inputWidth = processWidth(props.width, true)
+  console.log(`41 inputWidth`, inputWidth);
+  return inputWidth
+})
 </script>
 
 <template>
@@ -38,6 +50,7 @@ const beforeChangeHandler = async () => {
     class="o-custom-switch"
     :loading="loading"
     :before-change="beforeChangeHandler"
+    :style="{ '--switch-width': handleWidth }"
   />
 </template>
 
@@ -56,6 +69,9 @@ const beforeChangeHandler = async () => {
     margin-left: 8px;
     margin-right: 0;
     font-weight: 900;
+  }
+  :deep(.el-switch__core) {
+    width: var(--switch-width) !important;
   }
 }
 </style>
