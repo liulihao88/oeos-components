@@ -14,6 +14,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  showFooter: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 // placeholder的显示
@@ -37,6 +41,10 @@ async function validate(isResetFields = false, otherParams = {}) {
 }
 function resetFields() {
   oFormRef.value.resetFields()
+}
+
+function clearFieldsValidate() {
+  oFormRef.value.clearValidate()
 }
 function mergeRules(rules) {
   if (isEmpty(rules)) {
@@ -99,6 +107,11 @@ defineExpose({
         </template>
       </el-form-item>
     </el-form>
+    <o-flex justify="center" v-if="showFooter">
+      <el-button type="primary" @click="validate" size="small">提交</el-button>
+      <el-button type="" @click="resetFields" size="small">重置</el-button>
+      <el-button type="danger" @click="clearFieldsValidate" size="small">清除校验</el-button>
+    </o-flex>
   </div>
 </template>
 
