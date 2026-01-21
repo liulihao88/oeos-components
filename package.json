@@ -1,6 +1,7 @@
 {
   "name": "oeos-components",
   "version": "0.3.78",
+  "description": "Vue3 中基于Element-plus二次封装基础组件文档",
   "private": false,
   "type": "module",
   "main": "dist/oeos-components-es.js",
@@ -10,7 +11,6 @@
   "files": [
     "dist"
   ],
-  
   "scripts": {
     "dev": "vitepress dev docs",
     "build": "vite build",
