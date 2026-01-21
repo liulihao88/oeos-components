@@ -6,7 +6,6 @@ import { ref, getCurrentInstance } from 'vue'
 defineOptions({
   name: 'OSwitch',
 })
-const { proxy } = getCurrentInstance()
 
 const props = defineProps({
   beforeChange: {
@@ -38,7 +37,6 @@ const handleWidth = computed(() => {
     return 'unset'
   }
   let inputWidth = processWidth(props.width, true)
-  console.log(`41 inputWidth`, inputWidth);
   return inputWidth
 })
 </script>
