@@ -61,14 +61,14 @@
       </el-option>
     </el-select>
 
-    <div class="o-select__select-box" v-if="showQuick && !parseDisabled && sOptions.length > 0">
-      <div class="o-select__select-box__inner">
+    <span class="o-select__select-box" v-if="showQuick && !parseDisabled && sOptions.length > 0">
+      <span class="o-select__select-box__inner">
         <o-icon name="ArrowUp" :size="attrs.size === 'small' ? 10 : 14" @click="quickSelect(false)"></o-icon>
         <div class="h-1 w-100% cl-blue bg-line"></div>
         <o-icon name="ArrowDown" :size="attrs.size === 'small' ? 10 : 14" @click="quickSelect(true)"></o-icon>
-      </div>
+      </span>
       <!-- <img :src="Loop" alt="" width="12px" /> -->
-    </div>
+    </span>
   </div>
 </template>
 
@@ -414,6 +414,7 @@ const urlParams = translateToPageinfo({
 .has-quick {
   :deep(.el-select__wrapper) {
     border-top-right-radius: 0;
+    gap: 0;
     border-bottom-right-radius: 0;
   }
 }
@@ -492,8 +493,6 @@ const urlParams = translateToPageinfo({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: var(--el-input-height);
-  min-height: 100%;
   color: var(--el-color-info);
   .o-select__select-box__inner {
     display: flex;

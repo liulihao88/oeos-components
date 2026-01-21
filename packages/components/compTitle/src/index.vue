@@ -17,7 +17,7 @@ const props = defineProps({
     default: () => ({}),
   },
 })
-const sizeMap = ['small', 'large']
+const sizeMap = ['small']
 
 const computedBoxStyle = computed(() => {
   if (props.boxStyle?.width) {
@@ -35,7 +35,7 @@ const sizeClass = computed(() => {
   return res
 })
 const sizeStyle = computed(() => {
-  let res = { height: !sizeMap.includes(String(attrs.size)) && '32px' }
+  let res = { height: attrs.size === 'small' ? '' : 'unset' }
   return res
 })
 </script>
@@ -58,6 +58,8 @@ const sizeStyle = computed(() => {
   vertical-align: middle;
   position: relative;
   border: 1px solid #dcdfe6;
+  // outline: 1px solid black;
+  box-sizing: border-box !important;
   border-right: 0 none;
   padding: 0 4px;
   white-space: nowrap;
@@ -66,8 +68,7 @@ const sizeStyle = computed(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 100%;
-  height: var(--el-input-height);
+  line-height: 100% !important;
   color: var(--el-color-info);
 }
 .o-comp-title + :deep(.el-input__wrapper) {

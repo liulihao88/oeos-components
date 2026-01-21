@@ -16,6 +16,12 @@ OSelect/base
 OSelect/usually
 :::
 
+### 尺寸
+
+:::demo
+OSelect/size
+:::
+
 ### 多选--隐藏多余标签的多选
 
 :::demo
