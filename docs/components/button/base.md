@@ -32,8 +32,8 @@ OButton/slots
 
 其他属性完继承el-button
 
-|    属性名    | 说明                | 类型         | 默认值 |
-| :----------: | ------------------- | ------------ | ------ |
-|   content    | tooltip的提示文字   | string       | ''     |
-|     time     | 防抖时长            | number(毫秒) | 0      |
-| tooltipAttrs | o-tooltip组件的属性 | Object   [去tooltip组件](http://localhost:9998/oeos-components/components/tooltip/base)     | {}     |
+|    属性名    | 说明                | 类型                                    | 默认值 |
+| :----------: | ------------------- | --------------------------------------- | ------ |
+|   content    | tooltip的提示文字   | string                                  | ''     |
+|     time     | 防抖时长            | number(毫秒)                            | 0      |
+| tooltipAttrs | o-tooltip组件的属性 | Object [去tooltip组件](../tooltip/base) | {}     |
