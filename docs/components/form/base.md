@@ -4,10 +4,16 @@
 
 ## Hidden Title {.md-hidden}
 
-<!-- ### 基础用法
+### 基础用法
 
 :::demo
 OForm/base
+:::
+
+### 多个属性
+
+:::demo
+OForm/other
 :::
 
 ### 每行展示多少项
@@ -26,7 +32,7 @@ OForm/rules
 
 :::demo
 OForm/slot
-::: -->
+:::
 
 ### 自定义 label jsx 渲染
 
