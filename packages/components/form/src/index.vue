@@ -105,6 +105,9 @@ defineExpose({
         <template v-if="v.useSlot">
           <slot :name="v.prop"></slot>
         </template>
+        <template v-else-if="v.render">
+          <render-comp :render="v.render" :item="v" />
+        </template>
         <template v-else>
           <component
             v-model="model[v.prop!]"

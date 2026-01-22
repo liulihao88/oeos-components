@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 export default defineComponent({
   name: 'RenderComp',
   props: {
@@ -7,7 +7,12 @@ export default defineComponent({
     item: Object,
   },
   render(ctx) {
-    return ctx.render(ctx?.item)
+    // 如果 render 函数存在，调用它并传递 item 参数
+    if (ctx.render) {
+      return ctx.render(ctx?.item)
+    }
+    // 返回空节点
+    return h('div')
   },
 })
 </script>
