@@ -4,7 +4,7 @@
 
 ## Hidden Title {.md-hidden}
 
-### 基础用法
+<!-- ### 基础用法
 
 :::demo
 OForm/base
@@ -20,6 +20,18 @@ OForm/column
 
 :::demo
 OForm/rules
+:::
+
+### 插槽
+
+:::demo
+OForm/slot
+::: -->
+
+### 自定义 label jsx 渲染
+
+:::demo
+OForm/render
 :::
 
 ### 事件
