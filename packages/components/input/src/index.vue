@@ -1,5 +1,5 @@
 <template>
-  <div class="o-input" v-bind="subAttrs" :style="{ ...handleWidth() }">
+  <div class="o-input" v-bind="subAttrs" :style="mergedStyle" :class="$attrs.class">
     <el-tooltip :content="'' + data" :disabled="inWidth || hideTooltip" v-bind="tooltipAttrs">
       <div>
         <el-autocomplete
@@ -97,6 +97,10 @@ import { ref, getCurrentInstance, computed, useAttrs, watch } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { processWidth, getType } from '@oeos-components/utils'
 const attrs = useAttrs()
+
+defineOptions({
+  inheritAttrs: false
+})
 
 const props = defineProps({
   modelValue: {
@@ -282,6 +286,15 @@ const mergedAttrs = computed(() => {
     }, {}),
   }
   return merged
+})
+
+const mergedStyle = computed(() => {
+  // ensure both parts are objects before spreading to avoid TS spread errors
+  const w = handleWidth()
+  return {
+    ...(typeof w === 'object' && w ? w : {}),
+    ...(typeof attrs.style === 'object' && attrs.style ? attrs.style : {}),
+  }
 })
 </script>
 

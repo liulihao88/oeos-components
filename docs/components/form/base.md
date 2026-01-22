@@ -16,6 +16,12 @@ OForm/base
 OForm/column
 :::
 
+### 事件
+
+:::demo
+OForm/event
+:::
+
 <!-- ### 通常用法
 
 :::demo

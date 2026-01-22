@@ -5,6 +5,10 @@ import { validForm, isEmpty } from '@oeos-components/utils'
 import OIcon from '@/components/icon/src/index.vue'
 import OTooltip from '@/components/tooltip/src/index.vue'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 export interface FormSelfProps {
   fieldList: Record<string, any>
   model: Record<string, any>
@@ -65,8 +69,6 @@ function mergeRules(rules) {
 
 // label与输入框的布局方式
 const getChildWidth = (item: { widthSize: any }) => {
-  console.log(`71 item`, item)
-  console.log(`51 props.column`, props.column)
   return `flex: 0 1 ${100 / (item.column || props.column)}%;`
 }
 
@@ -84,7 +86,7 @@ defineExpose({
         :key="i"
         :prop="v.prop"
         :label="v.label"
-        v-bind="v.attrs"
+        v-bind="v.formItemAttrs"
         :style="getChildWidth(v)"
         :rules="mergeRules(v.rules)"
       >

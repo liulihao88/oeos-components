@@ -23,7 +23,7 @@ const formData = ref({
   password: null, // *用户密码
   name: null, // *用户昵称
   sex: null, // *性别: 0:男 1:女
-  hobby: [], // *爱好: 0:男 1:女
+  hobby: [], // *爱好
   phone: null, // 手机号码
   createDate: null, // 创建时间
   valDate: null, // el日期选择范围
@@ -60,6 +60,7 @@ const fieldList = [
       options: [
         { label: '男人', value: 'man' },
         { label: '女人', value: 'woman' },
+        { label: '中性人', value: 'middle' },
       ],
     },
   },
