@@ -16,6 +16,12 @@ OForm/base
 OForm/column
 :::
 
+### 表单校验规则
+
+:::demo
+OForm/rules
+:::
+
 ### 事件
 
 :::demo

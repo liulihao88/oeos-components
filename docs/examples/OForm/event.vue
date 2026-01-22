@@ -1,7 +1,5 @@
 <template>
   <o-form ref="TFormDemo" :model="formData" :fieldList="fieldList" :column="1" />
-  <o-input v-model="cc" @input="(v) => console.log(v)" title="1233" class="m-l-100" />
-  <el-input v-model="cc" @input="(v) => console.log(v)" />
 </template>
 
 <script setup lang="tsx">

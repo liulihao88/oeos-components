@@ -1,22 +1,24 @@
 <template>
-  <el-radio-group v-model="column" size="small" style="margin-bottom: 15px">
-    <el-radio-button :value="1">一行展示</el-radio-button>
-    <el-radio-button :value="2">一行展示2项</el-radio-button>
-    <el-radio-button :value="3">一行展示3项</el-radio-button>
-    <el-radio-button :value="4">一行展示4项</el-radio-button>
-    <el-radio-button :value="5">一行展示5项</el-radio-button>
-  </el-radio-group>
-  <o-form ref="TFormDemo" :model="formData" :fieldList="fieldList" :column="column" />
+  <o-form ref="TFormDemo" :model="formData" :fieldList="fieldList" :column="column" :rules="rules" />
 </template>
 
 <script setup lang="tsx">
 import { ref } from 'vue'
+import { validate } from '@oeos-components/utils'
 import type { Ref } from 'vue'
 
 interface ColumnType {
   column?: 1 | 2 | 3 | 4 | 5 | 6 | undefined
 }
-const column = ref(4) as Ref<ColumnType['column']>
+const column = ref(2) as Ref<ColumnType['column']>
+
+const rules = {
+  name: [validate()],
+  sex: [validate('请选择')],
+  password: [validate('请输入密码')],
+  phone: [validate('mobile')],
+  email: [validate('email')],
+}
 
 const formData = ref({
   account: 'wocwin', // *用户账号
@@ -35,6 +37,16 @@ const formData = ref({
   number: 3, // 计算器
   status: 1, // *状态: 0：停用，1：启用(默认为1)',
 })
+
+async function validateNumber(rule, value, callback) {
+  if (value < 10) {
+    callback(new Error('不能小于10'))
+  } else if (value > 20) {
+    callback(new Error('不能大于20'))
+  } else {
+    callback()
+  }
+}
 
 const fieldList = [
   {
@@ -65,9 +77,10 @@ const fieldList = [
     },
   },
   {
-    label: '爱好',
+    label: '爱好(单独rules)',
     prop: 'hobby',
     comp: 'o-checkbox',
+    rules: [validate('请选择')],
     attrs: {
       showAll: false,
       options: [
@@ -114,11 +127,9 @@ const fieldList = [
     label: '计数器',
     prop: 'number',
     comp: 'el-input-number',
+    rules: [{ validator: validateNumber, trigger: [] }],
     attrs: {
-      min: 2,
-      max: 99,
-      precision: 1,
-      step: 0.1,
+      precision: 0,
     },
   },
   {
