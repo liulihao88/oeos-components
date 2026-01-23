@@ -17,7 +17,7 @@ export interface FormSelfProps {
 }
 
 const props = withDefaults(defineProps<FormSelfProps>(), {
-  showFooter: true,
+  showFooter: import.meta.env.DEV ? true : false,
   column: 1,
 })
 
@@ -87,15 +87,19 @@ const parseIsShow = (item) => {
 const showFormValue = () => {
   $toast({
     dangerouslyUseHTMLString: true,
-    message: `<pre>${JSON.stringify(props.model, null, 2)}</pre>`,
+    message: `<pre style="max-height: 90vh; overflow-y: auto; overflow-x: hidden">${JSON.stringify(props.model, null, 2)}</pre>`,
     type: 'success',
-    duration: 5000,
+    duration: 0,
+    showClose: true,
   })
+}
+const showFieldListValue = () => {
   $toast({
     dangerouslyUseHTMLString: true,
-    message: `<pre>${JSON.stringify(props.fieldList, null, 2)}</pre>`,
+    message: `<pre style="max-height: 90vh; overflow-y: auto; overflow-x: hidden">${JSON.stringify(sFieldList.value, null, 2)}</pre>`,
     type: 'success',
-    duration: 5000,
+    duration: 0,
+    showClose: true,
   })
 }
 
@@ -165,6 +169,7 @@ defineExpose({
       <el-button type="" @click="resetFields" size="small">重置</el-button>
       <el-button type="danger" @click="clearValidate" size="small">清除校验</el-button>
       <el-button type="danger" @click="showFormValue" size="small">查看form的值</el-button>
+      <el-button type="danger" @click="showFieldListValue" size="small">查看fieldList的值</el-button>
     </o-flex>
   </div>
 </template>

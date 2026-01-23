@@ -11,7 +11,7 @@
 
 <script setup lang="tsx">
 import { ref, reactive } from 'vue'
-import { validate } from '@oeos-components/utils'
+import { validateTrigger } from '@oeos-components/utils'
 
 const formData = ref({
   account: '', // *用户账号
@@ -19,7 +19,7 @@ const formData = ref({
 })
 
 const rules = {
-  account: [validate()],
+  account: [validateTrigger()],
 }
 
 const fieldList = [
