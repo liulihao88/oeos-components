@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, computed } from 'vue'
-import { validateTrigger } from '@oeos-components/utils'
+import { validateTrigger, sleep } from '@oeos-components/utils'
+const oFormRef = ref()
 const form = ref({
   account: '',
   domains: [
@@ -39,8 +40,10 @@ const newAdd = () => {
     value: '',
   })
 }
-const deleteItem = (i) => {
+const deleteItem = async (i) => {
   form.value.domains.splice(i, 1)
+  await sleep(0)
+  oFormRef.value.clearValidate()
 }
 </script>
 

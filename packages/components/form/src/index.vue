@@ -49,7 +49,7 @@ function resetFields() {
   oFormRef.value.resetFields()
 }
 
-function clearFieldsValidate() {
+function clearValidate() {
   oFormRef.value.clearValidate()
 }
 function mergeRules(rules) {
@@ -112,6 +112,7 @@ watch(
 
 defineExpose({
   validate: validate,
+  clearValidate: clearValidate,
   resetFields: resetFields,
 })
 </script>
@@ -162,7 +163,7 @@ defineExpose({
     <o-flex justify="center" v-if="showFooter">
       <el-button type="primary" @click="submit" size="small">提交</el-button>
       <el-button type="" @click="resetFields" size="small">重置</el-button>
-      <el-button type="danger" @click="clearFieldsValidate" size="small">清除校验</el-button>
+      <el-button type="danger" @click="clearValidate" size="small">清除校验</el-button>
       <el-button type="danger" @click="showFormValue" size="small">查看form的值</el-button>
     </o-flex>
   </div>
