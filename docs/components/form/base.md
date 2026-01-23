@@ -16,9 +16,9 @@ OForm/base
 OForm/rules
 :::
 
-### 动态显隐
+### 动态显隐 `isShow`
 
-:::demo
+:::demo 
 OForm/isShow
 :::
 

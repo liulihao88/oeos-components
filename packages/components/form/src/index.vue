@@ -1,5 +1,5 @@
 <script setup lang="ts" name="OForm">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import RenderComp from './renderComp.vue'
 import { validForm, isEmpty, $toast } from '@oeos-components/utils'
 import OIcon from '@/components/icon/src/index.vue'
@@ -20,6 +20,8 @@ const props = withDefaults(defineProps<FormSelfProps>(), {
   showFooter: true,
   column: 1,
 })
+
+const sFieldList = ref(props.fieldList)
 
 // placeholder的显示
 const getPlaceholder = (row: any) => {
@@ -72,6 +74,16 @@ const getChildWidth = (item: { widthSize: any }) => {
   return `flex: 0 1 ${100 / (item.column || props.column)}%;`
 }
 
+const parseIsShow = (item) => {
+  if (item.isShow === undefined) {
+    return true
+  }
+  if (typeof item.isShow === 'function') {
+    return item.isShow(item)
+  }
+  return item.isShow
+}
+
 const showFormValue = () => {
   $toast({
     dangerouslyUseHTMLString: true,
@@ -87,9 +99,19 @@ const showFormValue = () => {
   })
 }
 
+watch(
+  () => props.fieldList,
+  (val) => {
+    sFieldList.value = val
+  },
+  {
+    deep: true,
+    immediate: true,
+  },
+)
+
 defineExpose({
   validate: validate,
-  
   resetFields: resetFields,
 })
 </script>
@@ -97,45 +119,45 @@ defineExpose({
 <template>
   <div>
     <el-form ref="oFormRef" :model="model" v-bind="{ 'label-width': 'auto', ...$attrs }" class="o-form">
-      <el-form-item
-        v-for="(v, i) in fieldList"
-        :key="i"
-        :prop="v.prop"
-        :label="v.label"
-        v-bind="v.formItemAttrs"
-        :style="getChildWidth(v)"
-        :rules="mergeRules(v.rules)"
-        v-if="v?.isShow === false ? false : true"
-      >
-        <template #label>
-          <template v-if="v.labelRender">
-            <render-comp :render="v.labelRender" :item="v" />
+      <template v-for="(v, i) in sFieldList" :key="i">
+        <el-form-item
+          :prop="v.prop"
+          :label="v.label"
+          v-bind="v.formItemAttrs"
+          :style="getChildWidth(v)"
+          :rules="mergeRules(v.rules)"
+          v-if="parseIsShow(v)"
+        >
+          <template #label>
+            <template v-if="v.labelRender">
+              <render-comp :render="v.labelRender" :item="v" />
+            </template>
+            <template v-else>
+              <slot :name="v.prop + '-label'">
+                <img v-if="v.imgAttrs?.src" :src="v.imgAttrs?.src" class="h-16" v-bind="v.imgAttrs" />
+                <o-icon v-else-if="v.imgAttrs?.name" :name="v.imgAttrs?.name" class="m-r-4" v-bind="v.imgAttrs" />
+                <o-tooltip :content="v.label" />
+              </slot>
+            </template>
+          </template>
+          <template v-if="v.useSlot">
+            <slot :name="v.prop"></slot>
+          </template>
+          <template v-else-if="v.render">
+            <render-comp :render="v.render" :item="v" />
           </template>
           <template v-else>
-            <slot :name="v.prop + '-label'">
-              <img v-if="v.imgAttrs?.src" :src="v.imgAttrs?.src" class="h-16" v-bind="v.imgAttrs" />
-              <o-icon v-else-if="v.imgAttrs?.name" :name="v.imgAttrs?.name" class="m-r-4" v-bind="v.imgAttrs" />
-              <o-tooltip :content="v.label" />
-            </slot>
+            <component
+              v-model="model[v.prop!]"
+              :is="v.comp || 'o-input'"
+              :placeholder="getPlaceholder(v)"
+              :rules="v.rules"
+              v-bind="{ clearable: true, filterable: true, width: '100%', ...v.attrs }"
+              v-directives="v.directives"
+            ></component>
           </template>
-        </template>
-        <template v-if="v.useSlot">
-          <slot :name="v.prop"></slot>
-        </template>
-        <template v-else-if="v.render">
-          <render-comp :render="v.render" :item="v" />
-        </template>
-        <template v-else>
-          <component
-            v-model="model[v.prop!]"
-            :is="v.comp || 'o-input'"
-            :placeholder="getPlaceholder(v)"
-            :rules="v.rules"
-            v-bind="{ clearable: true, filterable: true, width: '100%', ...v.attrs }"
-            v-directives="v.directives"
-          ></component>
-        </template>
-      </el-form-item>
+        </el-form-item>
+      </template>
     </el-form>
     <o-flex justify="center" v-if="showFooter">
       <el-button type="primary" @click="submit" size="small">提交</el-button>
