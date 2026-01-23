@@ -1,7 +1,7 @@
 <script setup lang="ts" name="OForm">
 import { ref } from 'vue'
 import RenderComp from './renderComp.vue'
-import { validForm, isEmpty } from '@oeos-components/utils'
+import { validForm, isEmpty, $toast } from '@oeos-components/utils'
 import OIcon from '@/components/icon/src/index.vue'
 import OTooltip from '@/components/tooltip/src/index.vue'
 
@@ -72,6 +72,21 @@ const getChildWidth = (item: { widthSize: any }) => {
   return `flex: 0 1 ${100 / (item.column || props.column)}%;`
 }
 
+const showFormValue = () => {
+  $toast({
+    dangerouslyUseHTMLString: true,
+    message: `<pre>${JSON.stringify(props.model, null, 2)}</pre>`,
+    type: 'success',
+    duration: 5000,
+  })
+  $toast({
+    dangerouslyUseHTMLString: true,
+    message: `<pre>${JSON.stringify(props.fieldList, null, 2)}</pre>`,
+    type: 'success',
+    duration: 5000,
+  })
+}
+
 defineExpose({
   validate: validate,
   resetFields: resetFields,
@@ -124,6 +139,7 @@ defineExpose({
       <el-button type="primary" @click="submit" size="small">提交</el-button>
       <el-button type="" @click="resetFields" size="small">重置</el-button>
       <el-button type="danger" @click="clearFieldsValidate" size="small">清除校验</el-button>
+      <el-button type="danger" @click="showFormValue" size="small">查看form的值</el-button>
     </o-flex>
   </div>
 </template>

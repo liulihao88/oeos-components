@@ -16,6 +16,12 @@ OForm/base
 OForm/other
 :::
 
+## 添加/删除表单项
+
+:::demo
+OForm/active
+:::
+
 ### 每行展示多少项
 
 :::demo

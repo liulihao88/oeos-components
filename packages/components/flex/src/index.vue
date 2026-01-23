@@ -54,7 +54,6 @@ const props = defineProps({
 // --- 计算 Style ---
 const flexStyles = computed(() => {
   let gapValue = parseGapValue()
-  console.log(`14 gapValue`, gapValue)
 
   return {
     'flex-direction': props.direction,
@@ -68,7 +67,6 @@ const flexStyles = computed(() => {
 
 function parseGapValue() {
   let gap = props.gap
-  console.log(`14 gap`, gap);
   if (gap === 'small') {
     return '8px'
   } else if (gap === 'default') {

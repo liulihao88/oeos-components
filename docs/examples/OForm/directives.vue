@@ -11,7 +11,6 @@ const rules = {
   password: [proxy.validate()],
 }
 const changeIpt = (val) => {
-  console.log(`22 val`, val)
   console.log('changeIpt')
 }
 const isDisabled = ref(true)

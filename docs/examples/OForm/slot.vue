@@ -1,5 +1,5 @@
 <template>
-  <o-form ref="TFormDemo" :model="formData" :fieldList="fieldList" :column="1">
+  <o-form ref="TFormDemo" :model="formData" :fieldList="fieldList" :column="1" :rules="rules">
     <template #account-label>
       <div class="cl-blue">account-label</div>
     </template>
@@ -11,11 +11,16 @@
 
 <script setup lang="tsx">
 import { ref, reactive } from 'vue'
+import { validate } from '@oeos-components/utils'
 
 const formData = ref({
   account: '', // *用户账号
   password: null, // *用户密码
 })
+
+const rules = {
+  account: [validate()],
+}
 
 const fieldList = [
   {

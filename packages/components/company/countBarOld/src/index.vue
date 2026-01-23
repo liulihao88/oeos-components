@@ -153,7 +153,6 @@ function _parseYAxisMax(yData) {
   let toBytes = formatBytes(getMax)
   console.log(`57 toBytes`, toBytes)
   let toUpperBytes = roundUpToNearestKB(toBytes)
-  console.log(`22 toUpperBytes`, toUpperBytes)
   let max = formatBytesConvert(toUpperBytes)
   console.log(`48 max`, max)
   initOption.yAxis[1].max = max
