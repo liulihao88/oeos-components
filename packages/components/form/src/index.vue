@@ -89,6 +89,7 @@ const showFormValue = () => {
 
 defineExpose({
   validate: validate,
+  
   resetFields: resetFields,
 })
 </script>
@@ -104,6 +105,7 @@ defineExpose({
         v-bind="v.formItemAttrs"
         :style="getChildWidth(v)"
         :rules="mergeRules(v.rules)"
+        v-if="v?.isShow === false ? false : true"
       >
         <template #label>
           <template v-if="v.labelRender">

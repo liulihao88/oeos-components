@@ -10,6 +10,18 @@
 OForm/base
 :::
 
+### 表单校验规则
+
+:::demo
+OForm/rules
+:::
+
+### 动态显隐
+
+:::demo
+OForm/isShow
+:::
+
 ### 多个属性
 
 :::demo
@@ -28,11 +40,7 @@ OForm/active
 OForm/column
 :::
 
-### 表单校验规则
 
-:::demo
-OForm/rules
-:::
 
 ### 插槽
 
