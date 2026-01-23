@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, watch, computed, toRaw } from 'vue'
-import * as utils from '@oeos-components/utils'
-const { proxy } = getCurrentInstance()
- proxy.$toast(1234)
-const { validate, validForm } = proxy
+import { validateTrigger, validate, validForm } from '@oeos-components/utils'
 const formRef = ref(null)
 const form = ref({})
 
 const rules = computed(() => {
   return {
     number: [validate('number')],
-    number2: [proxy.validateTrigger('number')],
+    number2: [validateTrigger('number')],
   }
 })
 const submit = async () => {
@@ -19,7 +16,7 @@ const submit = async () => {
 </script>
 
 <template>
-  <OFunctionSourceCode functionName="validate"></OFunctionSourceCode>
+  <OFunctionSourceCode functionName="validateTrigger"></OFunctionSourceCode>
   <div>
     <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
       <el-form-item label="只能输入正整数, 只有提交的时候才校验" prop="number">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, computed } from 'vue'
-import { validateTrigger, sleep } from '@oeos-components/utils'
+import { validateTrigger, validate, sleep } from '@oeos-components/utils'
 const oFormRef = ref()
 const form = ref({
   account: '',

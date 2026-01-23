@@ -662,6 +662,14 @@ export function sleep(delay: number = 0, fn?: () => void) {
   )
 }
 
+export function validateTrigger(type = 'required', rules = {}, pureValid = false) {
+  let mergeRules = {
+    trigger: ['blur', 'change'],
+    ...rules,
+  }
+  return validate(type, mergeRules, pureValid)
+}
+
 /** @使用方式 
  * 1. 在el-form中使用
 name: [ proxy.validate('name', { message: '你干嘛哈哈' })],
@@ -681,24 +689,13 @@ confirmRegPwd: [
  let ip = proxy.validate('ip', 122322, true)
  let custom = proxy.validate('custom', { value: -123, reg: /^-\d+\.?\d{0,2}$/ }, true)
 */
-
-export function validateTrigger(type = 'required', rules = {}, pureValid = false) {
-  let mergeRules = {
-    trigger: ['blur', 'change'],
-    ...rules,
-  }
-  return validate(type, mergeRules, pureValid)
-}
-export function validate(type = 'required', rules = {}, pureValid = false) {
-  // 如果第一个参数是对象, 则相当于重载
-  if (getType(type) === 'object') {
-    pureValid = rules || false
-    rules = type
-    type = 'required'
-  }
-  // let trigger = rules.trigger || ['blur', 'change']
+export function validate(
+  type: string = 'required',
+  rules: Record<string, any> = {},
+  pureValid: boolean = false,
+) {
   let trigger = rules.trigger || []
-  const typeMaps = ['required', 'pwd', 'number', 'mobile', 'email', 'between', 'length', 'same', 'ip', 'port', 'custom']
+  const typeMaps = ['required', 'password', 'number', 'mobile', 'email', 'between', 'length', 'same', 'ip', 'port', 'custom']
   let parseRequired = rules.required ?? true
 
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
@@ -719,7 +716,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
 
   // validator: this.validateName,
   if (type === 'password') {
-    const validateName = (rule, value, callback) => {
+    const validateName = (rule: any, value: any, callback: (error?: Error) => void) => {
       let validFlag = /^[a-zA-Z0-9_-]+$/.test(value)
       if (!validFlag) {
         callback(new Error(rules.message || '密码只能由英文、数字、下划线、中划线组成'))
@@ -765,7 +762,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
   if (type === 'between') {
     let min = rules.min
     let max = rules.max
-    const validateBetween = (rule, value, callback) => {
+    const validateBetween = (rule: any, value: any, callback: (error?: Error) => void) => {
       let validFlag = /^-?[0-9]+$/.test(value)
       if (!validFlag) {
         callback(new Error('请输入数字'))
@@ -803,7 +800,7 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
   }
 
   if (type === 'same') {
-    const validateSame = (rule, value, callback) => {
+    const validateSame = (rule: any, value: any, callback: (error?: Error) => void) => {
       let isSame = value === rules.value
       if (!isSame) {
         const errMessage = rules.message || '密码和确认密码要一致'
@@ -830,11 +827,11 @@ export function validate(type = 'required', rules = {}, pureValid = false) {
     }
   }
 
-  function _validValue(rules, msg, pureValid, reg) {
+  function _validValue(rules: any, msg: string, pureValid: boolean, reg: RegExp) {
     if (pureValid === true) {
       return reg.test(rules)
     }
-    const validatePhone = (rule, value, callback) => {
+    const validatePhone = (rule: any, value: any, callback: (error?: Error) => void) => {
       let validFlag = reg.test(value)
       if (!validFlag) {
         callback(new Error(rules.message ?? msg))
