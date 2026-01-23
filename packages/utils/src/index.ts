@@ -670,44 +670,59 @@ export function validateTrigger(type = 'required', rules = {}, pureValid = false
   return validate(type, mergeRules, pureValid)
 }
 
-/** @使用方式 
+/**
+ * 表单验证函数，用于生成 Element UI 表单验证规则
+ *
+ * @example
  * 1. 在el-form中使用
-name: [ proxy.validate('name', { message: '你干嘛哈哈' })],
-between: [ proxy.validate('between', { max: 99 })],
-number: [ proxy.validate('number')],
-length: [proxy.validate('length')],
-mobile: [ proxy.validate('mobile')],
-ip: [ proxy.validate('ip')],
-custom: [proxy.validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })]
-confirmRegPwd: [
-  proxy.validate('same', { value: form.value.regPwd }),
-], //1. 如果判断两个密码一致, 还要在input输入值改变的时候, 再校验一下两个input
-  formRef.value.validate('regPwd')
-  formRef.value.validate('confirmRegPwd')
-  // 2. rules需要使用computed包裹, 否则值改变无法传递
+ * name: [ proxy.validate('name', { message: '你干嘛哈哈' })],
+ * between: [ proxy.validate('between', { min: 1, max: 99 })],
+ * number: [ proxy.validate('number')],
+ * length: [proxy.validate('length', {min: 1, max: 2})],
+ * mobile: [ proxy.validate('mobile')],
+ * port: [ proxy.validate('port')],
+ * ip: [ proxy.validate('ip')],
+ * custom: [proxy.validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })]
+ * confirmRegPwd: [
+ *   proxy.validate('same', { value: form.value.regPwd }),
+ * ], //1. 如果判断两个密码一致, 还要在input输入值改变的时候, 再校验一下两个input
+ *   formRef.value.validate('regPwd')
+ *   formRef.value.validate('confirmRegPwd')
+ *   // 2. rules需要使用computed包裹, 否则值改变无法传递
+ *
+ * @example
  * 2. 在函数中使用, 返回boolean
- let ip = proxy.validate('ip', 122322, true)
- let custom = proxy.validate('custom', { value: -123, reg: /^-\d+\.?\d{0,2}$/ }, true)
-*/
+ * let ip = proxy.validate('ip', 122322, true)
+ * let custom = proxy.validate('custom', { value: -123, reg: /^-\d+\.?\d{0,2}$/ }, true)
+ *
+ * @param type 验证类型，可以是 'required', 'password', 'number', 'positive', 'zeroPositive', 'integer', 'decimal', 'mobile', 'email', 'ip', 'port', 'between', 'length', 'same', 'custom' 中的一种，如果不属于这些类型，则会作为错误信息显示
+ * @param rules 验证规则配置对象，可包含 message, max, min, value, reg, required 等属性
+ * @param pureValid 是否直接返回验证结果的布尔值，默认为 false
+ * @returns 如果 pureValid 为 true，返回验证结果的布尔值；否则返回 Element UI 表单验证规则对象
+ */
+// 定义验证类型枚举
+enum ValidateType {
+  REQUIRED = 'required',
+  PASSWORD = 'password',
+  NUMBER = 'number',
+  POSITIVE = 'positive',
+  ZERO_POSITIVE = 'zeroPositive',
+  INTEGER = 'integer',
+  DECIMAL = 'decimal',
+  MOBILE = 'mobile',
+  EMAIL = 'email',
+  IP = 'ip',
+  PORT = 'port',
+  BETWEEN = 'between',
+  LENGTH = 'length',
+  SAME = 'same',
+  CUSTOM = 'custom',
+}
+
 export function validate(type: string = 'required', rules: Record<string, any> = {}, pureValid: boolean = false) {
   let trigger = rules.trigger || []
-  const typeMaps = [
-    'required',
-    'password',
-    'number',
-    'positive',
-    'zeroPositive',
-    'integer',
-    'decimal',
-    'mobile',
-    'email',
-    'ip',
-    'port',
-    'between',
-    'length',
-    'same',
-    'custom',
-  ]
+  // 使用枚举值组成的联合类型来确保类型安全
+  const typeMaps = Object.values(ValidateType) as string[]
   let parseRequired = rules.required ?? true
 
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
@@ -718,7 +733,7 @@ export function validate(type: string = 'required', rules: Record<string, any> =
       trigger: trigger,
     }
   }
-  if (type === 'required') {
+  if (type === ValidateType.REQUIRED) {
     return {
       required: parseRequired,
       message: rules.message ?? '请输入',
@@ -727,7 +742,7 @@ export function validate(type: string = 'required', rules: Record<string, any> =
   }
 
   // validator: this.validateName,
-  if (type === 'password') {
+  if (type === ValidateType.PASSWORD) {
     const validateName = (rule: any, value: any, callback: (error?: Error) => void) => {
       let validFlag = /^[a-zA-Z0-9_-]+$/.test(value)
       if (!validFlag) {
@@ -741,29 +756,29 @@ export function validate(type: string = 'required', rules: Record<string, any> =
       trigger: trigger,
     }
   }
-  if (type === 'positive' || type === 'number') {
+  if (type === ValidateType.POSITIVE || type === ValidateType.NUMBER) {
     // 正整数
     return _validValue(rules, '请输入正整数', pureValid, /^[1-9]+\d*$/)
   }
-  if (type === 'zeroPositive') {
+  if (type === ValidateType.ZERO_POSITIVE) {
     // 正整数且包含0
     return _validValue(rules, '请输入非负整数', pureValid, /^(0|[1-9]+\d*)$/)
   }
   // 整数, 包含负数和0
-  if (type === 'integer') {
+  if (type === ValidateType.INTEGER) {
     return _validValue(rules, '请输入整数', pureValid, /^(0|[-]?[1-9]\d*)$/)
   }
   // 非负数, 整数和最多2位小数
-  if (type === 'decimal') {
+  if (type === ValidateType.DECIMAL) {
     return _validValue(rules, '请输入非负数字, 包含小数且最多2位', pureValid, /(0|[1-9]\d*)(\.\d{1, 2})?|0\.\d{1,2}/)
   }
-  if (type === 'mobile') {
+  if (type === ValidateType.MOBILE) {
     return _validValue(rules, '请输入正确的手机号', pureValid, /^[1][0-9]{10}$/)
   }
-  if (type === 'email') {
+  if (type === ValidateType.EMAIL) {
     return _validValue(rules, '请输入正确的email', pureValid, /^[^\s@]+@[^\s@]+\.[^\s@]+$/)
   }
-  if (type === 'ip') {
+  if (type === ValidateType.IP) {
     return _validValue(
       rules,
       '请输入正确的ip地址',
@@ -771,7 +786,7 @@ export function validate(type: string = 'required', rules: Record<string, any> =
       /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
     )
   }
-  if (type === 'port') {
+  if (type === ValidateType.PORT) {
     return _validValue(
       rules,
       '请输入1-65535的端口号',
@@ -779,7 +794,7 @@ export function validate(type: string = 'required', rules: Record<string, any> =
       /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/,
     )
   }
-  if (type === 'between') {
+  if (type === ValidateType.BETWEEN) {
     let min = rules.min
     let max = rules.max
     const validateBetween = (rule: any, value: any, callback: (error?: Error) => void) => {
@@ -801,7 +816,7 @@ export function validate(type: string = 'required', rules: Record<string, any> =
       required: parseRequired,
     }
   }
-  if (type === 'length') {
+  if (type === ValidateType.LENGTH) {
     return {
       min: rules.min,
       max: rules.max,
@@ -811,7 +826,7 @@ export function validate(type: string = 'required', rules: Record<string, any> =
     }
   }
 
-  if (type === 'same') {
+  if (type === ValidateType.SAME) {
     const validateSame = (rule: any, value: any, callback: (error?: Error) => void) => {
       let isSame = value === rules.value
       if (!isSame) {
@@ -830,7 +845,7 @@ export function validate(type: string = 'required', rules: Record<string, any> =
     }
     return res
   }
-  if (type === 'custom') {
+  if (type === ValidateType.CUSTOM) {
     //  _validValue(rules, '请输入正确的手机号', pureValid, /^[1][0-9]{10}$/)
     if (pureValid) {
       return _validValue(rules.value, rules.message, pureValid, rules.reg)
