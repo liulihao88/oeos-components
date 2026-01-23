@@ -4,13 +4,13 @@
 
 ### 基础用法
 
-:::demo validate函数用法
+:::demo
 Utils/UValidate/base
 :::
 
 ### 高阶用法
 
-:::demo validate高阶用法
+:::demo
 Utils/UValidate/same
 :::
 
@@ -22,8 +22,6 @@ Utils/UValidate/noValid
 
 ### 立刻触发校验
 
-很多时候, 我们希望在change和blur的时候, 直接触发校验. 这时候可以使用validateTrigger
-
-:::demo validate立刻触发校验
+:::demo 很多时候, 我们希望在change和blur的时候, 直接触发校验. 这时候可以使用validateTrigger
 Utils/UValidate/validateTrigger
 :::

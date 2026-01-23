@@ -689,13 +689,25 @@ confirmRegPwd: [
  let ip = proxy.validate('ip', 122322, true)
  let custom = proxy.validate('custom', { value: -123, reg: /^-\d+\.?\d{0,2}$/ }, true)
 */
-export function validate(
-  type: string = 'required',
-  rules: Record<string, any> = {},
-  pureValid: boolean = false,
-) {
+export function validate(type: string = 'required', rules: Record<string, any> = {}, pureValid: boolean = false) {
   let trigger = rules.trigger || []
-  const typeMaps = ['required', 'password', 'number', 'mobile', 'email', 'between', 'length', 'same', 'ip', 'port', 'custom']
+  const typeMaps = [
+    'required',
+    'password',
+    'number',
+    'positive',
+    'zeroPositive',
+    'integer',
+    'decimal',
+    'mobile',
+    'email',
+    'ip',
+    'port',
+    'between',
+    'length',
+    'same',
+    'custom',
+  ]
   let parseRequired = rules.required ?? true
 
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
@@ -759,6 +771,14 @@ export function validate(
       /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
     )
   }
+  if (type === 'port') {
+    return _validValue(
+      rules,
+      '请输入1-65535的端口号',
+      pureValid,
+      /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/,
+    )
+  }
   if (type === 'between') {
     let min = rules.min
     let max = rules.max
@@ -789,14 +809,6 @@ export function validate(
       trigger: trigger,
       required: parseRequired,
     }
-  }
-  if (type === 'port') {
-    return _validValue(
-      rules,
-      '请输入1-65535的端口号',
-      pureValid,
-      /^([1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-5][0-5][0-3][0-5])$/,
-    )
   }
 
   if (type === 'same') {

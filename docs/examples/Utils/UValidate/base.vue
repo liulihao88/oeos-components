@@ -1,98 +1,104 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance, watch, computed } from 'vue'
+import { ref, getCurrentInstance, computed } from 'vue'
+import { $toast, validate } from '@/utils/src/index'
 const { proxy } = getCurrentInstance()
-const { validate, validForm } = proxy
-const formRef = ref(null)
-const form = ref({
-  // ip: '',
-  // newPwd: '',
-  // oldPwd: '',
+const form = ref({})
+const fieldList = computed(() => {
+  return [
+    {
+      label: 'validate()',
+      prop: 'name',
+      rules: [validate()],
+    },
+    {
+      label: 'validate("password")',
+      prop: 'password',
+      rules: [validate('password')],
+    },
+    {
+      label: 'validate("number")',
+      prop: 'number',
+      rules: [validate('number')],
+    },
+    {
+      label: 'validate("zeroPositive")',
+      prop: 'zeroPositive',
+      rules: [validate('zeroPositive')],
+    },
+    {
+      label: 'validate("integer")',
+      prop: 'integer',
+      rules: [validate('integer')],
+    },
+    {
+      label: 'validate("decimal")',
+      prop: 'decimal',
+      rules: [validate('decimal')],
+    },
+    {
+      label: 'validate("mobile")',
+      prop: 'mobile',
+      rules: [validate('mobile')],
+    },
+    {
+      label: 'validate("email")',
+      prop: 'email',
+      rules: [validate('email')],
+    },
+    {
+      label: 'validate("ip")',
+      prop: 'ip',
+      rules: [validate('ip')],
+    },
+    {
+      label: 'validate("port")',
+      prop: 'port',
+      rules: [validate('port')],
+    },
+    {
+      label: 'validate("between")',
+      prop: 'between',
+      rules: [validate('between')],
+    },
+    {
+      label: 'validate("between", {min: 1, max: 10})',
+      prop: 'between2',
+      rules: [validate('between', { min: 1, max: 10 })],
+    },
+    {
+      label: 'validate("length", {min:1, max:10})',
+      prop: 'length',
+      rules: [validate('length', { min: 1, max: 10 })],
+    },
+    {
+      label: 'validate("same") oldPwd',
+      prop: 'oldPwd',
+      rules: [validate('same', { value: form.value.newPwd })],
+    },
+    {
+      label: 'validate("same") newPwd',
+      prop: 'newPwd',
+      rules: [validate('same', { value: form.value.oldPwd })],
+    },
+    {
+      label: 'validate("custom")',
+      prop: 'custom',
+      rules: [validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })],
+    },
+  ]
 })
-const ip = ref()
-const ipValid = ref()
-
-const rules = computed(() => {
-  return {
-    name: [validate()],
-    number: [validate('number')],
-    between: [validate('between', { min: 3, max: 99 })],
-    between2: [validate('between', { min: 1 })],
-    length: [validate('length', { min: 3, max: 10 })],
-    mobile: [validate('mobile')],
-    email: [validate('email')],
-    ip: [validate('ip')],
-    custom: [validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })],
-    oldPwd: [validate('length', { min: 1, max: 40 }), validate('same', { value: form.value.newPwd })],
-    newPwd: [validate('length', { min: 1, max: 40 }), validate('same', { value: form.value.oldPwd })],
-  }
-})
-const submit = async () => {
-  await validForm(formRef)
-}
-
-const validIp = () => {
-  if (!validate('ip', ip.value, true)) {
-    ipValid.value = false
-  } else {
-    ipValid.value = true
-  }
-}
-
-// watch(
-//   ip,
-//   (val) => {
-//     validIp()
-//   },
-//   {
-//     deep: true,
-//     immediate: true,
-//   },
-// )
 </script>
 
 <template>
-  <OFunctionSourceCode functionName="validate"></OFunctionSourceCode>
   <div>
-    <o-warning
-      content="由于新旧密码比较相同的时候, 需要实时的获取新旧密码的值, 所以需要使用computed去监听当新旧密码值变化使的值. 如果不需要校验新旧密码值, 则不需要加compued"
-    ></o-warning>
-    <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
-      <el-form-item label="基础用法" prop="name">
-        <o-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="只能输入正整数" prop="number">
-        <o-input v-model="form.number" />
-      </el-form-item>
-      <el-form-item label="数字最小为3, 最大为99" prop="between">
-        <o-input v-model="form.between" />
-      </el-form-item>
-      <el-form-item label="数字最小为1, 最大不限" prop="between2">
-        <o-input v-model="form.between2" />
-      </el-form-item>
-      <el-form-item label="长度最短3, 最长10的位数" prop="length">
-        <o-input v-model="form.length" />
-      </el-form-item>
-      <el-form-item label="手机号" prop="mobile">
-        <o-input v-model="form.mobile" />
-      </el-form-item>
-      <el-form-item label="email" prop="email">
-        <o-input v-model="form.email" />
-      </el-form-item>
-      <el-form-item label="ip地址" prop="ip">
-        <o-input v-model="form.ip" />
-      </el-form-item>
-      <el-form-item label="旧密码" prop="oldPwd">
-        <o-input v-model="form.oldPwd" />
-      </el-form-item>
-      <el-form-item label="新密码" prop="newPwd">
-        <o-input v-model="form.newPwd" />
-      </el-form-item>
-      <el-form-item label="自定义" prop="custom">
-        <o-input v-model="form.custom" placeholder="请输入最多2位小数的不为负的数字" />
-      </el-form-item>
-    </el-form>
-
-    <el-button type="primary" @click="submit">提交</el-button>
-    <el-button type="info" @click="formRef.clearValidate()">清空校验</el-button>
+    <OFunctionSourceCode functionName="validate"></OFunctionSourceCode>
+    <o-title title="由于有特殊的相同字段的校验, 所以fieldList使用了compued, 正常情况下, 不需要computed"></o-title>
+    <o-form :fieldList="fieldList" :model="form" ref="oFormRef" :column="2" label-width="200">
+      <tempalte v-for="(v, i) in fieldList" :key="i">
+        <template #[`${v.prop}-label`]="{ item }">
+          <div>{{ item }}??</div>
+        </template>
+      </tempalte>
+    </o-form>
   </div>
 </template>

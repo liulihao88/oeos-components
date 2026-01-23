@@ -134,7 +134,7 @@ defineExpose({
               <render-comp :render="v.labelRender" :item="v" />
             </template>
             <template v-else>
-              <slot :name="v.prop + '-label'">
+              <slot :name="v.prop + '-label'" :item="v">
                 <img v-if="v.imgAttrs?.src" :src="v.imgAttrs?.src" class="h-16" v-bind="v.imgAttrs" />
                 <o-icon v-else-if="v.imgAttrs?.name" :name="v.imgAttrs?.name" class="m-r-4" v-bind="v.imgAttrs" />
                 <o-tooltip :content="v.label" />

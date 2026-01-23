@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, watch, computed, toRaw } from 'vue'
-import { validateTrigger, validate, validForm } from '@oeos-components/utils'
+// import { validateTrigger, validate, validForm } from '@oeos-components/utils'
+import { validateTrigger, validate, validForm } from '@/utils/src/index'
 const formRef = ref(null)
 const form = ref({})
 
 const rules = computed(() => {
   return {
-    number: [validate('number')],
-    number2: [validateTrigger('number')],
+    number: [validate('length', { min: 1, max: 2 })],
+    number2: [validateTrigger('length', { min: 1, max: 2 })],
   }
 })
 const submit = async () => {
@@ -19,10 +20,10 @@ const submit = async () => {
   <OFunctionSourceCode functionName="validateTrigger"></OFunctionSourceCode>
   <div>
     <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
-      <el-form-item label="只能输入正整数, 只有提交的时候才校验" prop="number">
+      <el-form-item label="长度1-2, 只有提交的时候才校验" prop="number">
         <o-input v-model="form.number" />
       </el-form-item>
-      <el-form-item label="change和blur都校验, 使用validateTrigger" prop="number2">
+      <el-form-item label="长度1-2, change和blur都校验, 使用validateTrigger" prop="number2">
         <o-input v-model="form.number2" />
       </el-form-item>
     </el-form>
