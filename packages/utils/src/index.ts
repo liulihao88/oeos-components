@@ -653,7 +653,7 @@ export function getType(type) {
  *   await sleep(500);
  * }
  */
-export function sleep(delay = 0, fn?: () => void) {
+export function sleep(delay: number = 0, fn?: () => void) {
   return new Promise<void>((resolve) =>
     setTimeout(() => {
       fn?.()
