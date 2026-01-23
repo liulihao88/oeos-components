@@ -3,8 +3,16 @@
     <o-radio v-model="size" :options="['large', 'default', 'small']" type="simple" showType="button"></o-radio>
 
     <o-radio v-model="labelPosition" :options="['left', 'right', 'top']" type="simple" showType="button"></o-radio>
+    <o-switch v-model="isDisabled" active-text="禁用" :inline-prompt="false"></o-switch>
   </o-flex>
-  <o-form ref="TFormDemo" :model="formData" :fieldList="fieldList" :size="size" :labelPosition="labelPosition" />
+  <o-form
+    ref="TFormDemo"
+    :model="formData"
+    :fieldList="fieldList"
+    :size="size"
+    :labelPosition="labelPosition"
+    :disabled="isDisabled"
+  />
 </template>
 
 <script setup lang="tsx">
@@ -13,6 +21,7 @@ import type { Ref } from 'vue'
 
 const size = ref('default')
 const labelPosition = ref('right')
+const isDisabled = ref(false)
 
 const formData = ref({
   account: 'wocwin', // *用户账号
@@ -40,11 +49,12 @@ const fieldList = [
     event: 'account',
   },
   {
-    label: '密码',
+    label: '密码(单个禁用)',
     prop: 'password',
     comp: 'el-input',
     attrs: {
       type: 'password',
+      disabled: true,
     },
   },
   { label: '昵称', prop: 'name', comp: 'el-input' },
