@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, computed } from 'vue'
-import { validate } from '@oeos-components/utils'
+import { validateTrigger } from '@oeos-components/utils'
 const form = ref({
   account: '',
   domains: [
@@ -24,7 +24,7 @@ const fieldList = computed(() => {
     dynamicItem.push({
       label: 'formDomains' + v.key,
       prop: 'domains.' + i + '.value',
-      rules: [validate()],
+      rules: [validateTrigger()],
       useSlot: true,
     })
   }
