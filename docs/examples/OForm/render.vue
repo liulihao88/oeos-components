@@ -1,6 +1,5 @@
 <template>
   <o-form ref="TFormDemo" :model="formData" :fieldList="fieldList" :column="1"></o-form>
-  {{ formData }}
 </template>
 
 <script setup lang="tsx">
@@ -9,6 +8,7 @@ import { validate } from '@oeos-components/utils'
 
 const formData = ref({
   account: '123', // *用户账号
+  date: [],
 })
 
 const fieldList = [
@@ -20,7 +20,6 @@ const fieldList = [
       return <div class="cl-red">labelRender渲染label</div>
     },
     render: (item) => {
-      console.log(`75 item`, item);
       return (
         <o-flex>
           <el-input
@@ -31,6 +30,23 @@ const fieldList = [
             }}
           />
           <o-warning content="render渲染value" class="ml" size="small"></o-warning>
+        </o-flex>
+      )
+    },
+  },
+
+  {
+    label: '日期',
+    prop: 'date',
+    rules: [validate()],
+    comp: 'o-date-range',
+    labelRender: () => {
+      return (
+        <o-flex align="center" gap="small">
+          日期组件
+          <el-tooltip content="自定义label" placement="right">
+            <o-icon name="warning"></o-icon>
+          </el-tooltip>
         </o-flex>
       )
     },
