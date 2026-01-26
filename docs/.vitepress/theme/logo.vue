@@ -19,6 +19,15 @@
     >
       <div class="visible-text">跳转packages(仅本地)</div>
     </el-button>
+    <el-button
+      type="primary"
+      size="small"
+      @click.stop.prevent="jumpUrl('test/base')"
+      class="dev-package-copy"
+      v-if="isDev"
+    >
+      <div class="visible-text">跳转测试页</div>
+    </el-button>
   </div>
 </template>
 
@@ -110,6 +119,8 @@ const jumpUrl = (type: string) => {
     if (compStr.startsWith('directives')) {
       vascodeUrl = `vscode://file${baseUrl}/packages/directives/gDirectives.js`
     }
+  } else if(type==='test/base'){
+    vascodeUrl = `vscode://file${baseUrl}/docs/examples/OTest/base.vue`
   }
   window.open(vascodeUrl, '_blank')
 }
