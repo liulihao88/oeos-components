@@ -36,10 +36,12 @@ const iptValue = ref('')
         },
       }"
     ></o-input>
+    {{ iptValue }}
 
     <o-input title="密码框" type="password" v-model="iptValue"></o-input>
 
     <o-input type="textarea" v-model="iptValue"></o-input>
+    <el-button type="primary" @click="proxy.$toast(iptValue)">测试12</el-button>
   </div>
 </template>
 

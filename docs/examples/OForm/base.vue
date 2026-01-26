@@ -16,7 +16,6 @@ const fieldList = [
   {
     label: '账号',
     prop: 'account',
-    comp: 'el-input',
   },
   {
     label: '密码',
