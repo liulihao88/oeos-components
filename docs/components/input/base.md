@@ -10,6 +10,38 @@
 OInput/base
 :::
 
+### other
+
+:::demo
+OInput/other
+:::
+
+### Modifiers
+<el-tag>注意</el-tag> : o-input默认设置`trim`为true, 去掉首尾空格. 如果不想要这个设置, 请设置`trim`为false
+:::demo 
+OInput/modifiers
+:::
+
+### 禁用状态
+
+:::demo
+OInput/disabled
+:::
+
+### 一键清空
+
+使用`clearable`属性即可得到一个可一键清空的输入框, `o-input`默认clearable是`true`的.
+
+:::demo
+OInput/clearable
+:::
+
+### 格式化
+
+:::demo
+OInput/formatter
+:::
+
 ### 通常用法
 
 :::demo
