@@ -1,6 +1,6 @@
 {
   "name": "oeos-components",
-  "version": "0.3.81",
+  "version": "0.3.82",
   "description": "Vue3 中基于Element-plus二次封装基础组件文档",
   "private": false,
   "type": "module",
