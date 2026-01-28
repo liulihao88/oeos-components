@@ -21,7 +21,7 @@ const ulContent = `
     <o-warning content="这是基础用法" title="我是title"></o-warning>
     <br />
     <o-warning
-      content="这是基础用法-size为small <code>这是code包裹内容</code> <blue>这是blue包裹内容</blue>, 并且设置了left <a href='http://www.baidu.com'>设置根路径</a>"
+      content="这是基础用法-size为small <code>这是code包裹内容</code> <blue>这是blue包裹内容</blue>, <strong>这是strong包裹的内容</strong> 并且设置了left <a href='http://www.baidu.com'>设置根路径</a>"
       size="small"
       left
     ></o-warning>
