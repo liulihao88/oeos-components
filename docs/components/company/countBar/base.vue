@@ -1,0 +1,122 @@
+<script setup lang="ts">
+import { ref, getCurrentInstance, computed } from 'vue'
+const { proxy } = getCurrentInstance()
+// const data = ref([
+//   { name: '<1023', value: 12345, value2: 9999999999999999999994513 },
+//   { name: '<2M', value: 3, value2: 444444 },
+// ])
+
+const data = ref({
+  inCount: {
+    '<1024B': 0,
+    '1K-1MB': 60,
+    '1MB-10MB': 35,
+    '10MB-50MB': 0,
+    '50MB-100MB': 2,
+    '100MB-500MB': 0,
+    '500MB-1GB': 0,
+    '1GB-5GB': 0,
+    '>5GB': 0,
+  },
+  inSize: {
+    '<1024B': 0,
+    '1K-1MB': 6564380,
+    '1MB-10MB': 88532114,
+    '10MB-50MB': 0,
+    '50MB-100MB': 197013682,
+    '100MB-500MB': 0,
+    '500MB-1GB': 0,
+    '1GB-5GB': 0,
+    '>5GB': 0,
+  },
+  updatetime: 0,
+})
+const data2 = {
+  inCount: {
+    '<1024B': 3,
+    '~1MB': 0,
+    '~10MB': 0,
+    '~50MB': 0,
+    '~100MB': 0,
+    '~500MB': 0,
+    '~1GB': 0,
+    '~5GB': 0,
+    '>5GB': 3,
+  },
+  inSize: {
+    '<1024B': 1711,
+    '~1MB': 0,
+    '~10MB': 0,
+    '~50MB': 0,
+    '~100MB': 0,
+    '~500MB': 0,
+    '~1GB': 0,
+    '~5GB': 0,
+    '>5GB': 16106127363,
+  },
+  updatetime: 0,
+}
+
+const data3 = ref({})
+
+setTimeout(() => {
+  data3.value = {
+    inCount: {
+      '~1MB': 0,
+      '~100MB': 0,
+      '~10MB': 0,
+      '~1GB': 0,
+      '~50MB': 0,
+      '~500MB': 0,
+      '~5GB': 0,
+      '<1024B': 0,
+      '>5GB': 0,
+    },
+    inSize: {
+      '~1MB': 0,
+      '~100MB': 0,
+      '~10MB': 0,
+      '~1GB': 0,
+      '~50MB': 0,
+      '~500MB': 0,
+      '~5GB': 0,
+      '<1024B': 0,
+      '>5GB': 0,
+    },
+    updatetime: 1753177062959,
+  }
+}, 1000)
+
+const newData = {
+  magazineList: ['701101', '701149', '701198', '701247'],
+  magazineInCount: {
+    '701101': 994,
+    '701149': 2690,
+    '701198': 2690,
+    '701247': 2690,
+  },
+  magazineInSize: {
+    '701101': 524469369,
+    '701149': 10760002690,
+    '701198': 10760002690,
+    '701247': 10760002690,
+  },
+  updateTime: 1760582692416,
+}
+</script>
+
+<template>
+  <div>
+    <OCountBar :data="data" style="height: 300px"></OCountBar>
+    <hr />
+
+    <OCountBar :data="data2" style="height: 300px"></OCountBar>
+    <hr />
+    <OCountBar :data="data3" style="height: 300px"></OCountBar>
+    <OCountBar
+      :data="newData"
+      :options="{ count: 'magazineInCount', size: 'magazineInSize' }"
+      style="height: 300px"
+    ></OCountBar>
+  </div>
+</template>

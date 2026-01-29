@@ -106,7 +106,7 @@ const jumpPath = async () => {
 
   // 移除开头和结尾的斜杠，然后重新构建路径
   const cleanBasePath = basePath.replace(/^\/|\/$/g, '')
-  let fullPath = cleanBasePath ? `/${cleanBasePath}/examples/${props.path}.vue` : `/examples/${props.path}.vue`
+  let fullPath = cleanBasePath ? `/${cleanBasePath}/components/${props.path}.vue` : `/components/${props.path}.vue`
 
   // 如果是开发环境，尝试获取更准确的文件系统路径
   if (isDev.value) {
@@ -117,7 +117,7 @@ const jumpPath = async () => {
       // 修改: 添加判断条件，只有当viteBase存在且不是undefined字符串时才使用它
       if (viteBase && typeof viteBase === 'string' && viteBase !== 'undefined') {
         // 修改: 使用processAbsolutePath确保路径是绝对路径
-        fullPath = processAbsolutePath(`${viteBase}/docs/examples/${props.path}.vue`)
+        fullPath = processAbsolutePath(`${viteBase}/docs/components/${props.path}.vue`)
       } else {
         // fallback到基于当前文档的相对路径计算
         // 修改: 增强fallback逻辑，尝试从当前URL推断真实路径
@@ -136,11 +136,11 @@ const jumpPath = async () => {
           // 提取项目根路径部分
           const projectRootParts = pathParts.slice(0, docsIndex)
           const projectRoot = '/' + projectRootParts.join('/')
-          fullPath = `${projectRoot}/docs/examples/${props.path}.vue`
+          fullPath = `${projectRoot}/docs/components/${props.path}.vue`
           console.log('Reconstructed project root path:', projectRoot)
         } else {
           // 最后fallback方案
-          fullPath = `/Users/liulihao/cyrd/oeos-components/docs/examples/${props.path}.vue`
+          fullPath = `/Users/liulihao/cyrd/oeos-components/docs/components/${props.path}.vue`
         }
       }
 
@@ -148,7 +148,7 @@ const jumpPath = async () => {
     } catch (e) {
       console.warn('无法获取源码目录，使用默认路径', e)
       // 最终fallback方案
-      fullPath = `/Users/liulihao/cyrd/oeos-components/docs/examples/${props.path}.vue`
+      fullPath = `/Users/liulihao/cyrd/oeos-components/docs/components/${props.path}.vue`
     }
   }
 

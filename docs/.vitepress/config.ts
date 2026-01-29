@@ -40,7 +40,7 @@ export default defineConfig({
         text: '安装指南',
         link: '/components/',
       },
-      { text: '基础组件', link: '/components/dialog/base.md' },
+      { text: '基础组件', link: '/components/dialog/home.md' },
       {
         text: 'Github项目地址',
         link: Github,
@@ -59,11 +59,11 @@ export default defineConfig({
             },
             {
               text: '函数库文件代码',
-              link: '/components/utils/base.md',
+              link: '/components/utils/home.md',
             },
             {
               text: 'vitepress常用语法',
-              link: '/components/utils/grammar/base.md',
+              link: '/components/utils/grammar/home.md',
             },
             {
               text: '函数方法',
@@ -71,63 +71,63 @@ export default defineConfig({
               items: [
                 {
                   text: '$toast提示',
-                  link: '/components/utils/$toast/base.md',
+                  link: '/components/utils/$toast/home.md',
                 },
                 {
                   text: 'confirm确认框',
-                  link: '/components/utils/confirm/base.md',
+                  link: '/components/utils/confirm/home.md',
                 },
                 {
                   text: 'clone深克隆',
-                  link: '/components/utils/clone/base.md',
+                  link: '/components/utils/clone/home.md',
                 },
                 {
                   text: 'isEmpty判断是否空值',
-                  link: '/components/utils/isEmpty/base.md',
+                  link: '/components/utils/isEmpty/home.md',
                 },
                 {
                   text: 'toFixed给数字加小数点',
-                  link: '/components/utils/toFixed/base.md',
+                  link: '/components/utils/toFixed/home.md',
                 },
                 {
                   text: 'tryCatch函数封装',
-                  link: '/components/utils/tryCatch/base.md',
+                  link: '/components/utils/tryCatch/home.md',
                 },
                 {
                   text: 'validate校验',
-                  link: '/components/utils/validate/base.md',
+                  link: '/components/utils/validate/home.md',
                 },
                 {
                   text: 'validForm校验form函数封装',
-                  link: '/components/utils/validForm/base.md',
+                  link: '/components/utils/validForm/home.md',
                 },
                 {
                   text: 'formatBytes数字变为字节',
-                  link: '/components/utils/formatBytes/base.md',
+                  link: '/components/utils/formatBytes/home.md',
                 },
                 {
                   text: 'formatBytesConvert翻转字节为数字',
-                  link: '/components/utils/formatBytesConvert/base.md',
+                  link: '/components/utils/formatBytesConvert/home.md',
                 },
                 {
                   text: 'formatTime转换日期',
-                  link: '/components/utils/formatTime/base.md',
+                  link: '/components/utils/formatTime/home.md',
                 },
                 {
                   text: 'formatDutationTime持续时间',
-                  link: '/components/utils/formatDurationTime/base.md',
+                  link: '/components/utils/formatDurationTime/home.md',
                 },
                 {
                   text: 'uuid生成随机字符串',
-                  link: '/components/utils/uuid/base.md',
+                  link: '/components/utils/uuid/home.md',
                 },
                 {
                   text: 'getType获取类型',
-                  link: '/components/utils/getType/base.md',
+                  link: '/components/utils/getType/home.md',
                 },
                 {
                   text: 'sleep延迟函数',
-                  link: '/components/utils/sleep/base.md',
+                  link: '/components/utils/sleep/home.md',
                 },
               ],
             },
@@ -139,111 +139,111 @@ export default defineConfig({
           items: [
             {
               text: '测试组件',
-              link: '/components/test/base.md',
+              link: '/components/test/home.md',
             },
             {
               text: 'button组件',
-              link: '/components/button/base.md',
+              link: '/components/button/home.md',
             },
             {
               text: 'checkbox组件',
-              link: '/components/checkbox/base.md',
+              link: '/components/checkbox/home.md',
             },
             {
               text: 'chooseArea组件',
-              link: '/components/chooseArea/base.md',
+              link: '/components/chooseArea/home.md',
             },
             {
               text: 'chart图表组件',
-              link: '/components/chart/base.md',
+              link: '/components/chart/home.md',
             },
             {
               text: 'clickOutside外部点击组件',
-              link: '/components/clickOutside/base.md',
+              link: '/components/clickOutside/home.md',
             },
             {
               text: 'dateRange组件',
-              link: '/components/dateRange/base.md',
+              link: '/components/dateRange/home.md',
             },
             {
               text: 'descriptions组件',
-              link: '/components/descriptions/base.md',
+              link: '/components/descriptions/home.md',
             },
             {
               text: 'dialog组件',
-              link: '/components/dialog/base.md',
+              link: '/components/dialog/home.md',
             },
             {
               text: 'drawer组件',
-              link: '/components/drawer/base.md',
+              link: '/components/drawer/home.md',
             },
             {
               text: 'empty组件',
-              link: '/components/empty/base.md',
+              link: '/components/empty/home.md',
             },
             {
               text: 'popconfirm组件',
-              link: '/components/popconfirm/base.md',
+              link: '/components/popconfirm/home.md',
             },
             {
               text: 'progress组件',
-              link: '/components/progress/base.md',
+              link: '/components/progress/home.md',
             },
             {
               text: 'radio组件',
-              link: '/components/radio/base.md',
+              link: '/components/radio/home.md',
             },
             {
               text: 'row布局组件',
-              link: '/components/row/base.md',
+              link: '/components/row/home.md',
             },
             {
               text: 'select组件',
-              link: '/components/select/base.md',
+              link: '/components/select/home.md',
             },
             {
               text: 'switch组件',
-              link: '/components/switch/base.md',
+              link: '/components/switch/home.md',
             },
             {
               text: 'svg组件',
-              link: '/components/svg/base.md',
+              link: '/components/svg/home.md',
             },
             {
               text: 'icon组件',
-              link: '/components/icon/base.md',
+              link: '/components/icon/home.md',
             },
             {
               text: 'input组件',
-              link: '/components/input/base.md',
+              link: '/components/input/home.md',
             },
             {
               text: 'inputLabel组件',
-              link: '/components/inputLabel/base.md',
+              link: '/components/inputLabel/home.md',
             },
             {
               text: 'tabs组件',
-              link: '/components/tabs/base.md',
+              link: '/components/tabs/home.md',
             },
             {
               text: 'tag组件',
-              link: '/components/tag/base.md',
+              link: '/components/tag/home.md',
             },
             {
               text: 'text组件',
-              link: '/components/text/base.md',
+              link: '/components/text/home.md',
             },
             {
               text: 'title组件',
-              link: '/components/title/base.md',
+              link: '/components/title/home.md',
             },
             {
               text: 'tooltip组件',
-              link: '/components/tooltip/base.md',
+              link: '/components/tooltip/home.md',
             },
             {
               text: 'warning组件',
-              link: '/components/warning/base.md',
+              link: '/components/warning/home.md',
             },
           ],
         },
@@ -253,7 +253,7 @@ export default defineConfig({
           items: [
             {
               text: 'flex布局组件',
-              link: '/components/flex/base.md',
+              link: '/components/flex/home.md',
             },
           ],
         },
@@ -263,11 +263,11 @@ export default defineConfig({
           items: [
             {
               text: 'form组件',
-              link: '/components/form/base.md',
+              link: '/components/form/home.md',
             },
             {
               text: 'table组件',
-              link: '/components/table/base.md',
+              link: '/components/table/home.md',
             },
           ],
         },
@@ -277,55 +277,55 @@ export default defineConfig({
           items: [
             {
               text: 'baseHeader基础头部',
-              link: '/components/company/baseHeader/base.md',
+              link: '/components/company/baseHeader/home.md',
             },
             {
               text: 'basicLayout基础布局组件',
-              link: '/components/company/basicLayout/base.md',
+              link: '/components/company/basicLayout/home.md',
             },
             {
               text: 'capacityProgress容量组件',
-              link: '/components/company/capacityProgress/base.md',
+              link: '/components/company/capacityProgress/home.md',
             },
             {
               text: 'countBar数量统计柱状图组件',
-              link: '/components/company/countBar/base.md',
+              link: '/components/company/countBar/home.md',
             },
             {
               text: 'countBarOld数量统计柱状图组件',
-              link: '/components/company/countBarOld/base.md',
+              link: '/components/company/countBarOld/home.md',
             },
             {
               text: 'objectLine对象数量/大小历史',
-              link: '/components/company/objectLine/base.md',
+              link: '/components/company/objectLine/home.md',
             },
             {
               text: 'outService对外服务信息',
-              link: '/components/company/outService/base.md',
+              link: '/components/company/outService/home.md',
             },
             {
               text: 'overviewItem顶部列表',
-              link: '/components/company/overviewItem/base.md',
+              link: '/components/company/overviewItem/home.md',
             },
             {
               text: 'usedPie使用量圆环组件',
-              link: '/components/company/usedPie/base.md',
+              link: '/components/company/usedPie/home.md',
             },
             {
               text: 'quotaPie容量圆环组件',
-              link: '/components/company/quotaPie/base.md',
+              link: '/components/company/quotaPie/home.md',
             },
             {
               text: 'quotaUnit容量单位组件',
-              link: '/components/company/quotaUnit/base.md',
+              link: '/components/company/quotaUnit/home.md',
             },
             {
               text: 'item列表组件',
-              link: '/components/company/item/base.md',
+              link: '/components/company/item/home.md',
             },
             {
               text: 'itemWrapper包裹列表组件',
-              link: '/components/company/itemWrapper/base.md',
+              link: '/components/company/itemWrapper/home.md',
             },
           ],
         },
@@ -336,15 +336,15 @@ export default defineConfig({
           items: [
             {
               text: 'throttle节流',
-              link: '/components/directives/throttle.md',
+              link: '/components/directives/throttle/home.md',
             },
             {
               text: 'debounce防抖',
-              link: '/components/directives/debounce.md',
+              link: '/components/directives/debounce/home.md',
             },
             {
               text: 'cus-loading和cus-empty',
-              link: '/components/directives/cusLoadingEmpty.md',
+              link: '/components/directives/cusLoadingEmpty/home.md',
             },
           ],
         },

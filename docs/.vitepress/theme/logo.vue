@@ -8,7 +8,7 @@
 
   <div class="code-toggle" ref="toggleRef" v-if="isDev && !isHome">
     <el-button type="primary" size="small" @click.stop.prevent="jumpUrl('md')" class="dev-md-copy">
-      <div class="visible-text">跳转base.md(仅本地)</div>
+      <div class="visible-text">跳转home.md(仅本地)</div>
     </el-button>
     <el-button
       type="primary"
@@ -99,11 +99,11 @@ const jumpUrl = (type: string) => {
   }
   let baseUrl = '/Users/liulihao/cyrd/oeos-components'
   let vascodeUrl = ''
-  let compStr = pathname.replace(/^\/oeos\-components\/components\//, '').replace(/\/base$/, '')
+  let compStr = pathname.replace(/^\/oeos\-components\/components\//, '').replace(/\/home$/, '')
   console.log(`16 compStr`, compStr)
   if (type === 'md') {
     let middleStr = 'docs/components'
-    vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/base.md`
+    vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}.md`
     if (compStr === '') {
       vascodeUrl = `vscode://file${baseUrl}/${middleStr}/index.md`
     }
@@ -120,7 +120,7 @@ const jumpUrl = (type: string) => {
       vascodeUrl = `vscode://file${baseUrl}/packages/directives/gDirectives.js`
     }
   } else if(type==='test/base'){
-    vascodeUrl = `vscode://file${baseUrl}/docs/examples/OTest/base.vue`
+    vascodeUrl = `vscode://file${baseUrl}/docs/components/test/base.vue`
   }
   window.open(vascodeUrl, '_blank')
 }

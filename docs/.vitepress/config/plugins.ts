@@ -7,7 +7,7 @@ import mdContainer from 'markdown-it-container'
 // @ts-ignore
 import type Token from 'markdown-it/lib/token'
 import { highlight } from '../utils/highlight'
-import { docRoot } from './global'
+import { docRoot } from './global.ts'
 const localMd = MarkdownIt()
 
 interface ContainerOpts {
@@ -32,7 +32,7 @@ export const mdPlugin = (md: MarkdownIt) => {
         if (sourceFileToken.type === 'inline') {
           // 读取示列代码文件
           source = fs.readFileSync(
-            path.resolve(docRoot, 'examples', `${sourceFile}.vue`),
+            path.resolve(docRoot, 'components', `${sourceFile}.vue`),
             'utf-8',
           )
         }
