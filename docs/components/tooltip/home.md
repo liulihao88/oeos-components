@@ -18,14 +18,26 @@ tooltip/base
 tooltip/usually
 :::
 
-### Slots
+### other
 
 :::demo
-tooltip/slot
+tooltip/other
 :::
 
-### content中的内容可以作为HTML字符串处理
+### trigger
 
-:::demo
+:::demo `'hover' | 'click' | 'focus' | 'contextmenu'`或者数组(选项是trigger这四个属性)
+tooltip/trigger
+:::
+
+### 显示`HTML`内容
+
+:::demo `raw-content`
 tooltip/html
+:::
+
+### slot
+
+:::demo `default|content`
+tooltip/slot
 :::

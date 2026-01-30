@@ -103,7 +103,7 @@ const jumpUrl = (type: string) => {
   console.log(`16 compStr`, compStr)
   if (type === 'md') {
     let middleStr = 'docs/components'
-    vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}.md`
+    vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/home.md`
     if (compStr === '') {
       vascodeUrl = `vscode://file${baseUrl}/${middleStr}/index.md`
     }

@@ -14,7 +14,9 @@
         </slot>
       </span>
     </span>
-    <slot name="content"></slot>
+    <template v-if="$slots.content" v-slot:content>
+      <slot name="content"></slot>
+    </template>
   </el-tooltip>
 </template>
 
@@ -47,7 +49,7 @@ const handleDisabled = computed(() => {
   if (attrs.disabled) {
     return attrs.disabled
   }
-  if (!attrs.content) {
+  if (!attrs.content && !slots.content) {
     return true
   }
   if (slots.default) {
