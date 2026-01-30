@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapRef" v-bind="$attrs" class="clickOutside-box">
+  <div ref="wrapRef" v-bind="$attrs" class="o-click-outside-box">
     <slot></slot>
   </div>
 </template>
@@ -43,7 +43,7 @@ const setupClickOutside = (currentOptions: object) => {
     () => {
       // 现在我们可以安全地访问 ref 和 options
       // 将事件对象和配置一起发出，信息更全
-      console.log(`25 currentOptions`, currentOptions);
+      console.log(`25 currentOptions`, currentOptions)
       emit('clickOutside', { ...currentOptions })
     },
     currentOptions,
@@ -74,7 +74,12 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.clickOutside-box {
+.o-click-outside-box {
   display: inline-block;
+}
+.o-click-outside-box:has(.el-button) + :deep(.el-button),
+.el-button + .o-click-outside-box :deep(.el-button),
+.o-click-outside-box:has(.el-button) + .o-click-outside-box:has(.el-button) {
+  margin-left: 12px !important;
 }
 </style>

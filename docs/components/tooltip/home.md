@@ -41,3 +41,9 @@ tooltip/html
 :::demo `default|content`
 tooltip/slot
 :::
+
+### 受控模式
+
+:::demo `visible`
+tooltip/visible
+:::
