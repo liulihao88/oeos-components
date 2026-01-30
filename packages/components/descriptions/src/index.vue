@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import RenderComp from '@/components/common/renderComp.vue'
-import { computed, VNode, ref, useAttrs } from 'vue'
+import { computed, VNode, ref, useAttrs, onUnmounted } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import { processWidth } from '@oeos-components/utils'
 import OTooltip from '@/components/tooltip'
@@ -81,6 +81,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  
 })
 
 const parseValue = (item: Options) => {
@@ -152,7 +153,7 @@ const getTextAlign = computed(() => {
 })
 
 // 在组件卸载时清理测量元素
-import { onUnmounted } from 'vue'
+
 onUnmounted(() => {
   if (measureElement.value) {
     document.body.removeChild(measureElement.value)
