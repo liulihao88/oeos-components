@@ -6,20 +6,20 @@ const { proxy } = getCurrentInstance()
 <template>
   <div>
     <o-title title="跟el-row的显示规则一样"></o-title>
-    <o-row>
+    <o-row :gutter="16">
       <div class="box">1</div>
       <div class="box">2</div>
       <div class="box">3</div>
       <div class="box">4</div>
     </o-row>
-    <o-row :col="6">
+    <o-row :col="6" :gutter="16">
       <div class="box">1</div>
       <div class="box">2</div>
       <div class="box">3</div>
       <div class="box">4</div>
     </o-row>
 
-    <o-row :col="[6, 12, 6]">
+    <o-row :col="[6, 12, 6]" :gutter="16">
       <div class="box">1</div>
       <div class="box">2</div>
       <div class="box">3</div>
@@ -32,11 +32,11 @@ const { proxy } = getCurrentInstance()
       <div class="box">4</div>
     </o-row>
 
-    <o-row :col="8">
+    <o-row :col="8" :gutter="16">
       <div>11111</div>
       <div>11111</div>
     </o-row>
-    <o-row :col="8" :colAttrs="{ offset: 2 }">
+    <o-row :col="8" :colAttrs="{ offset: 2 }" :gutter="16">
       <div>11111</div>
       <div>11111</div>
     </o-row>
@@ -80,5 +80,6 @@ const { proxy } = getCurrentInstance()
   justify-content: center;
   color: #666;
   border-radius: 4px;
+
 }
 </style>
