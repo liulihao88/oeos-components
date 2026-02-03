@@ -7,3 +7,9 @@
 :::demo
 utils/$toast/base
 :::
+
+### 通常用法
+
+:::demo
+utils/$toast/usually
+:::
