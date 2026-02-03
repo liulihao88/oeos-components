@@ -213,8 +213,27 @@ const handleDifValue = (item) => {
 }
 
 const parseDisabled = computed(() => {
-  return attrs.disabled === '' || !!attrs.disabled
+  // 检查直接传入的disabled属性
+  const directDisabled = attrs.disabled === '' || !!attrs.disabled
+  
+  // 查找祖先组件是否有disabled状态
+  let ancestorDisabled = false
+  let parent = getCurrentInstance()?.parent
+  while (parent && !ancestorDisabled) {
+    // 检查父组件实例是否有disabled属性
+    if (parent.props?.disabled !== undefined) {
+      ancestorDisabled = parent.props.disabled === '' || !!parent.props.disabled
+    }
+    // 检查父组件类型是否为禁用状态的容器（如form）
+    if (parent.type?.name === 'ElForm' && parent.props?.disabled) {
+      ancestorDisabled = true
+    }
+    parent = parent.parent
+  }
+  
+  return directDisabled || ancestorDisabled
 })
+
 // 设置半选
 const indeterminate = computed({
   get() {
