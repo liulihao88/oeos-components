@@ -1,4 +1,5 @@
 import { unref, isRef, toRaw } from '@vue/reactivity'
+import type { VNode } from 'vue'
 import type { Ref } from '@vue/reactivity'
 import { consola } from 'consola'
 import { cloneDeep } from 'es-toolkit' // 这里不要lodash-es的原因是, 体积太大, 超过500kb无法打包
@@ -75,7 +76,7 @@ type ToastType = MessageType | ShortType
 type ToastOptions = Partial<MessageOptions> & { closeAll?: boolean }
 
 export function $toast(
-  message: string | ToastOptions,
+  message: string | ToastOptions | VNode | (() => VNode),
   type: ToastType | ToastOptions = 'success',
   otherParams: ToastOptions = {},
 ): void {

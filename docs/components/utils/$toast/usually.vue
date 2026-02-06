@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-import * as utils from '@oeos-components/utils'
+import { ref, getCurrentInstance, h } from 'vue'
+import * as utils from '@/utils/src/index'
 console.log(`87 utils`, utils)
 console.log(`87 utils.validateTrigger`, utils.validateTrigger)
 const { $toast, sleep } = utils
@@ -20,6 +20,7 @@ const duration5000 = () => {
 const noClose = () => {
   $toast('永不关闭', {
     duration: 0,
+    showClose: true,
   })
 }
 const closeOther = async () => {
@@ -147,11 +148,34 @@ const showBigObject = () => {
 <template>
   <OFunctionSourceCode functionName="$toast"></OFunctionSourceCode>
   <div>
-    <el-button type="primary" @click="base">基础</el-button>
-    <el-button type="primary" @click="duration5000">持续5秒</el-button>
-    <el-button type="primary" @click="noClose">永不关闭</el-button>
-    <el-button type="primary" @click="closeOther">关闭其他, 只保留一个</el-button>
-    <el-button type="primary" @click="showObject">显示对象</el-button>
-    <el-button type="primary" @click="showBigObject">显示大对象</el-button>
+    <o-flex wrap="wrap" gap="small">
+      <el-button type="primary" @click="base">基础</el-button>
+      <el-button type="primary" @click="duration5000">持续5秒</el-button>
+      <el-button type="primary" @click="noClose">永不关闭</el-button>
+      <el-button type="primary" @click="$toast('可关闭', { showClose: true })">可关闭</el-button>
+      <el-button type="primary" @click="$toast('分组消息合并', { grouping: true })">分组消息合并</el-button>
+      <el-button type="primary" @click="closeOther">关闭其他, 只保留一个</el-button>
+      <el-button
+        @click="
+          $toast('3秒后关闭', {
+            duration: 3000,
+            onClose: () => $toast('消息已关闭', { type: 'success' }),
+          })
+        "
+      >
+        自定义延时关闭时间并设置关闭后其他操作
+      </el-button>
+      <el-button
+        @click="
+          $toast(h('p', null, [h('span', null, 'Message can be '), h('i', { style: 'color: teal' }, 'VNode')]), {
+            customClass: 'el',
+          })
+        "
+      >
+        自定义内容, 使用h函数
+      </el-button>
+      <el-button type="primary" @click="showObject">HTML 片段作为正文内容</el-button>
+      <el-button type="primary" @click="showBigObject">显示大对象</el-button>
+    </o-flex>
   </div>
 </template>
