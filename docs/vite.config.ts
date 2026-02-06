@@ -3,6 +3,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import { resolve } from 'path'
 import { fileURLToPath, URL } from 'node:url'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
+import svgLoader from 'vite-svg-loader'
 import terser from '@rollup/plugin-terser'
 import { customVitePluginFilePath } from '../packages/utils/local/customVitePluginFilePath.js'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
@@ -15,6 +16,7 @@ export default defineConfig({
     codeInspectorPlugin({
       bundler: 'vite',
     }),
+    svgLoader(),
     terser({
       compress: {
         drop_console: true, // 删除console

@@ -97,4 +97,4 @@ npm install oeos-components -S
 
 
 ### 10. md中进行跳转
-[去tooltip组件](../../tooltip/base)
+[去tooltip组件](../../tooltip/home)

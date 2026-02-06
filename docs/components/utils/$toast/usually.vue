@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, h } from 'vue'
 import * as utils from '@/utils/src/index'
-console.log(`87 utils`, utils)
-console.log(`87 utils.validateTrigger`, utils.validateTrigger)
+import hot from '../../../.vitepress/theme/assets/svg/hot.svg?component'
+import { ElMessage } from 'element-plus'
 const { $toast, sleep } = utils
 const { proxy } = getCurrentInstance()
 const base = () => {
@@ -162,6 +162,25 @@ const showBigObject = () => {
       <el-button type="primary" @click="noClose">永不关闭</el-button>
       <el-button type="primary" @click="$toast('可关闭', { showClose: true })">可关闭</el-button>
       <el-button type="primary" @click="$toast('分组消息合并', { grouping: true })">分组消息合并</el-button>
+      <el-button
+        @click="
+          $toast('自定义消息图标', {
+            icon: hot,
+          })
+        "
+      >
+        自定义图标
+      </el-button>
+      <!-- <el-button
+        @click="
+          ElMessage({
+            message: '哈哈',
+            icon: hot,
+          })
+        "
+      >
+        自定义图标
+      </el-button> -->
       <el-button type="primary" @click="closeOther">关闭其他, 只保留一个</el-button>
       <el-button
         @click="

@@ -36,4 +36,4 @@ button/slots
 | :----------: | ------------------- | --------------------------------------- | ------ |
 |   content    | tooltip的提示文字   | string                                  | ''     |
 |     time     | 防抖时长            | number(毫秒)                            | 0      |
-| tooltipAttrs | o-tooltip组件的属性 | Object [去tooltip组件](../tooltip/base) | {}     |
+| tooltipAttrs | o-tooltip组件的属性 | Object [去tooltip组件](../tooltip/home) | {}     |
