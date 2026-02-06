@@ -12,6 +12,13 @@ const base = () => {
   $toast('基础信息', 'i')
   $toast('基础错误', 'e')
 }
+const elBase = () => {
+  $toast('基础成功', { customClass: 'el' })
+  $toast('基础成功', 's', { customClass: 'el' })
+  $toast('基础警告', 'w', { customClass: 'el' })
+  $toast('基础信息', 'i', { customClass: 'el' })
+  $toast('基础错误', 'e', { customClass: 'el' })
+}
 const duration5000 = () => {
   utils.$toast('持续5秒', {
     duration: 5000,
@@ -150,6 +157,7 @@ const showBigObject = () => {
   <div>
     <o-flex wrap="wrap" gap="small">
       <el-button type="primary" @click="base">基础</el-button>
+      <el-button type="primary" @click="elBase">element-plus风格</el-button>
       <el-button type="primary" @click="duration5000">持续5秒</el-button>
       <el-button type="primary" @click="noClose">永不关闭</el-button>
       <el-button type="primary" @click="$toast('可关闭', { showClose: true })">可关闭</el-button>

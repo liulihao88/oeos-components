@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
-import { $toast } from '@oeos-components/utils'
+import { $toast } from '@/utils/src'
 const isTest52 = () => {
   $toast('测试成功')
 }

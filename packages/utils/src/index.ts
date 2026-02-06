@@ -100,6 +100,7 @@ export function $toast(
     if (message.closeAll) {
       ElMessage.closeAll()
     }
+    message.customClass = message.customClass === 'el' ? '' : 'o-antd-message'
     ElMessage(message)
     return
   }
@@ -109,6 +110,7 @@ export function $toast(
     if (type.closeAll) {
       ElMessage.closeAll()
     }
+    type.customClass = type.customClass === 'el' ? '' : 'o-antd-message'
     ElMessage({
       message,
       type: 'success',
@@ -124,6 +126,7 @@ export function $toast(
 
   const resolvedType = isShortType(type) ? typeMap[type] : type
 
+  otherParams.customClass = otherParams.customClass === 'el' ? '' : 'o-antd-message'
   ElMessage({
     message,
     type: resolvedType,
