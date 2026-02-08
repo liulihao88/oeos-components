@@ -6,26 +6,32 @@
 
 ### 基础用法
 
-:::demo 这是chart的最基础用法
+:::demo
 button/base
 :::
 
 ### 提示文字
 
-:::demo 这是chart的最基础用法
+:::demo
 button/content
 :::
 
 ### 防抖
 
-:::demo 这是chart的最基础用法
+:::demo
 button/throttle
 :::
 
 ### slots
 
-:::demo 这是chart的最基础用法
+:::demo
 button/slots
+:::
+
+### other
+
+:::demo
+button/other
 :::
 
 ### 属性
