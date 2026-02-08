@@ -3,9 +3,9 @@
     <el-progress
       :percentage="percentageVal"
       v-bind="{ ...originAttrs, ...$attrs }"
-      :color="$attrs.color || customColorMethod"
+      :color="$attrs.color || customColorMethod(percentageVal)"
     >
-      <slot></slot>
+      <slot :percentage="percentageVal"></slot>
     </el-progress>
   </div>
 </template>
@@ -29,6 +29,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  customColor: {
+    type: Boolean,
+    default: true, // 是否开启自定义颜色, 不开启则使用el-progress默认颜色
+  },
 })
 
 const originAttrs = {
@@ -48,13 +52,17 @@ const animation = () => {
 }
 
 const customColorMethod = (percentage: number) => {
-  if (percentage < 30) {
-    return '#909399'
+  if (props.customColor) {
+    if (percentage < 30) {
+      return '#909399'
+    }
+    if (percentage < 70) {
+      return '#e6a23c'
+    }
+    return '#67c23a'
+  } else {
+    return ''
   }
-  if (percentage < 70) {
-    return '#e6a23c'
-  }
-  return '#67c23a'
 }
 watch(
   () => props.percentage,
