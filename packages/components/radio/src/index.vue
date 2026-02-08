@@ -1,22 +1,25 @@
 <template>
-  <el-radio-group v-bind="$attrs">
-    <slot>
-      <component
-        v-for="(item, index) in parseOptions"
-        v-bind="item"
-        :is="radioType"
-        :key="index"
-        :label="item[props.label!]"
-        :value="item[props.value!]"
-        :border="border"
-        :disabled="itemDisabled(item, index, parseOptions)"
-      >
-        <slot :name="item.slot" v-bind="item">
-          {{ item[props.label!] }}
-        </slot>
-      </component>
-    </slot>
-  </el-radio-group>
+  <div class="o-radio-box">
+    <o-comp-title :title="props.title" v-if="props.title" :boxStyle="$attrs.boxStyle ?? {}" class="mr"></o-comp-title>
+    <el-radio-group v-bind="$attrs">
+      <slot>
+        <component
+          v-for="(item, index) in parseOptions"
+          v-bind="item"
+          :is="radioType"
+          :key="index"
+          :label="item[props.label!]"
+          :value="item[props.value!]"
+          :border="border"
+          :disabled="itemDisabled(item, index, parseOptions)"
+        >
+          <slot :name="item.slot" v-bind="item">
+            {{ item[props.label!] }}
+          </slot>
+        </component>
+      </slot>
+    </el-radio-group>
+  </div>
 </template>
 
 <script setup lang="ts" name="ORadio">
@@ -24,6 +27,9 @@ import { computed, ref, getCurrentInstance } from 'vue'
 import type { PropType } from 'vue'
 import type { RadioItem } from './radio'
 const props = defineProps({
+  title: {
+    type: String,
+  },
   type: {
     type: String,
     validator: (value: string) => ['boolean', 'simple', ''].includes(value),
@@ -80,3 +86,12 @@ const parseOptions = computed(() => {
   return props.options
 })
 </script>
+
+<style lang="scss" scoped>
+.o-radio-box {
+  display: flex;
+  .o-comp-title {
+    border-right: 1px solid #dcdfe6;
+  }
+}
+</style>

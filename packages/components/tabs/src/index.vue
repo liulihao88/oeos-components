@@ -1,16 +1,18 @@
 <template>
-  <div class="tabs-box">
+  <div class="o-tabs-box">
     <el-tabs v-bind="$attrs" v-model="tabsValue">
-      <template v-for="tab in props.options" :key="tab[props.value]">
-        <el-tab-pane :name="tab[props.value]" :label="tab[props.label]" v-bind="subAttrs">
-          <template #label>
-            <slot :name="tab[props.value] + '-label'">
-              <span @mouseenter="handleMouseEnter(tab[props.value])">{{ tab[props.label] }}</span>
-            </slot>
-          </template>
-          <slot :name="tab[props.value]"></slot>
-        </el-tab-pane>
-      </template>
+      <slot>
+        <template v-for="tab in props.options" :key="tab[props.value]">
+          <el-tab-pane :name="tab[props.value]" :label="tab[props.label]" v-bind="subAttrs">
+            <template #label>
+              <slot :name="tab[props.value] + '-label'">
+                <span @mouseenter="handleMouseEnter(tab[props.value])">{{ tab[props.label] }}</span>
+              </slot>
+            </template>
+            <slot :name="tab[props.value]"></slot>
+          </el-tab-pane>
+        </template>
+      </slot>
     </el-tabs>
   </div>
 </template>
@@ -63,7 +65,7 @@ const handleMouseEnter = (tabVal: string) => {
 }
 </script>
 <style lang="scss" scoped>
-.tabs-box {
+.o-tabs-box {
   :deep(.el-tabs__item) {
     font-size: 16px;
   }
