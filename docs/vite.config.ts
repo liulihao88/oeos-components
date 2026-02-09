@@ -12,11 +12,13 @@ import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 export default defineConfig({
   plugins: [
     VueSetupExtend(),
+    svgLoader({
+      defaultImport: 'url', // 将SVG作为URL导入
+    }),
     vueJsx(),
     codeInspectorPlugin({
       bundler: 'vite',
     }),
-    svgLoader(),
     terser({
       compress: {
         drop_console: true, // 删除console
