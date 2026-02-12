@@ -494,7 +494,7 @@ export function formatDurationTime(timestamp, cFormat = '{d}天{h}时{i}分{s}�
  * @param length - 生成字符串的长度（默认为4）
  * @param options - 额外的选项
  * @param options.emailStr - 生成 email 时使用的后缀（默认为 '@qq.com'）
- * @param options.timeStr - 生成时间字符串的格式（默认为 '{m}-{d} {h}:{i}:{s}'）
+ * @param options.timeStr - 生成时间字符串的格式（默认为 '{y}-{m}-{d} {h}:{i}:{s}'）
  * @param options.startStr - 起始字符串（默认为空）
  * @param options.optionsIndex - 数组索引（默认为随机）
  * @returns 生成的 UUID (字符串或数字)
@@ -916,7 +916,8 @@ export function formatImg(photoName, addPath = '', { basePath = 'assets/images' 
 
 type ToastParams =
   | { hideToast?: boolean } // 只有 hideToast
-  | ({ hideToast: boolean } & ToastOptions) // 两者都有（与上面一行等价，可以省略）
+  | (Omit<ToastOptions, 'hideToast'> & { hideToast: boolean }) // 两者都有，确保hideToast被包含
+
 /**
  * 复制文本
  *
@@ -936,8 +937,9 @@ export const copy = (text, toastParams: ToastParams = {}) => {
   document.execCommand('copy')
   document.body.removeChild(textarea)
   if (!toastParams.hideToast) {
-    // ensure we pass a valid ToastOptions object to $toast
-    $toast(text + '复制成功', toastParams ?? {})
+    // 确保我们传递给$toast的是一个有效的ToastOptions对象
+    const { hideToast, ...toastOptions } = toastParams
+    $toast(text + '复制成功', toastOptions)
     return true
   }
   return true
