@@ -108,7 +108,7 @@ const jumpUrl = (type: string) => {
       vascodeUrl = `vscode://file${baseUrl}/${middleStr}/index.md`
     }
     if (compStr.startsWith('directives')) {
-      vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}.md`
+      vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/home.md`
     }
   } else if (type === 'packages') {
     let middleStr = 'packages/components'
@@ -128,7 +128,6 @@ const jumpUrl = (type: string) => {
 const isHome = ref(false)
 const timer = ref()
 timer.value = setInterval(() => {
-  let pathname = window.location.pathname
   if (window.location.pathname === '/oeos-components/') {
     return (isHome.value = true)
   }
