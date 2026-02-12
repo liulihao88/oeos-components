@@ -335,6 +335,10 @@ export default defineConfig({
           collapsed: false,
           items: [
             {
+              text: 'copy复制',
+              link: '/components/directives/copy/home.md',
+            },
+            {
               text: 'throttle节流',
               link: '/components/directives/throttle/home.md',
             },

@@ -914,14 +914,20 @@ export function formatImg(photoName, addPath = '', { basePath = 'assets/images' 
   return res
 }
 
+type ToastParams =
+  | { hideToast?: boolean } // 只有 hideToast
+  | ({ hideToast: boolean } & ToastOptions) // 两者都有（与上面一行等价，可以省略）
 /**
  * 复制文本
  *
  * copy('这是要复制的文本');
+ *
  * copy('这是要复制的文本', {duration: 500});
  *
+ * copy('这是要复制的文本', {hideToast: true});
+ *
  *  */
-export const copy = (text, toastParams = {}) => {
+export const copy = (text, toastParams: ToastParams = {}) => {
   const textarea = document.createElement('textarea')
   textarea.value = text
   textarea.style.position = 'fixed'
@@ -930,8 +936,11 @@ export const copy = (text, toastParams = {}) => {
   document.execCommand('copy')
   document.body.removeChild(textarea)
   if (!toastParams.hideToast) {
-    $toast(text + '复制成功', toastParams)
+    // ensure we pass a valid ToastOptions object to $toast
+    $toast(text + '复制成功', toastParams ?? {})
+    return true
   }
+  return true
 }
 
 /**

@@ -2,6 +2,7 @@ import { ElMessage } from 'element-plus'
 import { clone, isEmpty, throttle, debounce, $toast } from '@/utils/src/index.ts'
 import CusLoading from './cusLoading/cusLoading.js'
 import CusEmpty from './cusEmpty/cusEmpty.js'
+import Copy from './copy/index.ts'
 /**
  * 复制文本
  * <span v-copy="'生当作人杰'">咋回事</span>
@@ -11,21 +12,7 @@ import CusEmpty from './cusEmpty/cusEmpty.js'
 export default function (app) {
   app.directive('cusLoading', CusLoading)
   app.directive('cusEmpty', CusEmpty)
-  function handleClick() {
-    const input = document.createElement('input')
-    input.value = this.copyData.toLocaleString()
-    document.body.appendChild(input)
-    input.select()
-    document.execCommand('Copy')
-    document.body.removeChild(input)
-    $toast(`${input.value} 复制成功`, 's', { duration: 1000 })
-  }
-  app.directive('copy', {
-    mounted(el, binding) {
-      el.copyData = binding.value
-      el.addEventListener('click', handleClick)
-    },
-  })
+  app.directive('copy', Copy)
 
   app.directive('focus', {
     mounted(el) {
