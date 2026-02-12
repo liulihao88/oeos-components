@@ -10,10 +10,12 @@ const columns = [
   {
     label: '名字',
     prop: 'name',
+    width: 700,
   },
   {
     label: '地址',
     prop: 'address',
+    fixed: true,
   },
   {
     key: 'operation',
@@ -32,10 +34,18 @@ const columns = [
     ],
   },
 ]
+const otherParams = ref({
+  size: 'large',
+  showPage: false,
+})
 </script>
 
 <template>
   <div>
-    <o-table :columns="columns" :data="data"></o-table>
+    <o-flex gap="small" direction="column">
+      <o-radio v-model="otherParams.size" :options="['small', 'default', 'large']" type="simple" title="size"></o-radio>
+      <o-radio v-model="otherParams.showPage" :options="[true, false]" type="simple" title="showPage"></o-radio>
+    </o-flex>
+    <o-table :columns="columns" :data="data" v-bind="otherParams"></o-table>
   </div>
 </template>

@@ -10,6 +10,12 @@
 table/base
 :::
 
+### other
+
+:::demo
+table/other
+:::
+
 ### 多选
 
 :::demo
