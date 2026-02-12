@@ -272,6 +272,7 @@ const compEmptyText = computed(() => {
         :width="props.total >= 10000 || $attrs.size === 'large' ? 70 : 60"
         align="center"
         :index="indexMethod"
+        :fixed="true"
         v-bind="indexAttrs"
       >
         <!-- 使用 #header 插槽自定义表头 -->
