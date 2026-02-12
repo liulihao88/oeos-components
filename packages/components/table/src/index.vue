@@ -161,6 +161,14 @@ const parseIsShow = (isFn, row = '', scope = '') => {
     return isFn
   }
 }
+
+const parseSlot = (val) => {
+  if (val.useSlot === true) {
+    return val.prop
+  } else {
+    return val.useSlot
+  }
+}
 const parseReConfirm = (isFn, row = '', scope = '') => {
   if (typeof isFn === 'function') {
     return isFn(row, scope)
@@ -293,9 +301,10 @@ const compEmptyText = computed(() => {
                   <template v-if="parseIsShow(val.isShow, scope.row, scope)">
                     <slot
                       v-if="val.useSlot"
-                      :name="val.prop"
+                      :name="parseSlot(val)"
                       :row="scope.row"
                       :scope="scope"
+                      :index="scope.$index"
                       :value="scope.row[val.prop]"
                     />
                     <RenderComp
@@ -366,9 +375,10 @@ const compEmptyText = computed(() => {
                           >
                             <slot
                               v-if="val.useSlot"
-                              :name="val.prop"
+                              :name="parseSlot(val)"
                               :row="scope.row"
                               :scope="scope"
+                              :index="scope.$index"
                               :value="scope.row[val.prop]"
                             />
                             <RenderComp
@@ -407,7 +417,7 @@ const compEmptyText = computed(() => {
 
           <el-table-column v-else v-bind="{ ...v }">
             <template #default="scope">
-              <slot v-if="v.useSlot" :name="v.prop" :row="scope.row" :scope="scope" :value="scope.row[v.prop]" />
+              <slot v-if="v.useSlot" :name="parseSlot(v)" :row="scope.row" :scope="scope" :value="scope.row[v.prop]" :index="scope.$index" />
               <span v-else-if="v.handler" class="hide-btns-button" @click.stop="v.handler(scope.row, scope)">
                 <span>{{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : handleEmptyText(scope, v) }}</span>
               </span>

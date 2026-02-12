@@ -8,6 +8,7 @@ import terser from '@rollup/plugin-terser'
 import { customVitePluginFilePath } from '../packages/utils/local/customVitePluginFilePath.js'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
+import Icons from 'unplugin-icons/vite'
 
 export default defineConfig({
   plugins: [
@@ -28,6 +29,10 @@ export default defineConfig({
     createSvgIconsPlugin({
       iconDirs: [resolve(__dirname, './.vitepress/theme/assets/svg')],
       symbolId: 'icon-[dir]-[name]',
+    }),
+    Icons({
+      compiler: 'vue3',
+      scale: 1,
     }),
   ],
   resolve: {

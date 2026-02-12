@@ -4,6 +4,12 @@
 
 ## Hidden Title {.md-hidden}
 
+### all
+
+:::demo
+table/all
+:::
+
 ### 基础用法
 
 :::demo
@@ -51,3 +57,5 @@ table/wrap
 :::demo
 table/render
 :::
+
+
