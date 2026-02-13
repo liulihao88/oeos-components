@@ -75,3 +75,9 @@ select/disabled
 :::demo
 select/simpleTableSelect
 :::
+
+### table多选
+
+:::demo
+select/multipleTableSelect
+:::

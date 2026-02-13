@@ -5,7 +5,7 @@ const VALUE = 'id'
 <script setup lang="ts">
 import { ref, getCurrentInstance, watch, nextTick } from 'vue'
 const { proxy } = getCurrentInstance()
-const selectValue = ref('zs')
+const selectValue = ref(['zs'])
 const selectName = ref('')
 const selectRef = ref()
 const tableRef = ref()
@@ -14,7 +14,10 @@ const editRow = (row) => {
   proxy.$message(`编辑了${row.name}`)
 }
 const columns = [
- 
+  {
+    type: 'selection',
+    key: 'name',
+  },
   {
     label: '名字',
     prop: 'name',
@@ -79,7 +82,7 @@ watch(
       :title="`简单的 => ${selectValue}`"
       width="100%"
       ref="selectRef"
-      value-key="value"
+      multiple
       @clear="handleCurrentChange(null)"
     >
       <template #empty>
