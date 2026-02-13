@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
+const tableRef = ref();
 function handleDetail(row) {
   proxy.$toast(row.name)
 }
 function handleDetail2() {}
 function selectableFn(val, index) {
-  return index % 2 === 0
+  return index !== 1
 }
 const columns = [
   {
@@ -75,11 +76,17 @@ const multipleSelection = ref([])
 const handleSelectionChange = (val, ...a) => {
   multipleSelection.value = val
 }
+
+const checkData = ()=>{
+  tableRef.value.$refs.tableRef.toggleRowSelection(data.value[0], true)
+  tableRef.value.$refs.tableRef.toggleRowSelection(data.value[2], true)
+}
 </script>
 
 <template>
   <div class="">
     <el-button type="primary" @click="init">新增数据</el-button>
+    <el-button type="primary" @click="checkData">选中1,3条数据</el-button>
     {{ total }}
     <o-table
       :columns="columns"

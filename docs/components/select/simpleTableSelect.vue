@@ -14,7 +14,6 @@ const editRow = (row) => {
   proxy.$message(`编辑了${row.name}`)
 }
 const columns = [
- 
   {
     label: '名字',
     prop: 'name',
@@ -54,16 +53,17 @@ const handleCurrentChange = (val) => {
 watch(
   () => selectValue.value,
   async (val) => {
+    let taskNameIdx = -1
     if (val) {
       selectName.value = data.value.find((item) => item[VALUE] === val)?.[LABEL] || ''
-      let taskNameIdx = data.value.findIndex((item) => {
+      taskNameIdx = data.value.findIndex((item) => {
         return item[VALUE] === val
       })
-      await nextTick()
-      tableRef.value.$refs.tableRef.setCurrentRow(data.value[taskNameIdx === -1 ? 0 : taskNameIdx])
     } else {
       selectName.value = ''
     }
+    await nextTick()
+    tableRef.value.$refs.tableRef.setCurrentRow(taskNameIdx === -1 ? null : data.value[taskNameIdx])
   },
   {
     deep: true,

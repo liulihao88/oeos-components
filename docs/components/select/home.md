@@ -4,7 +4,7 @@
 
 ## Hidden Title {.md-hidden}
 
-### 基础用法
+<!-- ### 基础用法
 
 :::demo 之所以, options为空, 加红色边框, 是为了减少不必要的点击后才知道数据为空的操作
 select/base
@@ -74,7 +74,7 @@ select/disabled
 
 :::demo
 select/simpleTableSelect
-:::
+::: -->
 
 ### table多选
 
