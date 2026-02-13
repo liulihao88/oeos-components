@@ -76,7 +76,7 @@ watch(
   <div>
     <o-select
       v-model="selectName"
-      :title="`简单的 => ${selectValue}`"
+      :title="`单选的 => ${selectValue}`"
       width="100%"
       ref="selectRef"
       value-key="value"

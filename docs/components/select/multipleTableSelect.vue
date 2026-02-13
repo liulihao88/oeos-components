@@ -1,8 +1,8 @@
-<script lang="ts">
-const LABEL = 'fullName'
+<script lang="tsx">
+const LABEL = 'name'
 const VALUE = 'id'
 </script>
-<script setup lang="ts">
+<script setup lang="tsx">
 import { ref, getCurrentInstance, watch, nextTick } from 'vue'
 const { proxy } = getCurrentInstance()
 const selectValue = ref(['zs'])
@@ -21,6 +21,7 @@ const columns = [
   {
     label: '名字',
     prop: 'name',
+    width: 100,
   },
   {
     label: '全名',
@@ -49,23 +50,18 @@ const data = ref([
 ])
 
 const handleCurrentChange = (val) => {
-  selectName.value = val?.[LABEL] ?? ''
-  selectValue.value = val?.[VALUE] ?? ''
-  selectRef.value.$refs.selectRef.blur()
+  console.log(`15 val`, val)
+  selectValue.value = val.map((v) => v[VALUE])
+  selectName.value = val.map((v) => v[LABEL])
 }
 
 watch(
   () => selectValue.value,
   async (val) => {
     if (val) {
-      selectName.value = data.value.find((item) => item[VALUE] === val)?.[LABEL] || ''
-      let taskNameIdx = data.value.findIndex((item) => {
-        return item[VALUE] === val
-      })
-      await nextTick()
-      tableRef.value.$refs.tableRef.setCurrentRow(data.value[taskNameIdx === -1 ? 0 : taskNameIdx])
+      selectName.value = data.value.filter((v) => val.includes(v[VALUE])).map((v) => v[LABEL])
     } else {
-      selectName.value = ''
+      selectName.value = []
     }
   },
   {
@@ -77,21 +73,26 @@ watch(
 
 <template>
   <div>
+    {{ selectValue }} ??? {{ selectName }}
     <o-select
       v-model="selectName"
-      :title="`简单的 => ${selectValue}`"
+      :title="`多选的 => ${selectValue}`"
       width="100%"
       ref="selectRef"
       multiple
+      :collapse-tags="true"
+      :collapse-tags-tooltip="true"
+      :max-collapse-tags="2"
       @clear="handleCurrentChange(null)"
     >
       <template #empty>
         <o-table
           :columns="columns"
+          :showIndex="false"
           :data="data"
           ref="tableRef"
           :showPage="false"
-          @current-change="handleCurrentChange"
+          @selection-change="handleCurrentChange"
           highlight-current-row
         ></o-table>
       </template>
