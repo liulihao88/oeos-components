@@ -9,6 +9,10 @@ const selectValue = ref('zs')
 const selectName = ref('')
 const selectRef = ref()
 const tableRef = ref()
+
+const editRow = (row) => {
+  proxy.$message(`编辑了${row.name}`)
+}
 const columns = [
   {
     label: '名字',
@@ -21,6 +25,18 @@ const columns = [
   {
     key: 'operation',
     label: '操作',
+    btns: [
+      {
+        content: '编辑',
+        handler: () => {},
+        comp: 'o-icon',
+        attrs: {
+          name: 'edit',
+          content: '编辑',
+        },
+        handler: editRow
+      },
+    ],
   },
 ]
 const data = ref([
@@ -71,6 +87,7 @@ watch(
           :columns="columns"
           :data="data"
           ref="tableRef"
+          :showPage="false"
           @current-change="handleCurrentChange"
           highlight-current-row
         ></o-table>
