@@ -69,3 +69,9 @@ select/slot
 :::demo
 select/disabled
 :::
+
+### table单选
+
+:::demo
+select/simpleTableSelect
+:::
