@@ -10,6 +10,8 @@ import { h } from 'vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import * as echarts from 'echarts' // 引入echarts
 
+import OTip from '../vitepress/components/oTip/index.vue'
+
 import { VPDemo } from '../vitepress'
 // 基于element-plus二次封装基础组件
 import '~dist/style.css'
@@ -45,6 +47,7 @@ export default {
       ctx.app.component(key, component)
     }
     ctx.app.component('OooSvg', svgIconConfig.Svg({}).component)
+    ctx.app.component('OTip', OTip)
     // 注册ElementPlus
     ctx.app.use(ElementPlus, {
       locale, // 语言设置

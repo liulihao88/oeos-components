@@ -103,3 +103,7 @@ span {
 .md-hidden {
   display: none;
 }
+
+th, td{
+  min-width: 92px;
+}
