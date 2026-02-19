@@ -38,7 +38,6 @@ const disabledDate = (time) => {
       title="完犊子"
       type="datetime"
       value-format="x"
-      placeholder="选择日期哦"
     ></o-date-range>
     {{ dateSimple }}
 
