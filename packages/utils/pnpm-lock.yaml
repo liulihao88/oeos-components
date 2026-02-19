@@ -17,6 +17,9 @@ importers:
       consola:
         specifier: ^3.4.2
         version: 3.4.2
+      dayjs:
+        specifier: ^1.11.19
+        version: 1.11.19
       element-plus:
         specifier: ^2.11.5
         version: 2.13.0(vue@3.4.15)

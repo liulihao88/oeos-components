@@ -1,3 +1,5 @@
+export * from './day.ts'
+
 import { unref, isRef, toRaw } from '@vue/reactivity'
 import type { VNode } from 'vue'
 import type { Ref } from '@vue/reactivity'
