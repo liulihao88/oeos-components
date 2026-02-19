@@ -12,6 +12,7 @@
     "dist"
   ],
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "vitepress dev docs",
     "build": "vite build",
     "preview": "vite preview",

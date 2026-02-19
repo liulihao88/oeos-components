@@ -66,6 +66,10 @@ export default defineConfig({
               link: '/components/utils/grammar/home.md',
             },
             {
+              text: '国际化',
+              link: '/components/utils/i18n/home.md',
+            },
+            {
               text: '函数方法',
               collapsed: false,
               items: [
