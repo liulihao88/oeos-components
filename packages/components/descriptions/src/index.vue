@@ -45,7 +45,7 @@ import RenderComp from '@/components/common/renderComp.vue'
 import { computed, VNode, ref, useAttrs, onUnmounted } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import { processWidth } from '@oeos-components/utils'
-import OTooltip from '@/components/tooltip'
+import OTooltip from '@/components/tooltip/src/index.vue'
 
 defineOptions({
   name: 'ODescriptions',
@@ -148,7 +148,6 @@ const parseContent = (value: any) => {
 }
 
 const getTextAlign = computed(() => {
-  console.log(`3356 152行 packages/components/descriptions/src/index.vue attrs `, attrs)
   return attrs.direction === 'vertical' ? 'left' : 'right'
 })
 
