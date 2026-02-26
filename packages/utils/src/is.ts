@@ -68,6 +68,20 @@ export const isFunction = (val: any): val is Function => typeof val === "functio
 export const isString = (val: any): val is string => typeof val === "string"
 
 /**
+ * 判断是否是字符串数字
+ * @param val 
+ * @returns 
+ */
+export const isStringNumber = (val: string): boolean => {
+  if (!isString(val)) {
+    return false
+  }
+  return !Number.isNaN(Number(val))
+}
+
+export const isNumber = (val: any): val is number => typeof val === 'number'
+
+/**
  * 判断是否是Symbol
  * @param val
  * @returns
