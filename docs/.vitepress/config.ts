@@ -133,6 +133,10 @@ export default defineConfig({
                   text: 'sleep延迟函数',
                   link: '/components/utils/sleep/home.md',
                 },
+                {
+                  text: 'dayjs函数方法',
+                  link: '/components/utils/dayjs/home.md',
+                }
               ],
             },
           ],
