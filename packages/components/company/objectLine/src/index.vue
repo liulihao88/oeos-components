@@ -199,7 +199,6 @@ const option = computed(() => {
       {
         name: '数量',
         type: 'line',
-        stack: 'Total',
         smooth: true, // Add smooth curve
         showSymbol: false,
         lineStyle: {
@@ -218,7 +217,6 @@ const option = computed(() => {
         yAxisIndex: 1,
         name: '大小',
         type: 'line',
-        stack: 'Total',
         smooth: true,
         showSymbol: false,
         lineStyle: {
