@@ -1167,7 +1167,7 @@ export function formatBytes(
  * formatBytesConvert('0.5GB') 536870912
  * formatBytesConvert('1,234 GB') 1324997410816
  * formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
- * formatBytesConvert('1,234 GB', {toFixed: 2}) 1324997410816.00
+ * formatBytesConvert('1,234 GB', {digit: 2}) 1324997410816.00
  */
 export function formatBytesConvert(oBytes, { thounsands = false, digit = 0 } = {}) {
   let bytes = oBytes
