@@ -336,7 +336,7 @@ export function formatNewLines(str) {
  */
 export function formatToFixed(
   value: any,
-  options: { digit?: number; prefix?: string; suffix?: string; unit?: boolean } | number = {},
+  options: { digit?: number; prefix?: string; suffix?: string; unit?: boolean; thousands?: boolean } | number = {},
 ) {
   // 如果第二个参数是数字，则将其视为 digit
   if (typeof options === 'number') {
@@ -344,7 +344,7 @@ export function formatToFixed(
   }
 
   // 默认为 digit=2, prefix='', suffix=''
-  let { digit = 2, prefix = '', suffix = '', unit = true } = options
+  let { digit = 2, prefix = '', suffix = '', unit = true, thousands = false } = options
   // 提取数字部分、小数点和小数部分
   let matches = ('' + value).match(/^([\d,]+)(\.?)(\d+)?(\D+)?$/)
   if (!matches) {
@@ -358,6 +358,9 @@ export function formatToFixed(
   let res = numericString
   if (isStringNumber(numericString) || isNumber(numericString)) {
     res = Number(numericString + decimalString).toFixed(digit)
+  }
+  if (thousands) {
+    res = formatThousands(res)
   }
   if (!unit) {
     finalUnit = ''
