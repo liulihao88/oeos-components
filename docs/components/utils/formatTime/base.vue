@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
-import { formatTime, getType } from '@/utils/src/index.ts'
-
-console.log(
-  `2248 6行 docs/examples/Utils/UFormatTime/base.vue proxy.getType('2026-01-14T12:36:11.332') `,
-  proxy.getType('2026-01-14T12:36:11.332'),
-)
+import { formatTime } from '@/utils/src/index.ts'
 
 const options = [
   { label: 'formatTime()', value: formatTime() },
@@ -31,6 +25,10 @@ const options = [
   {
     label: `formatTime(1764128798.456), '{m}/{d}'`,
     value: formatTime(1764128798.456, '{m}/{d}'),
+  },
+  {
+    label: `formatTime(), '{y}-{m}-{d} {h}:{i}:{s} 星期{a}'`,
+    value: formatTime(new Date(), '{y}-{m}-{d} {h}:{i}:{s} 星期{a}'),
   },
 ]
 </script>

@@ -76,11 +76,11 @@ export function formatBytes<
  * @param param1
  * @returns number
  * formatBytesConvert('0.5GB') 536870912
- * 
+ *
  * formatBytesConvert('1,234 GB') 1324997410816
- * 
+ *
  * formatBytesConvert('1,234 GB', {thousands: true}) 1,324,997,410,816
- * 
+ *
  * formatBytesConvert('1,234 GB', {digit: 2}) 1324997410816.00
  */
 
@@ -178,20 +178,17 @@ export function formatThousands(number) {
   return `${numberWithSeparator}${decimalString}${unit}`
 }
 
-type TimeType = Date | string | number | null | undefined
-type FormatType = string
+type TimeType = Date | string | number
 /**
  * 时间格式化函数
  * @param {TimeType} time - 可选时间参数，可以是 Date 对象、时间戳字符串或数字
- * @param {FormatType} [cFormat='{y}-{m}-{d} {h}:{i}:{s}'] - 格式化字符串
+ * @param {FormatType} cFormat - '{y}-{m}-{d} {h}:{i}:{s}' - 格式化字符串，支持 {y}年 {m}月 {d}日 {h}时 {i}分 {s}秒 {a}星期
  * @returns {string} 格式化后的时间字符串
+ * @examples
+ * formatTime(new Date(), '{y}-{m}-{d} {h}:{i}:{s} 星期{a}') // 示例输出: 2026-02-27 14:47:45 星期五 (实际结果取决于调用时的具体时间)
  */
 
-export function formatTime(time: TimeType = new Date(), cFormat: FormatType = '{y}-{m}-{d} {h}:{i}:{s}'): string {
-  if (!time) {
-    return String(time)
-  }
-
+export function formatTime(time: TimeType = new Date(), cFormat = '{y}-{m}-{d} {h}:{i}:{s}'): string {
   let date: Date
   const timeStr = String(time)
 
