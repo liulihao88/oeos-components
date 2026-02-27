@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
-import { toFixed } from '@/utils/src/index.ts'
+import { formatToFixed } from '@/utils/src/index.ts'
 let arr = [
   { label: 'toFixed(22, { digit: 4 })', value: toFixed(22, { digit: 4 }) },
   { label: 'toFixed(22, { prefix: "$" })', value: toFixed(22, { prefix: '$' }) },
   { label: 'toFixed(22, { suffix: "%" })', value: toFixed(22, { suffix: '%' }) },
   { label: 'toFixed(22 TB, { unit: false })', value: toFixed('22 TB', { unit: false }) },
-  { label: 'toFixed(22, { prefix: "$", suffix: "%", digit: 4 })', value: toFixed(22, { prefix: '$', suffix: '%', digit: 4 }) },
+  {
+    label: 'toFixed(22, { prefix: "$", suffix: "%", digit: 4 })',
+    value: toFixed(22, { prefix: '$', suffix: '%', digit: 4 }),
+  },
 ]
 </script>
 

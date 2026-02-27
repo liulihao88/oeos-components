@@ -1,15 +1,15 @@
-# toFixed方法
+# formatToFixed方法
 
 ## Hidden Title {.md-hidden}
 
 ### 基础用法
 
 :::demo
-utils/toFixed/base
+utils/formatToFixed/base
 :::
 
 ### 通常用法
 
 :::demo
-utils/toFixed/usually
+utils/formatToFixed/usually
 :::

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
-import { toFixed } from '@/utils/src/index.ts'
+import { formatToFixed } from '@/utils/src/index.ts'
 let arr = [
   { label: 'toFixed(22)', value: toFixed(22) },
   { label: 'toFixed("22")', value: toFixed('22') },

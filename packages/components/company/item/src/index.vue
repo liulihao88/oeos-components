@@ -1,6 +1,6 @@
 <script setup lang="ts" name="OItem">
 import { ref, getCurrentInstance, useSlots, computed } from 'vue'
-import { processWidth, formatThousands, toFixed, formatBytes } from '@/utils/src'
+import { processWidth, formatThousands, formatToFixed, formatBytes } from '@/utils/src/index.ts'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
   src: {
@@ -64,7 +64,7 @@ const parseValue = computed(() => {
     finalValue = formatBytes(finalValue)
   }
   if (attrs?.toFixed) {
-    finalValue = toFixed(finalValue, attrs.toFixed === true ? 2 : attrs.toFixed)
+    finalValue = formatToFixed(finalValue, attrs.toFixed === true ? 2 : attrs.toFixed)
   }
   if (attrs?.formatThousands) {
     finalValue = formatThousands(finalValue)
@@ -103,8 +103,7 @@ const parseValue = computed(() => {
     :style="{ ...{ height: processWidth(props.height, true) }, ...processWidth(props.width), ...boxStyle }"
     v-else-if="props.type === 'value'"
   >
-  
-    <div class="o_item_box_value_item" :class="{ o_item_box_value_item_center: props.attrs?.center===true }">
+    <div class="o_item_box_value_item" :class="{ o_item_box_value_item_center: props.attrs?.center === true }">
       <div class="o-item_box__value__value" :style="props.valueStyle">
         <slot name="value">
           {{ parseValue }}

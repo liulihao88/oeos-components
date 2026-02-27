@@ -90,8 +90,8 @@ export default defineConfig({
                   link: '/components/utils/isEmpty/home.md',
                 },
                 {
-                  text: 'toFixed给数字加小数点',
-                  link: '/components/utils/toFixed/home.md',
+                  text: 'formatToFixed给数字加小数点',
+                  link: '/components/utils/formatToFixed/home.md',
                 },
                 {
                   text: 'tryCatch函数封装',
