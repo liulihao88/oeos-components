@@ -1,26 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-import { formatTextToHtml, formatToFixed, $toast } from '@/utils/src/index'
-let arr = [
-  { label: 'formatToFixed(22)', value: formatToFixed(22) },
-  { label: 'formatToFixed("22")', value: formatToFixed('22') },
-  { label: 'formatToFixed(22, 0)', value: formatToFixed(22, 0) },
-  { label: 'formatToFixed(22, 4)', value: formatToFixed(22, 4) },
-  { label: 'formatToFixed(22.12345678, 4)', value: formatToFixed(22.12345678, 4) },
-  { label: 'formatToFixed("1.0 TB")', value: formatToFixed('1.0 TB') },
-  { label: 'formatToFixed("1.0tb")', value: formatToFixed('1.0tb') },
-  { label: 'formatToFixed("0")', value: formatToFixed(0) },
-]
-$toast(
-  formatTextToHtml(
-    'Example file\n\t  File : 111.jpeg\n\t  CreateTime : 1721011155921 2024-07-15 10:39:15\n\t  LastUpdateTime : 1721011155921 2024-07-15 10:39:15\n------------------------------------------------------------------------\n\tExtract:\n\t  aa=231\n------------------------------------------------------------------------\n',
-  ),
-  {
-    duration: 5000,
-    dangerouslyUseHTMLString: true,
-  },
-)
+import { formatTextToHtml, $toast } from '@/utils/src/index'
 const parse$toast = (str) => {
   $toast(formatTextToHtml(str), {
     duration: 5000,

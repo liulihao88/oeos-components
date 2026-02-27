@@ -20,16 +20,11 @@ import { getType } from './base'
  * @param options.prefix - 前缀（默认空）
  * @param options.suffix - 后缀（默认空）
  * @param options.roundType - 取整方式：'floor'（向下, 默认） | 'ceil'（向上） | 'round'（四舍五入）
- */
-
-/**
- *
- * @param bytes 字节
- * @param options 选项
  * @example
  * formatBytes(0.999) => 0.99B
  * formatBytes(1040000, { digit: 3, prefix: "$", suffiex: "/s", roundType: "round", thousands: true }) => $1,015.625 KB
  */
+
 export function formatBytes<
   const T extends {
     digit?: number
@@ -81,11 +76,24 @@ export function formatBytes<
  * @param param1
  * @returns number
  * formatBytesConvert('0.5GB') 536870912
+ * 
  * formatBytesConvert('1,234 GB') 1324997410816
- * formatBytesConvert('1,234 GB', {thousand: true}) 1,324,997,410,816
+ * 
+ * formatBytesConvert('1,234 GB', {thousands: true}) 1,324,997,410,816
+ * 
  * formatBytesConvert('1,234 GB', {digit: 2}) 1324997410816.00
  */
-export function formatBytesConvert(oBytes, { thounsands = false, digit = 0 } = {}) {
+
+export function formatBytesConvert<
+  const T extends {
+    thounsands?: boolean
+    digit?: number
+  } = {
+    thounsands: false
+    digit: 0
+  },
+>(oBytes: any, options?: T) {
+  let { thounsands = false, digit = 0 } = options ?? {}
   let bytes = oBytes
   if (isStringNumber(oBytes) || isNumber(oBytes) || getType(oBytes) !== 'string') {
     return parseDigitThounsands(oBytes)
