@@ -329,41 +329,69 @@ export function formatNewLines(str) {
 /**
  * 增加小数点
  * formatToFixed(22) -> '22.00'
+ * 
  * formatToFixed('22') -> '22.00'
+ * 
  * formatToFixed('22', 4) -> '22.0000'
+ * 
  * formatToFixed('22', 2) -> 22
+ * 
  * formatToFixed('22 TB', {prefix: '$', suffix: '%', unit: false}) -> $22.00%
  */
-export function formatToFixed(
-  value: any,
-  options: { digit?: number; prefix?: string; suffix?: string; unit?: boolean; thousands?: boolean } | number = {},
-) {
-  // 如果第二个参数是数字，则将其视为 digit
+
+
+// 这样定义 - 直接把所有可能的选项都写成具体的类型
+export function formatToFixed<
+  const T extends {
+    digit?: number
+    prefix?: string
+    suffix?: string
+    unit?: boolean
+    thousands?: boolean
+  } = {
+    digit: 2
+    prefix: ''
+    suffix: ''
+    unit: true
+    thousands: false
+  },
+>(value: any, options?: T | number): string
+export function formatToFixed(value: any, options?: any): string {
   if (typeof options === 'number') {
     options = { digit: options }
   }
 
-  // 默认为 digit=2, prefix='', suffix=''
-  let { digit = 2, prefix = '', suffix = '', unit = true, thousands = false } = options
-  // 提取数字部分、小数点和小数部分
+  const finalOptions = {
+    digit: 2,
+    prefix: '',
+    suffix: '',
+    unit: true,
+    thousands: false,
+    ...options,
+  }
+  const { digit, prefix, suffix, unit, thousands } = finalOptions
+
   let matches = ('' + value).match(/^([\d,]+)(\.?)(\d+)?(\D+)?$/)
   if (!matches) {
-    return value // 如果没有找到匹配，则返回原始输入
+    return value
   }
 
-  let numericString = matches[1].replace(/\D/g, '') // 仅保留数字
-  let decimalString = matches[3] ? `.${matches[3]}` : '' // 小数部分，如果没有则为空字符串
-  let finalUnit = matches[4] || '' // 单位部分，如果没有则为空字符串
+  let numericString = matches[1].replace(/\D/g, '')
+  let decimalString = matches[3] ? `.${matches[3]}` : ''
+  let finalUnit = matches[4] || ''
 
   let res = numericString
   if (isStringNumber(numericString) || isNumber(numericString)) {
     res = Number(numericString + decimalString).toFixed(digit)
   }
+
   if (thousands) {
     res = formatThousands(res)
   }
+
   if (!unit) {
     finalUnit = ''
   }
+
   return `${prefix}${res}${finalUnit}${suffix}`
 }
