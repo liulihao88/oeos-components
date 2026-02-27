@@ -21,17 +21,25 @@ import { getType } from './base'
  * @param options.suffix - 后缀（默认空）
  * @param options.roundType - 取整方式：'floor'（向下, 默认） | 'ceil'（向上） | 'round'（四舍五入）
  */
-export function formatBytes(
-  bytes: number | string,
-  options: {
+
+export function formatBytes<
+  const T extends {
     digit?: number
-    thousands?: boolean
     prefix?: string
     suffix?: string
     roundType?: 'floor' | 'ceil' | 'round'
-  } = {},
-) {
-  let { digit = 2, thousands = true, prefix = '', suffix = '', roundType = 'floor' } = options
+    thousands?: boolean
+  } = {
+    digit: 2
+    prefix: ''
+    suffix: ''
+    roundType: 'floor'
+    thousands: false
+  },
+>(bytes: number | string, options?: T)
+
+export function formatBytes(bytes: number | string, options?: T) {
+  let { digit = 2, thousands = false, prefix = '', suffix = '', roundType = 'floor' } = options ?? {}
   // 校验输入
   if (isStringNumber(bytes as any) || isNumber(bytes)) {
     bytes = Number(bytes)
@@ -329,16 +337,15 @@ export function formatNewLines(str) {
 /**
  * 增加小数点
  * formatToFixed(22) -> '22.00'
- * 
+ *
  * formatToFixed('22') -> '22.00'
- * 
+ *
  * formatToFixed('22', 4) -> '22.0000'
- * 
+ *
  * formatToFixed('22', 2) -> 22
- * 
+ *
  * formatToFixed('22 TB', {prefix: '$', suffix: '%', unit: false}) -> $22.00%
  */
-
 
 // 这样定义 - 直接把所有可能的选项都写成具体的类型
 export function formatToFixed<
