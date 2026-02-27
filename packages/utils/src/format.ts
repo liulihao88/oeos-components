@@ -22,6 +22,14 @@ import { getType } from './base'
  * @param options.roundType - 取整方式：'floor'（向下, 默认） | 'ceil'（向上） | 'round'（四舍五入）
  */
 
+/**
+ *
+ * @param bytes 字节
+ * @param options 选项
+ * @example
+ * formatBytes(0.999) => 0.99B
+ * formatBytes(1040000, { digit: 3, prefix: "$", suffiex: "/s", roundType: "round", thousands: true }) => $1,015.625 KB
+ */
 export function formatBytes<
   const T extends {
     digit?: number
@@ -36,9 +44,7 @@ export function formatBytes<
     roundType: 'floor'
     thousands: false
   },
->(bytes: number | string, options?: T)
-
-export function formatBytes(bytes: number | string, options?: T) {
+>(bytes: number | string, options?: T) {
   let { digit = 2, thousands = false, prefix = '', suffix = '', roundType = 'floor' } = options ?? {}
   // 校验输入
   if (isStringNumber(bytes as any) || isNumber(bytes)) {

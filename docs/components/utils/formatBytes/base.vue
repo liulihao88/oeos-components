@@ -23,12 +23,16 @@ const options = [
     label: 'formatBytes(21430403072, { roundType: "round" }) 向上取整',
     value: formatBytes(21430403072, { roundType: 'round' }),
   },
+  {
+    label: 'formatBytes(1040000, { digit: 3, prefix: "$", suffiex: "/s", roundType: "round", thousands: true }) ',
+    value: formatBytes(1040000, { digit: 3, prefix: '$', suffiex: '/s', roundType: 'round', thousands: true }),
+  },
 ]
 </script>
 
 <template>
   <OFunctionSourceCode functionName="formatBytes"></OFunctionSourceCode>
   <div>
-    <o-descriptions :options="options" :column="1" :showAll="true" ></o-descriptions>
+    <o-descriptions :options="options" :column="1" :showAll="true"></o-descriptions>
   </div>
 </template>
