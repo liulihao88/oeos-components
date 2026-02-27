@@ -368,8 +368,7 @@ export function formatToFixed<
     unit: true
     thousands: false
   },
->(value: any, options?: T | number): string
-export function formatToFixed(value: any, options?: any): string {
+>(value: any, options?: T | number | any): string {
   if (typeof options === 'number') {
     options = { digit: options }
   }
