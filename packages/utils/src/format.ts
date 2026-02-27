@@ -314,33 +314,6 @@ export function formatImg(photoName, addPath = '', { basePath = 'assets/images' 
 }
 
 /**
- * 格式化字符串中的换行符和制表符
- * @param str 待格式化的字符串
- * @returns 格式化后的字符串，如果输入的不是字符串或为空，则返回原字符串
- * @example
-$toast(
-  formatNewLines(
-    'Example file\n  File : 111.jpeg\n  CreateTime : 1721011155921 2024-07-15 10:39:15\n  LastUpdateTime : 1721011155921 2024-07-15 10:39:15\n------------------------------------------------------------------------\nExtract:\n  aa=231\n------------------------------------------------------------------------\n',
-  ),
-  {
-    duration: 5000,
-    dangerouslyUseHTMLString: true,
-  },
-)
- */
-export function formatNewLines(str) {
-  // 如果 str 为空或者不是字符串类型，则直接返回 str
-  if (!str || typeof str !== 'string') {
-    return str
-  }
-  // 替换换行符 \n 为 <br> 标签
-  str = str.replace(/\n/g, '<br>')
-  // 替换制表符 \t 为四个空格或其他适当的字符
-  str = str.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
-  return str
-}
-
-/**
  * 增加小数点
  * formatToFixed(22) -> '22.00'
  *
@@ -406,4 +379,31 @@ export function formatToFixed<
   }
 
   return `${prefix}${res}${finalUnit}${suffix}`
+}
+
+/**
+ * 格式化字符串中的换行符和制表符为HTML标签
+ * @param str 待格式化的字符串
+ * @returns 格式化后的字符串，如果输入的不是字符串或为空，则返回原字符串
+ * @example
+$toast(
+  formatTextToHtml(
+    'Example file\n  File : 111.jpeg\n  CreateTime : 1721011155921 2024-07-15 10:39:15\n  LastUpdateTime : 1721011155921 2024-07-15 10:39:15\n------------------------------------------------------------------------\nExtract:\n  aa=231\n------------------------------------------------------------------------\n',
+  ),
+  {
+    duration: 5000,
+    dangerouslyUseHTMLString: true,
+  },
+)
+ */
+export function formatTextToHtml(str: any): string {
+  // 如果 str 为空或者不是字符串类型，则直接返回 str
+  if (!str || typeof str !== 'string') {
+    return str
+  }
+  // 替换换行符 \n 为 <br> 标签
+  str = str.replace(/\n/g, '<br>')
+  // 替换制表符 \t 为四个空格或其他适当的字符
+  str = str.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+  return str
 }

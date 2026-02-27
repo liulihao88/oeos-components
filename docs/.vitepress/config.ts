@@ -134,6 +134,10 @@ export default defineConfig({
                   link: '/components/utils/sleep/home.md',
                 },
                 {
+                  text: 'formatTextToHtml',
+                  link: '/components/utils/formatTextToHtml/home.md',
+                },
+                {
                   text: 'dayjs函数方法',
                   link: '/components/utils/dayjs/home.md',
                 }
