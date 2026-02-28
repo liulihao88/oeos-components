@@ -91,11 +91,9 @@ const submitForm = async () => {
         </template>
 
         <template #age="{ scope, row }">
-          <template v-if="scope.$index !== -1">
-            <el-form-item :prop="'data.' + scope.$index + '.age'" :rules="formRules.age" class="">
-              <o-input v-model="form.data[scope.$index].age" size="small" />
-            </el-form-item>
-          </template>
+          <el-form-item :prop="'data.' + scope.$index + '.age'" :rules="formRules.age" class="">
+            <o-input v-model="form.data[scope.$index].age" size="small" />
+          </el-form-item>
         </template>
       </o-table>
     </el-form>

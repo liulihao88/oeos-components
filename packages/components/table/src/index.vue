@@ -417,7 +417,16 @@ const compEmptyText = computed(() => {
 
           <el-table-column v-else v-bind="{ ...v }">
             <template #default="scope">
-              <slot v-if="v.useSlot" :name="parseSlot(v)" :row="scope.row" :scope="scope" :value="scope.row[v.prop]" :index="scope.$index" />
+              <template v-if="v.useSlot">
+                <slot
+                  v-if="scope.$index !== -1"
+                  :name="parseSlot(v)"
+                  :row="scope.row"
+                  :scope="scope"
+                  :value="scope.row[v.prop]"
+                  :index="scope.$index"
+                />
+              </template>
               <span v-else-if="v.handler" class="hide-btns-button" @click.stop="v.handler(scope.row, scope)">
                 <span>{{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : handleEmptyText(scope, v) }}</span>
               </span>
