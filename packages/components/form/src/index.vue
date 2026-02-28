@@ -20,7 +20,7 @@ export interface FormSelfProps {
 const props = withDefaults(defineProps<FormSelfProps>(), {
   showFooter: import.meta.env.DEV ? true : false,
   column: 1,
-  align: 'center'
+  align: 'top'
 })
 
 const sFieldList = ref(props.fieldList)
