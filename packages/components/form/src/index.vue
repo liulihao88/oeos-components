@@ -14,11 +14,13 @@ export interface FormSelfProps {
   model: Record<string, any>
   showFooter: boolean
   column: 1 | 2 | 3 | 4 | 5 | 6
+  align: 'center' | 'top' | 'flex-end'
 }
 
 const props = withDefaults(defineProps<FormSelfProps>(), {
   showFooter: import.meta.env.DEV ? true : false,
   column: 1,
+  align: 'center'
 })
 
 const sFieldList = ref(props.fieldList)
@@ -163,6 +165,7 @@ defineExpose({
           </template>
         </el-form-item>
       </template>
+      
     </el-form>
     <o-flex justify="center" v-if="showFooter">
       <el-button type="primary" @click="submit" size="small">提交</el-button>
@@ -179,11 +182,8 @@ defineExpose({
   display: flex;
   flex-wrap: wrap;
 }
-:deep(.el-form-item__label) {
-  align-items: center;
-}
 :deep(.el-form-item) {
-  align-items: center;
+  align-items: v-bind('props.align');
 
   .el-form-item__content {
     .el-input,

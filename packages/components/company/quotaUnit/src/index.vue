@@ -4,7 +4,7 @@
     <div class="f-st-ct">
       <div class="f-st-ct w-100% mr2">
         <el-input-number v-model="internalValue" style="min-width: 150px" class="mr" :min="0" />
-        <o-radio v-model="unitValue" :options="QUOTA_UNIT" showType="button" />
+        <o-radio v-model="unitValue" :options="QUOTA_UNIT" showType="button" class="w-200" />
       </div>
     </div>
   </el-form-item>
