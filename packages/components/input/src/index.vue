@@ -157,10 +157,6 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  trim: {
-    type: Boolean,
-    default: true,
-  },
 })
 const restaurants = ref([])
 const inWidth = ref(true)
@@ -174,16 +170,6 @@ const handleMaxLength = computed(() => {
   }
 })
 
-// 监听 data 变化并自动去除空格
-watch(
-  data,
-  (newVal) => {
-    if (props.trim && typeof newVal === 'string') {
-      data.value = newVal.trim()
-    }
-  },
-  { flush: 'post' },
-)
 
 watch(
   () => props.options,
