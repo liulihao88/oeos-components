@@ -22,7 +22,7 @@
     <el-button
       type="primary"
       size="small"
-      @click.stop.prevent="jumpUrl('test/base')"
+      @click.stop.prevent="jumpUrl('test/home')"
       class="dev-package-copy"
       v-if="isDev"
     >
@@ -34,10 +34,11 @@
 <script lang="ts" setup>
 import { getStorage, setStorage, copy } from '@oeos-components/utils'
 import { ref, onUnmounted, onMounted, computed, watch } from 'vue'
-import { useData } from 'vitepress'
+import { useData, useRouter } from 'vitepress' // 添加 useRouter 导入
 import pkg from '../../../package.json'
 
 const { page } = useData()
+const router = useRouter() // 获取路由器实例
 
 const toggleRef = ref(null)
 const isDev = ref(import.meta.env.DEV)
@@ -91,9 +92,9 @@ const copyPackageUrl = () => {
   copy(pkgStr, { duration: 500 })
 }
 
+// http://localhost:9998/oeos-components/components/test/home
 const jumpUrl = (type: string) => {
   let pathname = location.pathname
-  console.log(`77 location`, location)
   if (!pathname || pathname === '/') {
     return
   }
@@ -119,10 +120,11 @@ const jumpUrl = (type: string) => {
     if (compStr.startsWith('directives')) {
       vascodeUrl = `vscode://file${baseUrl}/packages/directives/gDirectives.js`
     }
-  } else if(type==='test/base'){
+  } else if (type === 'test/home') {
+    router.go('/oeos-components/components/test/home') // 使用 VitePress 路由进行跳转
     vascodeUrl = `vscode://file${baseUrl}/docs/components/test/base.vue`
+    window.open(vascodeUrl, '_blank')
   }
-  window.open(vascodeUrl, '_blank')
 }
 
 const isHome = ref(false)
