@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-import { formatTime, formatDateToDay, formatDateToMinute, formatDate, diffDate, diffDateFromCurrent } from '@/utils/src/index.ts'
+const isShow = ref(true)
+const selectValue = ref(1)
 </script>
 
 <template>
   <div>
-    <div>docs/components/test/base.vue</div>
-    <div>{{ formatTime(new Date()) }}</div>
-    <div>{{ formatDate(new Date()) }}</div>
-    <div>{{ formatDateToDay(new Date()) }}</div>
-    <div>{{ formatDateToMinute(new Date()) }}</div>
-    <div>{{ diffDateFromCurrent(123) }}</div>
+    <el-dialog ref="dialogRef" title="base" v-model="isShow">
+      <o-select v-model="selectValue" :options="[1, 2]" type="simple" />
+    </el-dialog>
   </div>
 </template>

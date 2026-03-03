@@ -6,12 +6,14 @@ const isShow = ref(false)
 const form = ref({
   name: '',
   age: '',
+  hobby: '',
 })
 const originForm = proxy.clone(form.value)
 const oFormRef = ref(null)
 const rules = {
   name: [proxy.validate()],
   age: [proxy.validate()],
+  hobby: [proxy.validate()],
 }
 const fieldList = computed(() => {
   return [
@@ -25,6 +27,23 @@ const fieldList = computed(() => {
     {
       prop: 'age',
       label: '年龄',
+    },
+    {
+      prop: 'hobby',
+      label: '爱好',
+      comp: 'o-select',
+      attrs: {
+        options: [
+          {
+            label: '足球',
+            value: 'football',
+          },
+          {
+            label: '篮球',
+            value: 'basketball',
+          },
+        ],
+      },
     },
   ]
 })

@@ -2,7 +2,10 @@
   <div
     class="o-select"
     :style="{ ...processWidth(mergedProps.width) }"
-    :class="{ 'has-title': mergedProps.title, 'has-quick': mergedProps.showQuick && !parseDisabled && sOptions.length > 0 }"
+    :class="{
+      'has-title': mergedProps.title,
+      'has-quick': mergedProps.showQuick && !parseDisabled && sOptions.length > 0,
+    }"
   >
     <o-comp-title :title="mergedProps.title" :size="attrs.size" :boxStyle="$attrs.boxStyle ?? {}"></o-comp-title>
     <el-select
@@ -215,13 +218,13 @@ const handleDifValue = (item) => {
 const parseDisabled = computed(() => {
   // 检查直接传入的disabled属性
   const directDisabled = attrs.disabled === '' || !!attrs.disabled
-  
+
   // 查找祖先组件是否有disabled状态
   let ancestorDisabled = false
   let parent = getCurrentInstance()?.parent
   while (parent && !ancestorDisabled) {
     // 检查父组件实例是否有disabled属性
-    if (parent.props?.disabled !== undefined) {
+    if (parent.props?.disabled !== undefined && parent.type?.name) {
       ancestorDisabled = parent.props.disabled === '' || !!parent.props.disabled
     }
     // 检查父组件类型是否为禁用状态的容器（如form）
@@ -230,7 +233,7 @@ const parseDisabled = computed(() => {
     }
     parent = parent.parent
   }
-  
+
   return directDisabled || ancestorDisabled
 })
 
