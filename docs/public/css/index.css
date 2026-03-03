@@ -48,3 +48,16 @@ html.dark {
 .vp-doc ol {
   padding-left: 0;
 }
+
+..vp-tag {
+  --vp-tag-color: var(--el-color-primary);
+  --vp-tag-border-color: var(--el-color-primary);
+  display: inline-block;
+  padding: 0 7px;
+  border-radius: 10px;
+  border: 1px solid var(--vp-tag-border-color);
+  font-size: var(--el-font-size-extra-small);
+  color: var(--vp-tag-color);
+  line-height: 18px;
+  white-space: nowrap;
+}
