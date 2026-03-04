@@ -112,6 +112,7 @@ const jumpUrl = (type: string) => {
       vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/home.md`
     }
   } else if (type === 'packages') {
+    console.log(`2244 115行 docs/.vitepress/theme/logo.vue 222 `, 222);
     let middleStr = 'packages/components'
     console.log(`17 `,  `vscode://file${baseUrl}/${middleStr}/${compStr}/src/index.vue`);
     vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/src/index.vue`
@@ -124,8 +125,8 @@ const jumpUrl = (type: string) => {
   } else if (type === 'test/home') {
     router.go('/oeos-components/components/test/home') // 使用 VitePress 路由进行跳转
     vascodeUrl = `vscode://file${baseUrl}/docs/components/test/base.vue`
-    window.open(vascodeUrl, '_blank')
   }
+  window.open(vascodeUrl, '_blank')
 }
 
 const isHome = ref(false)
