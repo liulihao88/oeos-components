@@ -867,38 +867,45 @@ export function toLine(text, connect = '-') {
   return translateText
 }
 
-// processWidth(200) // { width: '200px' }
-// processWidth('200', true) // 200px
-// processWidth('200.33px') // { width: '200.33px' }
-// processWidth('') // {}
-export function processWidth(initValue, isBase = false) {
-  let value = unref(initValue)
-  let res = ''
-  if (!value) {
-    return isBase ? value : {}
-  } else if (typeof value === 'number') {
-    value = String(value)
+type WidthInput = string | number | Ref<string | number>
+const _CSS_UNIT_RE = /^[0-9]+(\.[0-9]+)?(px|%|em|rem|vw|vh|ch)$/
+/**
+ * processWidth(200)         // { width: '200px' }
+ *
+ * processWidth('200', true) // '200px'
+ *
+ * processWidth('200.33px')  // { width: '200.33px' }
+ *
+ * processWidth('')          // {}
+ *
+ * processWidth('invalid')   // {}
+ *
+ */
+export function processWidth(initValue: WidthInput, isBase = false): { width: string } | {} | string {
+  const raw = unref(initValue)
+
+  if (!raw) {
+    return isBase ? '' : {}
   }
-  if (value === '') {
-    return isBase ? value : {}
-  } else if (typeof value === 'string' && !isNaN(value)) {
-    res = value + 'px'
-  } else if (typeof value === 'string' && /^[0-9]+(\.[0-9]+)?(px|%|em|rem|vw|vh|ch)*$/.test(value)) {
-    res = value
+
+  const str = typeof raw === 'number' ? `${raw}` : raw
+
+  let res: string
+  if (!isNaN(Number(str))) {
+    res = str + 'px'
+  } else if (_CSS_UNIT_RE.test(str)) {
+    res = str
   } else {
-    console.warn(`${value} is Invalid unit provided`)
-    return value
+    return isBase ? '' : {}
   }
-  if (isBase) {
-    return res
-  }
-  return { width: res }
+
+  return isBase ? res : { width: res }
 }
 
 export function throttle(fn, delay = 1000) {
   // last为上一次触发毁掉的时间，timer是定时器
   let last = 0
-  let timer = null
+  let timer: ReturnType<typeof setTimeout> | undefined = undefined
   // 将throttle处理结果当做函数返回
   return function () {
     // 保留调用时的this上下文
