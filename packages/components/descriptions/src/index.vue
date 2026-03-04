@@ -16,7 +16,7 @@
             ></slot>
           </template>
           <template v-else-if="!props.showAll">
-            <o-tooltip :content="item.label"></o-tooltip>
+            <o-tooltip :content="item.label" v-bind="item.labelAttrs"></o-tooltip>
           </template>
           <template v-else>
             {{ item.label }}
@@ -33,7 +33,12 @@
           <template v-if="props.showAll">
             {{ parseValue(item) }}
           </template>
-          <o-tooltip class="w-100%" :content="parseContent(parseValue(item))" v-else></o-tooltip>
+          <o-tooltip
+            v-else
+            class="w-100%"
+            :content="parseContent(parseValue(item))"
+            v-bind="item.valueAttrs"
+          ></o-tooltip>
         </template>
       </el-descriptions-item>
     </slot>
@@ -62,6 +67,8 @@ type Options = {
   render?: (item: any) => VNode | string
   filter?: (value: any) => any
   attrs?: Record<string, any>
+  labelAttrs?: Record<string, any>
+  valueAttrs?: Record<string, any>
 }
 
 const props = defineProps({
@@ -81,7 +88,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  
 })
 
 const parseValue = (item: Options) => {

@@ -4,13 +4,21 @@ const { proxy } = getCurrentInstance()
 import { isEmpty, getType } from '@/utils/src/index.ts'
 
 const options = [
-  { label: 'isEmpty(undefined)', value: isEmpty(undefined) },
+  {
+    label: 'isEmpty(undefined)',
+    value: isEmpty(undefined),
+  },
   { label: 'isEmpty(null)', value: isEmpty(null) },
   { label: "isEmpty('')", value: isEmpty('') },
   { label: "isEmpty(' ')", value: isEmpty(' ') },
   { label: 'isEmpty(false)', value: isEmpty(false) },
   { label: "isEmpty(new Date('无效日期'))", value: isEmpty(new Date('无效日期')) },
-  { label: "isEmpty(new Date())", value: isEmpty(new Date()) },
+  {
+    label: 'isEmpty(new Date())',
+    value: isEmpty(new Date()),
+    labelAttrs: { class: 'cl-blue' },
+    valueAttrs: { class: 'cl-blue' },
+  },
   { label: 'isEmpty(0)', value: isEmpty(0) },
   { label: 'isEmpty([])', value: isEmpty([]) },
   { label: 'isEmpty({})', value: isEmpty({}) },
@@ -19,8 +27,18 @@ const options = [
   { label: 'isEmpty(new Map())', value: isEmpty(new Map()) },
   { label: 'isEmpty(BigInt(0))', value: isEmpty(BigInt(0)) },
 
-  { label: 'isEmpty(0, true)', value: isEmpty(0, true) },
-  { label: 'isEmpty(false, true)', value: isEmpty(false, true) },
+  {
+    label: 'isEmpty(0, true)',
+    value: isEmpty(0, true),
+    labelAttrs: { class: 'cl-blue' },
+    valueAttrs: { class: 'cl-blue' },
+  },
+  {
+    label: 'isEmpty(false, true)',
+    value: isEmpty(false, true),
+    labelAttrs: { class: 'cl-blue' },
+    valueAttrs: { class: 'cl-blue' },
+  },
 ]
 </script>
 
