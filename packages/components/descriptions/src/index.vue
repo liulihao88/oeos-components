@@ -58,7 +58,16 @@ defineOptions({
 
 const attrs = useAttrs()
 
-type Options = {
+
+
+type DescriptionsProps = {
+  options: ItemOptions[]
+  column: number
+  labelWidth: any
+  showAll: boolean
+}
+
+type ItemOptions = {
   label: string
   value: any
   labelSlot?: string
@@ -71,26 +80,32 @@ type Options = {
   valueAttrs?: Record<string, any>
 }
 
-const props = defineProps({
-  options: {
-    type: Array as () => Options[],
-    required: true,
-  },
-  column: {
-    type: Number,
-    default: 3,
-  },
-  labelWidth: {
-    type: String,
-    default: 'auto',
-  },
-  showAll: {
-    type: Boolean,
-    default: false,
-  },
+const props = withDefaults(defineProps<DescriptionsProps>(), {
+  column: 3,
+  labelWidth: 'auto',
+  showAll: false,
 })
 
-const parseValue = (item: Options) => {
+// const props = defineProps({
+//   options: {
+//     type: Array as () => Options[],
+//     required: true,
+//   },
+//   column: {
+//     type: Number,
+//     default: 3,
+//   },
+//   labelWidth: {
+//     type: String,
+//     default: 'auto',
+//   },
+//   showAll: {
+//     type: Boolean,
+//     default: false,
+//   },
+// })
+
+const parseValue = (item: ItemOptions) => {
   if (item.filter) {
     return item.filter(item.value)
   } else {
