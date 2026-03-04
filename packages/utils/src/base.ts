@@ -140,8 +140,9 @@ export function setStorage(storageName: string, params: any, isSession = false) 
 
 export function getStorage(data, isSession = false) {
   // 先获取localStorage数据, 如果没有再获取sessionStorage数据。 如果都没有， null;
-  let getLocalData = ''
-  let getSessionData = ''
+  // localStorage.getItem / sessionStorage.getItem 返回 string | null，所以使用 any 或者 string | null 来兼容
+  let getLocalData: any = null
+  let getSessionData: any = null
   // 如果isSessionFirst为true, 先判断sessionStorage, 后判断localStorage
   if (isSession) {
     getSessionData = sessionStorage.getItem(data)

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-import { processWidth } from '@/utils/src/base.ts'
+import { processWidth, isEmpty } from '@/utils/src/base.ts'
 const cc = ref()
 </script>
 
