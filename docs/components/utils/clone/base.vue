@@ -44,7 +44,7 @@ const options = ref([
         <o-flex justify="end">
           <div class="mr">clone(refValue)</div>
           <div class="f-st-ct">
-            <o-tooltip content="const refValue = ref([11, 22, 33])">
+            <o-tooltip content="const refValue = ref([11, 22, 33])" class="h-16">
               <o-icon name="warning"></o-icon>
             </o-tooltip>
           </div>
