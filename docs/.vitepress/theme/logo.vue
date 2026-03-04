@@ -113,6 +113,7 @@ const jumpUrl = (type: string) => {
     }
   } else if (type === 'packages') {
     let middleStr = 'packages/components'
+    console.log(`17 `,  `vscode://file${baseUrl}/${middleStr}/${compStr}/src/index.vue`);
     vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/src/index.vue`
     if (compStr.startsWith('utils')) {
       vascodeUrl = `vscode://file${baseUrl}/packages/utils/src/index.ts`

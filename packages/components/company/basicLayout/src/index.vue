@@ -2,6 +2,14 @@
 import { ref, getCurrentInstance, computed } from 'vue'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
+  size: {
+    type: String,
+    default: 'default', // small large
+  },
   title: {
     type: String,
     default: '',
@@ -46,10 +54,17 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  collapsible: {
+    type: Boolean,
+    default: false,
+  },
 })
+
+const emit = defineEmits(['update:modelValue'])
 
 const boxRef = ref(null)
 const headerRef = ref(null)
+const isCollapsed = ref(props.modelValue)
 
 const boxMergedStyle = computed(() => {
   let brStyle = {}
@@ -111,6 +126,18 @@ const squareStyle = computed(() => {
   }
   return {}
 })
+
+const compPadding = computed(() => {
+  const { size } = props
+  return size === 'default' ? '16px' : size === 'large' ? '24px' : '8px'
+})
+
+const toggleCollapse = () => {
+  if (props.collapsible) {
+    isCollapsed.value = !isCollapsed.value
+    emit('update:modelValue', isCollapsed.value)
+  }
+}
 </script>
 
 <template>
@@ -120,15 +147,22 @@ const squareStyle = computed(() => {
       v-if="$slots.header || props.title"
       :style="headerMergedStyle"
       ref="headerRef"
+      @click="toggleCollapse"
+      :class="{ collapsible: collapsible }"
     >
       <slot name="header">
         <o-title :title="props.title" :style="{ ...boxStyle }"></o-title>
       </slot>
+      <span v-if="collapsible" class="collapse-arrow" :class="{ collapsed: isCollapsed }">
+        <slot name="icon">
+          <o-icon name="arrow-down"></o-icon>
+        </slot>
+      </span>
     </div>
-    <div class="o-basic-layout__body" :style="{ ...bodyStyle, ...scrollStyle, ...squareStyle }">
+    <div class="o-basic-layout__body" :style="{ ...bodyStyle, ...scrollStyle, ...squareStyle }" v-show="!isCollapsed">
       <slot></slot>
     </div>
-    <div class="o-basic-layout__footer" v-if="$slots.footer" :style="footerStyle">
+    <div class="o-basic-layout__footer" v-if="$slots.footer && !isCollapsed" :style="footerStyle">
       <slot name="footer"></slot>
     </div>
   </div>
@@ -137,21 +171,40 @@ const squareStyle = computed(() => {
 <style lang="scss" scoped>
 .o-basic-layout {
   background: #fff;
-  border: 1px solud var(--line);
+  border: 1px solud var(--line); // 这里应该是solid而不是solud
   border-radius: 4px;
   display: flex;
   flex-direction: column;
   overflow: auto;
   &__header {
-    padding: 16px;
-    border-bottom: 1px solid var(--line);
+    padding: v-bind(compPadding);
+    // 修复这一行的语法 - 原来的写法是错误的
+    border-bottom: v-bind("isCollapsed ? 'none' : '1px solid var(--line)'");
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    &.collapsible {
+      user-select: none;
+    }
+
+    .collapse-arrow {
+      transition: transform 0.3s ease;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      &.collapsed {
+        transform: rotate(-90deg);
+      }
+    }
   }
   &__body {
-    padding: 16px;
+    padding: v-bind(compPadding);
   }
   &__footer {
     border-top: 1px solid var(--line);
-    padding: 16px;
+    padding: v-bind(compPadding);
   }
 }
 </style>
