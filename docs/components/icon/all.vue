@@ -13,9 +13,8 @@ function copyIcon(name) {
   <div class="icon-box">
     <template v-for="(v, i) in icons" :key="i">
       <div class="box-inner" @click="copyIcon(v.name)">
-        <o-icon :name="`${proxy.toLine(v.name)}`" size="30" class="item"></o-icon>
+        <o-icon :name="`${proxy.toLine(v.name)}`" class="item"></o-icon>
         <div>{{ v.name }}</div>
-        <!-- <o-tooltip :content="v.name"></o-tooltip> -->
       </div>
     </template>
   </div>
@@ -29,14 +28,14 @@ function copyIcon(name) {
   flex-wrap: wrap;
   .box-inner {
     display: flex;
-    width: 60px;
+    width: 50px;
     align-items: center;
     flex-direction: column;
-    margin: 24px;
+    margin: 20px;
     cursor: pointer;
+    font-size: 12px;
     .item {
       margin-bottom: 8px;
-      font-size: 12px;
     }
   }
 }
