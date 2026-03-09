@@ -58,8 +58,6 @@ defineOptions({
 
 const attrs = useAttrs()
 
-
-
 type DescriptionsProps = {
   options: ItemOptions[]
   column: number
@@ -123,6 +121,8 @@ const getLabelWidth = (label: string): number => {
     tempEl.style.visibility = 'hidden'
     tempEl.style.display = 'inline-block'
     tempEl.style.position = 'absolute'
+    tempEl.style.left = '-9999px'
+    tempEl.style.top = '-9999px'
     tempEl.style.whiteSpace = 'nowrap'
     tempEl.style.fontFamily = 'inherit'
     tempEl.style.fontSize = '14px' // 默认字体大小
