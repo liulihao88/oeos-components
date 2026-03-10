@@ -17,11 +17,15 @@
     <template v-if="$slots.content" v-slot:content>
       <slot name="content"></slot>
     </template>
+    <!-- 添加对 VNode 类型 content 的支持 -->
+    <template v-else-if="isVNodeContent" v-slot:content>
+      <component :is="dynamicComponent" />
+    </template>
   </el-tooltip>
 </template>
 
 <script setup lang="ts" name="OTooltip">
-import { ref, useSlots, computed, useAttrs } from 'vue'
+import { ref, useSlots, computed, useAttrs, h, resolveComponent } from 'vue'
 import { processWidth } from '@oeos-components/utils'
 const slots = useSlots()
 const attrs = useAttrs()
@@ -43,6 +47,24 @@ const props = defineProps({
     default: () => ({}),
   },
 })
+
+// 检查 content 是否为 VNode
+const isVNodeContent = computed(() => {
+  const content = attrs.content
+  return content && typeof content === 'object' && content.hasOwnProperty('type')
+})
+
+// 创建一个动态组件来渲染 VNode
+const dynamicComponent = computed(() => {
+  const content = attrs.content
+  if (isVNodeContent.value) {
+    return {
+      render: () => content
+    }
+  }
+  return null
+})
+
 const contentRef = ref()
 const isDisabled = ref(false)
 const handleDisabled = computed(() => {
