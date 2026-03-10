@@ -4,7 +4,7 @@
       <!-- 如果是 el-col 直接渲染 -->
       <component v-if="isElCol(vnode)" :is="vnode" />
       <!-- 否则包裹一层 el-col -->
-      <el-col v-else :span="computedSpans[i]" v-bind="colAttrs">
+      <el-col v-else :span="computedSpans[i]" v-bind="colAttrs" class="h-100%">
         <component :is="vnode" />
       </el-col>
     </template>
