@@ -26,7 +26,7 @@ const useMapTextTitle = h('div', {}, [
       这里显示内容
     </o-tooltip>
 
-    <o-tooltip :content="useMapTextTitle" >
+    <o-tooltip :content="useMapTextTitle" trigger="click">
       <el-button type="primary">字段说明</el-button>
     </o-tooltip>
   </div>
