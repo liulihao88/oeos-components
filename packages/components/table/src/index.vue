@@ -56,6 +56,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  pageAttrs: {
+    type: Object,
+    default: () => {},
+  },
 })
 const tableRef = ref(null)
 const tableTotal = computed(() => {
@@ -442,25 +446,25 @@ const compEmptyText = computed(() => {
       </template>
     </el-table>
 
-    <div v-if="showPage" style="height: 64px">
-      <div class="page-wrap">
-        <div class="page-left">
-          <span>共</span>
-          <span class="m-lr-5">{{ tableTotal }}</span>
-          <span>项数据</span>
-        </div>
-        <el-pagination
-          class="tab_pagination"
-          background
-          :current-page="sPageNumber"
-          :page-size="sPageSize"
-          :page-sizes="pageSizes"
-          layout="prev, pager, next, sizes, jumper"
-          :total="tableTotal"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        />
+    <div class="page-wrap" v-if="showPage">
+      <div class="page-left">
+        <span>共</span>
+        <span class="m-lr-2 bold">{{ tableTotal }}</span>
+        <span>项数据</span>
       </div>
+      <el-pagination
+        class="tab_pagination"
+        background
+        :current-page="sPageNumber"
+        :page-size="sPageSize"
+        :page-sizes="pageSizes"
+        layout="prev, pager, next, jumper, sizes"
+        :total="tableTotal"
+        :size="$attrs.size"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        v-bind="props.pageAttrs"
+      />
     </div>
   </div>
 </template>
@@ -479,8 +483,8 @@ const compEmptyText = computed(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 64px;
-    padding: 0 24px;
+    padding: 4px 24px;
+    height: 50px;
     background: #fff;
     border: 1px solid #ebedf0;
     border-top-style: none;

@@ -8,7 +8,7 @@ const data = ref([
 ])
 const otherParams = ref({
   size: 'large',
-  showPage: false,
+  showPage: true,
   fixed: false,
 })
 const columns = computed(() => {
@@ -50,6 +50,13 @@ const columns = computed(() => {
       <o-radio v-model="otherParams.showPage" :options="[true, false]" type="simple" title="showPage"></o-radio>
       <o-radio v-model="otherParams.fixed" :options="[true, false]" type="simple" title="地址固定: fixed"></o-radio>
     </o-flex>
-    <o-table :columns="columns" :data="data" v-bind="otherParams"></o-table>
+    <o-table
+      :columns="columns"
+      :data="data"
+      v-bind="otherParams"
+      :pageAttrs="{
+        layout: 'prev, pager, next, jumper',
+      }"
+    ></o-table>
   </div>
 </template>
