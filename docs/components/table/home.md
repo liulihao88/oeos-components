@@ -22,6 +22,12 @@ table/base
 table/other
 :::
 
+### 单击选中当前行
+
+:::demo
+table/click
+:::
+
 ### 多选
 
 :::demo
@@ -40,12 +46,6 @@ table/usually
 table/edit
 :::
 
-### 单击选中当前行
-
-:::demo
-table/click
-:::
-
 ### 表格里嵌套表格
 
 :::demo
@@ -57,5 +57,3 @@ table/wrap
 :::demo
 table/render
 :::
-
-

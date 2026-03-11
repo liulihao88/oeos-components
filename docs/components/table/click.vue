@@ -9,6 +9,10 @@ const tableRef = ref(null)
 
 const columns = [
   {
+    type: 'radio', // 添加radio类型列
+    width: 50,
+  },
+  {
     label: '人物单',
     prop: 'name',
   },

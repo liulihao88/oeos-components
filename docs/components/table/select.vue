@@ -12,7 +12,6 @@ function selectableFn(val, index) {
 const columns = [
   {
     type: 'selection',
-    key: 'name',
     selectable: selectableFn,
   },
   {
