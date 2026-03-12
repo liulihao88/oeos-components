@@ -129,12 +129,12 @@ watch(
   },
 )
 // isShow 或者 content支持 函数或字符串两种写法。
-const operatorBtnFn = (cont, row = '', scope = '') => {
+const operatorBtnFn = (cont, row = '', scope = '', btnItem = '') => {
   if (typeof cont === 'function') {
     if (!row) {
       return true
     }
-    return cont(row, scope)
+    return cont(row, scope, btnItem)
   } else {
     if (cont === undefined) {
       return true
@@ -194,10 +194,10 @@ const parseIsShowColumn = (isFn, item, index) => {
   }
 }
 
-const handleCompClick = (handler, row, scope, event) => {
-  if (handler) {
+const handleCompClick = (handlerMethod, row, scope, btnItem, event) => {
+  if (handlerMethod) {
     event.stopPropagation()
-    handler(row, scope, event)
+    handlerMethod(row, scope, btnItem, event)
   }
 }
 
@@ -238,7 +238,7 @@ function updatePage(number, size) {
 
 const parseTableWidth = (btns, hBtns) => {
   if (btns.length === 1) {
-    return '60px'
+    return attrs.size === 'large' ? '70px' : '60px'
   }
   return 16 + (btns.length + (hBtns.length === 0 ? 0 : 1)) * 32 - 8 + 'px'
 }
@@ -300,120 +300,126 @@ const compEmptyText = computed(() => {
             v-bind="{ ...{ fixed: 'right', width: parseTableWidth(v.baseBtns, v.hideBtns) }, ...v }"
           >
             <template #default="scope">
-              <template v-if="parseIsShow(v.isShow, scope.row, scope)">
-                <template v-for="(val, idx) in v.baseBtns" :key="idx">
-                  <template v-if="parseIsShow(val.isShow, scope.row, scope)">
-                    <slot
-                      v-if="val.useSlot"
-                      :name="parseSlot(val)"
-                      :row="scope.row"
-                      :scope="scope"
-                      :index="scope.$index"
-                      :value="scope.row[val.prop]"
-                    />
-                    <RenderComp
-                      v-else-if="val.render"
-                      :render="val.render"
-                      :row="scope.row"
-                      :scope="scope"
-                      :value="scope.row[val.prop]"
-                    />
+              <template v-if="scope.$index !== -1">
+                <template v-if="parseIsShow(v.isShow, scope.row, scope)">
+                  <template v-for="(val, idx) in v.baseBtns" :key="idx">
+                    <template v-if="parseIsShow(val.isShow, scope.row, scope)">
+                      <slot
+                        v-if="val.useSlot"
+                        :name="parseSlot(val)"
+                        :row="scope.row"
+                        :scope="scope"
+                        :index="scope.$index"
+                        :value="scope.row[val.prop]"
+                      />
+                      <RenderComp
+                        v-else-if="val.render"
+                        :render="val.render"
+                        :row="scope.row"
+                        :scope="scope"
+                        :value="scope.row[val.prop]"
+                      />
 
-                    <template v-else-if="parseReConfirm(val.reConfirm, scope.row, scope)">
-                      <oPopconfirm
-                        trigger="click"
-                        :title="val.title ?? '确定删除吗?'"
-                        class="f-st-ct"
-                        @confirm="val.handler?.(scope.row, scope)"
-                      >
-                        <component
-                          :is="val.comp"
-                          v-if="val.comp"
-                          class="cp"
-                          v-bind="val.attrs"
-                          :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                        />
+                      <template v-else-if="parseReConfirm(val.reConfirm, scope.row, scope)">
+                        <oPopconfirm
+                          trigger="click"
+                          :title="
+                            getType(val.title) === 'function'
+                              ? val.title(scope.row, scope, val)
+                              : val.title ?? '确定删除吗?'
+                          "
+                          class="f-st-ct"
+                          @confirm="val.handler?.(scope.row, scope, val)"
+                        >
+                          <component
+                            :is="val.comp"
+                            v-if="val.comp"
+                            class="cp"
+                            v-bind="val.attrs"
+                            :disabled="parseDisabled(val.disabled, scope.row, scope, val)"
+                          />
+                          <el-button
+                            v-else
+                            v-bind="{ ...val }"
+                            link
+                            class="hide-btns-button"
+                            :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                          >
+                            {{ operatorBtnFn(val.content, scope.row, scope, val) }}
+                          </el-button>
+                        </oPopconfirm>
+                      </template>
+                      <component
+                        :is="val.comp"
+                        v-else-if="val.comp"
+                        class="cp"
+                        v-bind="val.attrs"
+                        :disabled="parseDisabled(val.disabled, scope.row, scope, val)"
+                        @click="($event) => handleCompClick(val.handler, scope.row, val, scope, $event)"
+                      />
+                      <template v-else>
                         <el-button
-                          v-else
                           v-bind="{ ...val }"
                           link
-                          class="hide-btns-button"
                           :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                          class="hide-btns-button"
+                          @click.stop="val.handler?.(scope.row, scope, val)"
                         >
-                          {{ operatorBtnFn(val.content, scope.row, scope) }}
+                          {{ operatorBtnFn(val.content, scope.row, scope, val) }}
                         </el-button>
-                      </oPopconfirm>
-                    </template>
-                    <component
-                      :is="val.comp"
-                      v-else-if="val.comp"
-                      class="cp"
-                      v-bind="val.attrs"
-                      :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                      @click="($event) => handleCompClick(val.handler, scope.row, scope, $event)"
-                    />
-                    <template v-else>
-                      <el-button
-                        v-bind="{ ...val }"
-                        link
-                        :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                        class="hide-btns-button"
-                        @click.stop="val.handler?.(scope.row, scope)"
-                      >
-                        {{ operatorBtnFn(val.content, scope.row, scope) }}
-                      </el-button>
+                      </template>
                     </template>
                   </template>
-                </template>
 
-                <template v-if="v.hideBtns.length > 0">
-                  <el-dropdown class="" trigger="click">
-                    <o-icon name="more" @click.stop />
-                    <template #dropdown>
-                      <el-dropdown-menu :hide-on-click="false">
-                        <template v-for="(val, idx) in v.hideBtns" :key="idx">
-                          <el-dropdown-item
-                            v-if="parseIsShow(val.isShow, scope.row, scope)"
-                            :hide-on-click="false"
-                            @click="val.handler?.(scope.row, scope)"
-                          >
-                            <slot
-                              v-if="val.useSlot"
-                              :name="parseSlot(val)"
-                              :row="scope.row"
-                              :scope="scope"
-                              :index="scope.$index"
-                              :value="scope.row[val.prop]"
-                            />
-                            <RenderComp
-                              v-else-if="val.render"
-                              :render="val.render"
-                              :row="scope.row"
-                              :scope="scope"
-                              :value="scope.row[val.prop]"
-                            />
-                            <template v-else>
-                              <component
-                                :is="val.comp"
-                                v-if="val.comp"
-                                v-bind="val.attrs"
-                                :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                  <template v-if="v.hideBtns.length > 0">
+                    <el-dropdown class="" trigger="click">
+                      <o-icon name="more" @click.stop />
+                      <template #dropdown>
+                        <el-dropdown-menu :hide-on-click="false">
+                          <template v-for="(val, idx) in v.hideBtns" :key="idx">
+                            <el-dropdown-item
+                              v-if="parseIsShow(val.isShow, scope.row, scope)"
+                              :hide-on-click="false"
+                              @click="val.handler?.(scope.row, scope, val)"
+                            >
+                              <slot
+                                v-if="val.useSlot"
+                                :name="parseSlot(val)"
+                                :row="scope.row"
+                                :scope="scope"
+                                :index="scope.$index"
+                                :value="scope.row[val.prop]"
                               />
-                              <el-button
-                                v-else
-                                v-bind="{ ...val }"
-                                link
-                                class="hide-btns-button"
-                                :disabled="parseDisabled(val.disabled, scope.row, scope)"
-                              >
-                                {{ operatorBtnFn(val.content, scope.row, scope) }}
-                              </el-button>
-                            </template>
-                          </el-dropdown-item>
-                        </template>
-                      </el-dropdown-menu>
-                    </template>
-                  </el-dropdown>
+                              <RenderComp
+                                v-else-if="val.render"
+                                :render="val.render"
+                                :row="scope.row"
+                                :scope="scope"
+                                :value="scope.row[val.prop]"
+                              />
+                              <template v-else>
+                                <component
+                                  :is="val.comp"
+                                  v-if="val.comp"
+                                  v-bind="val.attrs"
+                                  :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                                />
+                                <el-button
+                                  v-else
+                                  v-bind="{ ...val }"
+                                  link
+                                  class="hide-btns-button"
+                                  :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                                >
+                                  {{ operatorBtnFn(val.content, scope.row, scope, val) }}
+                                </el-button>
+                              </template>
+                            </el-dropdown-item>
+                          </template>
+                        </el-dropdown-menu>
+                      </template>
+                    </el-dropdown>
+                  </template>
                 </template>
               </template>
             </template>
@@ -421,25 +427,28 @@ const compEmptyText = computed(() => {
 
           <el-table-column v-else v-bind="{ ...v }">
             <template #default="scope">
-              <template v-if="v.useSlot">
-                <slot
-                  v-if="scope.$index !== -1"
-                  :name="parseSlot(v)"
-                  :row="scope.row"
-                  :scope="scope"
-                  :value="scope.row[v.prop]"
-                  :index="scope.$index"
-                />
+              <template v-if="scope.$index !== -1">
+                <template v-if="v.useSlot">
+                  <slot
+                    :name="parseSlot(v)"
+                    :row="scope.row"
+                    :scope="scope"
+                    :value="scope.row[v.prop]"
+                    :index="scope.$index"
+                  />
+                </template>
+                <span v-else-if="v.handler" class="hide-btns-button" @click.stop="v.handler(scope.row, scope, v)">
+                  <span>
+                    {{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : handleEmptyText(scope, v) }}
+                  </span>
+                </span>
+                <span v-else-if="v.filter">
+                  {{ v.filter(scope.row[v.prop], scope.row, scope) }}
+                </span>
+                <span v-else>
+                  {{ handleEmptyText(scope, v) }}
+                </span>
               </template>
-              <span v-else-if="v.handler" class="hide-btns-button" @click.stop="v.handler(scope.row, scope)">
-                <span>{{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : handleEmptyText(scope, v) }}</span>
-              </span>
-              <span v-else-if="v.filter">
-                {{ v.filter(scope.row[v.prop], scope.row, scope) }}
-              </span>
-              <span v-else>
-                {{ handleEmptyText(scope, v) }}
-              </span>
             </template>
           </el-table-column>
         </template>
