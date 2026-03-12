@@ -34,6 +34,12 @@ table/click
 table/select
 :::
 
+### 隐藏按钮或列 isShow
+
+:::demo
+table/isShow
+:::
+
 ### 通常用法
 
 :::demo
