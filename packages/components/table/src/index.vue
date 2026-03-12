@@ -155,9 +155,9 @@ const parseDisabled = (disFn, row = '', scope = '') => {
     return disFn
   }
 }
-const parseIsShow = (isFn, row = '', scope = '') => {
+const parseIsShow = (isFn, ...rest) => {
   if (typeof isFn === 'function') {
-    return isFn(row, scope)
+    return isFn(...rest)
   } else {
     if (isFn === undefined) {
       return true
@@ -179,16 +179,6 @@ const parseReConfirm = (isFn, row = '', scope = '') => {
   } else {
     if (isFn === undefined) {
       return false
-    }
-    return isFn
-  }
-}
-const parseIsShowColumn = (isFn, item, index) => {
-  if (typeof isFn === 'function') {
-    return isFn(item, index)
-  } else {
-    if (isFn === undefined) {
-      return true
     }
     return isFn
   }
@@ -293,7 +283,7 @@ const compEmptyText = computed(() => {
         </template>
       </el-table-column>
       <template v-for="(v, i) in finalColumns" :key="i">
-        <template v-if="parseIsShowColumn(v.isShowColumn, v, i)">
+        <template v-if="parseIsShow(v.isShow, v, i)">
           <el-table-column v-if="v.type" :key="v.type" v-bind="{ align: 'center', ...v }" />
           <el-table-column
             v-else-if="v.baseBtns && v.baseBtns.length > 0"
@@ -301,9 +291,9 @@ const compEmptyText = computed(() => {
           >
             <template #default="scope">
               <template v-if="scope.$index !== -1">
-                <template v-if="parseIsShow(v.isShow, scope.row, scope)">
+                <template v-if="parseIsShow(v.isShow, scope.row, scope, v, i)">
                   <template v-for="(val, idx) in v.baseBtns" :key="idx">
-                    <template v-if="parseIsShow(val.isShow, scope.row, scope)">
+                    <template v-if="parseIsShow(val.isShow, scope.row, scope, v, i)">
                       <slot
                         v-if="val.useSlot"
                         :name="parseSlot(val)"
@@ -378,7 +368,7 @@ const compEmptyText = computed(() => {
                         <el-dropdown-menu :hide-on-click="false">
                           <template v-for="(val, idx) in v.hideBtns" :key="idx">
                             <el-dropdown-item
-                              v-if="parseIsShow(val.isShow, scope.row, scope)"
+                              v-if="parseIsShow(val.isShow, scope.row, scope, v, i)"
                               :hide-on-click="false"
                               @click="val.handler?.(scope.row, scope, val)"
                             >
