@@ -13,3 +13,9 @@ utils/confirm/base
 :::demo
 utils/confirm/dialog
 :::
+
+### 测试
+
+:::demo
+utils/confirm/test
+:::

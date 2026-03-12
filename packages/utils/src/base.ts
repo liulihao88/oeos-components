@@ -1035,7 +1035,7 @@ export function debounce(func: Func, delay: number = 500, immediate?: boolean, r
     })
  * 如果是多个dialog嵌套, 可以给上层的dom设置个id如highSettingsForm, 然后appendTo: '#highSettingsForm'
  */
-export function confirm(message, options) {
+export function confirm(message, options = {}) {
   const resolvedMessage = typeof message === 'function' ? message() : message
   // 关键点：直接访问 Element Plus 内部维护的全局上下文
   const elContext =
