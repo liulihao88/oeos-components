@@ -52,6 +52,12 @@ table/usually
 table/edit
 :::
 
+### reConfirm再确认
+
+:::demo
+table/reConfirm
+:::
+
 ### 表格里嵌套表格
 
 :::demo
