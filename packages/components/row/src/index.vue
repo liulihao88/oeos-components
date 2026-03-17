@@ -1,10 +1,10 @@
 <template>
   <el-row v-bind="$attrs" :gutter="gutter" :justify="justify" :align="align">
-    <template v-for="(vnode, i) in defaultSlot" :key="i">
+    <template v-for="(vnode, i) in getDefaultSlot()" :key="vnode.key ?? i">
       <!-- 如果是 el-col 直接渲染 -->
       <component v-if="isElCol(vnode)" :is="vnode" />
       <!-- 否则包裹一层 el-col -->
-      <el-col v-else :span="computedSpans[i]" v-bind="colAttrs" class="h-100%">
+      <el-col v-else :span="getSpan(i)" v-bind="colAttrs" class="h-100%">
         <component :is="vnode" />
       </el-col>
     </template>
@@ -15,7 +15,7 @@
 defineOptions({
   name: 'ORow',
 })
-import { computed, useSlots, PropType } from 'vue'
+import { PropType, useSlots } from 'vue'
 
 const props = defineProps({
   col: {
@@ -36,12 +36,15 @@ const props = defineProps({
   },
   colAttrs: {
     type: Object,
-    default: () => {},
+    default: () => ({}),
   },
 })
 
 const slots = useSlots()
-const defaultSlot = slots.default ? slots.default() : []
+
+function getDefaultSlot() {
+  return slots.default ? slots.default() : []
+}
 
 // 是否是 el-col 组件（注意：应同时支持SFC和按需注册场景，或直接判断tag名）
 function isElCol(vnode: any) {
@@ -51,19 +54,14 @@ function isElCol(vnode: any) {
   return vnode && (vnode.type === 'el-col' || (typeof vnode.type === 'object' && vnode.type.name === 'ElCol'))
 }
 
-const computedSpans = computed(() => {
-  // 数量 N = defaultSlot.length
+function getSpan(index: number) {
   // 如果 props.col 是 number，均分 N 份
   if (typeof props.col === 'number') {
-    const count = defaultSlot.length || 1
-    return Array(count).fill(props.col)
+    return props.col
   } else if (Array.isArray(props.col)) {
-    // 按照 col 分配，每个都要有 span，填充不足的部分
-    const arr = props.col.slice(0, defaultSlot.length)
-    while (arr.length < defaultSlot.length) arr.push(24)
-    return arr
+    return props.col[index] ?? 24
   } else {
-    return Array(defaultSlot.length).fill(24)
+    return 24
   }
-})
+}
 </script>
