@@ -451,19 +451,23 @@ const compEmptyText = computed(() => {
         <span class="m-lr-2 bold">{{ tableTotal }}</span>
         <span>项数据</span>
       </div>
-      <el-pagination
-        class="tab_pagination"
-        background
-        :current-page="sPageNumber"
-        :page-size="sPageSize"
-        :page-sizes="pageSizes"
-        layout="prev, pager, next, jumper, sizes"
-        :total="tableTotal"
-        :size="$attrs.size"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        v-bind="props.pageAttrs"
-      />
+      <div class="page-right">
+        <div class="page-scroll">
+          <el-pagination
+            class="tab_pagination"
+            background
+            :current-page="sPageNumber"
+            :page-size="sPageSize"
+            :page-sizes="pageSizes"
+            layout="prev, pager, next, jumper, sizes"
+            :total="tableTotal"
+            :size="$attrs.size"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            v-bind="props.pageAttrs"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -482,6 +486,7 @@ const compEmptyText = computed(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
     padding: 4px 24px;
     height: 50px;
     background: #fff;
@@ -490,7 +495,28 @@ const compEmptyText = computed(() => {
   }
 
   .page-wrap .page-left {
+    flex-shrink: 0;
     color: rgb(39 48 75 / 85%);
+  }
+
+  .page-wrap .page-right {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .page-wrap .page-scroll {
+    min-width: max-content;
+    margin-left: auto;
+  }
+
+  .page-wrap .page-right :deep(.el-pagination) {
+    display: inline-flex;
+    flex: none;
+    flex-wrap: nowrap;
+    white-space: nowrap;
   }
 
   :deep(.el-table) {
