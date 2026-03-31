@@ -171,7 +171,7 @@ const toggleCollapse = () => {
 <style lang="scss" scoped>
 .o-basic-layout {
   background: #fff;
-  border: 1px solud var(--line); // 这里应该是solid而不是solud
+  border: 1px solid var(--line);
   border-radius: 4px;
   display: flex;
   flex-direction: column;
