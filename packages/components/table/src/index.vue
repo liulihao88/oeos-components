@@ -226,11 +226,71 @@ function updatePage(number, size) {
   emits('update', number, size)
 }
 
-const parseTableWidth = (btns, hBtns) => {
-  if (btns.length === 1) {
-    return attrs.size === 'large' ? '70px' : '60px'
+let textMeasureEl: HTMLSpanElement | null = null
+
+const getTextWidth = (text = '') => {
+  const value = String(text).trim()
+  if (!value) return 0
+
+  if (typeof document === 'undefined') {
+    return value.length * 14
   }
-  return 16 + (btns.length + (hBtns.length === 0 ? 0 : 1)) * 32 - 8 + 'px'
+
+  if (!textMeasureEl) {
+    textMeasureEl = document.createElement('span')
+    textMeasureEl.style.position = 'fixed'
+    textMeasureEl.style.left = '-9999px'
+    textMeasureEl.style.top = '-9999px'
+    textMeasureEl.style.visibility = 'hidden'
+    textMeasureEl.style.pointerEvents = 'none'
+    textMeasureEl.style.whiteSpace = 'nowrap'
+    document.body.appendChild(textMeasureEl)
+  }
+
+  const buttonEl = document.querySelector('.o-table .hide-btns-button')
+  if (buttonEl) {
+    const style = window.getComputedStyle(buttonEl)
+    textMeasureEl.style.font = style.font
+    textMeasureEl.style.fontSize = style.fontSize
+    textMeasureEl.style.fontWeight = style.fontWeight
+    textMeasureEl.style.fontFamily = style.fontFamily
+    textMeasureEl.style.letterSpacing = style.letterSpacing
+  } else {
+    textMeasureEl.style.font = '14px sans-serif'
+  }
+
+  textMeasureEl.textContent = value
+  return Math.ceil(textMeasureEl.getBoundingClientRect().width)
+}
+
+const getBtnWidth = (btn) => {
+  if (btn.width !== undefined) {
+    return Number(btn.width)
+  }
+
+  if (typeof btn.content === 'function') {
+    return getTextWidth('哈哈')
+  }
+
+  if (btn.render || btn.useSlot) {
+    return getTextWidth('哈哈')
+  }
+
+  if (btn.comp) {
+    return 16
+  }
+
+  return getTextWidth(btn.content || '')
+}
+
+const parseTableWidth = (btns, hBtns) => {
+  const btnsWidth = btns.reduce((sum, btn) => sum + getBtnWidth(btn), 0)
+  const gapWidth = Math.max(btns.length - 1, 0) * 8
+  const moreWidth = hBtns.length > 0 ? 24 : 0
+  const paddingWidth = 40
+  const minWidth = 60
+
+  return `${Math.max(btnsWidth + gapWidth + moreWidth + paddingWidth, minWidth)}px`
 }
 const parseEmptyText = computed(() => {
   if (props.isLoading === true) {
@@ -539,7 +599,8 @@ const compEmptyText = computed(() => {
   :deep(.el-table-fixed-column--right .cell.el-tooltip) {
     display: inline-flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 8px;
     min-height: 23px;
     line-height: 23px;
     .o-icon + .o-icon {
@@ -582,6 +643,9 @@ const compEmptyText = computed(() => {
   :deep(.el-table-fixed-column--right.is-last-column:before),
   :deep(.el-table-fixed-column--right.is-first-column:before) {
     box-shadow: 1px 0 0 0 rgba(242, 243, 245, 1);
+  }
+  :deep(.el-button) {
+    margin-left: 0 !important;
   }
 }
 </style>

@@ -15,6 +15,7 @@ const columns = computed(() => {
     {
       key: 'operation',
       label: '操作',
+      width: 100,
       btns: [
         {
           reConfirm: true,
