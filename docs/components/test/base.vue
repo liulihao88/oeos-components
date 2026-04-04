@@ -1,46 +1,58 @@
-<script setup lang="ts">
-import { ref, getCurrentInstance, computed } from 'vue'
-
-const data = ref([
-  { name: '张三', address: '北京市朝阳区', status: 0 },
-  { name: '李四', address: '上海市浦东新区', status: 0 },
-  { name: '王五', address: '河南省项城市', status: 0 },
-])
-const columns = computed(() => {
-  return [
-    {
-      label: '名字',
-      prop: 'name',
-    },
-    {
-      key: 'operation',
-      label: '操作',
-      width: 100,
-      btns: [
-        {
-          reConfirm: true,
-          content: (row, scope, btnItem) => {
-            if (data.value[scope.$index].status === 0) {
-              return '关闭'
-            } else {
-              return '开启'
-            }
-          },
-          title: (row, scope, btnItem) => {
-            return data.value[scope.$index].status === 0 ? '确定开启吗?' : '确定关闭吗?'
-          },
-          handler: (row, scope, btnItem) => {
-            data.value[scope.$index].status = data.value[scope.$index].status === 0 ? 1 : 0
-          },
-        },
-      ],
-    },
-  ]
-})
+<script setup lang="tsx">
+import { ref, getCurrentInstance } from 'vue'
+const { proxy } = getCurrentInstance()
+const data = ref([{ name: 'andy' }])
+const columns = [
+  {
+    label: '名字',
+    prop: 'name',
+  },
+  {
+    key: 'operation',
+    label: '操作',
+    btns: [
+      {
+        content: '编辑',
+      },
+      // {
+      //   content: '编辑',
+      //   render: (row, scope, value) => {
+      //     return (
+      //       <>
+      //         <oIcon name="delete"></oIcon> <span class="cl-blue">render</span>
+      //       </>
+      //     )
+      //   },
+      // },
+      {
+        content: '编辑',
+      },
+      {
+        content: '编辑',
+      },
+      {
+        content: '编辑',
+      },
+      // {
+      //   content: '编辑3',
+      //   render: (row, scope, value) => {
+      //     console.log(`15 value`, value)
+      //     console.log(`31 scope`, scope)
+      //     console.log(`55 row`, row)
+      //     return (
+      //       <>
+      //         <oIcon name="plus"></oIcon> <span class="cl-blue">我是蓝色</span>
+      //       </>
+      //     )
+      //   },
+      // },
+    ],
+  },
+]
 </script>
 
 <template>
   <div>
-    <o-table :columns="columns" :data="data"></o-table>
+    <o-table :columns="columns" :data="data" ref="tableRef"></o-table>
   </div>
 </template>

@@ -10,12 +10,12 @@ const columns = [
   {
     key: 'operation',
     label: '操作',
-    width: 300,
     btns: [
       {
         content: '编辑',
       },
       {
+        width: 80,
         content: '编辑',
         render: (row, scope, value) => {
           return (
