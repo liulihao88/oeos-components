@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, h } from 'vue'
-
 const { proxy } = getCurrentInstance()
+import { confirm } from '@/utils/src/index'
 const base = () => {
-  proxy.confirm('确定删除吗?')
+  confirm('确定删除吗?')
 }
 
 const useHtml = () => {
-  proxy.confirm('', {
+  confirm('', {
     dangerouslyUseHTMLString: true,
     showCancelButton: true,
     message:

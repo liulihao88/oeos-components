@@ -17,7 +17,7 @@ import { VPDemo } from '../vitepress'
 import '~dist/style.css'
 import oeosV3Components, { createSvg } from '@/index.ts' // 开发时使用的入口文件
 // import oeosV3Components, { createSvg } from '~dist/oeos-components-es.js' // 打包后的入口文件
-import * as utils from '@oeos-components/utils'
+import * as utils from '@/utils/src/index.ts'
 import '/public/css/index.css'
 import Logo from './logo.vue'
 import './assets/styles/index.css'

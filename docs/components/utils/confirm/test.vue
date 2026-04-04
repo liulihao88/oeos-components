@@ -2,7 +2,6 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 import { ElMessage, ElMessageBox, MessageOptions } from 'element-plus'
-import { confirm } from '@oeos-components/utils'
 const isShow = ref(false)
 
 const cc = () => {
@@ -20,7 +19,7 @@ const cc = () => {
 <template>
   <div>
     <o-dialog ref="dialogRef" title="t1" v-model="isShow">
-      <el-button type="primary" @click="confirm('oeos-confirm', {})">oeos-confirm</el-button>
+      <el-button type="primary" @click="proxy.confirm('oeos-confirm', {})">oeos-confirm</el-button>
       <el-button type="primary" @click="cc">原生</el-button>
     </o-dialog>
 
