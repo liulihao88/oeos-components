@@ -1035,21 +1035,19 @@ export function debounce(func: Func, delay: number = 500, immediate?: boolean, r
     })
  * 如果是多个dialog嵌套, 可以给上层的dom设置个id如highSettingsForm, 然后appendTo: '#highSettingsForm'
  */
-export function confirm(message, options = {}) {
+export function confirm(message, options = {}, appContext = null) {
   const resolvedMessage = typeof message === 'function' ? message() : message
-  // 关键点：直接访问 Element Plus 内部维护的全局上下文
-  const elContext =
-    ElMessageBox.install?.context || ElMessageBox._context || document.querySelector('#app')?._vue_app?._context
+
   const mergeOptions = {
     title: '提示',
     draggable: true,
     showCancelButton: false,
     confirmButtonText: '确定',
-    dangerouslyUseHTMLString: true, // 允许 HTML
-    appContext: elContext, // 强制注入 Element Plus 的上下文
+    dangerouslyUseHTMLString: true,
     ...options,
   }
-  return ElMessageBox.confirm(resolvedMessage, mergeOptions)
+
+  return ElMessageBox.confirm(resolvedMessage, mergeOptions, appContext || ElMessageBox._context)
 }
 
 /** Function to get a CSS custom property value
@@ -1062,5 +1060,5 @@ export function getVariable(propertyName) {
 }
 
 export function test() {
-  return '哈哈哈' + new Date()
+  return '哈哈哈1111' + new Date()
 }
