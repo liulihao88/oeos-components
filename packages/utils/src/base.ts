@@ -1015,9 +1015,13 @@ export function debounce(func: Func, delay: number = 500, immediate?: boolean, r
 
 /**
  * proxy.confirm('确定删除吗?')
+ * 
  * proxy.confirm('哈哈', { icon: 'el-icon-plus' })
+ * 
  * close-on-click-modal: 是否可通过点击遮罩层关闭 MessageBox 默认true
+ * 
  * lock-scroll: 是否在 MessageBox 出现时将 body 滚动锁定. 默认true
+ * 
  * 设置宽度, 内容使用组件
    import GWarning from '@/autoComponents/gWarning.vue'
     await proxy.confirm('', {
@@ -1037,6 +1041,8 @@ export function debounce(func: Func, delay: number = 500, immediate?: boolean, r
  */
 export function confirm(message, options = {}, appContext = null) {
   const resolvedMessage = typeof message === 'function' ? message() : message
+  const resolvedAppendTo = _resolveAppendTarget(options?.appendTo)
+  const resolvedAppContext = _resolveAppContext(options?.appContext || appContext)
 
   const mergeOptions = {
     title: '提示',
@@ -1045,9 +1051,64 @@ export function confirm(message, options = {}, appContext = null) {
     confirmButtonText: '确定',
     dangerouslyUseHTMLString: true,
     ...options,
+    appendTo: resolvedAppendTo,
+    appContext: resolvedAppContext,
   }
 
-  return ElMessageBox.confirm(resolvedMessage, mergeOptions, appContext || ElMessageBox._context)
+  return ElMessageBox.confirm(resolvedMessage, mergeOptions)
+}
+
+function _resolveAppendTarget(appendTo?: string | HTMLElement | null) {
+  if (typeof document === 'undefined') {
+    return appendTo
+  }
+
+  if (appendTo instanceof HTMLElement) {
+    return appendTo
+  }
+
+  if (typeof appendTo === 'string' && appendTo.trim()) {
+    const rawSelector = appendTo.trim()
+
+    try {
+      const selector =
+        rawSelector.startsWith('#') || rawSelector.startsWith('.') || rawSelector.startsWith('[')
+          ? rawSelector
+          : `#${rawSelector}`
+
+      return document.querySelector(selector) || appendTo
+    } catch (error) {
+      return appendTo
+    }
+  }
+
+  const overlayList = Array.from(document.querySelectorAll<HTMLElement>('.el-overlay'))
+  const dialogOverlay = overlayList
+    .filter((item) => {
+      if (!item.isConnected || item.style.display === 'none') {
+        return false
+      }
+
+      const containsDialog = item.querySelector('.el-dialog, .el-drawer')
+      const containsMessageBox = item.querySelector('.el-message-box')
+
+      return !!containsDialog && !containsMessageBox
+    })
+    .at(-1)
+
+  return dialogOverlay || appendTo
+}
+
+function _resolveAppContext(appContext: any) {
+  if (appContext) {
+    return appContext
+  }
+
+  if (typeof document === 'undefined') {
+    return ElMessageBox.install?.context || ElMessageBox._context
+  }
+
+  return ElMessageBox.install?.context || ElMessageBox._context || document.querySelector('#app')?._vue_app?._context
 }
 
 /** Function to get a CSS custom property value
@@ -1059,6 +1120,8 @@ export function getVariable(propertyName) {
   return res
 }
 
+declare const __OEOS_UTILS_BUILD_TIME__: string
+
 export function test() {
-  return '哈哈哈1111' + new Date()
+  return `build time: ${__OEOS_UTILS_BUILD_TIME__}`
 }
