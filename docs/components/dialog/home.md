@@ -36,7 +36,8 @@ dialog/dialogForm
 
 ### 自动给确认按钮加loading
 
-dialog组件如果把@confirm换成:confirm, 那么子组件会优先处理属性confirm, 如果属性confirm是一个异步请求, 会加载loading
+dialog组件如果把@confirm换成:confirm, 那么子组件会优先处理属性confirm, 如果属性confirm是一个异步请求, 会加载loading;
+注意:  如果点击后确认按钮一致有loading, 那说明返回的不是promise
 
 :::demo
 dialog/confirmLoading
