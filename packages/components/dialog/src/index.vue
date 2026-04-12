@@ -24,7 +24,7 @@
           </slot>
         </span>
       </template>
-      <div :class="$attrs.fullscreen === true || $attrs.fullscreen === '' ? 'dialog_fullscreen ' : 'dialog_slot_box'">
+      <div :class="slotBoxClass">
         <slot></slot>
       </div>
       <template #footer v-if="showFooter">
@@ -109,6 +109,10 @@ const props = defineProps({
   confirm: {
     type: Function,
   },
+  fillSlot: {
+    type: Boolean,
+    default: false,
+  },
 })
 const getThemeClass = computed(() => {
   if (props.theme === 'norm') {
@@ -123,6 +127,12 @@ const getThemeClass = computed(() => {
 })
 
 const fullscreenHeight = ref('calc(100vh - 124px)')
+const slotBoxClass = computed(() => {
+  if (attrs.fullscreen === true || attrs.fullscreen === '') {
+    return 'dialog_fullscreen'
+  }
+  return props.fillSlot ? 'dialog_slot_box dialog_slot_box--fill' : 'dialog_slot_box'
+})
 watch(
   () => props.showFooter,
   (val) => {
@@ -208,6 +218,13 @@ onBeforeUnmount(() => {
       min-height: 20px;
       max-height: calc(100vh - 30vh - 92px);
       overflow-y: auto;
+    }
+    .dialog_slot_box--fill {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 30vh - 92px);
+      min-height: 20px;
+      overflow: hidden;
     }
     .dialog_fullscreen {
       height: v-bind(fullscreenHeight);

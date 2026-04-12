@@ -6,6 +6,7 @@ import OIcon from '@/components/icon/src/index.vue'
 import { getType } from '@oeos-components/utils'
 
 const attrs = useAttrs()
+const PAGE_WRAP_HEIGHT = 50
 
 const props = defineProps({
   data: {
@@ -307,10 +308,45 @@ const compEmptyText = computed(() => {
   }
   return parseEmptyText.value
 })
+
+const fluidHeight = computed(() => {
+  const height = attrs.height
+  if (typeof height !== 'string') {
+    return ''
+  }
+
+  if (height.includes('%') || height.includes('calc(') || height.includes('vh')) {
+    return height
+  }
+
+  return ''
+})
+
+const wrapperStyle = computed(() => {
+  if (!fluidHeight.value) {
+    return {}
+  }
+
+  return {
+    height: fluidHeight.value,
+  }
+})
+
+const tableAttrs = computed(() => {
+  if (!fluidHeight.value) {
+    return attrs
+  }
+
+  const { height, ...restAttrs } = attrs
+  return {
+    ...restAttrs,
+    height: props.showPage ? `calc(100% - ${PAGE_WRAP_HEIGHT}px)` : '100%',
+  }
+})
 </script>
 
 <template>
-  <div class="o-table">
+  <div class="o-table" :class="{ 'o-table--fluid-height': !!fluidHeight }" :style="wrapperStyle">
     <el-table
       ref="tableRef"
       :data="props.data"
@@ -324,7 +360,7 @@ const compEmptyText = computed(() => {
       v-bind="{
         stripe: true,
         border: true,
-        ...$attrs,
+        ...tableAttrs,
       }"
     >
       <slot />
@@ -541,6 +577,12 @@ const compEmptyText = computed(() => {
 .o-table {
   box-shadow: none !important;
 
+  &.o-table--fluid-height {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
   .page-wrap {
     box-sizing: border-box;
     display: flex;
@@ -581,6 +623,11 @@ const compEmptyText = computed(() => {
 
   :deep(.el-table) {
     box-shadow: none !important;
+  }
+
+  &.o-table--fluid-height :deep(.el-table) {
+    flex: 1;
+    min-height: 0;
   }
 
   :deep(.el-table th) {
