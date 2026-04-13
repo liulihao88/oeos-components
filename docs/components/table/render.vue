@@ -6,6 +6,13 @@ const columns = [
   {
     label: '名字',
     prop: 'name',
+    render: ({ row, scope, value, column, index }) => {
+      return (
+        <>
+          <oIcon name="delete"></oIcon> <span class="cl-blue">render1111</span>
+        </>
+      )
+    },
   },
   {
     key: 'operation',
@@ -17,7 +24,7 @@ const columns = [
       {
         width: 80,
         content: '编辑',
-        render: (row, scope, value) => {
+        render: ({ row, scope, value, column, action, index }) => {
           return (
             <>
               <oIcon name="delete"></oIcon> <span class="cl-blue">render</span>
@@ -36,10 +43,7 @@ const columns = [
       },
       {
         content: '编辑3',
-        render: (row, scope, value) => {
-          console.log(`15 value`, value)
-          console.log(`31 scope`, scope)
-          console.log(`55 row`, row)
+        render: ({ row, scope, value, column, action, index }) => {
           return (
             <>
               <oIcon name="plus"></oIcon> <span class="cl-blue">我是蓝色</span>

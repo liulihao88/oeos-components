@@ -7,9 +7,19 @@ export default defineComponent({
     scope: Object,
     row: Object,
     value: [Object, String, Number],
+    column: Object,
+    action: Object,
+    index: Number,
   },
   render(ctx) {
-    return ctx.render(ctx?.row, ctx?.scope, ctx?.value)
+    return ctx.render?.({
+      row: ctx?.row,
+      scope: ctx?.scope,
+      value: ctx?.value,
+      column: ctx?.column,
+      action: ctx?.action,
+      index: ctx?.index,
+    })
   },
 })
 </script>

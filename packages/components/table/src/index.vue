@@ -412,6 +412,9 @@ const tableAttrs = computed(() => {
                         :row="scope.row"
                         :scope="scope"
                         :value="scope.row[val.prop]"
+                        :column="v"
+                        :action="val"
+                        :index="scope.$index"
                       />
 
                       <template v-else-if="parseReConfirm(val.reConfirm, scope.row, scope)">
@@ -449,7 +452,7 @@ const tableAttrs = computed(() => {
                         class="cp"
                         v-bind="val.attrs"
                         :disabled="parseDisabled(val.disabled, scope.row, scope, val)"
-                        @click="($event) => handleCompClick(val.handler, scope.row, val, scope, $event)"
+                        @click="($event) => handleCompClick(val.handler, scope.row, scope, val, $event)"
                       />
                       <template v-else>
                         <el-button
@@ -490,6 +493,9 @@ const tableAttrs = computed(() => {
                                 :row="scope.row"
                                 :scope="scope"
                                 :value="scope.row[val.prop]"
+                                :column="v"
+                                :action="val"
+                                :index="scope.$index"
                               />
                               <template v-else>
                                 <component
@@ -531,6 +537,15 @@ const tableAttrs = computed(() => {
                     :index="scope.$index"
                   />
                 </template>
+                <RenderComp
+                  v-else-if="v.render"
+                  :render="v.render"
+                  :row="scope.row"
+                  :scope="scope"
+                  :value="scope.row[v.prop]"
+                  :column="v"
+                  :index="scope.$index"
+                />
                 <span v-else-if="v.handler" class="hide-btns-button" @click.stop="v.handler(scope.row, scope, v)">
                   <span>
                     {{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : handleEmptyText(scope, v) }}
