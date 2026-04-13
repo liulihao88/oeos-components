@@ -46,7 +46,7 @@ const props = defineProps({
     type: String,
     default: '-',
   },
-  isLoading: {
+  loading: {
     type: Boolean,
   },
   indexAttrs: {
@@ -293,8 +293,11 @@ const parseTableWidth = (btns, hBtns) => {
 
   return `${Math.max(btnsWidth + gapWidth + moreWidth + paddingWidth, minWidth)}px`
 }
+const tableLoading = computed(() => {
+  return props.loading ?? false
+})
 const parseEmptyText = computed(() => {
-  if (props.isLoading === true) {
+  if (tableLoading.value === true) {
     return ''
   }
   return '暂无数据'
@@ -346,7 +349,12 @@ const tableAttrs = computed(() => {
 </script>
 
 <template>
-  <div class="o-table" :class="{ 'o-table--fluid-height': !!fluidHeight }" :style="wrapperStyle">
+  <div
+    class="o-table"
+    :class="{ 'o-table--fluid-height': !!fluidHeight }"
+    :style="wrapperStyle"
+    v-loading="tableLoading"
+  >
     <el-table
       ref="tableRef"
       :data="props.data"

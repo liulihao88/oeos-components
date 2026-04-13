@@ -32,10 +32,18 @@ const columns = [
     ],
   },
 ]
+
+const loading = ref(false)
+const toggleLoading = async () => {
+  loading.value = true
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+  loading.value = false
+}
 </script>
 
 <template>
   <div>
-    <o-table :columns="columns" :data="data"></o-table>
+    <el-button type="primary" @click="toggleLoading">请求loading</el-button>
+    <o-table :columns="columns" :data="data" :loading="loading"></o-table>
   </div>
 </template>
