@@ -7,3 +7,7 @@
 :::demo
 utils/formatBytes/base
 :::
+
+### 说明
+
+- `formatBytes` 用于将数字转换为带单位的字节文本。

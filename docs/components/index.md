@@ -113,3 +113,7 @@ v-focus
 ├─ tsconfig.json          # typescript 全局配置
 └─ vite.config.ts         # vite 全局配置文件（支持tsx）
 ```
+
+### 说明
+
+- 本页用于介绍组件库安装方式、基础接入方式和文档目录结构。

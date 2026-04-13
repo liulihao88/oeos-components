@@ -19,3 +19,7 @@ utils/confirm/dialog
 :::demo
 utils/confirm/test
 :::
+
+### 说明
+
+- `confirm` 用于在执行危险或重要操作前发起二次确认。

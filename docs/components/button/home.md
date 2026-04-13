@@ -36,10 +36,16 @@ button/other
 
 ### 属性
 
-其他属性完继承el-button
+其他属性默认继承 `el-button`
 
 |    属性名    | 说明                | 类型                                    | 默认值 |
 | :----------: | ------------------- | --------------------------------------- | ------ |
 |   content    | tooltip的提示文字   | string                                  | ''     |
 |     time     | 防抖时长            | number(毫秒)                            | 0      |
 | tooltipAttrs | o-tooltip组件的属性 | Object [去tooltip组件](../tooltip/home) | {}     |
+
+### 事件
+
+| 事件名 | 说明 |
+| :----: | ---- |
+| `click` | 按钮点击事件，设置 `time` 后会按防抖逻辑触发 |

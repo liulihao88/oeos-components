@@ -17,3 +17,8 @@ directives/throttle/method
 :::demo
 directives/throttle/input
 :::
+
+### 说明
+
+- `v-throttle` 用于固定时间内只执行一次，适合滚动、拖拽、连续点击等高频场景。
+- 指令支持传方法及其参数，具体写法可参考示例。

@@ -7,3 +7,7 @@
 :::demo
 company/baseHeader/base
 :::
+
+### 说明
+
+- 用于展示业务模块顶部标题、说明或操作区。

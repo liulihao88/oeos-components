@@ -7,3 +7,7 @@
 :::demo
 company/usedPie/base
 :::
+
+### 说明
+
+- 用于展示已使用资源占比的饼图或环图。

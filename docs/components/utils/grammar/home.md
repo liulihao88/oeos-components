@@ -2,6 +2,10 @@
 
 ## Hidden Title {.md-hidden}
 
+### 说明
+
+- 该页面用于记录项目文档编写时常用的 VitePress 语法片段和示例。
+
 ### 1. tip提示框
 
 <o-flex gap="16">

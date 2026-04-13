@@ -37,3 +37,7 @@ company/basicLayout/slot
 :::demo
 company/basicLayout/square
 :::
+
+### 说明
+
+- 用于构建业务卡片式基础布局，支持展开收起、插槽、自适应高度等常见场景。

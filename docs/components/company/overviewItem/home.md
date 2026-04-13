@@ -7,3 +7,7 @@
 :::demo
 company/overviewItem/base
 :::
+
+### 说明
+
+- 用于概览页中的摘要指标展示，适合首页统计卡片。

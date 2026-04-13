@@ -19,3 +19,7 @@ company/capacityProgress/table
 :::demo
 company/capacityProgress/customColor
 :::
+
+### 说明
+
+- 用于展示容量占比、使用量等进度信息，适合表格和概览场景。

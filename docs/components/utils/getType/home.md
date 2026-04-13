@@ -7,3 +7,7 @@
 :::demo
 utils/getType/base
 :::
+
+### 说明
+
+- `getType` 用于更稳定地判断数据类型。

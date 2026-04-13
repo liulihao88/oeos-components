@@ -25,3 +25,7 @@ company/itemWrapper/columns
 :::demo
 company/itemWrapper/scroll
 :::
+
+### 说明
+
+- 用于统一包裹多个 `item` 组件，支持设置间距、列数和滚动布局。

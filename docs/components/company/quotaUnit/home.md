@@ -13,3 +13,7 @@ company/quotaUnit/base
 :::demo
 company/quotaUnit/form
 :::
+
+### 说明
+
+- 用于在容量数值和单位之间做统一展示或输入处理。

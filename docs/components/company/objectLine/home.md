@@ -19,3 +19,7 @@ company/objectLine/simple
 :::demo
 company/objectLine/hard
 :::
+
+### 说明
+
+- 用于按行展示对象型数据，适合详情页或监控信息面板。

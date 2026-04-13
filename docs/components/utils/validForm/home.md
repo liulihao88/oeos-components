@@ -7,3 +7,7 @@
 :::demo
 utils/validForm/base
 :::
+
+### 说明
+
+- `validForm` 用于对表单实例进行统一校验封装。

@@ -25,3 +25,7 @@ company/item/style
 :::demo
 company/item/type
 :::
+
+### 说明
+
+- 用于展示单条业务信息项，支持包裹布局、样式切换和不同展示类型。

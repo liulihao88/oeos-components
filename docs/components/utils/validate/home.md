@@ -25,3 +25,7 @@ utils/validate/noValid
 :::demo 很多时候, 我们希望在change和blur的时候, 直接触发校验. 这时候可以使用validateTrigger
 utils/validate/validateTrigger
 :::
+
+### 说明
+
+- `validate` 用于统一处理表单校验规则和触发时机相关能力。

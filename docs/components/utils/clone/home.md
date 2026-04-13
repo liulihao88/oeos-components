@@ -7,3 +7,7 @@
 :::demo
 utils/clone/base
 :::
+
+### 说明
+
+- `clone` 用于深拷贝常见数据结构。
