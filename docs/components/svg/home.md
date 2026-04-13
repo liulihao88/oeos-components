@@ -41,3 +41,13 @@ svg/base
 :::demo
 svg/usually
 :::
+
+### 属性
+
+| 属性名 | 说明 | 类型 | 默认值 |
+| :----: | ---- | ---- | ------ |
+| `prefix` | symbol 前缀 | string | `icon` |
+| `name` | svg 图标名称 | string | - |
+| `color` | 图标颜色 | string | - |
+| `customStyle` | 自定义样式对象 | object | `{}` |
+| `size` | 图标尺寸 | string / number | `16px` |

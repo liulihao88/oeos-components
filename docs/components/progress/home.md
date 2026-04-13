@@ -23,3 +23,23 @@ progress/other
 :::demo
 progress/color
 :::
+
+### 属性
+
+| 属性名 | 说明 | 类型 | 默认值 |
+| :----: | ---- | ---- | ------ |
+| `percentage` | 进度百分比 | number | - |
+| `animationTime` | 动画时长，单位毫秒 | number | `500` |
+| `isAnimation` | 是否启用递增动画 | boolean | `true` |
+| `customColor` | 是否按区间使用内置颜色 | boolean | `true` |
+
+### 插槽
+
+| 插槽名 | 说明 |
+| :----: | ---- |
+| `default` | 自定义进度条内容，可拿到 `percentage` |
+
+### 说明
+
+- 默认透传 `stroke-width="16"` 给 `el-progress`。
+- 当未主动传 `color` 时，会根据百分比自动切换灰色、橙色、绿色。

@@ -3,6 +3,7 @@ import type { VNode } from 'vue'
 import type { Ref } from '@vue/reactivity'
 import { consola } from 'consola'
 import { cloneDeep } from 'es-toolkit' // 这里不要lodash-es的原因是, 体积太大, 超过500kb无法打包
+import { formatTime } from './format'
 import { ElMessage, ElMessageBox, MessageOptions } from 'element-plus'
 
 type Func = (...args: any[]) => any

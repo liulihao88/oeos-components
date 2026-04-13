@@ -81,3 +81,40 @@ select/simpleTableSelect
 :::demo
 select/multipleTableSelect
 :::
+
+### 属性
+
+| 属性名 | 说明 | 类型 | 默认值 |
+| :----: | ---- | ---- | ------ |
+| `modelValue` | 当前值 | array / string / number | - |
+| `value` | 选项值字段名 | string | `value` |
+| `label` | 选项显示字段名，支持字符串或多字段数组 | string / array | `label` |
+| `options` | 选项数据 | array | `[]` |
+| `type` | 数据类型，传 `simple` 时按基础类型数组处理 | string | `''` |
+| `multiple` | 是否多选 | boolean | `false` |
+| `showAll` | 多选时是否显示全选/反选 | boolean | `true` |
+| `showPrefix` | 是否显示前缀数量信息 | boolean | `false` |
+| `showQuick` | 是否显示上下快速切换按钮 | boolean | `true` |
+| `title` | 左侧标题文案 | string | `''` |
+| `connect` | 多字段 label 拼接符 | string | `/` |
+| `customLabel` | 自定义 label 生成函数 | function / string | `''` |
+| `width` | 组件宽度 | string / number | `''` |
+| `disPlaceholder` | 禁用态占位文案 | string | `''` |
+| `itemDisabled` | 单项禁用判断函数 | function | `() => {}` |
+| `url` | 远程请求地址或方法 | string / function | `''` |
+| `urlParams` | 远程请求参数 | object | `{}` |
+| `optionsExpression` | 远程结果取值表达式 | string | `''` |
+| `emptyColor` | 选项为空时是否高亮边框 | boolean | `false` |
+
+### 事件
+
+| 事件名 | 说明 |
+| :----: | ---- |
+| `update:modelValue` | 选中值变化时触发 |
+| `change` | 值变化时触发 |
+| `changeSelect` | 组件内部切换选项时触发 |
+
+### 说明
+
+- 组件基于 `el-select` 封装，绝大多数原生属性都可以直接透传。
+- 多选模式下支持全选、反选和上下快速切换。
