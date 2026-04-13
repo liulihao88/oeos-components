@@ -62,6 +62,7 @@ tag/async
 |             width             | 宽度                         | string/number/array | -       |
 |            height             | 高度                         | string/number/array | -       |
 |            config             | 相关配置                         | object<label/value> | -       |
+|            effect             | 标签主题，可选 `dark` / `light` / `plain` | string              | light   |
 
 ### 颜色使用原则
 
