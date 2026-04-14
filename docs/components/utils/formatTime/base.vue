@@ -31,6 +31,26 @@ const options = [
     label: `formatTime(), '{y}-{m}-{d} {h}:{i}:{s} 星期{a}'`,
     value: formatTime(new Date(), '{y}-{m}-{d} {h}:{i}:{s} 星期{a}'),
   },
+  {
+    label: `formatTime(--), `,
+    value: formatTime('--'),
+  },
+  {
+    label: `formatTime(null as any)`,
+    value: formatTime(null as any),
+  },
+  {
+    label: `formatTime('--', '{y}-{m}-{d}', 'Invalid Date')`,
+    value: formatTime('--', '{y}-{m}-{d}', 'Invalid Date'),
+  },
+  {
+    label: `formatTime('--', '{y}-{m}-{d}', (value) => (value === '--' ? '这是无效日期' : String(value)))`,
+    value: formatTime('--', '{y}-{m}-{d}', (value) => (value === '--' ? '这是无效日期' : String(value))),
+  },
+  {
+    label: `formatTime('--', '{y}-{m}-{d}', (value) => String(value))`,
+    value: formatTime('--', '{y}-{m}-{d}', (value) => String(value)),
+  },
 ]
 </script>
 

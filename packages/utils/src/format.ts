@@ -179,16 +179,21 @@ export function formatThousands(number) {
 }
 
 type TimeType = Date | string | number
+type TimeFallback = string | ((time: TimeType) => string)
 /**
  * 时间格式化函数
  * @param {TimeType} time - 可选时间参数，可以是 Date 对象、时间戳字符串或数字
  * @param {FormatType} cFormat - '{y}-{m}-{d} {h}:{i}:{s}' - 格式化字符串，支持 {y}年 {m}月 {d}日 {h}时 {i}分 {s}秒 {a}星期
+ * @param {string | ((time: TimeType) => string)} fallback - 非法日期时返回的兜底值，默认返回原始值，也支持传固定文案或函数
  * @returns {string} 格式化后的时间字符串
  * @examples
  * formatTime(new Date(), '{y}-{m}-{d} {h}:{i}:{s} 星期{a}') // 示例输出: 2026-02-27 14:47:45 星期五 (实际结果取决于调用时的具体时间)
  */
-
-export function formatTime(time: TimeType = new Date(), cFormat = '{y}-{m}-{d} {h}:{i}:{s}'): string {
+export function formatTime(
+  time: TimeType = new Date(),
+  cFormat = '{y}-{m}-{d} {h}:{i}:{s}',
+  fallback: TimeFallback = (value) => String(value),
+): string {
   let date: Date
   const timeStr = String(time)
 
@@ -218,7 +223,7 @@ export function formatTime(time: TimeType = new Date(), cFormat = '{y}-{m}-{d} {
 
   // 验证日期是否有效
   if (isNaN(date.getTime())) {
-    throw new Error('Invalid Date')
+    return typeof fallback === 'function' ? fallback(time) : fallback
   }
 
   const formatObj = {
