@@ -70,6 +70,12 @@ table/wrap
 table/render
 :::
 
+### 改变操作按钮的属性
+
+:::demo
+table/operator
+:::
+
 ### 属性
 
 | 属性名 | 说明 | 类型 | 默认值 |
