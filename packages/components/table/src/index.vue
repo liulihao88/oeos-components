@@ -1,6 +1,7 @@
 <script setup lang="ts" name="OTable">
 import { ref, watch, computed, useAttrs } from 'vue'
 import RenderComp from './renderComp.vue'
+import HeaderTooltip from './headerTooltip.vue'
 import OPopconfirm from '@/components/popconfirm/src/index.vue'
 import OIcon from '@/components/icon/src/index.vue'
 import { getType } from '@oeos-components/utils'
@@ -346,6 +347,7 @@ const tableAttrs = computed(() => {
     height: props.showPage ? `calc(100% - ${PAGE_WRAP_HEIGHT}px)` : '100%',
   }
 })
+
 </script>
 
 <template>
@@ -383,16 +385,23 @@ const tableAttrs = computed(() => {
       >
         <!-- 使用 #header 插槽自定义表头 -->
         <template #header="{ column }">
-          <span>序号</span>
+          <HeaderTooltip :label="column.label || '序号'" />
         </template>
       </el-table-column>
       <template v-for="(v, i) in finalColumns" :key="i">
         <template v-if="parseIsShow(v.isShow, v, i)">
-          <el-table-column v-if="v.type" :key="v.type" v-bind="{ align: 'center', ...v }" />
+          <el-table-column v-if="v.type" :key="v.type" v-bind="{ align: 'center', ...v }">
+            <template #header="{ column }">
+              <HeaderTooltip :label="column.label" />
+            </template>
+          </el-table-column>
           <el-table-column
             v-else-if="v.baseBtns && v.baseBtns.length > 0"
             v-bind="{ ...{ fixed: 'right', width: parseTableWidth(v.baseBtns, v.hideBtns) }, ...v }"
           >
+            <template #header="{ column }">
+              <HeaderTooltip :label="column.label" />
+            </template>
             <template #default="scope">
               <template v-if="scope.$index !== -1">
                 <template v-if="parseIsShow(v.isShow, scope.row, scope, v, i)">
@@ -526,6 +535,9 @@ const tableAttrs = computed(() => {
           </el-table-column>
 
           <el-table-column v-else v-bind="{ ...v }">
+            <template #header="{ column }">
+              <HeaderTooltip :label="column.label" />
+            </template>
             <template #default="scope">
               <template v-if="scope.$index !== -1">
                 <template v-if="v.useSlot">
@@ -660,10 +672,7 @@ const tableAttrs = computed(() => {
   :deep(.el-table th .cell) {
     line-height: inherit;
     white-space: nowrap;
-  }
-
-  :deep(.el-table th .cell:hover) {
-    white-space: normal;
+    overflow: hidden;
   }
 
   :deep(.el-table-fixed-column--right .cell.el-tooltip) {

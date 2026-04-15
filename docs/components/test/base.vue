@@ -2,27 +2,21 @@
 import { ref } from 'vue'
 
 const data = ref([
-  { name: '张三', address: '北京市朝阳区', status: 1 },
-  { name: '李四', address: '上海市浦东新区', status: 0 },
-  { name: '王五', address: '河南省项城市', status: 1 },
+  { name: '张三', address: '北京市朝阳区' },
+  { name: '李四', address: '上海市浦东新区' },
+  { name: '王五', address: '河南省项城市' },
 ])
-
-const handleEdit = (row) => {
-  console.log('编辑', row)
-}
 
 const columns = [
   {
-    label: '名字',
+    label: '名字我是个',
     prop: 'name',
+    width: 120,
   },
   {
-    label: '地址',
+    label: '地址地址地址地址地址地址地址地址地址地址地址地址地址9876543',
     prop: 'address',
-  },
-  {
-    label: '状态',
-    prop: 'status',
+    width: 180,
   },
   {
     key: 'operation',
@@ -52,18 +46,16 @@ const columns = [
     ],
   },
 ]
-
-const loading = ref(false)
-const toggleLoading = async () => {
-  loading.value = true
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-  loading.value = false
-}
 </script>
 
 <template>
-  <div>
-    <el-button type="primary" @click="toggleLoading">请求loading</el-button>
-    <o-table :columns="columns" :data="data" :loading="loading"></o-table>
+  <div class="">
+    <o-table :columns="columns" :data="data" :show-page="false" />
   </div>
 </template>
+
+<style scoped>
+.header-tooltip-demo {
+  padding: 16px;
+}
+</style>
