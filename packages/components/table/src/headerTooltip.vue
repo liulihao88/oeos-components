@@ -10,6 +10,7 @@ const props = defineProps({
 
 const textRef = ref<HTMLElement | null>(null)
 const isOverflow = ref(false)
+const reserveWidth = ref(0)
 let resizeObserver: ResizeObserver | null = null
 
 const isGreaterThan = (a: number, b: number, epsilon = 0.03) => a - b > epsilon
@@ -51,18 +52,28 @@ const updateOverflow = () => {
   const { top, left, right, bottom } = getPadding(container)
   const horizontalPadding = left + right
   const verticalPadding = top + bottom
+  const availableWidth = Math.max(containerWidth - reserveWidth.value, 0)
 
   isOverflow.value =
-    isGreaterThan(rangeWidth + horizontalPadding, containerWidth) ||
+    isGreaterThan(rangeWidth + horizontalPadding, availableWidth) ||
     isGreaterThan(rangeHeight + verticalPadding, containerHeight) ||
-    isGreaterThan(el.scrollWidth, containerWidth)
+    isGreaterThan(el.scrollWidth, availableWidth)
+}
+
+const updateReserveWidth = () => {
+  const th = textRef.value?.closest('th')
+  reserveWidth.value = th?.classList.contains('is-sortable') ? 28 : 0
 }
 
 onMounted(() => {
-  nextTick(updateOverflow)
+  nextTick(() => {
+    updateReserveWidth()
+    updateOverflow()
+  })
 
   if (typeof ResizeObserver !== 'undefined') {
     resizeObserver = new ResizeObserver(() => {
+      updateReserveWidth()
       updateOverflow()
     })
 
@@ -81,7 +92,10 @@ onMounted(() => {
 watch(
   () => props.label,
   () => {
-    nextTick(updateOverflow)
+    nextTick(() => {
+      updateReserveWidth()
+      updateOverflow()
+    })
   },
 )
 
@@ -90,7 +104,10 @@ onBeforeUnmount(() => {
 })
 
 const handleMouseEnter = () => {
-  nextTick(updateOverflow)
+  nextTick(() => {
+    updateReserveWidth()
+    updateOverflow()
+  })
 }
 </script>
 
@@ -103,7 +120,12 @@ const handleMouseEnter = () => {
     :show-after="0"
     :hide-after="0"
   >
-    <span ref="textRef" class="o-table__header-text" @mouseenter="handleMouseEnter">
+    <span
+      ref="textRef"
+      class="o-table__header-text"
+      :style="{ maxWidth: reserveWidth ? `calc(100% - ${reserveWidth}px)` : '100%' }"
+      @mouseenter="handleMouseEnter"
+    >
       {{ label }}
     </span>
   </el-tooltip>
@@ -111,11 +133,10 @@ const handleMouseEnter = () => {
 
 <style scoped lang="scss">
 .o-table__header-text {
-  display: block;
-  width: 100%;
-  max-width: 100%;
+  display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  vertical-align: bottom;
 }
 </style>

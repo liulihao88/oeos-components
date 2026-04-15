@@ -16,7 +16,7 @@ const downloadRow = (row) => {
 const columns = [
   {
     label:
-      'I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!',
+      'I want to , if you like it , please tell me. good',
     prop: 'name',
     sortable: true,
     handler: handleDetail,
