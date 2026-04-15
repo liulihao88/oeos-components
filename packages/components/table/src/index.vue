@@ -8,6 +8,7 @@ import { getType } from '@oeos-components/utils'
 
 const attrs = useAttrs()
 const PAGE_WRAP_HEIGHT = 50
+const HEADER_MIN_WIDTH_PADDING = 32
 
 const props = defineProps({
   data: {
@@ -99,37 +100,19 @@ const updateTable = () => {
       maxBtns: item.maxBtns || 3, // 最大显示按钮个数，超出后显示...
     }
     let res = Object.assign({}, defaultItems, item)
+
+    const labelMinWidth = getLabelMinWidth(res)
+    if (res.width === undefined && labelMinWidth !== undefined) {
+      if (res.minWidth === undefined) {
+        res.minWidth = labelMinWidth
+      } else {
+        res.minWidth = Math.max(Number(res.minWidth) || 0, labelMinWidth)
+      }
+    }
+
     return res
   })
 }
-watch(
-  () => props.columns,
-  () => {
-    updateTable()
-  },
-  {
-    immediate: true,
-    deep: true,
-  },
-)
-watch(
-  () => props.pageSize,
-  (val) => {
-    sPageSize.value = val
-  },
-  {
-    immediate: true,
-  },
-)
-watch(
-  () => props.pageNumber,
-  (val) => {
-    sPageNumber.value = val
-  },
-  {
-    immediate: true,
-  },
-)
 // isShow 或者 content支持 函数或字符串两种写法。
 const operatorBtnFn = (cont, row = '', scope = '', btnItem = '') => {
   if (typeof cont === 'function') {
@@ -265,6 +248,11 @@ const getTextWidth = (text = '') => {
   return Math.ceil(textMeasureEl.getBoundingClientRect().width)
 }
 
+const getLabelMinWidth = (column) => {
+  if (!column?.label) return undefined
+  return getTextWidth(column.label) + HEADER_MIN_WIDTH_PADDING
+}
+
 const getBtnWidth = (btn) => {
   if (btn.width !== undefined) {
     return Number(btn.width)
@@ -294,6 +282,34 @@ const parseTableWidth = (btns, hBtns) => {
 
   return `${Math.max(btnsWidth + gapWidth + moreWidth + paddingWidth, minWidth)}px`
 }
+watch(
+  () => props.columns,
+  () => {
+    updateTable()
+  },
+  {
+    immediate: true,
+    deep: true,
+  },
+)
+watch(
+  () => props.pageSize,
+  (val) => {
+    sPageSize.value = val
+  },
+  {
+    immediate: true,
+  },
+)
+watch(
+  () => props.pageNumber,
+  (val) => {
+    sPageNumber.value = val
+  },
+  {
+    immediate: true,
+  },
+)
 const tableLoading = computed(() => {
   return props.loading ?? false
 })
