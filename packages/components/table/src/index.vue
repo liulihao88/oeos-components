@@ -9,6 +9,7 @@ import { getType } from '@oeos-components/utils'
 const attrs = useAttrs()
 const PAGE_WRAP_HEIGHT = 50
 const HEADER_MIN_WIDTH_PADDING = 32
+const HEADER_SORTABLE_RESERVE_WIDTH = 28
 
 const props = defineProps({
   data: {
@@ -250,7 +251,8 @@ const getTextWidth = (text = '') => {
 
 const getLabelMinWidth = (column) => {
   if (!column?.label) return undefined
-  return getTextWidth(column.label) + HEADER_MIN_WIDTH_PADDING
+  const sortableReserve = column.sortable ? HEADER_SORTABLE_RESERVE_WIDTH : 0
+  return getTextWidth(column.label) + HEADER_MIN_WIDTH_PADDING + sortableReserve
 }
 
 const getBtnWidth = (btn) => {
