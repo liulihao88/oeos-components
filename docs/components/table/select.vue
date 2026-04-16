@@ -103,8 +103,6 @@ const exportSelectedData = () => {
   <div class="repeat-page">
     <div class="repeat-page__wrap">
       <div class="repeat-page__toolbar">
-        <o-button type="primary" @click="exportData">导出数据</o-button>
-        <o-button type="primary" @click="exportSelectedData">导出选择数据</o-button>
         <div>已选ID: {{ selectedIds.length ? selectedIds.join(', ') : '--' }}</div>
       </div>
 

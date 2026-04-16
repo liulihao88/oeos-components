@@ -32,6 +32,12 @@ table/click/basic
 table/click/echo
 :::
 
+### 多级表头
+
+:::demo
+table/groupHeader
+:::
+
 ### 多选
 
 :::demo
