@@ -10,6 +10,7 @@ const attrs = useAttrs()
 const PAGE_WRAP_HEIGHT = 50
 const HEADER_MIN_WIDTH_PADDING = 32
 const HEADER_SORTABLE_RESERVE_WIDTH = 28
+const hasOwn = (target, key) => Object.prototype.hasOwnProperty.call(target, key)
 
 const props = defineProps({
   data: {
@@ -67,7 +68,7 @@ const props = defineProps({
 })
 const tableRef = ref(null)
 const tableTotal = computed(() => {
-  return props.total || props.data.length
+  return props.total ?? props.data.length
 })
 const sPageSize = ref(props.pageSize)
 const sPageNumber = ref(props.pageNumber)
@@ -119,33 +120,65 @@ const invokeWithContext = (fn, context, legacyArgs = []) => {
   return fn(context)
 }
 
+const normalizeMaxBtns = (value) => {
+  const parsedValue = Number(value)
+
+  if (!Number.isFinite(parsedValue)) {
+    return 4
+  }
+
+  return Math.max(Math.floor(parsedValue), 1)
+}
+
+const normalizeColumnBtns = (btns = [], maxBtns = 4) => {
+  const normalizedMaxBtns = normalizeMaxBtns(maxBtns)
+  const normalizedBtns = btns.map((btn) => {
+    return {
+      ...btn,
+      isShow: btn.isShow ?? true,
+    }
+  })
+
+  // maxBtns 表示操作栏最多显示的总数量，包含“更多”入口。
+  // 例如 maxBtns = 4:
+  // 1. 按钮数 <= 4 时全部展示
+  // 2. 按钮数 > 4 时展示 3 个按钮 + 1 个“更多”
+  if (normalizedBtns.length > normalizedMaxBtns) {
+    const visibleBtnCount = Math.max(normalizedMaxBtns - 1, 0)
+    return {
+      btns: normalizedBtns,
+      baseBtns: normalizedBtns.slice(0, visibleBtnCount),
+      hideBtns: normalizedBtns.slice(visibleBtnCount),
+      maxBtns: normalizedMaxBtns,
+    }
+  }
+
+  return {
+    btns: normalizedBtns,
+    baseBtns: normalizedBtns,
+    hideBtns: [],
+    maxBtns: normalizedMaxBtns,
+  }
+}
+
 const updateTable = () => {
   finalColumns.value = props.columns.map((item) => {
-    let baseBtns = []
-    let hideBtns = []
-    if (item.btns) {
-      item.maxBtns = item.maxBtns || 3
-      item.btns = item.btns.map((v) => {
-        if (v.isShow === undefined) {
-          v.isShow = true
-        }
-        return v
-      })
-      if (item.btns.length > item.maxBtns) {
-        baseBtns = item.btns.slice(0, item.maxBtns)
-        hideBtns = item.btns.slice(item.maxBtns)
-      } else {
-        baseBtns = item.btns
-      }
-    }
-    // 如果是空数组, 将item的filters设为null, 没有下拉框
-    let defaultItems = {
+    const maxBtns = normalizeMaxBtns(item.maxBtns ?? 4)
+    const { btns, baseBtns, hideBtns } = normalizeColumnBtns(item.btns ?? [], maxBtns)
+
+    const defaultItems = {
       showOverflowTooltip: true,
-      baseBtns: baseBtns, // 显示的按钮
-      hideBtns: hideBtns, // 隐藏在...中的按钮
-      maxBtns: item.maxBtns || 3, // 最大显示按钮个数，超出后显示...
+      btns,
+      baseBtns, // 显示的按钮
+      hideBtns, // 隐藏在...中的按钮
+      maxBtns, // 操作栏最多显示的总数量，包含“更多”入口
     }
-    let res = Object.assign({}, defaultItems, item)
+    let res = Object.assign({}, defaultItems, item, {
+      btns,
+      baseBtns,
+      hideBtns,
+      maxBtns,
+    })
 
     const labelMinWidth = getLabelMinWidth(res)
     if (res.width === undefined && labelMinWidth !== undefined) {
@@ -375,10 +408,10 @@ const parseEmptyText = computed(() => {
   return '暂无数据'
 })
 const compEmptyText = computed(() => {
-  if (attrs.hasOwnProperty('empty-text')) {
+  if (hasOwn(attrs, 'empty-text')) {
     return attrs['empty-text']
   }
-  if (attrs.hasOwnProperty('emptyText')) {
+  if (hasOwn(attrs, 'emptyText')) {
     return attrs['emptyText']
   }
   return parseEmptyText.value
@@ -418,7 +451,6 @@ const tableAttrs = computed(() => {
     height: props.showPage ? `calc(100% - ${PAGE_WRAP_HEIGHT}px)` : '100%',
   }
 })
-
 </script>
 
 <template>
@@ -467,7 +499,7 @@ const tableAttrs = computed(() => {
             </template>
           </el-table-column>
           <el-table-column
-            v-else-if="v.baseBtns && v.baseBtns.length > 0"
+            v-else-if="v.btns && v.btns.length > 0"
             v-bind="{ ...{ fixed: 'right', width: parseTableWidth(v.baseBtns, v.hideBtns) }, ...v }"
           >
             <template #header="{ column }">

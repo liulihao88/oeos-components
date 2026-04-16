@@ -57,13 +57,13 @@ const formRules = ref({
 const form = ref({
   data: [
     {
-      name: '',
+      name: '名字1',
       age: '12',
       id: 1,
     },
     {
       name: '名字2',
-      age: '',
+      age: '20',
       id: 2,
     },
   ],

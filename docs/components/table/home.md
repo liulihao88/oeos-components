@@ -123,7 +123,7 @@ table/compare
 |     `isShow`      | 控制列是否显示，支持布尔值或函数                   | boolean / function |
 | `columnEmptyText` | 当前列的空值占位文案，会覆盖全局 `columnEmptyText` | string             |
 |      `btns`       | 操作栏按钮配置，存在时该列作为操作列渲染           | array              |
-|     `maxBtns`     | 操作栏最多直接展示的按钮数，超出后收进更多菜单     | number             |
+|     `maxBtns`     | 操作栏最多显示的总数量，包含“更多”入口，默认 `4`  | number             |
 
 ### render 参数
 
@@ -146,3 +146,4 @@ render({ row, scope, value, column, action, index })
 
 - 组件底层基于 `el-table` 和 `el-pagination` 封装，未在上表列出的表格属性可继续通过 attrs 透传。
 - 当 `asyncUpdate` 为 `true` 时，分页切换只触发 `update` 事件，由外部维护 `pageNumber` 和 `pageSize`。
+- 操作栏 `maxBtns` 默认值为 `4`，表示总共最多显示 `4` 个槽位；当按钮数量超出时，会显示 `maxBtns - 1` 个按钮加一个“更多”入口。

@@ -105,6 +105,7 @@ const columns = [
             <o-table
               :data="props.row.family"
               :columns="columns2"
+              size="small"
               :showIndex="false"
               :showPage="false"
               :custom-header-cell-style="{

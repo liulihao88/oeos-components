@@ -19,27 +19,38 @@ const columns = [
   {
     key: 'operation',
     label: '操作',
+    maxBtns: 2,
     btns: [
       {
         content: '编辑',
-        handler: ({ row, value, index, column, prop }) => {
-          console.log(`46 prop`, prop);
-          console.log(`59 column`, column);
-          console.log(`84 index`, index)
-          console.log(`34 value`, value)
-          console.log(`17 row`, row)
-        },
-        comp: 'o-icon',
-        attrs: {
-          name: 'edit',
-          content: '编辑',
-        },
-        disabled: ({ row }) => {
-          console.log(`74 row`, row)
+        handler: () => {},
 
-          return row.status === 0
-        },
+        attrs: {},
       },
+      {
+        content: '编辑',
+        handler: () => {},
+
+        attrs: {},
+      },
+      // {
+      //   content: '编辑',
+      //   handler: () => {},
+
+      //   attrs: {},
+      // },
+      // {
+      //   content: '编辑',
+      //   handler: () => {},
+
+      //   attrs: {},
+      // },
+      // {
+      //   content: '编辑',
+      //   handler: () => {},
+
+      //   attrs: {},
+      // },
     ],
   },
 ]

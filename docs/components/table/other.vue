@@ -3,7 +3,7 @@ import { ref, getCurrentInstance, computed } from 'vue'
 
 const data = ref([
   { name: '张三', address: '北京市朝阳区', status: 0 },
-  { name: '李四', address: '上海市浦东新区', status: 0 },
+  { name: '李四', address: '上海市浦东新区', status: 1 },
   { name: '王五', address: '河南省项城市', status: 0 },
 ])
 const otherParams = ref({
@@ -16,6 +16,55 @@ const columns = computed(() => {
       label: '名字',
       prop: 'name',
       width: 400,
+    },
+    {
+      label: '状态',
+      prop: 'status',
+      render: ({ row }) => {
+        return row.status === 0 ? '关闭' : '开启'
+      },
+    },
+    {
+      label: '状态',
+      prop: 'status',
+      render: ({ row }) => {
+        return row.status === 0 ? '关闭' : '开启'
+      },
+    },
+    {
+      label: '状态',
+      prop: 'status',
+      render: ({ row }) => {
+        return row.status === 0 ? '关闭' : '开启'
+      },
+    },
+    {
+      label: '状态',
+      prop: 'status',
+      render: ({ row }) => {
+        return row.status === 0 ? '关闭' : '开启'
+      },
+    },
+    {
+      label: '状态',
+      prop: 'status',
+      render: ({ row }) => {
+        return row.status === 0 ? '关闭' : '开启'
+      },
+    },
+    {
+      label: '状态',
+      prop: 'status',
+      render: ({ row }) => {
+        return row.status === 0 ? '关闭' : '开启'
+      },
+    },
+    {
+      label: '状态',
+      prop: 'status',
+      render: ({ row }) => {
+        return row.status === 0 ? '关闭' : '开启'
+      },
     },
     {
       label: '地址',

@@ -108,7 +108,6 @@ const columns = [
     label: '操作',
     btns: [
       {
-        width: 50,
         render: ({ row }) => {
           const canEdit = row.status === 1
 
@@ -152,7 +151,7 @@ const columns = [
       <el-table-column prop="city" label="所在城市区域" align="center" />
       <el-table-column prop="budget" label="预算金额(元)" sortable align="center" />
       <el-table-column prop="remark" label="备注说明备注说明备注说明" align="center" />
-      <el-table-column label="操作" width="80" align="center" fixed="right">
+      <el-table-column label="操作" align="center" fixed="right">
         <template #default="{ row }">
           <span
             :style="{
