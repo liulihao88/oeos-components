@@ -1,5 +1,5 @@
 <script setup lang="ts" name="OTable">
-import { ref, watch, computed, useAttrs, nextTick } from 'vue'
+import { ref, watch, computed, useAttrs, nextTick, toRaw } from 'vue'
 import RenderComp from './renderComp.vue'
 import HeaderTooltip from './headerTooltip.vue'
 import OPopconfirm from '@/components/popconfirm/src/index.vue'
@@ -143,7 +143,7 @@ const isSameRow = (sourceRow, targetRow) => {
     return getRowIdentity(sourceRow) === getRowIdentity(targetRow)
   }
 
-  return sourceRow === targetRow
+  return toRaw(sourceRow) === toRaw(targetRow)
 }
 
 const singleSelectionColumnAttrs = computed(() => {
@@ -195,7 +195,7 @@ const syncMultipleSelection = async () => {
     }
 
     currentRows.forEach((row) => {
-      if (selectedRows.includes(row)) {
+      if (selectedRows.some((selectedRow) => isSameRow(row, selectedRow))) {
         tableRef.value.toggleRowSelection(row, true)
       }
     })

@@ -40,8 +40,12 @@ table/groupHeader
 
 ### 多选
 
-:::demo
-table/select
+:::demo 基础多选
+table/select/basic
+:::
+
+:::demo 通过 `v-model + row-key` 回显多选值
+table/select/echo
 :::
 
 ### 隐藏按钮或列 isShow
