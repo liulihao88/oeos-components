@@ -97,6 +97,9 @@ table/compare
 | `columnEmptyText` | 单元格空值占位文案                    | string  | `-`            |
 |     `loading`     | 表格加载状态                          | boolean | `false`        |
 |   `indexAttrs`    | 序号列透传给 `el-table-column` 的配置 | object  | `{}`           |
+|    `modelValue`   | 选中值；单选时为当前行，多选时为选中行数组 | any  | -              |
+| `selectionType`   | 内置选中模式，支持 `single` / `multiple` | string | `''`          |
+| `selectionAttrs`  | 内置单选列/多选列透传配置             | object  | `{}`           |
 |   `asyncUpdate`   | 是否由外部异步控制分页状态            | boolean | `false`        |
 |    `pageAttrs`    | 分页组件透传配置                      | object  | `{}`           |
 
@@ -105,6 +108,7 @@ table/compare
 |  事件名  | 说明                     | 回调参数                 |
 | :------: | ------------------------ | ------------------------ |
 | `update` | 页码或每页条数变化时触发 | `(pageNumber, pageSize)` |
+| `update:modelValue` | 内置单选/多选值变化时触发 | `(selectedRow \| selectedRows)` |
 
 ### columns 常用字段
 
@@ -147,3 +151,4 @@ render({ row, scope, value, column, action, index })
 - 组件底层基于 `el-table` 和 `el-pagination` 封装，未在上表列出的表格属性可继续通过 attrs 透传。
 - 当 `asyncUpdate` 为 `true` 时，分页切换只触发 `update` 事件，由外部维护 `pageNumber` 和 `pageSize`。
 - 操作栏 `maxBtns` 默认值为 `4`，表示总共最多显示 `4` 个槽位；当按钮数量超出时，会显示 `maxBtns - 1` 个按钮加一个“更多”入口。
+- 单选推荐直接用 `v-model + selection-type="single"`；多选推荐直接用 `v-model + selection-type="multiple"`，如果要跨页保留选中项，记得传 `row-key`。

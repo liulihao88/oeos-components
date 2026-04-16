@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, nextTick, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { $toast } from '@oeos-components/utils'
 
 interface RepeatRecord {
@@ -14,33 +14,13 @@ interface RepeatRecord {
   file2OtherInfo: string
 }
 
-const displayData = ref()
-const tableRef = ref()
-const syncingSelection = ref(false)
-
-const syncSelection = async () => {
-  await nextTick()
-  if (!tableRef.value) return
-
-  syncingSelection.value = true
-  try {
-    tableRef.value.$refs.tableRef.clearSelection()
-    displayData.value.forEach((row) => {
-      if (selectedMap.value.has(row.id)) {
-        tableRef.value.$refs.tableRef.toggleRowSelection(row, true)
-      }
-    })
-  } finally {
-    await nextTick()
-    syncingSelection.value = false
-  }
-}
-
-const response = ref({})
-
+const displayData = ref<RepeatRecord[]>([])
+const response = ref({
+  total: 0,
+})
 const currentPage = ref(1)
 const pageSize = ref(10)
-const selectedMap = ref(new Map<string, any>())
+const selectedRows = ref<RepeatRecord[]>([])
 
 async function getCaseDuplicateData(params: { pageNo: number; pageSize: number; caseId?: string }) {
   const total = 15
@@ -77,15 +57,14 @@ async function getCaseDuplicateData(params: { pageNo: number; pageSize: number; 
 }
 
 const init = async () => {
-  let sendParams = {
+  const res = await getCaseDuplicateData({
     caseId: '2034799048267980802',
     pageNo: currentPage.value,
     pageSize: pageSize.value,
-  }
-  let res = await getCaseDuplicateData(sendParams)
+  })
+
   response.value = res
   displayData.value = res.records
-  await syncSelection()
 }
 init()
 
@@ -93,22 +72,8 @@ const columns = [] as any[]
 
 const formatLine = (lineNumber: number) => `第${lineNumber}行`
 const formatAmount = (amount: number) => `¥${amount}`
-const selectedCount = computed(() => selectedMap.value.size)
-const selectedIds = computed(() => Array.from(selectedMap.value.keys()))
-
-const handleSelectionChange = (rows: RepeatRecord[]) => {
-  if (syncingSelection.value) return
-
-  const currentPageIds = new Set(displayData.value.map((item) => item.id))
-
-  currentPageIds.forEach((id) => {
-    selectedMap.value.delete(id)
-  })
-
-  rows.forEach((row) => {
-    selectedMap.value.set(row.id, row)
-  })
-}
+const selectedCount = computed(() => selectedRows.value.length)
+const selectedIds = computed(() => selectedRows.value.map((item) => item.id))
 
 const handleUpdate = (pageNo: number, size: number) => {
   currentPage.value = pageNo
@@ -117,8 +82,7 @@ const handleUpdate = (pageNo: number, size: number) => {
 }
 
 const clearSelected = () => {
-  selectedMap.value.clear()
-  tableRef.value?.$refs.tableRef.clearSelection()
+  selectedRows.value = []
 }
 
 const exportData = () => {
@@ -133,17 +97,6 @@ const exportSelectedData = () => {
 
   $toast(`导出选择数据，共 ${selectedCount.value} 条`, 's')
 }
-
-watch(
-  selectedMap,
-  (val) => {
-    console.log(`14 103行 test/t2.vue val`, val)
-  },
-  {
-    deep: true,
-    immediate: true,
-  },
-)
 </script>
 
 <template>
@@ -152,9 +105,7 @@ watch(
       <div class="repeat-page__toolbar">
         <o-button type="primary" @click="exportData">导出数据</o-button>
         <o-button type="primary" @click="exportSelectedData">导出选择数据</o-button>
-        <div>
-          已选ID: {{ selectedIds.length ? selectedIds.join(', ') : '--' }}
-        </div>
+        <div>已选ID: {{ selectedIds.length ? selectedIds.join(', ') : '--' }}</div>
       </div>
 
       <div class="repeat-page__selection-bar">
@@ -168,20 +119,19 @@ watch(
       </div>
 
       <o-table
-        ref="tableRef"
+        v-model="selectedRows"
+        selection-type="multiple"
         :columns="columns"
         :data="displayData"
         :total="response.total"
         :pageSize="pageSize"
-        :currentPage="currentPage"
+        :pageNumber="currentPage"
         :showIndex="false"
         row-key="id"
         height="560"
         class="repeat-page__table"
-        @selection-change="handleSelectionChange"
         @update="handleUpdate"
       >
-        <el-table-column type="selection" width="58" align="center" :reserve-selection="true" />
         <el-table-column prop="index" label="序号" width="70" align="center" />
         <el-table-column label="文件一" align="center">
           <el-table-column prop="file1Name" label="文件名称" min-width="100" align="center" show-overflow-tooltip />
@@ -230,14 +180,6 @@ watch(
   height: 100%;
   padding: 10px 14px 22px;
   background: #fff;
-
-  &__top-line {
-    height: 6px;
-    margin-bottom: 8px;
-    background: #ebf5ff;
-    border: 1px solid #8fd0ff;
-    border-radius: 3px;
-  }
 
   &__wrap {
     overflow: hidden;
@@ -291,36 +233,6 @@ watch(
   &__selection-clear {
     color: #1890ff;
     cursor: pointer;
-  }
-
-  &__group-header {
-    display: grid;
-    grid-template-columns: 58px 62px minmax(600px, 1fr) minmax(600px, 1fr);
-    background: #fff;
-    border-bottom: 1px solid #ebeef5;
-  }
-
-  &__group-header-empty,
-  &__group-header-title {
-    height: 48px;
-    border-right: 1px solid #ebeef5;
-  }
-
-  &__group-header-empty--index {
-    border-right: 1px solid #ebeef5;
-  }
-
-  &__group-header-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    font-weight: 700;
-    color: #303133;
-  }
-
-  &__group-header-title:last-child {
-    border-right: 0;
   }
 
   :deep(.el-table th.el-table__cell) {

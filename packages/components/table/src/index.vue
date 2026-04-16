@@ -1,5 +1,5 @@
 <script setup lang="ts" name="OTable">
-import { ref, watch, computed, useAttrs } from 'vue'
+import { ref, watch, computed, useAttrs, nextTick } from 'vue'
 import RenderComp from './renderComp.vue'
 import HeaderTooltip from './headerTooltip.vue'
 import OPopconfirm from '@/components/popconfirm/src/index.vue'
@@ -65,6 +65,18 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
+  modelValue: {
+    type: [Array, Object, String, Number, Boolean],
+    default: undefined,
+  },
+  selectionType: {
+    type: String,
+    default: '',
+  },
+  selectionAttrs: {
+    type: Object,
+    default: () => {},
+  },
 })
 const tableRef = ref(null)
 const tableTotal = computed(() => {
@@ -72,8 +84,194 @@ const tableTotal = computed(() => {
 })
 const sPageSize = ref(props.pageSize)
 const sPageNumber = ref(props.pageNumber)
-const emits = defineEmits(['update'])
+const emits = defineEmits(['update', 'update:modelValue'])
 const finalColumns = ref([])
+const syncingMultipleSelection = ref(false)
+const syncingSingleSelection = ref(false)
+
+const isSingleSelection = computed(() => props.selectionType === 'single')
+const isMultipleSelection = computed(() => props.selectionType === 'multiple')
+const normalizedSelectionAttrs = computed<Record<string, any>>(() => {
+  if (props.selectionAttrs && typeof props.selectionAttrs === 'object') {
+    return props.selectionAttrs
+  }
+
+  return {}
+})
+const selectionHeaderLabel = computed(() => normalizedSelectionAttrs.value.label || '')
+
+const invokeAttrsListener = (listenerName, ...args) => {
+  const listener = attrs[listenerName]
+  if (Array.isArray(listener)) {
+    listener.forEach((item) => {
+      if (typeof item === 'function') {
+        item(...args)
+      }
+    })
+    return
+  }
+
+  if (typeof listener === 'function') {
+    listener(...args)
+  }
+}
+
+const getRowKey = () => {
+  return attrs['row-key'] ?? attrs.rowKey
+}
+
+const getRowIdentity = (row) => {
+  if (!row) return row
+
+  const rowKey = getRowKey()
+  if (!rowKey) return row
+
+  if (typeof rowKey === 'function') {
+    return rowKey(row)
+  }
+
+  return row?.[rowKey]
+}
+
+const isSameRow = (sourceRow, targetRow) => {
+  if (!sourceRow || !targetRow) {
+    return sourceRow === targetRow
+  }
+
+  const rowKey = getRowKey()
+  if (rowKey) {
+    return getRowIdentity(sourceRow) === getRowIdentity(targetRow)
+  }
+
+  return sourceRow === targetRow
+}
+
+const singleSelectionColumnAttrs = computed(() => {
+  return {
+    width: 58,
+    align: 'center',
+    ...normalizedSelectionAttrs.value,
+  }
+})
+
+const multipleSelectionColumnAttrs = computed(() => {
+  return {
+    type: 'selection',
+    width: 58,
+    align: 'center',
+    reserveSelection: !!getRowKey(),
+    ...normalizedSelectionAttrs.value,
+  }
+})
+
+const normalizeSelectedRows = () => {
+  return Array.isArray(props.modelValue) ? props.modelValue : []
+}
+
+const syncMultipleSelection = async () => {
+  if (!isMultipleSelection.value) return
+
+  await nextTick()
+  if (!tableRef.value?.clearSelection) return
+
+  const selectedRows = normalizeSelectedRows()
+  const currentRows = Array.isArray(props.data) ? props.data : []
+  const rowKey = getRowKey()
+
+  syncingMultipleSelection.value = true
+  try {
+    tableRef.value.clearSelection()
+
+    if (!selectedRows.length || !currentRows.length) return
+
+    if (rowKey) {
+      const selectedKeySet = new Set(selectedRows.map((row) => getRowIdentity(row)))
+      currentRows.forEach((row) => {
+        if (selectedKeySet.has(getRowIdentity(row))) {
+          tableRef.value.toggleRowSelection(row, true)
+        }
+      })
+      return
+    }
+
+    currentRows.forEach((row) => {
+      if (selectedRows.includes(row)) {
+        tableRef.value.toggleRowSelection(row, true)
+      }
+    })
+  } finally {
+    await nextTick()
+    syncingMultipleSelection.value = false
+  }
+}
+
+const syncSingleSelection = async () => {
+  if (!isSingleSelection.value) return
+
+  await nextTick()
+  if (!tableRef.value?.setCurrentRow) return
+
+  const currentRows = Array.isArray(props.data) ? props.data : []
+  const targetRow = props.modelValue && !Array.isArray(props.modelValue) ? props.modelValue : null
+  const matchedRow = currentRows.find((row) => isSameRow(row, targetRow)) ?? null
+
+  syncingSingleSelection.value = true
+  try {
+    tableRef.value.setCurrentRow(matchedRow)
+  } finally {
+    await nextTick()
+    syncingSingleSelection.value = false
+  }
+}
+
+const handleTableSelectionChange = (rows) => {
+  if (isMultipleSelection.value && !syncingMultipleSelection.value) {
+    const rowKey = getRowKey()
+
+    if (!rowKey) {
+      emits('update:modelValue', rows)
+    } else {
+      const selectedMap = new Map(normalizeSelectedRows().map((row) => [getRowIdentity(row), row]))
+      const currentPageKeys = new Set((props.data ?? []).map((row) => getRowIdentity(row)))
+
+      currentPageKeys.forEach((key) => {
+        selectedMap.delete(key)
+      })
+      rows.forEach((row) => {
+        selectedMap.set(getRowIdentity(row), row)
+      })
+
+      emits('update:modelValue', Array.from(selectedMap.values()))
+    }
+  }
+
+  invokeAttrsListener('onSelectionChange', rows)
+}
+
+const handleTableCurrentChange = (currentRow, oldCurrentRow) => {
+  if (isSingleSelection.value && !syncingSingleSelection.value) {
+    emits('update:modelValue', currentRow ?? null)
+  }
+
+  invokeAttrsListener('onCurrentChange', currentRow, oldCurrentRow)
+}
+
+const handleTableRowClick = (row, column, event) => {
+  if (isSingleSelection.value) {
+    tableRef.value?.setCurrentRow?.(row)
+  }
+
+  invokeAttrsListener('onRowClick', row, column, event)
+}
+
+const handleSingleSelectionChange = (row) => {
+  tableRef.value?.setCurrentRow?.(row)
+}
+
+const isSingleRowSelected = (row) => {
+  if (!props.modelValue || Array.isArray(props.modelValue)) return false
+  return isSameRow(row, props.modelValue)
+}
 
 const createCallbackContext = ({
   row,
@@ -398,6 +596,20 @@ watch(
     immediate: true,
   },
 )
+watch(
+  [() => props.data, () => props.modelValue, () => props.selectionType, () => attrs['row-key'], () => attrs.rowKey],
+  () => {
+    if (isMultipleSelection.value) {
+      syncMultipleSelection()
+    } else if (isSingleSelection.value) {
+      syncSingleSelection()
+    }
+  },
+  {
+    immediate: true,
+    deep: true,
+  },
+)
 const tableLoading = computed(() => {
   return props.loading ?? false
 })
@@ -441,15 +653,40 @@ const wrapperStyle = computed(() => {
 })
 
 const tableAttrs = computed(() => {
-  if (!fluidHeight.value) {
-    return attrs
+  const nextAttrs = {
+    ...attrs,
+  } as Record<string, any>
+
+  delete nextAttrs.onSelectionChange
+  delete nextAttrs.onCurrentChange
+  delete nextAttrs.onRowClick
+
+  if (
+    isSingleSelection.value &&
+    !hasOwn(nextAttrs, 'highlight-current-row') &&
+    !hasOwn(nextAttrs, 'highlightCurrentRow')
+  ) {
+    nextAttrs.highlightCurrentRow = true
   }
 
-  const { height, ...restAttrs } = attrs
+  if (!fluidHeight.value) {
+    return nextAttrs
+  }
+
+  delete nextAttrs.height
+
   return {
-    ...restAttrs,
+    ...nextAttrs,
     height: props.showPage ? `calc(100% - ${PAGE_WRAP_HEIGHT}px)` : '100%',
   }
+})
+
+const getTableRef = () => {
+  return tableRef.value
+}
+
+defineExpose({
+  getTableRef,
 })
 </script>
 
@@ -475,7 +712,26 @@ const tableAttrs = computed(() => {
         border: true,
         ...tableAttrs,
       }"
+      @selection-change="handleTableSelectionChange"
+      @current-change="handleTableCurrentChange"
+      @row-click="handleTableRowClick"
     >
+      <el-table-column v-if="isMultipleSelection" v-bind="multipleSelectionColumnAttrs" />
+      <el-table-column v-else-if="isSingleSelection" v-bind="singleSelectionColumnAttrs">
+        <template v-if="selectionHeaderLabel" #header>
+          <HeaderTooltip :label="selectionHeaderLabel" />
+        </template>
+        <template #default="scope">
+          <div class="f-ct-ct w-100%">
+            <el-radio
+              :model-value="isSingleRowSelected(scope.row)"
+              :value="true"
+              @click.stop
+              @change="handleSingleSelectionChange(scope.row)"
+            />
+          </div>
+        </template>
+      </el-table-column>
       <slot />
       <el-table-column
         v-if="showIndex"
@@ -494,16 +750,16 @@ const tableAttrs = computed(() => {
       <template v-for="(v, i) in finalColumns" :key="i">
         <template v-if="parseIsShow(v.isShow, createCallbackContext({ column: v, index: i }), [v, i])">
           <el-table-column v-if="v.type" :key="v.type" v-bind="{ align: 'center', ...v }">
-            <template #header="{ column }">
-              <HeaderTooltip :label="column.label" />
+            <template #header>
+              <HeaderTooltip :label="v.label" />
             </template>
           </el-table-column>
           <el-table-column
             v-else-if="v.btns && v.btns.length > 0"
             v-bind="{ ...{ fixed: 'right', width: parseTableWidth(v.baseBtns, v.hideBtns) }, ...v }"
           >
-            <template #header="{ column }">
-              <HeaderTooltip :label="column.label" />
+            <template #header>
+              <HeaderTooltip :label="v.label" />
             </template>
             <template #default="scope">
               <template v-if="scope.$index !== -1">
@@ -817,8 +1073,8 @@ const tableAttrs = computed(() => {
           </el-table-column>
 
           <el-table-column v-else v-bind="{ ...v }">
-            <template #header="{ column }">
-              <HeaderTooltip :label="column.label" />
+            <template #header>
+              <HeaderTooltip :label="v.label" />
             </template>
             <template #default="scope">
               <template v-if="scope.$index !== -1">
