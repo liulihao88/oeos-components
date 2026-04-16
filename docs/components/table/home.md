@@ -48,6 +48,10 @@ table/select/basic
 table/select/echo
 :::
 
+:::demo 跨页多选需要传 `row-key`
+table/select/crossPage
+:::
+
 ### 隐藏按钮或列 isShow
 
 :::demo
