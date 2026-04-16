@@ -9,7 +9,9 @@ const columns = [
     render: ({ row, scope, value, column, index }) => {
       return (
         <>
-          <oIcon name="delete"></oIcon> <span class="cl-blue">render1111</span>
+          <oFlex align="center">
+            <oIcon name="delete"></oIcon> <span class="cl-blue">render1111</span>
+          </oFlex>
         </>
       )
     },
@@ -35,6 +37,7 @@ const columns = [
 
       {
         content: '编辑3',
+        width: 80,
         render: ({ row, scope, value, column, action, index }) => {
           return (
             <>

@@ -74,6 +74,51 @@ const sPageNumber = ref(props.pageNumber)
 const emits = defineEmits(['update'])
 const finalColumns = ref([])
 
+const createCallbackContext = ({
+  row,
+  scope,
+  column,
+  action,
+  index,
+  event,
+  value,
+}: {
+  row?: any
+  scope?: any
+  column?: any
+  action?: any
+  index?: number
+  event?: Event
+  value?: any
+} = {}) => {
+  const rowData = row && typeof row === 'object' && !Array.isArray(row) ? row : {}
+  const targetProp = action?.prop ?? column?.prop
+  const finalValue = value !== undefined ? value : targetProp !== undefined ? rowData?.[targetProp] : undefined
+
+  return {
+    ...rowData,
+    row,
+    scope,
+    column,
+    action,
+    value: finalValue,
+    index: index ?? scope?.$index,
+    event,
+  }
+}
+
+const invokeWithContext = (fn, context, legacyArgs = []) => {
+  if (typeof fn !== 'function') {
+    return fn
+  }
+
+  if (fn.length > 1) {
+    return fn(...legacyArgs)
+  }
+
+  return fn(context)
+}
+
 const updateTable = () => {
   finalColumns.value = props.columns.map((item) => {
     let baseBtns = []
@@ -115,12 +160,12 @@ const updateTable = () => {
   })
 }
 // isShow 或者 content支持 函数或字符串两种写法。
-const operatorBtnFn = (cont, row = '', scope = '', btnItem = '') => {
+const operatorBtnFn = (cont, context = {}) => {
   if (typeof cont === 'function') {
-    if (!row) {
+    if (!context?.row) {
       return true
     }
-    return cont(row, scope, btnItem)
+    return invokeWithContext(cont, context, [context.row, context.scope, context.action])
   } else {
     if (cont === undefined) {
       return true
@@ -128,12 +173,12 @@ const operatorBtnFn = (cont, row = '', scope = '', btnItem = '') => {
     return cont
   }
 }
-const parseDisabled = (disFn, row = '', scope = '') => {
+const parseDisabled = (disFn, context = {}) => {
   if (typeof disFn === 'function') {
-    if (!row) {
+    if (!context?.row) {
       return false
     }
-    return disFn(row, scope)
+    return invokeWithContext(disFn, context, [context.row, context.scope, context.action])
   } else {
     if (disFn === undefined) {
       return false
@@ -141,9 +186,9 @@ const parseDisabled = (disFn, row = '', scope = '') => {
     return disFn
   }
 }
-const parseIsShow = (isFn, ...rest) => {
+const parseIsShow = (isFn, context = {}, legacyArgs = []) => {
   if (typeof isFn === 'function') {
-    return isFn(...rest)
+    return invokeWithContext(isFn, context, legacyArgs)
   } else {
     if (isFn === undefined) {
       return true
@@ -161,7 +206,8 @@ const parseSlot = (val) => {
 }
 const parseReConfirm = (isFn, row = '', scope = '') => {
   if (typeof isFn === 'function') {
-    return isFn(row, scope)
+    const context = createCallbackContext({ row, scope })
+    return invokeWithContext(isFn, context, [row, scope])
   } else {
     if (isFn === undefined) {
       return false
@@ -173,7 +219,14 @@ const parseReConfirm = (isFn, row = '', scope = '') => {
 const handleCompClick = (handlerMethod, row, scope, btnItem, event) => {
   if (handlerMethod) {
     event.stopPropagation()
-    handlerMethod(row, scope, btnItem, event)
+    const context = createCallbackContext({
+      row,
+      scope,
+      column: scope?.column,
+      action: btnItem,
+      event,
+    })
+    invokeWithContext(handlerMethod, context, [row, scope, btnItem, event])
   }
 }
 
@@ -407,7 +460,7 @@ const tableAttrs = computed(() => {
         </template>
       </el-table-column>
       <template v-for="(v, i) in finalColumns" :key="i">
-        <template v-if="parseIsShow(v.isShow, v, i)">
+        <template v-if="parseIsShow(v.isShow, createCallbackContext({ column: v, index: i }), [v, i])">
           <el-table-column v-if="v.type" :key="v.type" v-bind="{ align: 'center', ...v }">
             <template #header="{ column }">
               <HeaderTooltip :label="column.label" />
@@ -422,9 +475,31 @@ const tableAttrs = computed(() => {
             </template>
             <template #default="scope">
               <template v-if="scope.$index !== -1">
-                <template v-if="parseIsShow(v.isShow, scope.row, scope, v, i)">
+                <template
+                  v-if="
+                    parseIsShow(
+                      v.isShow,
+                      createCallbackContext({ row: scope.row, scope, column: v, index: scope.$index }),
+                      [scope.row, scope, v, i],
+                    )
+                  "
+                >
                   <template v-for="(val, idx) in v.baseBtns" :key="idx">
-                    <template v-if="parseIsShow(val.isShow, scope.row, scope, v, i)">
+                    <template
+                      v-if="
+                        parseIsShow(
+                          val.isShow,
+                          createCallbackContext({
+                            row: scope.row,
+                            scope,
+                            column: v,
+                            action: val,
+                            index: scope.$index,
+                          }),
+                          [scope.row, scope, v, i],
+                        )
+                      "
+                    >
                       <slot
                         v-if="val.useSlot"
                         :name="parseSlot(val)"
@@ -449,27 +524,82 @@ const tableAttrs = computed(() => {
                           trigger="click"
                           :title="
                             getType(val.title) === 'function'
-                              ? val.title(scope.row, scope, val)
+                              ? invokeWithContext(
+                                  val.title,
+                                  createCallbackContext({
+                                    row: scope.row,
+                                    scope,
+                                    column: v,
+                                    action: val,
+                                    index: scope.$index,
+                                  }),
+                                  [scope.row, scope, val],
+                                )
                               : val.title ?? '确定删除吗?'
                           "
                           class="f-st-ct"
-                          @confirm="val.handler?.(scope.row, scope, val)"
+                          @confirm="
+                            invokeWithContext(
+                              val.handler,
+                              createCallbackContext({
+                                row: scope.row,
+                                scope,
+                                column: v,
+                                action: val,
+                                index: scope.$index,
+                              }),
+                              [scope.row, scope, val],
+                            )
+                          "
                         >
                           <component
                             :is="val.comp"
                             v-if="val.comp"
                             class="cp"
                             v-bind="val.attrs"
-                            :disabled="parseDisabled(val.disabled, scope.row, scope, val)"
+                            :disabled="
+                              parseDisabled(
+                                val.disabled,
+                                createCallbackContext({
+                                  row: scope.row,
+                                  scope,
+                                  column: v,
+                                  action: val,
+                                  index: scope.$index,
+                                }),
+                              )
+                            "
                           />
                           <el-button
                             v-else
                             v-bind="{ ...val }"
                             link
                             class="hide-btns-button"
-                            :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                            :disabled="
+                              parseDisabled(
+                                val.disabled,
+                                createCallbackContext({
+                                  row: scope.row,
+                                  scope,
+                                  column: v,
+                                  action: val,
+                                  index: scope.$index,
+                                }),
+                              )
+                            "
                           >
-                            {{ operatorBtnFn(val.content, scope.row, scope, val) }}
+                            {{
+                              operatorBtnFn(
+                                val.content,
+                                createCallbackContext({
+                                  row: scope.row,
+                                  scope,
+                                  column: v,
+                                  action: val,
+                                  index: scope.$index,
+                                }),
+                              )
+                            }}
                           </el-button>
                         </oPopconfirm>
                       </template>
@@ -478,18 +608,63 @@ const tableAttrs = computed(() => {
                         v-else-if="val.comp"
                         class="cp"
                         v-bind="val.attrs"
-                        :disabled="parseDisabled(val.disabled, scope.row, scope, val)"
+                        :disabled="
+                          parseDisabled(
+                            val.disabled,
+                            createCallbackContext({
+                              row: scope.row,
+                              scope,
+                              column: v,
+                              action: val,
+                              index: scope.$index,
+                            }),
+                          )
+                        "
                         @click="($event) => handleCompClick(val.handler, scope.row, scope, val, $event)"
                       />
                       <template v-else>
                         <el-button
                           v-bind="{ ...val }"
                           link
-                          :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                          :disabled="
+                            parseDisabled(
+                              val.disabled,
+                              createCallbackContext({
+                                row: scope.row,
+                                scope,
+                                column: v,
+                                action: val,
+                                index: scope.$index,
+                              }),
+                            )
+                          "
                           class="hide-btns-button"
-                          @click.stop="val.handler?.(scope.row, scope, val)"
+                          @click.stop="
+                            invokeWithContext(
+                              val.handler,
+                              createCallbackContext({
+                                row: scope.row,
+                                scope,
+                                column: v,
+                                action: val,
+                                index: scope.$index,
+                              }),
+                              [scope.row, scope, val],
+                            )
+                          "
                         >
-                          {{ operatorBtnFn(val.content, scope.row, scope, val) }}
+                          {{
+                            operatorBtnFn(
+                              val.content,
+                              createCallbackContext({
+                                row: scope.row,
+                                scope,
+                                column: v,
+                                action: val,
+                                index: scope.$index,
+                              }),
+                            )
+                          }}
                         </el-button>
                       </template>
                     </template>
@@ -502,9 +677,33 @@ const tableAttrs = computed(() => {
                         <el-dropdown-menu :hide-on-click="false">
                           <template v-for="(val, idx) in v.hideBtns" :key="idx">
                             <el-dropdown-item
-                              v-if="parseIsShow(val.isShow, scope.row, scope, v, i)"
+                              v-if="
+                                parseIsShow(
+                                  val.isShow,
+                                  createCallbackContext({
+                                    row: scope.row,
+                                    scope,
+                                    column: v,
+                                    action: val,
+                                    index: scope.$index,
+                                  }),
+                                  [scope.row, scope, v, i],
+                                )
+                              "
                               :hide-on-click="false"
-                              @click="val.handler?.(scope.row, scope, val)"
+                              @click="
+                                invokeWithContext(
+                                  val.handler,
+                                  createCallbackContext({
+                                    row: scope.row,
+                                    scope,
+                                    column: v,
+                                    action: val,
+                                    index: scope.$index,
+                                  }),
+                                  [scope.row, scope, val],
+                                )
+                              "
                             >
                               <slot
                                 v-if="val.useSlot"
@@ -529,16 +728,49 @@ const tableAttrs = computed(() => {
                                   :is="val.comp"
                                   v-if="val.comp"
                                   v-bind="val.attrs"
-                                  :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                                  :disabled="
+                                    parseDisabled(
+                                      val.disabled,
+                                      createCallbackContext({
+                                        row: scope.row,
+                                        scope,
+                                        column: v,
+                                        action: val,
+                                        index: scope.$index,
+                                      }),
+                                    )
+                                  "
                                 />
                                 <el-button
                                   v-else
                                   v-bind="{ ...val }"
                                   link
                                   class="hide-btns-button"
-                                  :disabled="parseDisabled(val.disabled, scope.row, scope)"
+                                  :disabled="
+                                    parseDisabled(
+                                      val.disabled,
+                                      createCallbackContext({
+                                        row: scope.row,
+                                        scope,
+                                        column: v,
+                                        action: val,
+                                        index: scope.$index,
+                                      }),
+                                    )
+                                  "
                                 >
-                                  {{ operatorBtnFn(val.content, scope.row, scope, val) }}
+                                  {{
+                                    operatorBtnFn(
+                                      val.content,
+                                      createCallbackContext({
+                                        row: scope.row,
+                                        scope,
+                                        column: v,
+                                        action: val,
+                                        index: scope.$index,
+                                      }),
+                                    )
+                                  }}
                                 </el-button>
                               </template>
                             </el-dropdown-item>
@@ -576,7 +808,17 @@ const tableAttrs = computed(() => {
                   :column="v"
                   :index="scope.$index"
                 />
-                <span v-else-if="v.handler" class="hide-btns-button" @click.stop="v.handler(scope.row, scope, v)">
+                <span
+                  v-else-if="v.handler"
+                  class="hide-btns-button"
+                  @click.stop="
+                    invokeWithContext(
+                      v.handler,
+                      createCallbackContext({ row: scope.row, scope, column: v, index: scope.$index }),
+                      [scope.row, scope, v],
+                    )
+                  "
+                >
                   <span>
                     {{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : handleEmptyText(scope, v) }}
                   </span>

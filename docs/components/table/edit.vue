@@ -11,7 +11,7 @@ const header = [
     title: '18',
   },
 ]
-const edit = async (row, scope) => {
+const edit = async ({ row, scope }) => {
   if (row.isEdit) {
     await proxy.sleep(1000)
     proxy.$toast('保存成功')
@@ -35,8 +35,8 @@ const columns = [
     prop: 'operation',
     btns: [
       {
-        content: (value, row) => {
-          if (value?.isEdit) {
+        content: ({ row }) => {
+          if (row?.isEdit) {
             return '保存'
           } else {
             return '编辑'

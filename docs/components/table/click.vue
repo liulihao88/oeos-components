@@ -70,11 +70,11 @@ const columns = [
   },
 ]
 
-async function editRow(row, scope, evt) {
-  console.log(`36 val`, val)
-  console.log(`46 row`, row)
-  console.log(`88 scope`, scope)
-  console.log(`86 evt`, evt)
+async function editRow({ row, scope, event, action }) {
+  console.log(`row`, row)
+  console.log(`scope`, scope)
+  console.log(`event`, event)
+  console.log(`action`, action)
 }
 
 async function init() {

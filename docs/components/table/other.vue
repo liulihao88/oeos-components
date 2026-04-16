@@ -28,17 +28,17 @@ const columns = computed(() => {
       btns: [
         {
           reConfirm: true,
-          content: (row, scope, btnItem) => {
+          content: ({ scope }) => {
             if (data.value[scope.$index].status === 0) {
               return '关闭'
             } else {
               return '开启'
             }
           },
-          title: (row, scope, btnItem) => {
+          title: ({ scope }) => {
             return data.value[scope.$index].status === 0 ? '确定开启吗?' : '确定关闭吗?'
           },
-          handler: (row, scope, btnItem) => {
+          handler: ({ scope }) => {
             data.value[scope.$index].status = data.value[scope.$index].status === 0 ? 1 : 0
           },
         },

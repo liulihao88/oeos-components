@@ -10,7 +10,8 @@ const columns = [
   {
     label: '名字',
     prop: 'name',
-    isShow: () => {
+    isShow: ({ column }) => {
+      console.log(column)
       return false
     },
   },
@@ -26,7 +27,7 @@ const columns = [
       {
         content: '编辑',
         handler: () => {},
-        isShow: (row, scope, v) => {
+        isShow: ({ scope }) => {
           return scope.$index === 1 ? true : false
         },
         comp: 'o-icon',
@@ -34,7 +35,7 @@ const columns = [
           name: 'edit',
           content: '编辑',
         },
-        disabled: (row) => row.status === 'Loading',
+        disabled: ({ row }) => row.status === 'Loading',
       },
       {
         content: 'haha',

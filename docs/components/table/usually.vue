@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
-function handleDetail(row) {
+function handleDetail({ row }) {
   console.log(`row`, row)
-  // console.log('handleDetail')
   proxy.$toast(row.name)
   proxy.log(`row`, row, '9行 test/t1.vue')
 }
-function handleDetail2() {
-  console.log('handleDetail2')
+function handleDetail2({ row }) {
+  console.log('handleDetail2', row)
 }
-const downloadRow = (row) => {
+const downloadRow = ({ row }) => {
   console.log(`56 row`, row)
 }
 const columns = [
@@ -55,7 +54,7 @@ const columns = [
           name: 'edit',
           content: '编辑',
         },
-        disabled: (row) => row.status === 'Loading',
+        disabled: ({ row }) => row.status === 'Loading',
       },
       {
         handler: () => {},
@@ -64,7 +63,7 @@ const columns = [
           name: 'view',
           content: '查看',
         },
-        disabled: (row) => row.status === 'Loading',
+        disabled: ({ row }) => row.status === 'Loading',
       },
       {
         handler: () => {},
@@ -73,7 +72,7 @@ const columns = [
           name: 'delete',
           content: '删除',
         },
-        disabled: (row) => row.status === 'Loading',
+        disabled: ({ row }) => row.status === 'Loading',
       },
       {
         prop: 'download',
