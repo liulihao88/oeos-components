@@ -32,11 +32,7 @@ table/click/basic
 table/click/echo
 :::
 
-### 多级表头
 
-:::demo
-table/groupHeader
-:::
 
 ### 多选
 
@@ -48,8 +44,14 @@ table/select/basic
 table/select/echo
 :::
 
-:::demo 跨页多选需要传 `row-key`
+:::demo 跨页多选需要传 `row-key`, 默认就是支持跨页多选的
 table/select/crossPage
+:::
+
+### 多级表头
+
+:::demo
+table/groupHeader
 :::
 
 ### 隐藏按钮或列 isShow

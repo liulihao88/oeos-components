@@ -69,6 +69,7 @@ const clearSelected = () => {
       :data="displayData"
       :total="fullData.length"
       :pageSize="pageSize"
+      :pageSizes="[2, 10, 30, 50]"
       :pageNumber="currentPage"
       :showIndex="false"
       row-key="id"
