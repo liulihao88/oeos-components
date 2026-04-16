@@ -184,18 +184,18 @@ watch(
         <el-table-column type="selection" width="58" align="center" :reserve-selection="true" />
         <el-table-column prop="index" label="序号" width="70" align="center" />
         <el-table-column label="文件一" align="center">
-          <el-table-column prop="file1Name" label="文件名称" min-width="220" align="center" show-overflow-tooltip />
-          <el-table-column label="行号" min-width="140" align="center">
+          <el-table-column prop="file1Name" label="文件名称" min-width="100" align="center" show-overflow-tooltip />
+          <el-table-column label="行号" min-width="100" align="center">
             <template #default="{ row }">
               {{ formatLine(row.file1LineNumber) }}
             </template>
           </el-table-column>
-          <el-table-column label="发生金额" min-width="140" align="center">
+          <el-table-column label="发生金额" min-width="100" align="center">
             <template #default="{ row }">
               {{ formatAmount(row.file1Amount) }}
             </template>
           </el-table-column>
-          <el-table-column label="其他信息" min-width="140" align="center">
+          <el-table-column label="其他信息" min-width="100" align="center">
             <template #default="{ row }">
               {{ row.file1OtherInfo || '--' }}
             </template>
@@ -203,18 +203,18 @@ watch(
         </el-table-column>
 
         <el-table-column label="文件二" align="center">
-          <el-table-column prop="file2Name" label="文件名称" min-width="220" align="center" show-overflow-tooltip />
-          <el-table-column label="行号" min-width="140" align="center">
+          <el-table-column prop="file2Name" label="文件名称" min-width="100" align="center" show-overflow-tooltip />
+          <el-table-column label="行号" min-width="100" align="center">
             <template #default="{ row }">
               {{ formatLine(row.file2LineNumber) }}
             </template>
           </el-table-column>
-          <el-table-column label="发生金额" min-width="140" align="center">
+          <el-table-column label="发生金额" min-width="100" align="center">
             <template #default="{ row }">
               {{ formatAmount(row.file2Amount) }}
             </template>
           </el-table-column>
-          <el-table-column label="其他信息" min-width="140" align="center">
+          <el-table-column label="其他信息" min-width="100" align="center">
             <template #default="{ row }">
               {{ row.file2OtherInfo || '--' }}
             </template>
