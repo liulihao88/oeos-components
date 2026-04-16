@@ -22,10 +22,14 @@ table/base
 table/other
 :::
 
-### 单击选中当前行
+### 单选
 
-:::demo
-table/click
+:::demo 基础单选，点击当前行进行选中
+table/click/basic
+:::
+
+:::demo 通过 `v-model + row-key` 回显单选值
+table/click/echo
 :::
 
 ### 多选
