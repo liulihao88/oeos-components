@@ -94,6 +94,7 @@ const columns = [] as any[]
 const formatLine = (lineNumber: number) => `第${lineNumber}行`
 const formatAmount = (amount: number) => `¥${amount}`
 const selectedCount = computed(() => selectedMap.value.size)
+const selectedIds = computed(() => Array.from(selectedMap.value.keys()))
 
 const handleSelectionChange = (rows: RepeatRecord[]) => {
   if (syncingSelection.value) return
@@ -151,6 +152,9 @@ watch(
       <div class="repeat-page__toolbar">
         <o-button type="primary" @click="exportData">导出数据</o-button>
         <o-button type="primary" @click="exportSelectedData">导出选择数据</o-button>
+        <div>
+          已选ID: {{ selectedIds.length ? selectedIds.join(', ') : '--' }}
+        </div>
       </div>
 
       <div class="repeat-page__selection-bar">
@@ -162,13 +166,6 @@ watch(
         </template>
         <span v-else>未选中任何数据</span>
       </div>
-
-      <!-- <div class="repeat-page__group-header">
-        <div class="repeat-page__group-header-empty" />
-        <div class="repeat-page__group-header-empty repeat-page__group-header-empty--index" />
-        <div class="repeat-page__group-header-title">文件一</div>
-        <div class="repeat-page__group-header-title">文件二</div>
-      </div> -->
 
       <o-table
         ref="tableRef"
