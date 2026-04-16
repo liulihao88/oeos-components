@@ -277,9 +277,9 @@ const getBtnWidth = (btn) => {
 
 const parseTableWidth = (btns, hBtns) => {
   const btnsWidth = btns.reduce((sum, btn) => sum + getBtnWidth(btn), 0)
-  const gapWidth = Math.max(btns.length - 1, 0) * 8
+  const gapWidth = Math.max(btns.length - 1, 0) * 12
   const moreWidth = hBtns.length > 0 ? 24 : 0
-  const paddingWidth = 48
+  const paddingWidth = 40
   const minWidth = 60
 
   return `${Math.max(btnsWidth + gapWidth + moreWidth + paddingWidth, minWidth)}px`

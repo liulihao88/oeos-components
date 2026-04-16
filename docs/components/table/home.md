@@ -76,6 +76,12 @@ table/render
 table/operator
 :::
 
+### 对比
+
+:::demo
+table/compare
+:::
+
 ### 属性
 
 | 属性名 | 说明 | 类型 | 默认值 |

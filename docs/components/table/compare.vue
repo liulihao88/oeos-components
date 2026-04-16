@@ -106,23 +106,28 @@ const columns = [
   {
     key: 'operation',
     label: '操作',
-    maxBtns: 5,
     btns: [
       {
-        content: '用户',
+        width: 50,
+        render: ({ row }) => {
+          const canEdit = row.status === 1
+
+          return (
+            <span
+              style={{
+                color: canEdit ? 'var(--blue)' : 'red',
+                cursor: canEdit ? 'pointer' : 'not-allowed',
+              }}
+              onClick={() => {
+                if (!canEdit) return
+                handleEdit(row)
+              }}
+            >
+              编辑
+            </span>
+          )
+        },
       },
-      // {
-      //   content: '用户',
-      // },
-      // {
-      //   content: '用户',
-      // },
-      // {
-      //   content: '用户',
-      // },
-      // {
-      //   content: '用321户',
-      // },
     ],
   },
 ]
