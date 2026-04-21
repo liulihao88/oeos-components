@@ -66,82 +66,86 @@ export default defineConfig({
               link: '/components/utils/grammar/home.md',
             },
             {
+              text: '项目常见写法',
+              link: '/components/projectWriting/home.md',
+            },
+            {
               text: '国际化',
               link: '/components/utils/i18n/home.md',
             },
+          ],
+        },
+        {
+          text: '函数方法',
+          collapsed: false,
+          items: [
             {
-              text: '函数方法',
-              collapsed: false,
-              items: [
-                {
-                  text: '$toast提示',
-                  link: '/components/utils/$toast/home.md',
-                },
-                {
-                  text: 'confirm确认框',
-                  link: '/components/utils/confirm/home.md',
-                },
-                {
-                  text: 'clone深克隆',
-                  link: '/components/utils/clone/home.md',
-                },
-                {
-                  text: 'isEmpty判断是否空值',
-                  link: '/components/utils/isEmpty/home.md',
-                },
-                {
-                  text: 'formatToFixed给数字加小数点',
-                  link: '/components/utils/formatToFixed/home.md',
-                },
-                {
-                  text: 'tryCatch函数封装',
-                  link: '/components/utils/tryCatch/home.md',
-                },
-                {
-                  text: 'validate校验',
-                  link: '/components/utils/validate/home.md',
-                },
-                {
-                  text: 'validForm校验form函数封装',
-                  link: '/components/utils/validForm/home.md',
-                },
-                {
-                  text: 'formatBytes数字变为字节',
-                  link: '/components/utils/formatBytes/home.md',
-                },
-                {
-                  text: 'formatBytesConvert翻转字节为数字',
-                  link: '/components/utils/formatBytesConvert/home.md',
-                },
-                {
-                  text: 'formatTime转换日期',
-                  link: '/components/utils/formatTime/home.md',
-                },
-                {
-                  text: 'formatDutationTime持续时间',
-                  link: '/components/utils/formatDurationTime/home.md',
-                },
-                {
-                  text: 'uuid生成随机字符串',
-                  link: '/components/utils/uuid/home.md',
-                },
-                {
-                  text: 'getType获取类型',
-                  link: '/components/utils/getType/home.md',
-                },
-                {
-                  text: 'sleep延迟函数',
-                  link: '/components/utils/sleep/home.md',
-                },
-                {
-                  text: 'formatTextToHtml',
-                  link: '/components/utils/formatTextToHtml/home.md',
-                },
-                {
-                  text: 'dayjs函数方法',
-                  link: '/components/utils/dayjs/home.md',
-                }
-              ],
+              text: '$toast提示',
+              link: '/components/utils/$toast/home.md',
+            },
+            {
+              text: 'confirm确认框',
+              link: '/components/utils/confirm/home.md',
+            },
+            {
+              text: 'clone深克隆',
+              link: '/components/utils/clone/home.md',
+            },
+            {
+              text: 'isEmpty判断是否空值',
+              link: '/components/utils/isEmpty/home.md',
+            },
+            {
+              text: 'formatToFixed给数字加小数点',
+              link: '/components/utils/formatToFixed/home.md',
+            },
+            {
+              text: 'tryCatch函数封装',
+              link: '/components/utils/tryCatch/home.md',
+            },
+            {
+              text: 'validate校验',
+              link: '/components/utils/validate/home.md',
+            },
+            {
+              text: 'validForm校验form函数封装',
+              link: '/components/utils/validForm/home.md',
+            },
+            {
+              text: 'formatBytes数字变为字节',
+              link: '/components/utils/formatBytes/home.md',
+            },
+            {
+              text: 'formatBytesConvert翻转字节为数字',
+              link: '/components/utils/formatBytesConvert/home.md',
+            },
+            {
+              text: 'formatTime转换日期',
+              link: '/components/utils/formatTime/home.md',
+            },
+            {
+              text: 'formatDutationTime持续时间',
+              link: '/components/utils/formatDurationTime/home.md',
+            },
+            {
+              text: 'uuid生成随机字符串',
+              link: '/components/utils/uuid/home.md',
+            },
+            {
+              text: 'getType获取类型',
+              link: '/components/utils/getType/home.md',
+            },
+            {
+              text: 'sleep延迟函数',
+              link: '/components/utils/sleep/home.md',
+            },
+            {
+              text: 'formatTextToHtml',
+              link: '/components/utils/formatTextToHtml/home.md',
+            },
+            {
+              text: 'dayjs函数方法',
+              link: '/components/utils/dayjs/home.md',
             },
           ],
         },
