@@ -103,7 +103,7 @@ export default OFoo
 - 这样组件既能被全局注册，也能支持按需引入。
 - 基础组件目录里通常都会有一个 `index.ts` 专门做这件事。
 
-### 6. 通过 `GLOBAL_COMPONENT_CONFIG` 配置组件全局默认值
+### 6. 通过 `globalComponentConfig` 配置组件全局默认值
 
 `o-select` 和 `o-table` 当前都在用这个模式。
 
@@ -124,6 +124,7 @@ app.use(OeosComponents, {
     oTable: {
       showIndex: false,
       showPage: false,
+      pageSizes: [10, 30, 50, 100],
     },
   },
 })
