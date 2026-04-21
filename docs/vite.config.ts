@@ -11,6 +11,7 @@ import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import Icons from 'unplugin-icons/vite'
 
 export default defineConfig({
+  envDir: fileURLToPath(new URL('..', import.meta.url)),
   plugins: [
     VueSetupExtend(),
     svgLoader({

@@ -33,9 +33,11 @@
 
 <script lang="ts" setup>
 import { getStorage, setStorage, copy } from '@oeos-components/utils'
-import { ref, onUnmounted, onMounted, computed, watch } from 'vue'
+import { ElMessage } from 'element-plus'
+import { ref, onUnmounted, watch } from 'vue'
 import { useData, useRouter } from 'vitepress' // 添加 useRouter 导入
 import pkg from '../../../package.json'
+import { buildVscodeFileUrl, getComponentDocPath, getDocsBasePath, getSourceDir, joinLocalPath } from './utils/localFile'
 
 const { page } = useData()
 const router = useRouter() // 获取路由器实例
@@ -79,7 +81,8 @@ const copyMdUrl = () => {
   if (!pathname || pathname === '/') {
     return
   }
-  let mdStr = pathname.replace('/oeos-components/components/', '') + '.md'
+  const docsBasePath = `${getDocsBasePath()}/components/`
+  let mdStr = pathname.replace(docsBasePath, '') + '.md'
   copy(mdStr, { duration: 500 })
 }
 const copyPackageUrl = () => {
@@ -92,47 +95,53 @@ const copyPackageUrl = () => {
   copy(pkgStr, { duration: 500 })
 }
 
-// http://localhost:9998/oeos-components/components/test/home
+const openLocalSourceFile = (targetPath: string) => {
+  window.open(buildVscodeFileUrl(targetPath), '_blank')
+}
+
 const jumpUrl = (type: string) => {
   let pathname = location.pathname
   if (!pathname || pathname === '/') {
     return
   }
-  let baseUrl = '/Users/liulihao/cyrd/oeos-components'
-  let vascodeUrl = ''
-  let compStr = pathname.replace(/^\/oeos\-components\/components\//, '').replace(/\/home$/, '')
-  console.log(`16 compStr`, compStr)
+  const sourceDir = getSourceDir()
+
+  if (!sourceDir) {
+    ElMessage.warning('请先配置 VITE_SOURCE_DIR 环境变量，例如 VITE_SOURCE_DIR=/path/to/oeos-components')
+    return
+  }
+
+  let compStr = getComponentDocPath(pathname)
+  let targetPath = ''
   if (type === 'md') {
-    let middleStr = 'docs/components'
-    vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/home.md`
+    targetPath = joinLocalPath(sourceDir, 'docs/components', compStr, 'home.md')
     if (compStr === '') {
-      vascodeUrl = `vscode://file${baseUrl}/${middleStr}/index.md`
-    }
-    if (compStr.startsWith('directives')) {
-      vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/home.md`
+      targetPath = joinLocalPath(sourceDir, 'docs/components/index.md')
     }
   } else if (type === 'packages') {
-    console.log(`2244 115行 docs/.vitepress/theme/logo.vue 222 `, 222);
-    let middleStr = 'packages/components'
-    console.log(`17 `,  `vscode://file${baseUrl}/${middleStr}/${compStr}/src/index.vue`);
-    vascodeUrl = `vscode://file${baseUrl}/${middleStr}/${compStr}/src/index.vue`
+    targetPath = joinLocalPath(sourceDir, 'packages/components', compStr, 'src/index.vue')
     if (compStr.startsWith('utils')) {
-      vascodeUrl = `vscode://file${baseUrl}/packages/utils/src/index.ts`
+      targetPath = joinLocalPath(sourceDir, 'packages/utils/src/index.ts')
     }
     if (compStr.startsWith('directives')) {
-      vascodeUrl = `vscode://file${baseUrl}/packages/directives/gDirectives.js`
+      targetPath = joinLocalPath(sourceDir, 'packages/directives/gDirectives.js')
     }
   } else if (type === 'test/home') {
-    router.go('/oeos-components/components/test/home') // 使用 VitePress 路由进行跳转
-    vascodeUrl = `vscode://file${baseUrl}/docs/components/test/base.vue`
+    router.go(`${getDocsBasePath()}/components/test/home`) // 使用 VitePress 路由进行跳转
+    targetPath = joinLocalPath(sourceDir, 'docs/components/test/base.vue')
   }
-  window.open(vascodeUrl, '_blank')
+
+  if (!targetPath) {
+    return
+  }
+
+  openLocalSourceFile(targetPath)
 }
 
 const isHome = ref(false)
 const timer = ref()
 timer.value = setInterval(() => {
-  if (window.location.pathname === '/oeos-components/') {
+  if (window.location.pathname === `${getDocsBasePath()}/`) {
     return (isHome.value = true)
   }
   isHome.value = false
