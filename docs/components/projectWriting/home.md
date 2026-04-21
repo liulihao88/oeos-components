@@ -103,7 +103,39 @@ export default OFoo
 - 这样组件既能被全局注册，也能支持按需引入。
 - 基础组件目录里通常都会有一个 `index.ts` 专门做这件事。
 
-### 6. 文档页通常拆成 `home.md + 多个 demo.vue`
+### 6. 通过 `GLOBAL_COMPONENT_CONFIG` 配置组件全局默认值
+
+`o-select` 当前就在用这个模式。
+
+```ts
+// packages/components/select/src/index.vue
+const globalConfig = inject('GLOBAL_COMPONENT_CONFIG', {})
+const mergedProps = computed(() => {
+  return {
+    ...props,
+    ...globalConfig?.oSelect,
+  }
+})
+```
+
+```ts
+// main.ts 中提供全局配置
+const app = createApp(App)
+
+app.provide('GLOBAL_COMPONENT_CONFIG', {
+  oSelect: {
+    showPrefix: true,
+  },
+})
+```
+
+- 这种写法适合做“组件默认行为”的统一配置，比如 `showPrefix`、`showQuick` 一类开关。
+- 当前 `select` 是从 `GLOBAL_COMPONENT_CONFIG.oSelect` 里取值，再生成 `mergedProps` 给内部逻辑使用。
+- 如果一个组件也要支持这种能力，通常做法是：组件内部 `inject`，然后把全局配置和本地 `props` 合并后统一消费。
+- 如果只希望某个页面或某个模块下生效，也可以在父组件的 `setup` 里使用 `provide('GLOBAL_COMPONENT_CONFIG', ...)` 做局部覆盖。
+- 需要注意：`o-select` 当前代码里的合并顺序是 `...props, ...globalConfig?.oSelect`，所以同名字段会以后面的全局配置为准；如果后续想改成“本地传参优先”，需要把顺序调成 `...globalConfig?.oSelect, ...props`。
+
+### 7. 文档页通常拆成 `home.md + 多个 demo.vue`
 
 ```md
 ### 基础用法
@@ -117,7 +149,7 @@ foo/base
 - 具体交互示例通常拆成同级 `.vue` 文件，避免一个文档页过长。
 - 文档页顶部一般会保留 `## Hidden Title {.md-hidden}` 这一行，和当前仓库风格保持一致。
 
-### 7. 工具方法通常按“实现文件 + 统一导出 + 对应文档”组织
+### 8. 工具方法通常按“实现文件 + 统一导出 + 对应文档”组织
 
 ```text
 packages/utils/src/base.ts
@@ -129,7 +161,7 @@ docs/components/utils/isEmpty/home.md
 - 对外统一从 `packages/utils/src/index.ts` 导出。
 - 文档通常放在 `docs/components/utils/*/home.md`，路径尽量和函数名保持一致。
 
-### 8. 新增文档或组件后，通常别忘了检查这些地方
+### 9. 新增文档或组件后，通常别忘了检查这些地方
 
 - `docs/.vitepress/config.ts` 里是否补了侧边栏入口。
 - 组件目录下是否有 `index.ts`，这样才能被 `packages/index.ts` 自动收集。
