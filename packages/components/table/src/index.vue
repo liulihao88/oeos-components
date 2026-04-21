@@ -86,7 +86,7 @@ const tableTotal = computed(() => {
 })
 const sPageSize = ref(mergedProps.value.pageSize)
 const sPageNumber = ref(mergedProps.value.pageNumber)
-const emits = defineEmits(['update', 'update:modelValue'])
+const emits = defineEmits(['page-change', 'update:modelValue'])
 const finalColumns = ref([])
 const syncingMultipleSelection = ref(false)
 const syncingSingleSelection = ref(false)
@@ -496,7 +496,10 @@ function handleCurrentChange(val) {
   }
 }
 function updatePage(number, size) {
-  emits('update', number, size)
+  emits('page-change', {
+    pageNumber: number,
+    pageSize: size,
+  })
 }
 
 let textMeasureEl: HTMLSpanElement | null = null
