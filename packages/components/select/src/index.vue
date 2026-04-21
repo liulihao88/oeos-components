@@ -82,16 +82,13 @@
         <div class="h-1 w-100% cl-blue bg-line" />
         <o-icon name="ArrowDown" :size="attrs.size === 'small' ? 10 : 14" @click="quickSelect(true)" />
       </span>
-      <!-- <img :src="Loop" alt="" width="12px" /> -->
     </span>
   </div>
 </template>
 
 <script setup lang="ts" name="OSelect">
 import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed, inject, nextTick } from 'vue'
-import Loop from '@/assets/images/loop.png'
 import { processWidth, isEmpty } from '@oeos-components/utils'
-
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])
@@ -441,24 +438,6 @@ function _commonEmits(item, selectLabel, selectObj) {
   emits('update:modelValue', item)
   emits('change', item)
 }
-
-/** @使用方式
-<o-select
-  v-model="optionsId"
-  label="name"
-  value="id"
-  :url="listWorkStyles"
-  optionsExpression="list"
-  :urlParams="urlParams"
-></o-select>
-
-import { listWorkStyles } from '/@/api/aig/work_styles';
-
-const urlParams = translateToPageinfo({
-	pageSize: 9999,
-	pageNum: 1,
-});
-*/
 </script>
 
 <style lang="scss" scoped>
