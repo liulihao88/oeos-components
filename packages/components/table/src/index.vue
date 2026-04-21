@@ -1,5 +1,5 @@
 <script setup lang="ts" name="OTable">
-import { ref, watch, computed, useAttrs, nextTick, toRaw } from 'vue'
+import { ref, watch, computed, useAttrs, nextTick, toRaw, inject } from 'vue'
 import RenderComp from './renderComp.vue'
 import HeaderTooltip from './headerTooltip.vue'
 import OPopconfirm from '@/components/popconfirm/src/index.vue'
@@ -78,22 +78,29 @@ const props = defineProps({
     default: () => {},
   },
 })
+const globalConfig = inject('GLOBAL_COMPONENT_CONFIG', {})
+const mergedProps = computed(() => {
+  return {
+    ...props,
+    ...globalConfig?.oTable,
+  }
+})
 const tableRef = ref(null)
 const tableTotal = computed(() => {
-  return props.total ?? props.data.length
+  return mergedProps.value.total ?? mergedProps.value.data.length
 })
-const sPageSize = ref(props.pageSize)
-const sPageNumber = ref(props.pageNumber)
+const sPageSize = ref(mergedProps.value.pageSize)
+const sPageNumber = ref(mergedProps.value.pageNumber)
 const emits = defineEmits(['update', 'update:modelValue'])
 const finalColumns = ref([])
 const syncingMultipleSelection = ref(false)
 const syncingSingleSelection = ref(false)
 
-const isSingleSelection = computed(() => props.selectionType === 'single')
-const isMultipleSelection = computed(() => props.selectionType === 'multiple')
+const isSingleSelection = computed(() => mergedProps.value.selectionType === 'single')
+const isMultipleSelection = computed(() => mergedProps.value.selectionType === 'multiple')
 const normalizedSelectionAttrs = computed<Record<string, any>>(() => {
-  if (props.selectionAttrs && typeof props.selectionAttrs === 'object') {
-    return props.selectionAttrs
+  if (mergedProps.value.selectionAttrs && typeof mergedProps.value.selectionAttrs === 'object') {
+    return mergedProps.value.selectionAttrs
   }
 
   return {}
@@ -165,7 +172,7 @@ const multipleSelectionColumnAttrs = computed(() => {
 })
 
 const normalizeSelectedRows = () => {
-  return Array.isArray(props.modelValue) ? props.modelValue : []
+  return Array.isArray(mergedProps.value.modelValue) ? mergedProps.value.modelValue : []
 }
 
 const syncMultipleSelection = async () => {
@@ -175,7 +182,7 @@ const syncMultipleSelection = async () => {
   if (!tableRef.value?.clearSelection) return
 
   const selectedRows = normalizeSelectedRows()
-  const currentRows = Array.isArray(props.data) ? props.data : []
+  const currentRows = Array.isArray(mergedProps.value.data) ? mergedProps.value.data : []
   const rowKey = getRowKey()
 
   syncingMultipleSelection.value = true
@@ -211,8 +218,9 @@ const syncSingleSelection = async () => {
   await nextTick()
   if (!tableRef.value?.setCurrentRow) return
 
-  const currentRows = Array.isArray(props.data) ? props.data : []
-  const targetRow = props.modelValue && !Array.isArray(props.modelValue) ? props.modelValue : null
+  const currentRows = Array.isArray(mergedProps.value.data) ? mergedProps.value.data : []
+  const targetRow =
+    mergedProps.value.modelValue && !Array.isArray(mergedProps.value.modelValue) ? mergedProps.value.modelValue : null
   const matchedRow = currentRows.find((row) => isSameRow(row, targetRow)) ?? null
 
   syncingSingleSelection.value = true
@@ -232,7 +240,7 @@ const handleTableSelectionChange = (rows) => {
       emits('update:modelValue', rows)
     } else {
       const selectedMap = new Map(normalizeSelectedRows().map((row) => [getRowIdentity(row), row]))
-      const currentPageKeys = new Set((props.data ?? []).map((row) => getRowIdentity(row)))
+      const currentPageKeys = new Set((mergedProps.value.data ?? []).map((row) => getRowIdentity(row)))
 
       currentPageKeys.forEach((key) => {
         selectedMap.delete(key)
@@ -269,8 +277,8 @@ const handleSingleSelectionChange = (row) => {
 }
 
 const isSingleRowSelected = (row) => {
-  if (!props.modelValue || Array.isArray(props.modelValue)) return false
-  return isSameRow(row, props.modelValue)
+  if (!mergedProps.value.modelValue || Array.isArray(mergedProps.value.modelValue)) return false
+  return isSameRow(row, mergedProps.value.modelValue)
 }
 
 const createCallbackContext = ({
@@ -360,7 +368,7 @@ const normalizeColumnBtns = (btns = [], maxBtns = 4) => {
 }
 
 const updateTable = () => {
-  finalColumns.value = props.columns.map((item) => {
+  finalColumns.value = mergedProps.value.columns.map((item) => {
     const maxBtns = normalizeMaxBtns(item.maxBtns ?? 4)
     const { btns, baseBtns, hideBtns } = normalizeColumnBtns(item.btns ?? [], maxBtns)
 
@@ -470,13 +478,13 @@ const handleEmptyText = (scope, v) => {
   // 判断'   '为空
   const trimIsEmpty = getType(scope.row[v.prop]) === 'string' && scope.row[v.prop].trim().length === 0
   if (scope.row[v.prop] === null || scope.row[v.prop] === undefined || scope.row[v.prop] === '' || trimIsEmpty) {
-    return v.columnEmptyText || props.columnEmptyText
+    return v.columnEmptyText || mergedProps.value.columnEmptyText
   }
   return scope.row[v.prop]
 }
 
 function handleSizeChange(val) {
-  if (props.asyncUpdate) {
+  if (mergedProps.value.asyncUpdate) {
     updatePage(1, val)
   } else {
     sPageSize.value = val
@@ -485,7 +493,7 @@ function handleSizeChange(val) {
   }
 }
 function handleCurrentChange(val) {
-  if (props.asyncUpdate) {
+  if (mergedProps.value.asyncUpdate) {
     updatePage(val, sPageSize.value)
   } else {
     sPageNumber.value = val
@@ -569,7 +577,7 @@ const parseTableWidth = (btns, hBtns) => {
   return `${Math.max(btnsWidth + gapWidth + moreWidth + paddingWidth, minWidth)}px`
 }
 watch(
-  () => props.columns,
+  () => mergedProps.value.columns,
   () => {
     updateTable()
   },
@@ -579,7 +587,7 @@ watch(
   },
 )
 watch(
-  () => props.pageSize,
+  () => mergedProps.value.pageSize,
   (val) => {
     sPageSize.value = val
   },
@@ -588,7 +596,7 @@ watch(
   },
 )
 watch(
-  () => props.pageNumber,
+  () => mergedProps.value.pageNumber,
   (val) => {
     sPageNumber.value = val
   },
@@ -597,7 +605,13 @@ watch(
   },
 )
 watch(
-  [() => props.data, () => props.modelValue, () => props.selectionType, () => attrs['row-key'], () => attrs.rowKey],
+  [
+    () => mergedProps.value.data,
+    () => mergedProps.value.modelValue,
+    () => mergedProps.value.selectionType,
+    () => attrs['row-key'],
+    () => attrs.rowKey,
+  ],
   () => {
     if (isMultipleSelection.value) {
       syncMultipleSelection()
@@ -611,7 +625,7 @@ watch(
   },
 )
 const tableLoading = computed(() => {
-  return props.loading ?? false
+  return mergedProps.value.loading ?? false
 })
 const parseEmptyText = computed(() => {
   if (tableLoading.value === true) {
@@ -677,7 +691,7 @@ const tableAttrs = computed(() => {
 
   return {
     ...nextAttrs,
-    height: props.showPage ? `calc(100% - ${PAGE_WRAP_HEIGHT}px)` : '100%',
+    height: mergedProps.value.showPage ? `calc(100% - ${PAGE_WRAP_HEIGHT}px)` : '100%',
   }
 })
 
@@ -699,7 +713,7 @@ defineExpose({
   >
     <el-table
       ref="tableRef"
-      :data="props.data"
+      :data="mergedProps.data"
       :header-cell-style="{
         background: '#f7f8fa',
         color: 'rgba(39,48,75,0.85)',
@@ -734,13 +748,13 @@ defineExpose({
       </el-table-column>
       <slot />
       <el-table-column
-        v-if="showIndex"
+        v-if="mergedProps.showIndex"
         type="index"
-        :width="props.total >= 10000 || $attrs.size === 'large' ? 70 : 60"
+        :width="tableTotal >= 10000 || $attrs.size === 'large' ? 70 : 60"
         align="center"
         :index="indexMethod"
         :fixed="true"
-        v-bind="indexAttrs"
+        v-bind="mergedProps.indexAttrs"
       >
         <!-- 使用 #header 插槽自定义表头 -->
         <template #header="{ column }">
@@ -1124,7 +1138,7 @@ defineExpose({
       </template>
     </el-table>
 
-    <div class="page-wrap" v-if="showPage">
+    <div class="page-wrap" v-if="mergedProps.showPage">
       <div class="page-left">
         <span>共</span>
         <span class="m-lr-2 bold">{{ tableTotal }}</span>
@@ -1137,13 +1151,13 @@ defineExpose({
             background
             :current-page="sPageNumber"
             :page-size="sPageSize"
-            :page-sizes="pageSizes"
+            :page-sizes="mergedProps.pageSizes"
             layout="prev, pager, next, jumper, sizes"
             :total="tableTotal"
             :size="$attrs.size"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            v-bind="props.pageAttrs"
+            v-bind="mergedProps.pageAttrs"
           />
         </div>
       </div>
