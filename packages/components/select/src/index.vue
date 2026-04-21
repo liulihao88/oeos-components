@@ -36,10 +36,12 @@
         >
           <template v-if="mergedProps.showPrefix" #prefix>
             <slot name="prefix">
-              <span v-if="Array.isArray(childSelectedValue)">
-                {{ childSelectedValue.length }}/{{ sOptions.length }}
+              <span v-if="Array.isArray(childSelectedValue)" class="o-select__fraction l-1">
+                <span class="o-select__fraction-text">{{ childSelectedValue.length }}</span>
+                <span class="o-select__fraction-line"></span>
+                <span class="o-select__fraction-text">{{ sOptions.length }}</span>
               </span>
-              <span v-else>{{ sOptions.length }}个</span>
+              <span v-else class="o-select__fraction-text po-a l-1">{{ sOptions.length }}</span>
             </slot>
           </template>
           <template v-if="$slots.label" #label="arg">
@@ -464,6 +466,33 @@ const urlParams = translateToPageinfo({
   display: inline-flex;
   width: 316px;
   vertical-align: bottom;
+
+  .o-select__fraction {
+    display: inline-flex;
+    min-width: 16px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-size: 12px;
+    position: absolute;
+  }
+
+  .o-select__fraction-text {
+    display: block;
+    line-height: 1;
+    font-size: 12px;
+    color: var(--disabled);
+  }
+
+  .o-select__fraction-line {
+    width: 100%;
+    height: 1px;
+    margin: 1px 0;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
   .o-select__tooltip-trigger {
     display: flex;
     flex: 1;

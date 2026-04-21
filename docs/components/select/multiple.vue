@@ -40,6 +40,7 @@ function change(...rest) {
       value="id"
       @changeSelect="changeSelect"
       @change="change"
+      showPrefix
       collapse-tags
       :options="stepList"
     ></o-select>
