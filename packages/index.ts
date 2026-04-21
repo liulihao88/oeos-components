@@ -10,6 +10,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { toLine } from './utils/src/index.ts'
 
 import OSvg from './components/svg/index.ts'
+import { GLOBAL_COMPONENT_CONFIG_KEY } from './hooks/useGlobalComponentConfig'
 
 const componentsGlobal = import.meta.glob('./components/*/index.ts', { eager: true, import: 'default' }) // 引入全局基础组件
 const componentsCompany = import.meta.glob('./components/company/*/index.ts', { eager: true, import: 'default' }) // 引入公司内部组件
@@ -28,7 +29,15 @@ export const components = Object.entries(allComponents).reduce((acc, [key, compo
 
 // 按需导入
 export { OSvg }
-const install = (app) => {
+export interface OeosComponentsInstallOptions {
+  globalComponentConfig?: Record<string, Record<string, any>>
+}
+
+const install = (app, options: OeosComponentsInstallOptions = {}) => {
+  if (options.globalComponentConfig) {
+    app.provide(GLOBAL_COMPONENT_CONFIG_KEY, options.globalComponentConfig)
+  }
+
   Object.keys(allComponents).forEach((key) => {
     let component = allComponents[key]
     app.component(component.name || 'o' + component.__name, component)

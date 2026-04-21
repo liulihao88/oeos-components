@@ -1,10 +1,11 @@
 <script setup lang="ts" name="OTable">
-import { ref, watch, computed, useAttrs, nextTick, toRaw, inject } from 'vue'
+import { ref, watch, computed, useAttrs, nextTick, toRaw } from 'vue'
 import RenderComp from './renderComp.vue'
 import HeaderTooltip from './headerTooltip.vue'
 import OPopconfirm from '@/components/popconfirm/src/index.vue'
 import OIcon from '@/components/icon/src/index.vue'
 import { getType } from '@oeos-components/utils'
+import useGlobalComponentConfig from '@/hooks/useGlobalComponentConfig'
 
 const attrs = useAttrs()
 const PAGE_WRAP_HEIGHT = 50
@@ -78,13 +79,7 @@ const props = defineProps({
     default: () => {},
   },
 })
-const globalConfig = inject('GLOBAL_COMPONENT_CONFIG', {})
-const mergedProps = computed(() => {
-  return {
-    ...props,
-    ...globalConfig?.oTable,
-  }
-})
+const mergedProps = useGlobalComponentConfig('oTable', props)
 const tableRef = ref(null)
 const tableTotal = computed(() => {
   return mergedProps.value.total ?? mergedProps.value.data.length

@@ -108,35 +108,31 @@ export default OFoo
 `o-select` 和 `o-table` 当前都在用这个模式。
 
 ```ts
-// packages/components/select/src/index.vue
-const globalConfig = inject('GLOBAL_COMPONENT_CONFIG', {})
-const mergedProps = computed(() => {
-  return {
-    ...props,
-    ...globalConfig?.oSelect,
-  }
-})
+// 组件内部统一走 hook
+const mergedProps = useGlobalComponentConfig('oSelect', props)
 ```
 
 ```ts
-// main.ts 中提供全局配置
+// main.ts 中全局传入
 const app = createApp(App)
 
-app.provide('GLOBAL_COMPONENT_CONFIG', {
-  oSelect: {
-    showPrefix: true,
-  },
-  oTable: {
-    showIndex: false,
-    showPage: false,
+app.use(OeosComponents, {
+  globalComponentConfig: {
+    oSelect: {
+      showPrefix: true,
+    },
+    oTable: {
+      showIndex: false,
+      showPage: false,
+    },
   },
 })
 ```
 
 - 这种写法适合做“组件默认行为”的统一配置，比如 `showPrefix`、`showQuick` 一类开关。
 - 当前 `select` 会读取 `GLOBAL_COMPONENT_CONFIG.oSelect`，`table` 会读取 `GLOBAL_COMPONENT_CONFIG.oTable`，再生成 `mergedProps` 给内部逻辑使用。
-- 如果一个组件也要支持这种能力，通常做法是：组件内部 `inject`，然后把全局配置和本地 `props` 合并后统一消费。
-- 如果只希望某个页面或某个模块下生效，也可以在父组件的 `setup` 里使用 `provide('GLOBAL_COMPONENT_CONFIG', ...)` 做局部覆盖。
+- 如果一个组件也要支持这种能力，通常做法是：组件内部直接调用 `useGlobalComponentConfig('组件key', props)`。
+- 如果只希望某个页面或某个模块下生效，也可以在父组件的 `setup` 里继续使用 `provide('GLOBAL_COMPONENT_CONFIG', ...)` 做局部覆盖。
 - 需要注意：当前组件里的合并顺序是 `...props, ...globalConfig?.xxx`，所以同名字段会以后面的全局配置为准；如果后续想改成“本地传参优先”，需要把顺序调成 `...globalConfig?.xxx, ...props`。
 
 ### 7. 文档页通常拆成 `home.md + 多个 demo.vue`

@@ -87,8 +87,9 @@
 </template>
 
 <script setup lang="ts" name="OSelect">
-import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed, inject, nextTick } from 'vue'
+import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed, nextTick } from 'vue'
 import { processWidth, isEmpty } from '@oeos-components/utils'
+import useGlobalComponentConfig from '@/hooks/useGlobalComponentConfig'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])
@@ -306,16 +307,7 @@ const reverseSelect = () => {
   changeMulty(noSelectedValue)
 }
 
-// 注入全局配置
-const globalConfig = inject('GLOBAL_COMPONENT_CONFIG', {})
-const mergedProps = computed(() => {
-  // 合并全局配置和本地props，本地props优先级更高
-  return {
-    ...props,
-    ...globalConfig?.oSelect,
-  }
-})
-// console.log(`82 mergedProps.value`, mergedProps.value);
+const mergedProps = useGlobalComponentConfig('oSelect', props)
 
 function handlePlaceholder() {
   let res = attrs.disabled ? mergedProps.value.disPlaceholder : attrs.placeholder || '请选择'
