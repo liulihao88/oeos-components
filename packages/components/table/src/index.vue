@@ -1128,7 +1128,7 @@ defineExpose({
       <div class="page-left">
         <span>共</span>
         <span class="m-lr-2 bold">{{ tableTotal }}</span>
-        <span>项数据</span>
+        <span>项</span>
       </div>
       <div class="page-right">
         <div class="page-scroll">

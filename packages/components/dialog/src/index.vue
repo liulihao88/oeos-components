@@ -2,9 +2,10 @@
   <div class="o-dialog">
     <component
       :is="parseType"
-      :custom-class="getThemeClass"
+      :custom-class="componentClass"
       v-bind="{
         width: '640px',
+        bodyClass: drawerBodyClass,
         closeOnClickModal: true,
         destroyOnClose: true,
         draggable: true,
@@ -126,6 +127,14 @@ const getThemeClass = computed(() => {
   }
 })
 
+const componentClass = computed(() => {
+  return getThemeClass.value
+})
+
+const drawerBodyClass = computed(() => {
+  return props.type === 'drawer' && props.fillSlot ? 'o-dialog__drawer-body--fill' : ''
+})
+
 const fullscreenHeight = ref('calc(100vh - 124px)')
 const slotBoxClass = computed(() => {
   if (attrs.fullscreen === true || attrs.fullscreen === '') {
@@ -228,6 +237,28 @@ onBeforeUnmount(() => {
     }
     .dialog_fullscreen {
       height: v-bind(fullscreenHeight);
+      overflow-y: auto;
+    }
+  }
+  :deep(.o-dialog__drawer-body--fill) {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    .dialog_slot_box {
+      min-height: 20px;
+      overflow-y: auto;
+    }
+    .dialog_slot_box--fill {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .dialog_fullscreen {
+      flex: 1;
+      min-height: 0;
       overflow-y: auto;
     }
   }

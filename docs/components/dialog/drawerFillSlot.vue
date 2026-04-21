@@ -79,12 +79,12 @@ const columns = [
 
 <template>
   <div>
-    <o-dialog title="基础dialog" v-model="isShow" fillSlot >
+    <o-dialog title="基础dialog" v-model="isShow" fillSlot type="drawer">
       <o-table :columns="columns" :data="data" ref="tableRef" height="100%"></o-table>
     </o-dialog>
     <el-button type="primary" @click="isShow = true">基础</el-button>
     <el-button type="primary" @click="isShow2 = true">复杂些的</el-button>
-    <o-dialog title="基础dialog" v-model="isShow2" fillSlot >
+    <o-dialog title="基础dialog" v-model="isShow2" fillSlot type="drawer">
       <o-flex direction="column" class="h-100%">
         <div class="mb2">这是上面的数据</div>
         <div class="mb2">这是上面的数据</div>

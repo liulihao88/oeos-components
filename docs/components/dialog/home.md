@@ -51,7 +51,11 @@ dialog/confirmLoading
 dialog/drawer
 :::
 
-### 内部高度占满100%
+:::demo drawer 配合 fillSlot
+dialog/drawerFillSlot
+:::
+
+### 内部高度占满100%: fillSlot
 
 :::demo
 dialog/fillSlot
