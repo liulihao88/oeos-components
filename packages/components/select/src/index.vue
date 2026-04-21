@@ -7,68 +7,78 @@
       'has-quick': mergedProps.showQuick && !parseDisabled && sOptions.length > 0,
     }"
   >
-    <o-comp-title :title="mergedProps.title" :size="attrs.size" :boxStyle="$attrs.boxStyle ?? {}"></o-comp-title>
-    <el-select
-      ref="selectRef"
-      class="o-select__select"
-      :class="isEmpty(sOptions) && emptyColor ? 'o-select__empty' : ''"
-      v-model="childSelectedValue"
-      :placeholder="handlePlaceholder()"
-      popper-class="o-select__multiple-checkbox"
-      :multiple="multiple"
-      @change="changeHandler"
-      v-bind="{
-        clearable: true,
-        filterable: true,
-        ...Object.entries($attrs).reduce((obj, [key, value]) => {
-          if (key !== 'class' && key !== 'style') {
-            obj[key] = value
-          }
-          return obj
-        }, {}),
-      }"
+    <o-comp-title :title="mergedProps.title" :size="attrs.size" :boxStyle="$attrs.boxStyle ?? {}" />
+    <el-tooltip
+      v-bind="mergedTooltipAttrs"
+      :content="selectTooltipContent"
+      :disabled="!mergedProps.showTooltip || selectTooltipDisabled"
     >
-      <template #prefix v-if="mergedProps.showPrefix">
-        <slot name="prefix">
-          <span v-if="Array.isArray(childSelectedValue)">{{ childSelectedValue.length }}/{{ sOptions.length }}</span>
-          <span v-else>{{ sOptions.length }}个</span>
-        </slot>
-      </template>
-      <template #label="arg" v-if="$slots.label">
-        <slot name="label" v-bind="arg"></slot>
-      </template>
-      <template v-for="(arg, name, index) in noDefaultSlots" v-slot:[name]>
-        <slot :name="name" v-bind="arg" :index="index" />
-      </template>
-
-      <div class="po-r" v-if="multiple && mergedProps.showAll">
-        <el-checkbox
-          :indeterminate="indeterminate"
-          v-model="selectChecked"
-          @change="selectAll"
-          class="o-select__all-select f-st-ct"
+      <div class="o-select__tooltip-trigger" @mouseover="updateSelectTooltip">
+        <el-select
+          ref="selectRef"
+          v-model="childSelectedValue"
+          class="o-select__select"
+          :class="isEmpty(sOptions) && emptyColor ? 'o-select__empty' : ''"
+          :placeholder="handlePlaceholder()"
+          popper-class="o-select__multiple-checkbox"
+          :multiple="multiple"
+          v-bind="{
+            clearable: true,
+            filterable: true,
+            ...Object.entries($attrs).reduce((obj, [key, value]) => {
+              if (key !== 'class' && key !== 'style') {
+                obj[key] = value
+              }
+              return obj
+            }, {}),
+          }"
+          @change="changeHandler"
         >
-          <div class="mt">全选</div>
-        </el-checkbox>
-        <el-button type="primary" @click.stop="reverseSelect" size="small" class="reverse-select">反选</el-button>
+          <template v-if="mergedProps.showPrefix" #prefix>
+            <slot name="prefix">
+              <span v-if="Array.isArray(childSelectedValue)">
+                {{ childSelectedValue.length }}/{{ sOptions.length }}
+              </span>
+              <span v-else>{{ sOptions.length }}个</span>
+            </slot>
+          </template>
+          <template v-if="$slots.label" #label="arg">
+            <slot name="label" v-bind="arg" />
+          </template>
+          <template v-for="(arg, name, index) in noDefaultSlots" v-slot:[name]>
+            <slot :name="name" v-bind="arg" :index="index" />
+          </template>
+
+          <div v-if="multiple && mergedProps.showAll" class="po-r">
+            <el-checkbox
+              v-model="selectChecked"
+              :indeterminate="indeterminate"
+              class="o-select__all-select f-st-ct"
+              @change="selectAll"
+            >
+              <div class="mt">全选</div>
+            </el-checkbox>
+            <el-button type="primary" size="small" class="reverse-select" @click.stop="reverseSelect">反选</el-button>
+          </div>
+
+          <el-option
+            v-for="(item, index) in sOptions"
+            :key="type === 'simple' ? item : item[mergedProps.value]"
+            :label="type === 'simple' ? item : handleLabel(item)"
+            :value="type === 'simple' ? item : item[mergedProps.value]"
+            :disabled="itemDisabled(item, index, sOptions)"
+          >
+            <slot :options="sOptions" :item="item" />
+          </el-option>
+        </el-select>
       </div>
+    </el-tooltip>
 
-      <el-option
-        v-for="(item, index) in sOptions"
-        :key="type === 'simple' ? item : item[mergedProps.value]"
-        :label="type === 'simple' ? item : handleLabel(item)"
-        :value="type === 'simple' ? item : item[mergedProps.value]"
-        :disabled="itemDisabled(item, index, sOptions)"
-      >
-        <slot :options="sOptions" :item="item"></slot>
-      </el-option>
-    </el-select>
-
-    <span class="o-select__select-box" v-if="showQuick && !parseDisabled && sOptions.length > 0">
+    <span v-if="showQuick && !parseDisabled && sOptions.length > 0" class="o-select__select-box">
       <span class="o-select__select-box__inner">
-        <o-icon name="ArrowUp" :size="attrs.size === 'small' ? 10 : 14" @click="quickSelect(false)"></o-icon>
-        <div class="h-1 w-100% cl-blue bg-line"></div>
-        <o-icon name="ArrowDown" :size="attrs.size === 'small' ? 10 : 14" @click="quickSelect(true)"></o-icon>
+        <o-icon name="ArrowUp" :size="attrs.size === 'small' ? 10 : 14" @click="quickSelect(false)" />
+        <div class="h-1 w-100% cl-blue bg-line" />
+        <o-icon name="ArrowDown" :size="attrs.size === 'small' ? 10 : 14" @click="quickSelect(true)" />
       </span>
       <!-- <img :src="Loop" alt="" width="12px" /> -->
     </span>
@@ -76,12 +86,10 @@
 </template>
 
 <script setup lang="ts" name="OSelect">
-import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed, inject } from 'vue'
+import { ref, getCurrentInstance, useAttrs, watch, useSlots, computed, inject, nextTick } from 'vue'
 import Loop from '@/assets/images/loop.png'
-import { processWidth, isEmpty } from '@/utils/src'
+import { processWidth, isEmpty } from '@oeos-components/utils'
 
-import OIcon from '@/components/icon'
-import OCompTitle from '@/components/compTitle'
 const { proxy } = getCurrentInstance()
 const attrs = useAttrs()
 const emits = defineEmits(['changeSelect', 'update:modelValue', 'change'])
@@ -175,6 +183,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showTooltip: {
+    type: Boolean,
+    default: true,
+  },
+  tooltipAttrs: {
+    type: Object,
+    default: () => ({}),
+  },
 })
 
 const sOptions = ref(props.options)
@@ -197,6 +213,15 @@ const disOptions = computed(() => {
 })
 
 const selectRef = ref(null)
+const selectTooltipContent = ref('')
+const selectTooltipDisabled = ref(true)
+const mergedTooltipAttrs = computed(() => {
+  return {
+    placement: 'top',
+    effect: 'dark',
+    ...props.tooltipAttrs,
+  }
+})
 
 // vue3 v-model简写
 const childSelectedValue = computed({
@@ -294,8 +319,34 @@ const mergedProps = computed(() => {
 // console.log(`82 mergedProps.value`, mergedProps.value);
 
 function handlePlaceholder() {
-  let res = attrs.disabled ? mergedProps.disPlaceholder : attrs.placeholder || '请选择'
+  let res = attrs.disabled ? mergedProps.value.disPlaceholder : attrs.placeholder || '请选择'
   return res
+}
+
+const getTooltipTarget = () => {
+  if (props.multiple) {
+    return null
+  }
+  const selectEl = selectRef.value?.$el
+  if (!selectEl) {
+    return null
+  }
+  return selectEl.querySelector('.el-select__placeholder:not(.is-transparent)')
+}
+
+const updateSelectTooltip = async () => {
+  if (!mergedProps.value.showTooltip) {
+    selectTooltipDisabled.value = true
+    selectTooltipContent.value = ''
+    return
+  }
+
+  await nextTick()
+  const target = getTooltipTarget() as HTMLElement | null
+  const content = target?.textContent?.replace(/\s+/g, ' ').trim() || ''
+
+  selectTooltipContent.value = content
+  selectTooltipDisabled.value = !target || !content || target.scrollWidth <= target.clientWidth
 }
 // 将label作为多个值连接起来。 比如 admin/管理员, 这是两个属性拼接出来的
 function handleLabel(item) {
@@ -413,6 +464,11 @@ const urlParams = translateToPageinfo({
   display: inline-flex;
   width: 316px;
   vertical-align: bottom;
+  .o-select__tooltip-trigger {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+  }
   :deep(.el-select) {
     flex: 1;
   }

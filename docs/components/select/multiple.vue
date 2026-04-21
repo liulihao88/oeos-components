@@ -2,7 +2,7 @@
 import { ref, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance()
 const stepList = [
-  { id: '1', name: '开始11' },
+  { id: '1', name: '开始11开始11开始11开始11开始11开始11开始11开始11开始11开始11开始11开始11开始11开始11开始11开始11' },
   { id: '2', name: 'POSUI2' },
   { id: '3', name: '113333' },
   { id: '4', name: 'GX1234444' },
@@ -26,6 +26,7 @@ function change(...rest) {
       multiple
       label="name"
       value="id"
+      showPrefix
       @changeSelect="changeSelect"
       @change="change"
       :options="stepList"

@@ -13,7 +13,7 @@ const selectVal = ref('xxx')
 const options = ref([
   { name: '小瑞瑞', id: 'xrr' },
   { name: '小月月', id: 'xyy', disabled: true },
-  { name: '小鑫鑫', id: 'xxx' },
+  { name: '小鑫鑫小瑞瑞小瑞瑞小瑞瑞小瑞瑞小瑞瑞小瑞瑞小瑞瑞', id: 'xxx' },
 ])
 const baseOptions = ref([
   { label: 'andy', value: 1 },
@@ -76,6 +76,14 @@ const handleCheckAll = (val) => {
   <div>
     <o-flex direction="column" gap="8">
       <o-select v-model="selectVal" :options="options" label="name" value="id" title="value和label分别设置"></o-select>
+      <o-select
+        v-model="selectVal"
+        :options="options"
+        label="name"
+        value="id"
+        title="内容超宽时显示tooltip"
+        width="220"
+      ></o-select>
       <o-select
         title="有禁用状态"
         v-model="selectVal"
