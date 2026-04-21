@@ -127,7 +127,7 @@ table/compare
 
 |  事件名  | 说明                     | 回调参数                 |
 | :------: | ------------------------ | ------------------------ |
-| `update` | 页码或每页条数变化时触发 | `(pageNumber, pageSize)` |
+| `page-change` | 页码或每页条数变化时触发 | `({ pageNumber, pageSize })` |
 | `update:modelValue` | 内置单选/多选值变化时触发 | `(selectedRow \| selectedRows)` |
 
 ### columns 常用字段
@@ -169,6 +169,6 @@ render({ row, scope, value, column, action, index })
 ### 说明
 
 - 组件底层基于 `el-table` 和 `el-pagination` 封装，未在上表列出的表格属性可继续通过 attrs 透传。
-- 当 `asyncUpdate` 为 `true` 时，分页切换只触发 `update` 事件，由外部维护 `pageNumber` 和 `pageSize`。
+- 当 `asyncUpdate` 为 `true` 时，分页切换只触发 `page-change` 事件，由外部维护 `pageNumber` 和 `pageSize`。
 - 操作栏 `maxBtns` 默认值为 `4`，表示总共最多显示 `4` 个槽位；当按钮数量超出时，会显示 `maxBtns - 1` 个按钮加一个“更多”入口。
 - 单选推荐直接用 `v-model + selection-type="single"`；多选推荐直接用 `v-model + selection-type="multiple"`，如果要跨页保留选中项，记得传 `row-key`。

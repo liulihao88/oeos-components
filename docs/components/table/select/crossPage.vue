@@ -43,9 +43,9 @@ const selectedText = computed(() => {
   return selectedRows.value.map((item) => item.name).join(', ')
 })
 
-const handleUpdate = (pageNumber, size) => {
+const handlePageChange = ({ pageNumber, pageSize }) => {
   currentPage.value = pageNumber
-  pageSize.value = size
+  pageSize.value = pageSize
   updateDisplayData()
 }
 
@@ -73,7 +73,7 @@ const clearSelected = () => {
       :pageNumber="currentPage"
       :showIndex="false"
       row-key="id"
-      @update="handleUpdate"
+      @page-change="handlePageChange"
     />
   </div>
 </template>

@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { tableData } from './data'
 
-const tableRef = ref()
-const currentRow = ref()
+const currentRow = ref(null)
 
 const setCurrent = (row?: any) => {
-  // 获取表格的方法 tableRef.value.getTableRef()
-  const { setCurrentRow } = tableRef.value.getTableRef()
-  setCurrentRow(row)
+  currentRow.value = row ?? null
 }
-const handleCurrentChange = (val) => {
-  currentRow.value = val
-}
+
+const currentText = computed(() => {
+  if (!currentRow.value) return '--'
+  return `${currentRow.value.date} / ${currentRow.value.name} / ${currentRow.value.address}`
+})
 
 const columns: TableColumnList = [
   {
@@ -32,16 +31,26 @@ const columns: TableColumnList = [
 
 <template>
   <div>
+    <div class="single-demo__value">当前选中: {{ currentText }}</div>
     <o-table
-      ref="tableRef"
+      v-model="currentRow"
       :data="tableData"
       :columns="columns"
-      highlight-current-row
-      @page-current-change="handleCurrentChange"
+      selection-type="single"
+      :showPage="false"
+      row-key="name"
     />
     <div style="margin-top: 20px">
-      <el-button @click="setCurrent(tableData[1])">Select second row</el-button>
-      <el-button @click="setCurrent()">Clear selection</el-button>
+      <el-button @click="setCurrent(tableData[1])">选中第二行</el-button>
+      <el-button @click="setCurrent()">清空</el-button>
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.single-demo__value {
+  margin-bottom: 12px;
+  color: #606266;
+  font-size: 14px;
+}
+</style>

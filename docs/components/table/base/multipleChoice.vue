@@ -1,29 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { tableData } from './data'
 
-const tableRef = ref()
-
 const multipleSelection = ref([])
-const toggleSelection = (rows?: any) => {
-  const { toggleRowSelection, clearSelection } = tableRef.value.getTableRef()
-  if (rows) {
-    rows.forEach((row) => {
-      toggleRowSelection(row, undefined)
-    })
-  } else {
-    clearSelection()
-  }
+const setSelection = (rows?: any[]) => {
+  multipleSelection.value = rows ? [...rows] : []
 }
-const handleSelectionChange = (val) => {
-  multipleSelection.value = val
-}
+
+const selectedText = computed(() => {
+  if (!multipleSelection.value.length) return '--'
+  return multipleSelection.value.map((item) => item.name).join(', ')
+})
 
 const columns: TableColumnList = [
-  {
-    type: 'selection',
-    align: 'left',
-  },
   {
     label: '日期',
     prop: 'date',
@@ -41,12 +30,27 @@ const columns: TableColumnList = [
 
 <template>
   <div>
-    <o-table ref="tableRef" :data="tableData" :columns="columns" @selection-change="handleSelectionChange" />
+    <div class="multiple-demo__value">当前选中: {{ selectedText }}</div>
+    <o-table
+      v-model="multipleSelection"
+      :data="tableData"
+      :columns="columns"
+      selection-type="multiple"
+      :showPage="false"
+      row-key="name"
+    />
     <div style="margin-top: 20px">
-      <el-button @click="toggleSelection([tableData[1], tableData[2]])">
-        Toggle selection status of second and third rows
-      </el-button>
-      <el-button @click="toggleSelection()">Clear selection</el-button>
+      <el-button @click="setSelection([tableData[1], tableData[2]])">回显第二、三行</el-button>
+      <el-button @click="setSelection([tableData[0]])">回显第一行</el-button>
+      <el-button @click="setSelection()">清空</el-button>
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.multiple-demo__value {
+  margin-bottom: 12px;
+  color: #606266;
+  font-size: 14px;
+}
+</style>
