@@ -73,6 +73,10 @@ export default defineConfig({
               text: '国际化',
               link: '/components/utils/i18n/home.md',
             },
+            {
+              text: 'ChangeLog',
+              link: '/components/utils/changelog/home.md',
+            },
           ],
         },
         {
