@@ -17,6 +17,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "changelog:sync": "node scripts/sync-changelog.mjs",
     "release": "pnpm build && npm version patch && npm publish",
     "format": "prettier --write example/ packages/ docs/",
     "docsdev": "vitepress dev docs",
