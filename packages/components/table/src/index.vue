@@ -1,11 +1,26 @@
 <script setup lang="ts" name="OTable">
-import { ref, watch, computed, useAttrs, nextTick, toRaw } from 'vue'
+import { ref, watch, computed, useAttrs, nextTick, toRaw, type PropType } from 'vue'
+import type { TableColumnCtx, TableInstance } from 'element-plus'
 import RenderComp from './renderComp.vue'
 import HeaderTooltip from './headerTooltip.vue'
 import OPopconfirm from '@/components/popconfirm/src/index.vue'
 import OIcon from '@/components/icon/src/index.vue'
 import { getType } from '@oeos-components/utils'
 import useGlobalComponentConfig from '@/hooks/useGlobalComponentConfig'
+import type {
+  OTableButton,
+  OTableColumn,
+  OTableExpose,
+  OTableResolvedColumn,
+  TableCallbackContext,
+  TableColumnList,
+  TableFilter,
+  TableModelValue,
+  TablePageChangePayload,
+  TableRow,
+  TableSelectionType,
+  TableScope,
+} from './types'
 
 const attrs = useAttrs()
 const PAGE_WRAP_HEIGHT = 50
@@ -15,11 +30,11 @@ const hasOwn = (target, key) => Object.prototype.hasOwnProperty.call(target, key
 
 const props = defineProps({
   data: {
-    type: Array,
+    type: Array as PropType<TableRow[]>,
     default: () => [],
   },
   columns: {
-    type: Array,
+    type: Array as PropType<TableColumnList>,
     default: () => [],
   },
   showPage: {
@@ -39,7 +54,7 @@ const props = defineProps({
     default: 1,
   },
   pageSizes: {
-    type: Array,
+    type: Array as PropType<number[]>,
     default: () => {
       return [10, 30, 50]
     },
@@ -55,7 +70,7 @@ const props = defineProps({
     type: Boolean,
   },
   indexAttrs: {
-    type: Object,
+    type: Object as PropType<Record<string, any>>,
     default: () => {},
   },
   asyncUpdate: {
@@ -63,46 +78,59 @@ const props = defineProps({
     default: false,
   },
   pageAttrs: {
-    type: Object,
+    type: Object as PropType<Record<string, any>>,
     default: () => {},
   },
   modelValue: {
-    type: [Array, Object, String, Number, Boolean],
+    type: [Array, Object, String, Number, Boolean] as PropType<TableModelValue>,
     default: undefined,
   },
   selectionType: {
-    type: String,
+    type: String as PropType<TableSelectionType>,
     default: '',
   },
   selectionAttrs: {
-    type: Object,
+    type: Object as PropType<Record<string, any>>,
     default: () => {},
   },
 })
 const mergedProps = useGlobalComponentConfig('oTable', props)
-const tableRef = ref(null)
+const tableRef = ref<TableInstance | null>(null)
 const tableTotal = computed(() => {
   return mergedProps.value.total ?? mergedProps.value.data.length
 })
 const sPageSize = ref(mergedProps.value.pageSize)
 const sPageNumber = ref(mergedProps.value.pageNumber)
-const emits = defineEmits(['page-change', 'update:modelValue'])
-const finalColumns = ref([])
+const emits = defineEmits<{
+  'page-change': [payload: { pageNumber: number; pageSize: number }]
+  'update:modelValue': [value: TableRow[] | TableRow | string | number | boolean | null | undefined]
+}>()
+const finalColumns = ref<OTableResolvedColumn[]>([])
 const syncingMultipleSelection = ref(false)
 const syncingSingleSelection = ref(false)
 
 const isSingleSelection = computed(() => mergedProps.value.selectionType === 'single')
 const isMultipleSelection = computed(() => mergedProps.value.selectionType === 'multiple')
 const normalizedSelectionAttrs = computed<Record<string, any>>(() => {
-  if (mergedProps.value.selectionAttrs && typeof mergedProps.value.selectionAttrs === 'object') {
-    return mergedProps.value.selectionAttrs
+  const selectionAttrs = mergedProps.value.selectionAttrs as unknown as Record<string, any> | undefined
+  if (selectionAttrs && typeof selectionAttrs === 'object') {
+    return selectionAttrs
   }
 
   return {}
 })
 const selectionHeaderLabel = computed(() => normalizedSelectionAttrs.value.label || '')
+const customHeaderCellStyle = computed<Record<string, any>>(() => {
+  return ((attrs['custom-header-cell-style'] as unknown as Record<string, any>) ?? {})
+})
+const indexColumnAttrs = computed<Record<string, any>>(() => {
+  return (mergedProps.value.indexAttrs as unknown as Record<string, any>) ?? {}
+})
+const paginationAttrs = computed<Record<string, any>>(() => {
+  return (mergedProps.value.pageAttrs as unknown as Record<string, any>) ?? {}
+})
 
-const invokeAttrsListener = (listenerName, ...args) => {
+const invokeAttrsListener = (listenerName: string, ...args: any[]) => {
   const listener = attrs[listenerName]
   if (Array.isArray(listener)) {
     listener.forEach((item) => {
@@ -118,11 +146,11 @@ const invokeAttrsListener = (listenerName, ...args) => {
   }
 }
 
-const getRowKey = () => {
-  return attrs['row-key'] ?? attrs.rowKey
+const getRowKey = (): string | ((row: TableRow) => any) | undefined => {
+  return (attrs['row-key'] ?? attrs.rowKey) as string | ((row: TableRow) => any) | undefined
 }
 
-const getRowIdentity = (row) => {
+const getRowIdentity = (row: TableRow | null | undefined) => {
   if (!row) return row
 
   const rowKey = getRowKey()
@@ -135,7 +163,7 @@ const getRowIdentity = (row) => {
   return row?.[rowKey]
 }
 
-const isSameRow = (sourceRow, targetRow) => {
+const isSameRow = (sourceRow: TableRow | null | undefined, targetRow: TableRow | null | undefined) => {
   if (!sourceRow || !targetRow) {
     return sourceRow === targetRow
   }
@@ -166,7 +194,7 @@ const multipleSelectionColumnAttrs = computed(() => {
   }
 })
 
-const normalizeSelectedRows = () => {
+const normalizeSelectedRows = (): TableRow[] => {
   return Array.isArray(mergedProps.value.modelValue) ? mergedProps.value.modelValue : []
 }
 
@@ -227,7 +255,7 @@ const syncSingleSelection = async () => {
   }
 }
 
-const handleTableSelectionChange = (rows) => {
+const handleTableSelectionChange = (rows: TableRow[]) => {
   if (isMultipleSelection.value && !syncingMultipleSelection.value) {
     const rowKey = getRowKey()
 
@@ -251,7 +279,7 @@ const handleTableSelectionChange = (rows) => {
   invokeAttrsListener('onSelectionChange', rows)
 }
 
-const handleTableCurrentChange = (currentRow, oldCurrentRow) => {
+const handleTableCurrentChange = (currentRow: TableRow | null, oldCurrentRow: TableRow | null) => {
   if (isSingleSelection.value && !syncingSingleSelection.value) {
     emits('update:modelValue', currentRow ?? null)
   }
@@ -259,7 +287,7 @@ const handleTableCurrentChange = (currentRow, oldCurrentRow) => {
   invokeAttrsListener('onCurrentChange', currentRow, oldCurrentRow)
 }
 
-const handleTableRowClick = (row, column, event) => {
+const handleTableRowClick = (row: TableRow, column: TableColumnCtx<TableRow>, event: Event) => {
   if (isSingleSelection.value) {
     tableRef.value?.setCurrentRow?.(row)
   }
@@ -267,11 +295,11 @@ const handleTableRowClick = (row, column, event) => {
   invokeAttrsListener('onRowClick', row, column, event)
 }
 
-const handleSingleSelectionChange = (row) => {
+const handleSingleSelectionChange = (row: TableRow) => {
   tableRef.value?.setCurrentRow?.(row)
 }
 
-const isSingleRowSelected = (row) => {
+const isSingleRowSelected = (row: TableRow) => {
   if (!mergedProps.value.modelValue || Array.isArray(mergedProps.value.modelValue)) return false
   return isSameRow(row, mergedProps.value.modelValue)
 }
@@ -285,14 +313,14 @@ const createCallbackContext = ({
   event,
   value,
 }: {
-  row?: any
-  scope?: any
-  column?: any
-  action?: any
+  row?: TableRow
+  scope?: TableScope
+  column?: OTableColumn
+  action?: OTableButton
   index?: number
   event?: Event
   value?: any
-} = {}) => {
+} = {}): TableCallbackContext => {
   const rowData = row && typeof row === 'object' && !Array.isArray(row) ? row : {}
   const targetProp = action?.prop ?? column?.prop
   const finalValue = value !== undefined ? value : targetProp !== undefined ? rowData?.[targetProp] : undefined
@@ -309,7 +337,7 @@ const createCallbackContext = ({
   }
 }
 
-const invokeWithContext = (fn, context, legacyArgs = []) => {
+const invokeWithContext = (fn: any, context: TableCallbackContext, legacyArgs: any[] = []) => {
   if (typeof fn !== 'function') {
     return fn
   }
@@ -321,7 +349,7 @@ const invokeWithContext = (fn, context, legacyArgs = []) => {
   return fn(context)
 }
 
-const normalizeMaxBtns = (value) => {
+const normalizeMaxBtns = (value: number | string | undefined) => {
   const parsedValue = Number(value)
 
   if (!Number.isFinite(parsedValue)) {
@@ -331,7 +359,7 @@ const normalizeMaxBtns = (value) => {
   return Math.max(Math.floor(parsedValue), 1)
 }
 
-const normalizeColumnBtns = (btns = [], maxBtns = 4) => {
+const normalizeColumnBtns = (btns: OTableButton[] = [], maxBtns = 4) => {
   const normalizedMaxBtns = normalizeMaxBtns(maxBtns)
   const normalizedBtns = btns.map((btn) => {
     return {
@@ -363,7 +391,7 @@ const normalizeColumnBtns = (btns = [], maxBtns = 4) => {
 }
 
 const updateTable = () => {
-  finalColumns.value = mergedProps.value.columns.map((item) => {
+  finalColumns.value = mergedProps.value.columns.map((item: OTableColumn) => {
     const maxBtns = normalizeMaxBtns(item.maxBtns ?? 4)
     const { btns, baseBtns, hideBtns } = normalizeColumnBtns(item.btns ?? [], maxBtns)
 
@@ -394,7 +422,7 @@ const updateTable = () => {
   })
 }
 // isShow 或者 content支持 函数或字符串两种写法。
-const operatorBtnFn = (cont, context = {}) => {
+const operatorBtnFn = (cont: OTableButton['content'], context: TableCallbackContext = {}) => {
   if (typeof cont === 'function') {
     if (!context?.row) {
       return true
@@ -407,7 +435,7 @@ const operatorBtnFn = (cont, context = {}) => {
     return cont
   }
 }
-const parseDisabled = (disFn, context = {}) => {
+const parseDisabled = (disFn: OTableButton['disabled'], context: TableCallbackContext = {}) => {
   if (typeof disFn === 'function') {
     if (!context?.row) {
       return false
@@ -420,7 +448,7 @@ const parseDisabled = (disFn, context = {}) => {
     return disFn
   }
 }
-const parseIsShow = (isFn, context = {}, legacyArgs = []) => {
+const parseIsShow = (isFn: OTableButton['isShow'] | OTableColumn['isShow'], context: TableCallbackContext = {}, legacyArgs: any[] = []) => {
   if (typeof isFn === 'function') {
     return invokeWithContext(isFn, context, legacyArgs)
   } else {
@@ -431,14 +459,14 @@ const parseIsShow = (isFn, context = {}, legacyArgs = []) => {
   }
 }
 
-const parseSlot = (val) => {
+const parseSlot = (val: Pick<OTableButton | OTableColumn, 'useSlot' | 'prop'>) => {
   if (val.useSlot === true) {
     return val.prop
   } else {
     return val.useSlot
   }
 }
-const parseReConfirm = (isFn, row = '', scope = '') => {
+const parseReConfirm = (isFn: OTableButton['reConfirm'], row?: TableRow, scope?: TableScope) => {
   if (typeof isFn === 'function') {
     const context = createCallbackContext({ row, scope })
     return invokeWithContext(isFn, context, [row, scope])
@@ -450,7 +478,13 @@ const parseReConfirm = (isFn, row = '', scope = '') => {
   }
 }
 
-const handleCompClick = (handlerMethod, row, scope, btnItem, event) => {
+const handleCompClick = (
+  handlerMethod: OTableButton['handler'],
+  row: TableRow,
+  scope: TableScope,
+  btnItem: OTableButton,
+  event: Event,
+) => {
   if (handlerMethod) {
     event.stopPropagation()
     const context = createCallbackContext({
@@ -464,12 +498,12 @@ const handleCompClick = (handlerMethod, row, scope, btnItem, event) => {
   }
 }
 
-const indexMethod = (index) => {
+const indexMethod = (index: number) => {
   // 如果当前页是最后一页（数据量不足 pageSize），则基于实际数据量计算
   return (sPageNumber.value - 1) * sPageSize.value + index + 1
 }
 
-const handleEmptyText = (scope, v) => {
+const handleEmptyText = (scope: TableScope, v: OTableResolvedColumn) => {
   // 判断'   '为空
   const trimIsEmpty = getType(scope.row[v.prop]) === 'string' && scope.row[v.prop].trim().length === 0
   if (scope.row[v.prop] === null || scope.row[v.prop] === undefined || scope.row[v.prop] === '' || trimIsEmpty) {
@@ -478,7 +512,7 @@ const handleEmptyText = (scope, v) => {
   return scope.row[v.prop]
 }
 
-function handleSizeChange(val) {
+function handleSizeChange(val: number) {
   if (mergedProps.value.asyncUpdate) {
     updatePage(1, val)
   } else {
@@ -487,7 +521,7 @@ function handleSizeChange(val) {
     updatePage(1, val)
   }
 }
-function handleCurrentChange(val) {
+function handleCurrentChange(val: number) {
   if (mergedProps.value.asyncUpdate) {
     updatePage(val, sPageSize.value)
   } else {
@@ -495,7 +529,7 @@ function handleCurrentChange(val) {
     updatePage(val, sPageSize.value)
   }
 }
-function updatePage(number, size) {
+function updatePage(number: number, size: number) {
   emits('page-change', {
     pageNumber: number,
     pageSize: size,
@@ -504,7 +538,7 @@ function updatePage(number, size) {
 
 let textMeasureEl: HTMLSpanElement | null = null
 
-const getTextWidth = (text = '') => {
+const getTextWidth = (text: string | number = '') => {
   const value = String(text).trim()
   if (!value) return 0
 
@@ -539,13 +573,13 @@ const getTextWidth = (text = '') => {
   return Math.ceil(textMeasureEl.getBoundingClientRect().width)
 }
 
-const getLabelMinWidth = (column) => {
+const getLabelMinWidth = (column: OTableColumn) => {
   if (!column?.label) return undefined
   const sortableReserve = column.sortable ? HEADER_SORTABLE_RESERVE_WIDTH : 0
   return getTextWidth(column.label) + HEADER_MIN_WIDTH_PADDING + sortableReserve
 }
 
-const getBtnWidth = (btn) => {
+const getBtnWidth = (btn: OTableButton) => {
   if (btn.width !== undefined) {
     return Number(btn.width)
   }
@@ -565,7 +599,7 @@ const getBtnWidth = (btn) => {
   return getTextWidth(btn.content || '')
 }
 
-const parseTableWidth = (btns, hBtns) => {
+const parseTableWidth = (btns: OTableButton[], hBtns: OTableButton[]) => {
   const btnsWidth = btns.reduce((sum, btn) => sum + getBtnWidth(btn), 0)
   const gapWidth = Math.max(btns.length - 1, 0) * 12
   const moreWidth = hBtns.length > 0 ? 24 : 0
@@ -693,7 +727,7 @@ const tableAttrs = computed(() => {
   }
 })
 
-const getTableRef = () => {
+const getTableRef: OTableExpose['getTableRef'] = () => {
   return tableRef.value
 }
 
@@ -716,7 +750,7 @@ defineExpose({
         background: '#f7f8fa',
         color: 'rgba(39,48,75,0.85)',
         textAlign: 'center',
-        ...($attrs['custom-header-cell-style'] || {}),
+        ...customHeaderCellStyle,
       }"
       :empty-text="compEmptyText"
       v-bind="{
@@ -752,7 +786,7 @@ defineExpose({
         align="center"
         :index="indexMethod"
         :fixed="true"
-        v-bind="mergedProps.indexAttrs"
+        v-bind="indexColumnAttrs"
       >
         <!-- 使用 #header 插槽自定义表头 -->
         <template #header="{ column }">
@@ -1155,7 +1189,7 @@ defineExpose({
             :size="$attrs.size"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            v-bind="mergedProps.pageAttrs"
+            v-bind="paginationAttrs"
           />
         </div>
       </div>

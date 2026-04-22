@@ -1,4 +1,4 @@
-import { computed, inject } from 'vue'
+import { computed, inject, type ComputedRef } from 'vue'
 
 export const GLOBAL_COMPONENT_CONFIG_KEY = 'GLOBAL_COMPONENT_CONFIG'
 
@@ -12,7 +12,7 @@ const useGlobalComponentConfig = <T extends Record<string, any>>(componentKey: s
       ...props,
       ...globalConfig?.[componentKey],
     }
-  }) as unknown as { value: T & Record<string, any> }
+  }) as ComputedRef<T & Record<string, any>>
 }
 
 export default useGlobalComponentConfig

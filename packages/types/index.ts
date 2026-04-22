@@ -1,5 +1,7 @@
-import Table from './src/index.vue'
-import { withInstall } from '@/components/utils/withInstall.ts'
+export interface OeosComponentsInstallOptions {
+  globalComponentConfig?: Record<string, Record<string, any>>
+}
+
 export type {
   OTableButton,
   OTableColumn,
@@ -16,7 +18,4 @@ export type {
   TableRow,
   TableScope,
   TableSelectionType,
-} from './src/types.ts'
-
-const OTable = withInstall(Table)
-export default OTable
+} from '../components/table/index.ts'

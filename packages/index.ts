@@ -8,6 +8,7 @@ import VueTippy from 'vue-tippy'
 import registerDirectives from './directives/gDirectives.js'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { toLine } from './utils/src/index.ts'
+import type { OeosComponentsInstallOptions } from './types/index.ts'
 
 import OSvg from './components/svg/index.ts'
 import { GLOBAL_COMPONENT_CONFIG_KEY } from './hooks/useGlobalComponentConfig'
@@ -29,9 +30,6 @@ export const components = Object.entries(allComponents).reduce((acc, [key, compo
 
 // 按需导入
 export { OSvg }
-export interface OeosComponentsInstallOptions {
-  globalComponentConfig?: Record<string, Record<string, any>>
-}
 
 const install = (app, options: OeosComponentsInstallOptions = {}) => {
   if (options.globalComponentConfig) {

@@ -1,14 +1,18 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, type PropType } from 'vue'
+import type { OTableButton, OTableColumn, TableRender, TableRow, TableScope } from './types'
 export default defineComponent({
   name: 'RenderComp',
   props: {
-    render: Function,
-    scope: Object,
-    row: Object,
-    value: [Object, String, Number],
-    column: Object,
-    action: Object,
+    render: Function as PropType<TableRender>,
+    scope: Object as PropType<TableScope>,
+    row: Object as PropType<TableRow>,
+    value: {
+      type: [Object, String, Number, Boolean, Array] as PropType<any>,
+      default: undefined,
+    },
+    column: Object as PropType<OTableColumn>,
+    action: Object as PropType<OTableButton>,
     index: Number,
   },
   render(ctx) {

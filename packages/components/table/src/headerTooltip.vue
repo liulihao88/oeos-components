@@ -44,12 +44,12 @@ const updateOverflow = () => {
   }
 
   const range = document.createRange()
-  range.setStart(el, 0)
-  range.setEnd(el, el.childNodes.length)
+  range.setStart(el as unknown as Node, 0)
+  range.setEnd(el as unknown as Node, el.childNodes.length)
 
   const { width: rangeWidth, height: rangeHeight } = range.getBoundingClientRect()
   const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect()
-  const { top, left, right, bottom } = getPadding(container)
+  const { top, left, right, bottom } = getPadding(container as HTMLElement)
   const horizontalPadding = left + right
   const verticalPadding = top + bottom
   const availableWidth = Math.max(containerWidth - reserveWidth.value, 0)
