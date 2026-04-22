@@ -2,4 +2,4 @@
 
 ## Hidden Title {.md-hidden}
 
-<!--@include: ../../../../CHANGELOG.md{3,999}-->
+<ChangelogContent />

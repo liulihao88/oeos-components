@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import { fileURLToPath, URL } from 'node:url'
 import { mdPlugin } from './config/plugins.ts'
 import { createAlgolia, Github } from './utils/settings.ts'
 
@@ -75,7 +76,7 @@ export default defineConfig({
             },
             {
               text: 'ChangeLog',
-              link: '../../CHANGELOG.md',
+              link: '/components/utils/changelog/home.md',
             },
           ],
         },
@@ -373,6 +374,13 @@ export default defineConfig({
           ],
         },
       ],
+    },
+  },
+  vite: {
+    server: {
+      fs: {
+        allow: [fileURLToPath(new URL('../..', import.meta.url))],
+      },
     },
   },
   markdown: {
