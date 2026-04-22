@@ -75,7 +75,7 @@ export default defineConfig({
             },
             {
               text: 'ChangeLog',
-              link: '/components/utils/changelog/home.md',
+              link: '../../CHANGELOG.md',
             },
           ],
         },
