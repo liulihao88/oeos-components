@@ -20,4 +20,10 @@ declare global {
   type OTableProps = OTablePropsType
 }
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    OTable: typeof import('./components/table/index.ts')['default']
+  }
+}
+
 export {}
