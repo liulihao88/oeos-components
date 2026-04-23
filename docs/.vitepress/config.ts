@@ -239,6 +239,10 @@ export default defineConfig({
               link: '/components/input/home.md',
             },
             {
+              text: 'inputNumber组件',
+              link: '/components/inputNumber/home.md',
+            },
+            {
               text: 'inputLabel组件',
               link: '/components/inputLabel/home.md',
             },
