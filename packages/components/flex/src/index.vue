@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, type Component, type PropType } from 'vue'
 import { processWidth } from '@oeos-components/utils'
 
 defineOptions({
@@ -37,7 +37,7 @@ const props = defineProps({
   // flex: flex CSS 简写属性
   flex: {
     type: String,
-    default: 'initial', // 使用 'initial' 代替 'normal'，因为 'normal' 在计算上和 'initial' 一样
+    default: '',
   },
   // gap: 设置网格之间的间隙
   gap: {
@@ -46,7 +46,7 @@ const props = defineProps({
   },
   // component: 自定义元素类型
   component: {
-    type: Object as () => typeof HTMLElement,
+    type: [String, Object] as PropType<string | Component>,
     default: 'div',
   },
 })
@@ -60,7 +60,7 @@ const flexStyles = computed(() => {
     'flex-wrap': props.wrap,
     'justify-content': props.justify === 'normal' ? undefined : props.justify,
     'align-items': props.align === 'normal' ? undefined : props.align,
-    flex: props.flex === 'normal' ? undefined : props.flex,
+    flex: props.flex && props.flex !== 'normal' ? props.flex : undefined,
     gap: gapValue,
   }
 })
