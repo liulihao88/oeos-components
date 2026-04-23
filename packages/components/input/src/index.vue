@@ -1,7 +1,7 @@
 <template>
-  <div class="o-input" v-bind="subAttrs" :style="mergedStyle" :class="$attrs.class">
+  <div class="o-input" v-bind="subAttrs" :style="mergedStyle" :class="[$attrs.class, { 'has-content': content }]">
     <el-tooltip :content="'' + data" :disabled="inWidth || hideTooltip" v-bind="tooltipAttrs">
-      <div>
+      <div class="o-input__main">
         <el-autocomplete
           v-if="props.options"
           v-model="data"
@@ -223,11 +223,6 @@ const handleWidth = () => {
     return {}
   }
   let inputWidth = processWidth(props.width, true)
-  if (props.content) {
-    if (inputWidth) {
-      inputWidth = `calc(${inputWidth} - 32px)`
-    }
-  }
   return {
     width: inputWidth,
   }
@@ -289,6 +284,16 @@ const mergedStyle = computed(() => {
   display: inline-block;
   width: 100%;
 
+  .o-input__main {
+    width: 100%;
+  }
+
+  &.has-content {
+    .o-input__main {
+      width: calc(100% - 32px);
+    }
+  }
+
   // el-input的宽度会随着鼠标移入显示clearable而改变, 所以加下面这两行代码
   :deep(.el-input__suffix:not(.el-select .el-input__suffix)) {
     margin-left: -22px;
@@ -310,7 +315,7 @@ const mergedStyle = computed(() => {
   .o-input__icon {
     position: absolute;
     top: 8px;
-    right: -24px;
+    right: 8px;
   }
 
   &:hover {
