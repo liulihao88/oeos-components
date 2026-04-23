@@ -18,7 +18,7 @@
           ref="selectRef"
           v-model="childSelectedValue"
           class="o-select__select"
-          :class="isEmpty(sOptions) && emptyColor ? 'o-select__empty' : ''"
+          :class="isEmpty(sOptions, true) && emptyColor ? 'o-select__empty' : ''"
           :placeholder="handlePlaceholder()"
           popper-class="o-select__multiple-checkbox"
           :multiple="multiple"
@@ -227,7 +227,7 @@ const mergedTooltipAttrs = computed(() => {
 const childSelectedValue = computed({
   get() {
     // 如果是多选, 且props.modelValue是空, 那么返回空数组.
-    if (isEmpty(props.modelValue) && props.multiple) {
+    if (isEmpty(props.modelValue, true) && props.multiple) {
       return []
     }
     return props.modelValue
@@ -365,7 +365,7 @@ const quickSelect = (isPlus) => {
     return
   }
   let nextIdx = 0
-  if (isEmpty(props.modelValue) || (props.multiple === true && props.modelValue.length > 1)) {
+  if (isEmpty(props.modelValue, true) || (props.multiple === true && props.modelValue.length > 1)) {
     nextIdx = 0
   } else {
     let nowIdx = disOptions.value.findIndex((v) => {
@@ -411,7 +411,7 @@ function changeHandler(item) {
     changeMulty(item)
     return
   }
-  if (!item) {
+  if (isEmpty(item, true)) {
     _commonEmits('', '', '')
     return
   }
