@@ -23,6 +23,7 @@ declare global {
 declare module 'vue' {
   export interface GlobalComponents {
     OInputNumber: typeof import('./components/inputNumber/index.ts')['default']
+    OSplitPane: typeof import('./components/splitPane/index.ts')['default']
     OTable: typeof import('./components/table/index.ts')['default']
   }
 }

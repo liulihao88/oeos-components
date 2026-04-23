@@ -280,6 +280,10 @@ export default defineConfig({
               text: 'flex布局组件',
               link: '/components/flex/home.md',
             },
+            {
+              text: 'splitPane切割面板',
+              link: '/components/splitPane/home.md',
+            },
           ],
         },
         {
