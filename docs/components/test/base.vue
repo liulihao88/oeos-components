@@ -6,8 +6,9 @@ const data = ref([])
 const editRow = (row) => {}
 const columns = [
   {
-    label: '名字',
+    label: '名字1',
     prop: 'name',
+
   },
   {
     label: '年龄',
