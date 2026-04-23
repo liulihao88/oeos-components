@@ -17,9 +17,9 @@ const cc = ref(123)
     <div class="mt box">
       <o-comp-title
         title="你好"
-        :boxStyle="{ width: '160px', fontSize: '20px', color: 'var(--blue)' }"
+        size="large"
       ></o-comp-title>
-      <o-input v-model="cc" style="width: 100px" />
+      <o-input v-model="cc" style="width: 100px" size="large" />
     </div>
   </div>
 </template>

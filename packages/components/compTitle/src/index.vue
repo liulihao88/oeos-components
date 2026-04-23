@@ -3,8 +3,8 @@
  *
   <o-comp-title :title="props.title" :size="attrs.size" :boxStyle="$attrs.boxStyle ?? {}"></o-comp-title>
  */
-import { ref, getCurrentInstance, useAttrs, computed } from 'vue'
-import { processWidth } from '@/utils/src'
+import { useAttrs, computed } from 'vue'
+import { processWidth } from '@oeos-components/utils'
 const attrs = useAttrs()
 
 const props = defineProps({
@@ -17,7 +17,6 @@ const props = defineProps({
     default: () => ({}),
   },
 })
-const sizeMap = ['small']
 
 const computedBoxStyle = computed(() => {
   if (props.boxStyle?.width) {
@@ -31,12 +30,20 @@ const computedBoxStyle = computed(() => {
 })
 
 const sizeClass = computed(() => {
-  let res = attrs.size ? `el-input--${attrs.size}` : 'o-comp-title__base-size'
-  return res
+  return `o-comp-title--${attrs.size || 'default'}`
 })
+
 const sizeStyle = computed(() => {
-  let res = { height: attrs.size === 'small' ? '' : 'unset' }
-  return res
+  const size = attrs.size || 'default'
+  const heightMap = {
+    large: 'var(--el-component-size-large, 40px)',
+    default: 'var(--el-component-size, 32px)',
+    small: 'var(--el-component-size-small, 24px)',
+  }
+
+  return {
+    height: heightMap[size] || heightMap.default,
+  }
 })
 </script>
 
@@ -68,14 +75,19 @@ const sizeStyle = computed(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  line-height: 100% !important;
+  line-height: 1 !important;
   color: var(--el-color-info);
+  font-size: 14px;
 }
 .o-comp-title + :deep(.el-input__wrapper) {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
 }
-.o-comp-title__base-size {
+.o-comp-title--small {
+  font-size: 12px;
+}
+
+.o-comp-title--large {
   font-size: 14px;
 }
 </style>
