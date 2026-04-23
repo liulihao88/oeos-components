@@ -78,22 +78,7 @@
 </template>
 
 <script setup lang="ts" name="OInput">
-/**
-* @使用方法
-<o-input
-  title="名字"
-  @keyup.enter="close"
-  v-model="aaa"
-  width="200"
-  size="default"
-  :boxStyle = "{
-    onClick: close,
-    style: {color: 'blue'}
-  }"
-  class="m-l-100"
-></o-input>
-*/
-import { ref, getCurrentInstance, computed, useAttrs, watch } from 'vue'
+import { ref, computed, useAttrs, watch } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { processWidth, getType } from '@oeos-components/utils'
 const attrs = useAttrs()
@@ -169,7 +154,6 @@ const handleMaxLength = computed(() => {
     return attrs.maxlength || ''
   }
 })
-
 
 watch(
   () => props.options,
