@@ -5,25 +5,25 @@
 ### 基础用法
 
 :::demo
-company/item/base
+item/base
 :::
 
 ### 包裹用法
 
 :::demo
-company/item/wrapper
+item/wrapper
 :::
 
 ### 样式
 
 :::demo
-company/item/style
+item/style
 :::
 
 ### 不同类型
 
 :::demo
-company/item/type
+item/type
 :::
 
 ### 说明

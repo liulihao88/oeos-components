@@ -5,25 +5,25 @@
 ### 基础用法
 
 :::demo
-company/itemWrapper/base
+itemWrapper/base
 :::
 
 ### 更改间距大小 [gap]
 
 :::demo
-company/itemWrapper/gap
+itemWrapper/gap
 :::
 
 ### 一行显示几个 [columns]
 
 :::demo
-company/itemWrapper/columns
+itemWrapper/columns
 :::
 
 ### 显示在一行, 超出滚动
 
 :::demo
-company/itemWrapper/scroll
+itemWrapper/scroll
 :::
 
 ### 说明

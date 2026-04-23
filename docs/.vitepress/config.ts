@@ -284,6 +284,18 @@ export default defineConfig({
               text: 'splitPane切割面板',
               link: '/components/splitPane/home.md',
             },
+            {
+              text: 'basicLayout基础布局组件',
+              link: '/components/basicLayout/home.md',
+            },
+            {
+              text: 'item列表组件',
+              link: '/components/item/home.md',
+            },
+            {
+              text: 'itemWrapper包裹列表组件',
+              link: '/components/itemWrapper/home.md',
+            },
           ],
         },
         {
@@ -307,10 +319,6 @@ export default defineConfig({
             {
               text: 'baseHeader基础头部',
               link: '/components/company/baseHeader/home.md',
-            },
-            {
-              text: 'basicLayout基础布局组件',
-              link: '/components/company/basicLayout/home.md',
             },
             {
               text: 'capacityProgress容量组件',
@@ -347,14 +355,6 @@ export default defineConfig({
             {
               text: 'quotaUnit容量单位组件',
               link: '/components/company/quotaUnit/home.md',
-            },
-            {
-              text: 'item列表组件',
-              link: '/components/company/item/home.md',
-            },
-            {
-              text: 'itemWrapper包裹列表组件',
-              link: '/components/company/itemWrapper/home.md',
             },
           ],
         },

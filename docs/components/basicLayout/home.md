@@ -5,37 +5,37 @@
 ### 基础用法
 
 :::demo
-company/basicLayout/base
+basicLayout/base
 :::
 
 ### 展开和收缩
 
 :::demo
-company/basicLayout/callapse
+basicLayout/callapse
 :::
 
 ### other
 
 :::demo
-company/basicLayout/other
+basicLayout/other
 :::
 
 ### 自适应高度
 
 :::demo
-company/basicLayout/customLayout
+basicLayout/customLayout
 :::
 
 ### slot插槽
 
 :::demo
-company/basicLayout/slot
+basicLayout/slot
 :::
 
 ### body正方形
 
 :::demo
-company/basicLayout/square
+basicLayout/square
 :::
 
 ### 说明
