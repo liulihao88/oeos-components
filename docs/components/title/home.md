@@ -14,11 +14,13 @@ title/base
 title/usually
 :::
 
-### compTitle组件的使用, 因为比较简单, 就不单独列出去一个组件了
+### compTitle组件的使用
 
 :::demo
 title/compTitle
 :::
+
+`compTitle` 也可以作为独立组件使用，完整文档见 [CompTitle 组件标题前缀](/components/compTitle/home.md)。
 
 ### 属性
 

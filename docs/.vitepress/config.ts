@@ -183,6 +183,10 @@ export default defineConfig({
               link: '/components/clickOutside/home.md',
             },
             {
+              text: 'compTitle标题前缀',
+              link: '/components/compTitle/home.md',
+            },
+            {
               text: 'dateRange组件',
               link: '/components/dateRange/home.md',
             },
@@ -201,6 +205,10 @@ export default defineConfig({
             {
               text: 'empty组件',
               link: '/components/empty/home.md',
+            },
+            {
+              text: 'functionSourceCode源码展示',
+              link: '/components/functionSourceCode/home.md',
             },
             {
               text: 'popconfirm组件',

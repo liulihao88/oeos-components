@@ -40,22 +40,38 @@ descriptions/slot
 descriptions/customStyle
 :::
 
-## 属性
+### API
 
-|   属性名    | 说明                          | 类型     | 默认值 |
-| :---------: | ----------------------------- | -------- | ------ |
-|   options   | 选项                          | Array    | -      |
-|   column    | 一行 Descriptions Item 的数量 | number   | 3      |
-| label-width | label的宽度                   | string   | ''     |
-| labelRender | label的render写法             | function | ''     |
-|   render    | value的render写法             | function | ''     |
-|    title    | 标题文本，显示在左上方        | string   | ''     |
-|    extra    | 操作区文本，显示在右上方      | string   | ''     |
-|   showAll   | 是否显示全部文本              | boolean  | false  |
+| 属性名 | 说明 | 类型 | 默认值 |
+| :----: | ---- | ---- | ------ |
+| `options` | 描述项配置列表 | `ItemOptions[]` | - |
+| `column` | 一行展示的描述项数量 | number | `3` |
+| `labelWidth` | label 宽度，传 `auto` 时会按最长 label 自动计算 | string / number | `auto` |
+| `showAll` | 是否完整展示文本；为 `false` 时通过 `o-tooltip` 省略展示 | boolean | `false` |
 
-## slot
+### ItemOptions
 
-|  插槽名   | 说明             |
-| :-------: | ---------------- |
-| labelSlot | 自定义label      |
-| valueSlot | 自定义valuevalue |
+| 属性名 | 说明 | 类型 | 默认值 |
+| :----: | ---- | ---- | ------ |
+| `label` | 标签文本 | string | - |
+| `value` | 内容值 | any | - |
+| `labelSlot` | 自定义 label 插槽名 | string | - |
+| `valueSlot` | 自定义 value 插槽名 | string | - |
+| `labelRender` | 自定义 label 渲染函数 | `(item) => VNode \| string` | - |
+| `render` | 自定义 value 渲染函数 | `(item) => VNode \| string` | - |
+| `filter` | 内容值格式化函数 | `(value) => any` | - |
+| `attrs` | 透传给 `el-descriptions-item` 的属性 | object | - |
+| `labelAttrs` | 透传给 label 内部 `o-tooltip` 的属性 | object | - |
+| `valueAttrs` | 透传给 value 内部 `o-tooltip` 的属性 | object | - |
+
+### 插槽
+
+| 插槽名 | 说明 | 插槽参数 |
+| :----: | ---- | -------- |
+| `default` | 自定义完整描述内容，会覆盖 `options` 渲染 | - |
+| `labelSlot` 对应名称 | 自定义某一项 label | `{ item, label, value, index }` |
+| `valueSlot` 对应名称 | 自定义某一项 value | `{ item, label, value, index }` |
+
+### 透传属性
+
+- 组件默认开启 `border`，其他属性会继续透传给 Element Plus `el-descriptions`。
