@@ -1,63 +1,179 @@
 import { unref, isRef, toRaw } from '@vue/reactivity'
-import type { VNode } from 'vue'
+import type { AppContext, VNode } from 'vue'
 import type { Ref } from '@vue/reactivity'
 import { consola } from 'consola'
 import { cloneDeep } from 'es-toolkit' // 这里不要lodash-es的原因是, 体积太大, 超过500kb无法打包
 import { formatTime } from './format'
-import { ElMessage, ElMessageBox, MessageOptions } from 'element-plus'
+import { ElMessage, ElMessageBox, type ElMessageBoxOptions, type MessageOptions } from 'element-plus'
 
-type Func = (...args: any[]) => any
+type Func<Args extends any[] = any[], Return = any> = (...args: Args) => Return
+type StorageValue = unknown
+type StorageMap = Record<string, any>
+type MaybeRef<T> = T | Ref<T>
+type WidthStyleResult = { width: string }
+type ValidateTriggerType = 'blur' | 'change'
+type ValidateInput = ValidateRules | ValidatePrimitiveValue
+type ValidateRuleResult = {
+  required?: boolean
+  message?: string
+  trigger?: ValidateTriggerType[]
+  validator?: (rule: any, value: any, callback: (error?: Error) => void) => void
+  min?: number
+  max?: number
+}
+type ValidatePrimitiveValue = string | number | boolean | null | undefined
+type UuidOptionItem<T = any> = { label: string; value: T }
+
+interface ToastOptions extends Partial<MessageOptions> {
+  /**
+   * 调用前是否先关闭全部消息提示。
+   */
+  closeAll?: boolean
+}
+
+interface ClearStorageExcludeOptions {
+  /**
+   * 清空时需要保留的 key 列表。
+   */
+  exclude: string[]
+}
+
+type ClearStorageInput = string | string[] | ClearStorageExcludeOptions
+
+interface ValidFormOptions {
+  /**
+   * 校验失败时的提示文案。
+   */
+  message?: string
+  /**
+   * 是否在提示文案后追加字段名。
+   */
+  detail?: boolean
+  /**
+   * 是否显示错误提示。
+   */
+  showMessage?: boolean
+}
+
+interface FormValidateTarget {
+  validate: (callback: (valid: boolean, status: StorageMap) => void) => void
+}
+
+interface UuidOptions {
+  /**
+   * `email` 模式下的邮箱后缀，默认 `@qq.com`。
+   */
+  emailStr?: string
+  /**
+   * `time` 模式下追加的时间格式，默认 `{y}-{m}-{d} {h}:{i}:{s}`。
+   */
+  timeStr?: string
+  /**
+   * 生成结果前缀。
+   */
+  startStr?: string
+  /**
+   * 数组选项模式下的固定索引；不传时随机取值。
+   */
+  optionsIndex?: number | null
+}
+
+interface ValidateRules {
+  /**
+   * 校验失败提示文案。
+   */
+  message?: string
+  /**
+   * 最小值或最小长度。
+   */
+  min?: number
+  /**
+   * 最大值或最大长度。
+   */
+  max?: number
+  /**
+   * 对比值，例如 `same` 校验时使用。
+   */
+  value?: any
+  /**
+   * 自定义正则。
+   */
+  reg?: RegExp
+  /**
+   * 是否必填，默认 `true`。
+   */
+  required?: boolean
+  /**
+   * 触发时机，常用 `['blur', 'change']`。
+   */
+  trigger?: ValidateTriggerType[]
+}
+
+interface CopyOptions extends ToastOptions {
+  /**
+   * 是否隐藏复制成功提示。
+   */
+  hideToast?: boolean
+}
+
+type WidthInput = string | number | Ref<string | number>
+type ConfirmMessage = string | VNode | (() => VNode)
+type ConfirmAppendTarget = string | HTMLElement | null
+
+interface ConfirmOptions extends ElMessageBoxOptions {
+  /**
+   * 追加到的挂载节点。支持 css 选择器、DOM 节点或 `null`。
+   */
+  appendTo?: ConfirmAppendTarget
+  /**
+   * 手动传入 appContext，处理多应用或嵌套弹窗场景。
+   */
+  appContext?: AppContext | null
+}
+
+interface TryCatchResult<T> {
+  /**
+   * 执行成功时返回的数据；失败时为 `null`。
+   */
+  data: T | null
+  /**
+   * 执行失败时返回的异常；成功时为 `null`。
+   */
+  error: any
+}
+
+type TryCatchTask<T> = Promise<T> | (() => T | Promise<T>)
 
 /**
- * 现有方法如下
- * $toast(message, type: string | object = 'success', otherParams: object = {})
- * setStorage(storageName: string, params: any, isSession = false)
- * getStorage(data, isSession = false)
- * clearStorage(str: string | [] | object = '')
- * validForm(ref, { message = '表单校验错误, 请检查', detail = false, showMessage = true } = {})
- * isEmpty(data: any): boolean
- * merge(obj1: object, obj2: object): object
- * clone(data, times = 1)
- * uuid(type = '',length = 4,{ emailStr = '@qq.com', timeStr = '{m}-{d} {h}:{i}:{s}', startStr = '', optionsIndex = null } = {},)
- * getType(type)
- * sleep(delay = 0, fn?: () => void)
- * validate(type = 'required', rules = {}, pureValid = false)
- * tryCatch(promiseOrTask, loadingRef)
- * copy = (text, toastParams = {})
- * log(variableStr, variable, otherInfo = '')
- * random(min = 0, max = 10)
- * toLine(text, connect = '-')
- * processWidth(initValue, isBase = false)
- * throttle(fn, delay = 1000)
- * debounce(fn, delay = 1000)
- * confirm(message, options)
- * getVariable('--green')
+ * 显示消息提示。
+ *
+ * 支持三种常见写法：
+ * 1. `$toast('保存成功')`
+ * 2. `$toast('保存失败', 'e')`
+ * 3. `$toast({ message: '自定义', type: 'warning' })`
+ *
+ * @param message 提示内容，支持纯文本、VNode、渲染函数，或完整配置对象。
+ * @param type 提示类型，支持 `success/info/error/warning` 和简写 `s/i/e/w`，也支持直接传配置对象。
+ * @param otherParams 额外配置，例如 `duration`、`customClass`、`closeAll`。
+ * @returns 无返回值。
+ *
+ * @example
+ * $toast('保存成功')
+ *
+ * @example
+ * $toast('保存失败', 'e')
+ *
+ * @example
+ * $toast({
+ *   message: '自定义提示',
+ *   type: 'warning',
+ *   duration: 1000,
+ *   closeAll: true,
+ * })
  */
-
-/**
- * @example1
-  proxy.$toast('保存成功') // s:success; i: info; w: warning; e: error;  
-  proxy.$toast('保存失败', 'e')
-  proxy.$toast('永不关闭', {duration: 0})
-  proxy.$toast({
-    message: 'andy',
-    type: 'warning',
-    duration: 300,
-    closeAll: true,
-  })
-* $toast.success('This is a success message')
-* @example2 显示对象 
-* $toast({
-    dangerouslyUseHTMLString: true,
-    message: `<h6>复制成功</h6><pre>${JSON.stringify(obj, null, 2)}</pre>`,
-    type: 'success',
-    duration: 5000,
-  })
-*/
 type MessageType = 'success' | 'info' | 'error' | 'warning'
 type ShortType = 's' | 'i' | 'e' | 'w'
 type ToastType = MessageType | ShortType
-type ToastOptions = Partial<MessageOptions> & { closeAll?: boolean }
 
 export function $toast(
   message: string | ToastOptions | VNode | (() => VNode),
@@ -118,13 +234,41 @@ export function $toast(
   })
 }
 
-// Add shorthand methods for each type of message
-$toast.success = (message, otherParams = {}) => $toast(message, 'success', otherParams)
-$toast.info = (message, otherParams = {}) => $toast(message, 'info', otherParams)
-$toast.error = (message, otherParams = {}) => $toast(message, 'error', otherParams)
-$toast.warning = (message, otherParams = {}) => $toast(message, 'warning', otherParams)
+/**
+ * `$toast.success(...)` 的快捷调用。
+ */
+$toast.success = (message: string | ToastOptions | VNode | (() => VNode), otherParams: ToastOptions = {}) =>
+  $toast(message, 'success', otherParams)
+/**
+ * `$toast.info(...)` 的快捷调用。
+ */
+$toast.info = (message: string | ToastOptions | VNode | (() => VNode), otherParams: ToastOptions = {}) =>
+  $toast(message, 'info', otherParams)
+/**
+ * `$toast.error(...)` 的快捷调用。
+ */
+$toast.error = (message: string | ToastOptions | VNode | (() => VNode), otherParams: ToastOptions = {}) =>
+  $toast(message, 'error', otherParams)
+/**
+ * `$toast.warning(...)` 的快捷调用。
+ */
+$toast.warning = (message: string | ToastOptions | VNode | (() => VNode), otherParams: ToastOptions = {}) =>
+  $toast(message, 'warning', otherParams)
 
-export function setStorage(storageName: string, params: any, isSession = false) {
+/**
+ * 写入浏览器缓存。
+ *
+ * @param storageName 缓存 key。
+ * @param params 要保存的值；对象和数组会自动序列化。
+ * @param isSession 是否写入 `sessionStorage`；默认写入 `localStorage`。
+ *
+ * @example
+ * setStorage('token', 'abc123')
+ *
+ * @example
+ * setStorage('userInfo', { id: 1, name: 'andy' }, true)
+ */
+export function setStorage(storageName: string, params: StorageValue, isSession = false): void {
   let handleParams
   if (typeof params === 'number' || typeof params === 'string') {
     handleParams = params
@@ -138,7 +282,20 @@ export function setStorage(storageName: string, params: any, isSession = false) 
   }
 }
 
-export function getStorage(data, isSession = false) {
+/**
+ * 读取浏览器缓存。
+ *
+ * @param data 缓存 key。
+ * @param isSession 是否从 `sessionStorage` 读取；默认从 `localStorage` 读取。
+ * @returns 读取到的缓存值；不存在时返回 `null`。
+ *
+ * @example
+ * const token = getStorage('token')
+ *
+ * @example
+ * const userInfo = getStorage('userInfo', true)
+ */
+export function getStorage<T = any>(data: string, isSession = false): T | string | number | null {
   // 先获取localStorage数据, 如果没有再获取sessionStorage数据。 如果都没有， null;
   // localStorage.getItem / sessionStorage.getItem 返回 string | null，所以使用 any 或者 string | null 来兼容
   let getLocalData: any = null
@@ -168,16 +325,21 @@ export function getStorage(data, isSession = false) {
 }
 
 /**
+ * 清空浏览器缓存。
  *
- * @param {*} str 需要清空的localStorage或sessionStorage, 如果不传清空所有
- * @param {*} param1 需要排除的sessionStorage或者localStorage
+ * @param str 要清空的 key；不传时清空全部，传 `exclude` 时表示保留指定 key。
+ * @returns 无返回值。
+ *
  * @example
  * clearStorage()
+ *
+ * @example
  * clearStorage('loginId')
- * clearStorage(['loginId', 'token'])
- * clearStorage({ exclude: ['loginId', 'token'] })
+ *
+ * @example
+ * clearStorage({ exclude: ['token', 'theme'] })
  */
-export function clearStorage(str: string | [] | object = '') {
+export function clearStorage(str: ClearStorageInput = ''): void {
   if (isEmpty(str)) {
     sessionStorage.clear()
     localStorage.clear()
@@ -216,22 +378,27 @@ export function clearStorage(str: string | [] | object = '') {
   }
 }
 // 自定义类型守卫函数
-function _isObjectWithExclude(obj: object | string | []): obj is { exclude: { [key: string]: string } } {
+function _isObjectWithExclude(obj: ClearStorageInput): obj is ClearStorageExcludeOptions {
   return typeof obj === 'object' && obj !== null && 'exclude' in obj && typeof obj.exclude === 'object'
 }
 
 /**
- * element-plus的form表单使用promise进行封装
- * @param ref
- * @param param1
- * @returns Promise
- * await proxy.validForm(formRef);
- * await proxy.validForm(formRef, {message: '自定义错误'});
- * await proxy.validForm(formRef, {showMessage: false});
- * await proxy.validForm(formRef, {detail: true});
+ * 将 Element Plus 表单校验封装为 Promise。
+ *
+ * @param ref 表单实例或表单实例的 `ref`。
+ * @param options 校验配置。
+ * @returns 校验通过时返回表单状态对象，失败时 reject 对应状态对象。
+ *
+ * @example
+ * await validForm(formRef)
+ *
+ * @example
+ * await validForm(formRef, { message: '请检查表单信息', detail: true })
  */
-
-export function validForm(ref, { message = '表单校验错误, 请检查', detail = false, showMessage = true } = {}) {
+export function validForm(
+  ref: MaybeRef<FormValidateTarget>,
+  { message = '表单校验错误, 请检查', detail = false, showMessage = true }: ValidFormOptions = {},
+): Promise<StorageMap> {
   return new Promise((resolve, reject) => {
     unref(ref).validate((valid, status) => {
       if (valid) {
@@ -261,11 +428,26 @@ function isPlainObject(data: any): boolean {
 }
 
 /**
- * 判断变量是否空值
+ * 判断值是否为空。
+ *
  * 默认采用更安全的“结构空值”语义：
- * undefined, null, '', '   ', [], {}, NaN, new Set(), new Map(), new Date('无效日期') 返回 true
- * false, 0, BigInt(0) 默认返回 false
- * 如果 strict=false，则保留旧语义：false / 0 / BigInt(0) 也会视为空值
+ * `undefined`、`null`、空字符串、空数组、空对象、`NaN`、空 `Map` / `Set`、无效日期会返回 `true`。
+ *
+ * @param data 要判断的值。
+ * @param strict 是否使用严格模式。默认 `true`；传 `false` 时会沿用旧语义，把 `0` 和 `false` 也视为空值。
+ * @returns 是否为空。
+ *
+ * @example
+ * isEmpty('   ')
+ * // => true
+ *
+ * @example
+ * isEmpty(0)
+ * // => false
+ *
+ * @example
+ * isEmpty(0, false)
+ * // => true
  */
 export function isEmpty(data: any, strict = true): boolean {
   if (isRef(data)) {
@@ -309,9 +491,21 @@ export function isEmpty(data: any, strict = true): boolean {
 }
 
 /**
- *  将两个对象合并, 以第二个对象为准, 如果两个对象, 一个属性有值, 一个没值, 合并后有值; 如果两个属性都有值, 以第二个属性为准
- *  */
-export function merge(obj1: object, obj2: object): object {
+ * 合并两个对象。
+ *
+ * 当同名字段同时有值时，以第二个对象为准；当其中一个字段为空时，保留有值的一侧。
+ *
+ * @param obj1 第一个对象。
+ * @param obj2 第二个对象。
+ * @returns 合并后的对象。
+ *
+ * @example
+ * merge(
+ *   { name: '', age: 18, city: 'beijing' },
+ *   { name: 'andy', age: 20, city: '' },
+ * )
+ */
+export function merge<T extends StorageMap, U extends StorageMap>(obj1: T, obj2: U): T & U {
   let merged = { ...obj1, ...obj2 }
   for (let key in merged) {
     if (!isEmpty(obj1[key]) && !isEmpty(obj2[key])) {
@@ -322,18 +516,26 @@ export function merge(obj1: object, obj2: object): object {
       merged[key] = obj1[key]
     }
   }
-  return merged
+  return merged as T & U
 }
 
 /**
- * 克隆数据并根据需要复制数组
- * @param {any} data - 要克隆的数据
- * @param {number} [times=1] - 如果是数组，要复制的次数
- * @returns {any} - 克隆后的数据或复制后的数组
- * clone(123) => 123
- * clone([1,2, {name: 'andy'}], 2) => [1, 2, {name: 'andy'}, 1, 2, {name: 'andy'}]
+ * 深拷贝数据；传入数组时可按次数重复展开。
+ *
+ * @param data 要克隆的数据。
+ * @param times 当 `data` 是数组时的复制次数，默认 `1`。
+ * @returns 克隆后的数据。
+ *
+ * @example
+ * clone({ name: 'andy', info: { id: 1 } })
+ *
+ * @example
+ * clone([1, 2, { name: 'andy' }], 2)
+ * // => [1, 2, { name: 'andy' }, 1, 2, { name: 'andy' }]
  */
-export function clone(data, times = 1) {
+export function clone<T>(data: T[], times?: number): T[]
+export function clone<T>(data: T, times?: number): T
+export function clone<T>(data: T, times = 1): T {
   if (isRef(data)) {
     data = unref(data)
   }
@@ -351,34 +553,29 @@ export function clone(data, times = 1) {
 }
 
 /**
- * 生成 UUID
- * @param type - 生成 UUID 的类型，可以是 'phone', 'email', 'time', 'number', 'ip', 'port' 或空字符串
- * @param length - 生成字符串的长度（默认为4）
- * @param options - 额外的选项
- * @param options.emailStr - 生成 email 时使用的后缀（默认为 '@qq.com'）
- * @param options.timeStr - 生成时间字符串的格式（默认为 '{y}-{m}-{d} {h}:{i}:{s}'）
- * @param options.startStr - 起始字符串（默认为空）
- * @param options.optionsIndex - 数组索引（默认为随机）
- * @returns 生成的 UUID (字符串或数字)
- * * uuid("名字") => 名字hc8f
- * uuid() => abcd
- * uuid('time') => 25MR 10-27 17:34:01
- * uuid('time', 0, {startStr:'andy', timeStr:"{h}:{i}:{s}"}) => andy 17:38:23
- * uuid('phone') => 13603312460
- * uuid('email') => cBZA@qq.com
- * uuid('number') => 2319
- * uuid([ { label: "小泽泽", value: "xzz" },{ label: "小月月", value: "xyy" }]) => xzz
+ * 生成随机字符串，也支持手机号、邮箱、时间、数字、IP、端口等特殊模式。
+ *
+ * @param type 生成模式，支持空字符串、`phone`、`email`、`time`、`number`、`ip`、`port`，也支持传选项数组。
+ * @param length 随机字符串或数字的长度，默认 `4`。
+ * @param options 额外配置。
+ * @returns 生成结果。
+ *
+ * @example
+ * uuid()
+ * // => 'aB3d'
+ *
+ * @example
+ * uuid('phone')
+ * // => '13603312460'
+ *
+ * @example
+ * uuid('time', 0, { startStr: 'andy', timeStr: '{h}:{i}:{s}' })
  */
 export function uuid(
-  type: string | Array<{ label: string; value: any }> = '',
+  type: string | Array<UuidOptionItem> = '',
   length = 4,
-  options: {
-    emailStr?: string
-    timeStr?: string
-    startStr?: string
-    optionsIndex?: number | null
-  } = {},
-): string | number {
+  options: UuidOptions = {},
+): string | number | any {
   const { emailStr = '@qq.com', timeStr = '{y}-{m}-{d} {h}:{i}:{s}', startStr = '', optionsIndex = null } = options
 
   // 辅助函数：判断是否为ref对象
@@ -472,16 +669,20 @@ export function uuid(
 }
 
 /**
- * 判断传入参数的类型
- * @param {*} type
- * getType(new RegExp()) regexp
- * getType(new Date()) date
- * getType([]) array
- * getType({}) object
- * getType(null) null
- * getType(123) number
+ * 获取值的原始类型名称，返回值统一为小写字符串。
+ *
+ * @param type 要判断的值。
+ * @returns 类型名称，例如 `array`、`date`、`object`、`null`。
+ *
+ * @example
+ * getType(new RegExp())
+ * // => 'regexp'
+ *
+ * @example
+ * getType([])
+ * // => 'array'
  */
-export function getType(type) {
+export function getType(type: unknown): string {
   if (typeof type === 'object') {
     const objType = Object.prototype.toString.call(type).slice(8, -1).toLowerCase()
     return objType
@@ -528,43 +729,41 @@ export function sleep(delay: number = 0, fn?: () => void) {
   )
 }
 
-export function validateTrigger(type = 'required', rules = {}, pureValid = false) {
+/**
+ * 为 `validate` 预置默认触发时机 `['blur', 'change']`。
+ *
+ * @param type 校验类型。
+ * @param rules 校验规则。
+ * @param pureValid 是否直接返回布尔值。
+ * @returns 与 `validate` 一致。
+ *
+ * @example
+ * const rule = validateTrigger('required', { message: '请输入名称' })
+ */
+export function validateTrigger(type = 'required', rules: ValidateRules = {}, pureValid = false) {
   let mergeRules = {
-    trigger: ['blur', 'change'],
+    trigger: ['blur', 'change'] as ValidateTriggerType[],
     ...rules,
   }
   return validate(type, mergeRules, pureValid)
 }
 
 /**
- * 表单验证函数，用于生成 Element UI 表单验证规则
+ * 生成 Element Plus 表单校验规则，或直接执行纯校验。
  *
  * @example
- * 1. 在el-form中使用
- * name: [ proxy.validate('name', { message: '你干嘛哈哈' })],
- * between: [ proxy.validate('between', { min: 1, max: 99 })],
- * number: [ proxy.validate('number')],
- * length: [proxy.validate('length', {min: 1, max: 2})],
- * mobile: [ proxy.validate('mobile')],
- * port: [ proxy.validate('port')],
- * ip: [ proxy.validate('ip')],
- * custom: [proxy.validate('custom', { message: '最多保留2位小数', reg: /^\d+\.?\d{0,2}$/ })]
- * confirmRegPwd: [
- *   proxy.validate('same', { value: form.value.regPwd }),
- * ], //1. 如果判断两个密码一致, 还要在input输入值改变的时候, 再校验一下两个input
- *   formRef.value.validate('regPwd')
- *   formRef.value.validate('confirmRegPwd')
- *   // 2. rules需要使用computed包裹, 否则值改变无法传递
+ * const mobileRule = validate('mobile')
  *
  * @example
- * 2. 在函数中使用, 返回boolean
- * let ip = proxy.validate('ip', 122322, true)
- * let custom = proxy.validate('custom', { value: -123, reg: /^-\d+\.?\d{0,2}$/ }, true)
+ * const rangeRule = validate('between', { min: 1, max: 99 })
  *
- * @param type 验证类型，可以是 'required', 'password', 'number', 'positive', 'zeroPositive', 'integer', 'decimal', 'mobile', 'email', 'ip', 'port', 'between', 'length', 'same', 'custom' 中的一种，如果不属于这些类型，则会作为错误信息显示
- * @param rules 验证规则配置对象，可包含 message, max, min, value, reg, required 等属性
- * @param pureValid 是否直接返回验证结果的布尔值，默认为 false
- * @returns 如果 pureValid 为 true，返回验证结果的布尔值；否则返回 Element UI 表单验证规则对象
+ * @example
+ * const isIp = validate('ip', '192.168.1.1', true)
+ *
+ * @param type 校验类型；如果传入的值不在内置类型列表中，则会直接作为错误提示文案使用。
+ * @param rules 校验规则配置，或在 `pureValid=true` 时直接传待校验值。
+ * @param pureValid 是否直接返回布尔值。
+ * @returns `pureValid=true` 时返回布尔值，否则返回 Element Plus 规则对象。
  */
 // 定义验证类型枚举
 enum ValidateType {
@@ -585,11 +784,12 @@ enum ValidateType {
   CUSTOM = 'custom',
 }
 
-export function validate(type: string = 'required', rules: Record<string, any> = {}, pureValid: boolean = false) {
-  let trigger = rules.trigger || []
+export function validate(type: string = 'required', rules: ValidateInput = {}, pureValid = false): ValidateRuleResult | boolean {
+  const rulesObject: ValidateRules = typeof rules === 'object' && rules !== null ? rules : {}
+  let trigger = rulesObject.trigger || []
   // 使用枚举值组成的联合类型来确保类型安全
   const typeMaps = Object.values(ValidateType) as string[]
-  let parseRequired = rules.required ?? true
+  let parseRequired = rulesObject.required ?? true
 
   // 如果不包含typeMaps中的类型, 直接将第一个参数作为message
   if (!typeMaps.includes(type)) {
@@ -602,7 +802,7 @@ export function validate(type: string = 'required', rules: Record<string, any> =
   if (type === ValidateType.REQUIRED) {
     return {
       required: parseRequired,
-      message: rules.message ?? '请输入',
+      message: rulesObject.message ?? '请输入',
       trigger: trigger,
     }
   }
@@ -612,7 +812,7 @@ export function validate(type: string = 'required', rules: Record<string, any> =
     const validateName = (rule: any, value: any, callback: (error?: Error) => void) => {
       let validFlag = /^[a-zA-Z0-9_-]+$/.test(value)
       if (!validFlag) {
-        callback(new Error(rules.message || '密码只能由英文、数字、下划线、中划线组成'))
+        callback(new Error(rulesObject.message || '密码只能由英文、数字、下划线、中划线组成'))
       } else {
         callback()
       }
@@ -661,8 +861,8 @@ export function validate(type: string = 'required', rules: Record<string, any> =
     )
   }
   if (type === ValidateType.BETWEEN) {
-    let min = rules.min
-    let max = rules.max
+    let min = rulesObject.min
+    let max = rulesObject.max
     const validateBetween = (rule: any, value: any, callback: (error?: Error) => void) => {
       let validFlag = /^-?[0-9]+$/.test(value)
       if (!validFlag) {
@@ -684,9 +884,9 @@ export function validate(type: string = 'required', rules: Record<string, any> =
   }
   if (type === ValidateType.LENGTH) {
     return {
-      min: rules.min,
-      max: rules.max,
-      message: rules.message ?? `请输入${rules.min}到${rules.max}个字符`,
+      min: rulesObject.min,
+      max: rulesObject.max,
+      message: rulesObject.message ?? `请输入${rulesObject.min}到${rulesObject.max}个字符`,
       trigger: trigger,
       required: parseRequired,
     }
@@ -694,13 +894,13 @@ export function validate(type: string = 'required', rules: Record<string, any> =
 
   if (type === ValidateType.SAME) {
     const validateSame = (rule: any, value: any, callback: (error?: Error) => void) => {
-      let isSame = value === rules.value
+      let isSame = value === rulesObject.value
       if (!isSame) {
-        const errMessage = rules.message || '密码和确认密码要一致'
+        const errMessage = rulesObject.message || '密码和确认密码要一致'
         callback(new Error(errMessage))
       }
       if (parseRequired && !value) {
-        callback(new Error(rules.message || '请输入'))
+        callback(new Error(rulesObject.message || '请输入'))
       }
       callback()
     }
@@ -714,13 +914,13 @@ export function validate(type: string = 'required', rules: Record<string, any> =
   if (type === ValidateType.CUSTOM) {
     //  _validValue(rules, '请输入正确的手机号', pureValid, /^[1][0-9]{10}$/)
     if (pureValid) {
-      return _validValue(rules.value, rules.message, pureValid, rules.reg)
+      return _validValue(rulesObject.value, rulesObject.message, pureValid, rulesObject.reg!)
     } else {
-      return _validValue(rules, rules.message, pureValid, rules.reg)
+      return _validValue(rulesObject, rulesObject.message, pureValid, rulesObject.reg!)
     }
   }
 
-  function _validValue(rules: any, msg: string, pureValid: boolean, reg: RegExp) {
+  function _validValue(rules: any, msg: string | undefined, pureValid: boolean, reg: RegExp) {
     if (pureValid === true) {
       return reg.test(rules)
     }
@@ -740,21 +940,20 @@ export function validate(type: string = 'required', rules: Record<string, any> =
   }
 }
 
-type ToastParams =
-  | { hideToast?: boolean } // 只有 hideToast
-  | (Omit<ToastOptions, 'hideToast'> & { hideToast: boolean }) // 两者都有，确保hideToast被包含
-
 /**
- * 复制文本
+ * 复制文本到剪贴板。
  *
- * copy('这是要复制的文本');
+ * @param text 需要复制的文本。
+ * @param toastParams 提示配置；传 `hideToast: true` 时不显示成功提示。
+ * @returns 是否复制成功。
  *
- * copy('这是要复制的文本', {duration: 500});
+ * @example
+ * copy('这是要复制的文本')
  *
- * copy('这是要复制的文本', {hideToast: true});
- *
- *  */
-export const copy = (text, toastParams: ToastParams = {}) => {
+ * @example
+ * copy('静默复制', { hideToast: true })
+ */
+export const copy = (text: string, toastParams: CopyOptions = {}): boolean => {
   const textarea = document.createElement('textarea')
   textarea.value = text
   textarea.style.position = 'fixed'
@@ -771,13 +970,18 @@ export const copy = (text, toastParams: ToastParams = {}) => {
   return true
 }
 
-/*
-*
-* @example
-const str = ref(11)
-proxy.log(`variableStr`, variableStr, "/cyrd/oeos-components/packages/utils/index.ts");
+/**
+ * 带变量名的日志输出封装。
+ *
+ * @param variableStr 变量名或标签名。
+ * @param variable 需要打印的值。
+ * @param otherInfo 附加信息，常用于手动传入文件路径。
+ *
+ * @example
+ * const formData = { id: 1, name: 'andy' }
+ * log('formData', formData)
  */
-export function log(variableStr, variable, otherInfo = '') {
+export function log(variableStr: string, variable: unknown, otherInfo = ''): void {
   const stack = new Error().stack.split('\n')[2].trim() // 获取调用堆栈的第二行
   const matchResult = stack.match(/\((.*):(\d+):(\d+)\)/)
   let fileInfo = ''
@@ -819,27 +1023,38 @@ export function log(variableStr, variable, otherInfo = '') {
 }
 
 /**
- * 生成指定范围内的随机整数
+ * 生成指定范围内的随机整数。
  *
- * @param min 最小值，默认为0
- * @param max 最大值，默认为10
- * @returns 返回生成的随机整数
+ * @param min 最小值，默认 `0`。
+ * @param max 最大值，默认 `10`。
+ * @returns 随机整数。
+ *
+ * @example
+ * random()
+ *
+ * @example
+ * random(100, 999)
  */
-export function random(min = 0, max = 10) {
+export function random(min = 0, max = 10): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 /**
- * 将文本转换为带有连接符的行文本
+ * 将驼峰命名转换为连接符命名。
  *
- * @param text 要转换的文本
- * @param connect 连接符，默认为'-'
- * @returns 返回转换后的行文本
- * toLine('NameAndy') // name-andy
- * toLine('nameAndy') // name-andy
- * toLine('_nameAndy') // _name-andy
+ * @param text 要转换的文本。
+ * @param connect 连接符，默认 `-`。
+ * @returns 转换后的文本。
+ *
+ * @example
+ * toLine('NameAndy')
+ * // => 'name-andy'
+ *
+ * @example
+ * toLine('CompTitle', '_')
+ * // => 'comp_title'
  */
-export function toLine(text, connect = '-') {
+export function toLine(text: string, connect = '-'): string {
   let translateText = text
     .replace(/([A-Z])/g, (match, p1, offset, origin) => {
       if (offset === 0) {
@@ -852,21 +1067,25 @@ export function toLine(text, connect = '-') {
   return translateText
 }
 
-type WidthInput = string | number | Ref<string | number>
 const _CSS_UNIT_RE = /^[0-9]+(\.[0-9]+)?(px|%|em|rem|vw|vh|ch)$/
 /**
- * processWidth(200)         // { width: '200px' }
+ * 将宽度值规范化为可直接用于样式的结果。
  *
- * processWidth('200', true) // '200px'
+ * @param initValue 宽度值，支持数字、数字字符串、CSS 长度字符串和 `ref`。
+ * @param isBase 为 `true` 时直接返回宽度字符串；否则返回 `{ width }` 对象。
+ * @returns 宽度字符串或宽度样式对象；无效值返回空字符串或空对象。
  *
- * processWidth('200.33px')  // { width: '200.33px' }
+ * @example
+ * processWidth(200)
+ * // => { width: '200px' }
  *
- * processWidth('')          // {}
- *
- * processWidth('invalid')   // {}
- *
+ * @example
+ * processWidth('50%', true)
+ * // => '50%'
  */
-export function processWidth(initValue: WidthInput, isBase = false): { width: string } | {} | string {
+export function processWidth(initValue: WidthInput, isBase: true): string
+export function processWidth(initValue: WidthInput, isBase?: false): WidthStyleResult | {}
+export function processWidth(initValue: WidthInput, isBase = false): WidthStyleResult | {} | string {
   const raw = unref(initValue)
 
   if (!raw) {
@@ -887,16 +1106,26 @@ export function processWidth(initValue: WidthInput, isBase = false): { width: st
   return isBase ? res : { width: res }
 }
 
-export function throttle(fn, delay = 1000) {
+/**
+ * 创建节流函数。
+ *
+ * @param fn 需要节流执行的函数。
+ * @param delay 节流间隔，单位毫秒，默认 `1000`。
+ * @returns 节流后的函数。
+ *
+ * @example
+ * const onResize = throttle(() => {
+ *   console.log('resize')
+ * }, 300)
+ */
+export function throttle<T extends Func>(fn: T, delay = 1000): (...args: Parameters<T>) => void {
   // last为上一次触发毁掉的时间，timer是定时器
   let last = 0
   let timer: ReturnType<typeof setTimeout> | undefined = undefined
   // 将throttle处理结果当做函数返回
-  return function () {
+  return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
     // 保留调用时的this上下文
     let context = this
-    // 保留调用时传入的参数
-    let args = arguments
     // 记录本次触发回调的时间
     let now = +new Date()
     // 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值
@@ -905,47 +1134,50 @@ export function throttle(fn, delay = 1000) {
       clearTimeout(timer)
       timer = setTimeout(function () {
         last = now
-        fn.apply(context, args)
+        fn.apply(context, args as any)
       }, delay)
     } else {
       // 如果时间间隔超出了设定的时间间隔阈值，那就不等了，无论如何要反馈给用户一次响应
       last = now
-      fn.apply(context, args)
+      fn.apply(context, args as any)
     }
   }
 }
 
 /**
- * 封装 Promise 或任务函数执行，统一返回 { data, error }
- * 推荐传入函数，这样可以同时捕获同步 throw 和异步 reject
- * @param task 需要执行的 Promise，或返回值 / Promise 的函数
- * @param sendLoading 可选的 loading ref
- * @returns Promise<{ data: T | null; error: any }>
- * @example1
+ * 统一处理 Promise 或任务函数执行结果。
+ *
+ * 推荐优先传入函数，这样可以同时捕获同步 `throw` 和异步 `reject`。
+ *
+ * @param task Promise，或返回值 / Promise 的函数。
+ * @param sendLoading 可选的 loading `ref`。
+ * @returns 包含 `data` 和 `error` 的结果对象。
+ *
+ * @example
  * const loading = ref(false)
  * const { data, error } = await tryCatch(() => fetchUserData(), loading)
- * @example2
+ *
+ * @example
  * const { data, error } = await tryCatch(Promise.resolve({ id: 1 }))
- * @example3
+ *
+ * @example
  * const { data, error } = await tryCatch(() => {
  *   if (!form.name) throw new Error('请输入名称')
  *   return submitForm(form)
  * })
  */
-type TryCatchTask<T> = Promise<T> | (() => T | Promise<T>)
-
 export function tryCatch<T>(
   task: Promise<T>,
   sendLoading?: Ref<boolean> | null,
-): Promise<{ data: T | null; error: any }>
+): Promise<TryCatchResult<T>>
 export function tryCatch<T>(
   task: () => T | Promise<T>,
   sendLoading?: Ref<boolean> | null,
-): Promise<{ data: T | null; error: any }>
+): Promise<TryCatchResult<T>>
 export async function tryCatch<T>(
   task: TryCatchTask<T>,
   sendLoading?: Ref<boolean> | null,
-): Promise<{ data: T | null; error: any }> {
+): Promise<TryCatchResult<T>> {
   const updateLoading = (value: boolean): void => {
     if (isRef(sendLoading)) {
       sendLoading.value = value
@@ -967,16 +1199,37 @@ export async function tryCatch<T>(
 }
 
 /**
- * 防抖函数
- * @param { Function } func 函数
- * @param { Number } delay 防抖时间
- * @param { Boolean } immediate 是否立即执行
- * @param { Function } resultCallback
+ * 防抖函数返回值类型。
  */
-export function debounce(func: Func, delay: number = 500, immediate?: boolean, resultCallback?: Func) {
+type DebouncedFunction<T extends Func> = ((...args: Parameters<T>) => Promise<Awaited<ReturnType<T>>>) & {
+  cancel: () => void
+}
+
+/**
+ * 创建防抖函数。
+ *
+ * @param func 需要防抖执行的函数。
+ * @param delay 延迟时间，单位毫秒，默认 `500`。
+ * @param immediate 是否在第一次调用时立即执行。
+ * @param resultCallback 每次真正执行后触发的结果回调。
+ * @returns 带 `cancel()` 方法的防抖函数。
+ *
+ * @example
+ * const search = debounce((keyword: string) => {
+ *   return keyword.trim()
+ * }, 300)
+ *
+ * await search('oeos')
+ */
+export function debounce<T extends Func>(
+  func: T,
+  delay: number = 500,
+  immediate?: boolean,
+  resultCallback?: (result: ReturnType<T>) => void,
+): DebouncedFunction<T> {
   let timer: null | ReturnType<typeof setTimeout> = null
   let isInvoke = false
-  const _debounce = function (this: unknown, ...args: any[]) {
+  const _debounce = function (this: ThisParameterType<T>, ...args: Parameters<T>) {
     return new Promise((resolve, reject) => {
       if (timer) clearTimeout(timer)
       if (immediate && !isInvoke) {
@@ -1002,7 +1255,7 @@ export function debounce(func: Func, delay: number = 500, immediate?: boolean, r
         }, delay)
       }
     })
-  }
+  } as DebouncedFunction<T>
   _debounce.cancel = function () {
     if (timer) clearTimeout(timer)
     isInvoke = false
@@ -1012,32 +1265,25 @@ export function debounce(func: Func, delay: number = 500, immediate?: boolean, r
 }
 
 /**
- * proxy.confirm('确定删除吗?')
- * 
- * proxy.confirm('哈哈', { icon: 'el-icon-plus' })
- * 
- * close-on-click-modal: 是否可通过点击遮罩层关闭 MessageBox 默认true
- * 
- * lock-scroll: 是否在 MessageBox 出现时将 body 滚动锁定. 默认true
- * 
- * 设置宽度, 内容使用组件
-   import GWarning from '@/autoComponents/gWarning.vue'
-    await proxy.confirm('', {
-      dangerouslyUseHTMLString: true,
-      customStyle: {
-        maxWidth: '600px',
-      },
-      message: h(GWarning, {
-        content:
-          '对于光存储开启保持原始对象名称后，对象将作为独立文件在光存储介质直接存储。<br>注意：当桶内文件大小普遍较小（<100MB）或过大（>5GB）时不推荐打开此功能！您确定开启此功能吗?',
-      }),
-      showCancelButton: true,
-      cancelButtonText: '取消',
-      appendTo: '#highSettingsForm',
-    })
- * 如果是多个dialog嵌套, 可以给上层的dom设置个id如highSettingsForm, 然后appendTo: '#highSettingsForm'
+ * 打开确认框。
+ *
+ * 相比直接调用 `ElMessageBox.confirm`，这里额外处理了默认参数、嵌套弹窗挂载点和 `appContext`。
+ *
+ * @param message 确认框内容，支持字符串、VNode 或渲染函数。
+ * @param options MessageBox 配置项。
+ * @param appContext 可选的 Vue 应用上下文。
+ * @returns `ElMessageBox.confirm` 返回的 Promise。
+ *
+ * @example
+ * await confirm('确定删除吗？')
+ *
+ * @example
+ * await confirm('确认提交？', {
+ *   showCancelButton: true,
+ *   appendTo: '#dialogRoot',
+ * })
  */
-export function confirm(message, options = {}, appContext = null) {
+export function confirm(message: ConfirmMessage, options: ConfirmOptions = {}, appContext: AppContext | null = null) {
   const resolvedMessage = typeof message === 'function' ? message() : message
   const resolvedAppendTo = _resolveAppendTarget(options?.appendTo)
   const resolvedAppContext = _resolveAppContext(options?.appContext || appContext)
@@ -1056,7 +1302,7 @@ export function confirm(message, options = {}, appContext = null) {
   return ElMessageBox.confirm(resolvedMessage, mergeOptions)
 }
 
-function _resolveAppendTarget(appendTo?: string | HTMLElement | null) {
+function _resolveAppendTarget(appendTo?: ConfirmAppendTarget) {
   if (typeof document === 'undefined') {
     return appendTo
   }
@@ -1097,7 +1343,7 @@ function _resolveAppendTarget(appendTo?: string | HTMLElement | null) {
   return dialogOverlay || appendTo
 }
 
-function _resolveAppContext(appContext: any) {
+function _resolveAppContext(appContext: AppContext | null | undefined) {
   if (appContext) {
     return appContext
   }
@@ -1109,17 +1355,30 @@ function _resolveAppContext(appContext: any) {
   return ElMessageBox.install?.context || ElMessageBox._context || document.querySelector('#app')?._vue_app?._context
 }
 
-/** Function to get a CSS custom property value
+/**
+ * 读取根节点上的 CSS 自定义变量。
  *
- * getVariable('--blue');
- *  */
-export function getVariable(propertyName) {
+ * @param propertyName CSS 变量名，例如 `--blue`。
+ * @returns CSS 变量的值。
+ *
+ * @example
+ * getVariable('--vp-c-brand-1')
+ */
+export function getVariable(propertyName: string): string {
   let res = getComputedStyle(document.documentElement).getPropertyValue(propertyName).trim()
   return res
 }
 
 declare const __OEOS_UTILS_BUILD_TIME__: string
 
-export function test() {
+/**
+ * 返回当前 utils 包的构建时间。
+ *
+ * @returns 构建时间字符串。
+ *
+ * @example
+ * test()
+ */
+export function test(): string {
   return `build time: ${__OEOS_UTILS_BUILD_TIME__}`
 }
