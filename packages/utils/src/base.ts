@@ -252,54 +252,58 @@ export function validForm(ref, { message = '表单校验错误, 请检查', deta
   })
 }
 
-/**
- * 判断变量是否空值
- * undefined, null, '', '   ', false, 0, [], {}, NaN, new Set(), new Map(), BigInt(0), new Date('无效日期') 均返回true，否则返回false
- */
-export function isEmpty(data: any, strict = false): boolean {
-  if (isRef(data)) {
-    data = unref(data)
+function isPlainObject(data: any): boolean {
+  if (Object.prototype.toString.call(data) !== '[object Object]') {
+    return false
   }
 
-  // 处理严格模式（strict=true 时，0/false 不算空）
-  if (strict) {
-    if (data === false || data === 0 || data === BigInt(0)) {
-      return false
-    }
+  const proto = Object.getPrototypeOf(data)
+  return proto === Object.prototype || proto === null
+}
+
+/**
+ * 判断变量是否空值
+ * 默认采用更安全的“结构空值”语义：
+ * undefined, null, '', '   ', [], {}, NaN, new Set(), new Map(), new Date('无效日期') 返回 true
+ * false, 0, BigInt(0) 默认返回 false
+ * 如果 strict=false，则保留旧语义：false / 0 / BigInt(0) 也会视为空值
+ */
+export function isEmpty(data: any, strict = true): boolean {
+  if (isRef(data)) {
+    data = unref(data)
   }
 
   // 处理 null/undefined
   if (data == null) return true
   // 如果是日期对象，检查它是否是有效的日期
   if (data instanceof Date) {
-    return isNaN(data.getTime())
+    return Number.isNaN(data.getTime())
   }
   // 处理基础类型
   switch (typeof data) {
     case 'string':
       return data.trim().length === 0
     case 'boolean':
-      return !data
+      return strict ? false : !data
     case 'number':
-      return 0 === data || isNaN(data) // ❗ `NaN`或者0 被认为是空
+      return Number.isNaN(data) || (!strict && data === 0)
     case 'symbol':
       return false
     case 'bigint':
-      return data === BigInt(0)
+      return strict ? false : data === BigInt(0)
+    case 'function':
+      return false
   }
   // 处理集合类型
   if (data instanceof Map || data instanceof Set) return data.size === 0
-  // 处理数组/类数组
-  if (
-    Array.isArray(data) ||
-    (typeof data.length === 'number' && Object.prototype.toString.call(data) === '[object Object]')
-  ) {
+  // 处理数组
+  if (Array.isArray(data)) {
     return data.length === 0
   }
 
-  // 处理普通对象
-  if (typeof data === 'object') {
-    return Object.keys(data).length === 0
+  // 只把 plain object 当作普通对象判断，避免误伤 Promise / RegExp / Error 等实例
+  if (isPlainObject(data)) {
+    return Reflect.ownKeys(data).length === 0
   }
 
   return false

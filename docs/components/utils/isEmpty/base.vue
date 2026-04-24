@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
-import { isEmpty, getType } from '@/utils/src/index.ts'
+import { isEmpty } from '@/utils/src/index.ts'
+
+const symbolObject = { [Symbol('x')]: 1 }
 
 const options = [
   {
@@ -11,7 +11,7 @@ const options = [
   { label: 'isEmpty(null)', value: isEmpty(null) },
   { label: "isEmpty('')", value: isEmpty('') },
   { label: "isEmpty(' ')", value: isEmpty(' ') },
-  { label: 'isEmpty(false)', value: isEmpty(false) },
+  { label: 'isEmpty(false)', value: isEmpty(false), labelAttrs: { class: 'cl-blue' }, valueAttrs: { class: 'cl-blue' } },
   { label: "isEmpty(new Date('无效日期'))", value: isEmpty(new Date('无效日期')) },
   {
     label: 'isEmpty(new Date())',
@@ -19,25 +19,48 @@ const options = [
     labelAttrs: { class: 'cl-blue' },
     valueAttrs: { class: 'cl-blue' },
   },
-  { label: 'isEmpty(0)', value: isEmpty(0) },
+  { label: 'isEmpty(0)', value: isEmpty(0), labelAttrs: { class: 'cl-blue' }, valueAttrs: { class: 'cl-blue' } },
   { label: 'isEmpty([])', value: isEmpty([]) },
   { label: 'isEmpty({})', value: isEmpty({}) },
   { label: 'isEmpty(NaN)', value: isEmpty(NaN) },
   { label: 'isEmpty(new Set())', value: isEmpty(new Set()) },
   { label: 'isEmpty(new Map())', value: isEmpty(new Map()) },
-  { label: 'isEmpty(BigInt(0))', value: isEmpty(BigInt(0)) },
-
   {
-    label: 'isEmpty(0, true)',
-    value: isEmpty(0, true),
+    label: 'isEmpty(BigInt(0))',
+    value: isEmpty(BigInt(0)),
     labelAttrs: { class: 'cl-blue' },
     valueAttrs: { class: 'cl-blue' },
   },
   {
-    label: 'isEmpty(false, true)',
-    value: isEmpty(false, true),
+    label: 'isEmpty(/abc/)',
+    value: isEmpty(/abc/),
     labelAttrs: { class: 'cl-blue' },
     valueAttrs: { class: 'cl-blue' },
+  },
+  {
+    label: 'isEmpty(Promise.resolve(1))',
+    value: isEmpty(Promise.resolve(1)),
+    labelAttrs: { class: 'cl-blue' },
+    valueAttrs: { class: 'cl-blue' },
+  },
+  {
+    label: 'isEmpty({ [Symbol()]: 1 })',
+    value: isEmpty(symbolObject),
+    labelAttrs: { class: 'cl-blue' },
+    valueAttrs: { class: 'cl-blue' },
+  },
+
+  {
+    label: 'isEmpty(0, false)',
+    value: isEmpty(0, false),
+  },
+  {
+    label: 'isEmpty(false, false)',
+    value: isEmpty(false, false),
+  },
+  {
+    label: 'isEmpty(BigInt(0), false)',
+    value: isEmpty(BigInt(0), false),
   },
 ]
 </script>
@@ -46,7 +69,7 @@ const options = [
   <OFunctionSourceCode functionName="isEmpty"></OFunctionSourceCode>
   <o-warning
     class="mb2"
-    content="undefined, null, '', '   ', false, 0, [], {}, NaN, new Set(), new Map(), BigInt(0), new Date('无效日期') 均返回true，否则返回false <br> 如果参数2为true, 处理严格模式（strict=true 时，0/false 不算空）"
+    content="默认会把 undefined、null、空字符串、空数组、空对象、NaN、空 Set/Map、无效日期 视为空值；0、false、BigInt(0) 默认不再算空。<br>如果需要兼容旧语义，可以显式传第二个参数 false。"
   />
 
   <o-descriptions :options="options" title="isEmpty判断是否为空" :column="1"></o-descriptions>
