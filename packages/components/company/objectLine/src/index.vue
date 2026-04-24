@@ -3,7 +3,7 @@
   时间最小区间是30分钟, 最大区间是2周
 */
 import { ref, getCurrentInstance, computed, watch } from 'vue'
-import { formatThousands, notEmpty, formatTime, formatBytes, formatBytesConvert, getVariable } from '@oeos-components/utils'
+import { formatThousands, isEmpty, formatTime, formatBytes, formatBytesConvert, getVariable } from '@oeos-components/utils'
 import * as echarts from 'echarts'
 
 defineOptions({
@@ -254,7 +254,7 @@ defineExpose({
         </template> -->
       </o-title>
     </template>
-    <o-chart v-if="notEmpty(data)" :option="option" height="100%" ref="chartRef" />
+    <o-chart v-if="!isEmpty(data)" :option="option" height="100%" ref="chartRef" />
     <o-empty v-else class="h-100%" />
   </oBasicLayout>
 </template>

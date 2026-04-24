@@ -16,7 +16,6 @@ type Func = (...args: any[]) => any
  * clearStorage(str: string | [] | object = '')
  * validForm(ref, { message = '表单校验错误, 请检查', detail = false, showMessage = true } = {})
  * isEmpty(data: any): boolean
- * notEmpty(v: any): boolean
  * merge(obj1: object, obj2: object): object
  * clone(data, times = 1)
  * uuid(type = '',length = 4,{ emailStr = '@qq.com', timeStr = '{m}-{d} {h}:{i}:{s}', startStr = '', optionsIndex = null } = {},)
@@ -183,7 +182,7 @@ export function clearStorage(str: string | [] | object = '') {
     sessionStorage.clear()
     localStorage.clear()
   }
-  if (notEmpty(str) && getType(str) !== 'object') {
+  if (!isEmpty(str) && getType(str) !== 'object') {
     let strArr = Array.isArray(str) ? str : [str]
     for (let i = 0; i < strArr.length; i++) {
       sessionStorage.removeItem(strArr[i])
@@ -191,7 +190,7 @@ export function clearStorage(str: string | [] | object = '') {
     }
   }
   if (_isObjectWithExclude(str)) {
-    if (notEmpty(str.exclude) && getType(str) === 'object') {
+    if (!isEmpty(str.exclude) && getType(str) === 'object') {
       let sessionStorageObj = {}
       let localStorageObj = {}
       for (const key in str.exclude) {
@@ -307,10 +306,6 @@ export function isEmpty(data: any, strict = true): boolean {
   }
 
   return false
-}
-// 非空
-export function notEmpty(v: any): boolean {
-  return !isEmpty(v)
 }
 
 /**

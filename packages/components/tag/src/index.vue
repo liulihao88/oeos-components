@@ -4,7 +4,7 @@ defineOptions({
 })
 
 import { ref, computed } from 'vue'
-import { getType, isEmpty, notEmpty } from '@oeos-components/utils'
+import { getType, isEmpty } from '@oeos-components/utils'
 import { handleWidthHeight } from '@/components/utils/local.ts'
 const props = defineProps({
   options: {
@@ -81,7 +81,7 @@ const parseType = computed(() => {
   optionsGetName.value = undefined
 
   if (hasOptions.value && hasValue.value) {
-    if (notEmpty(props.config)) {
+    if (!isEmpty(props.config)) {
       const foundItem = props.options.find((obj) => props.value === obj[props.config.value || 'value'])
       if (foundItem) {
         optionsGetName.value = foundItem[props.config.label || 'label']

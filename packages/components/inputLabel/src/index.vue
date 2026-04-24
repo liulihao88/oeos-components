@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import OInput from '@/components/input'
 import OIcon from '@/components/icon'
-import { notEmpty, $toast } from '@/utils/src'
+import { isEmpty, $toast } from '@/utils/src'
 
 const currentval = ref('')
 const labelarr = ref([])
@@ -43,10 +43,10 @@ watch(
     if (mVal && mVal.length > 0) {
       labelarr.value = []
       for (let i = 0; i < mVal.length; i++) {
-        if (!props.isComplex && notEmpty(mVal[i])) {
+        if (!props.isComplex && !isEmpty(mVal[i])) {
           labelarr.value.push(mVal[i])
         } else {
-          if (notEmpty(mVal[i]) && notEmpty(mVal[i]?.name)) {
+          if (!isEmpty(mVal[i]) && !isEmpty(mVal[i]?.name)) {
             labelarr.value.push(mVal[i])
           }
         }
