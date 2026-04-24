@@ -1,7 +1,6 @@
 <script setup lang="ts" name="OItem">
-import { ref, getCurrentInstance, useSlots, computed } from 'vue'
+import { useSlots, computed } from 'vue'
 import { processWidth, formatThousands, formatToFixed, formatBytes } from '@/utils/src/index.ts'
-const { proxy } = getCurrentInstance()
 const props = defineProps({
   src: {
     type: String,

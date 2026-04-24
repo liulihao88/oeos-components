@@ -49,13 +49,21 @@
 </template>
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-const direction = ref('row')
-const justify = ref('normal')
-const align = ref('normal')
-const wrap = ref('nowrap')
-const gapRadio: any = ref('small')
-const gap = ref(gapRadio.value)
+
+type FlexDirection = 'row' | 'column' | 'row-reverse' | 'column-reverse'
+type FlexJustify = 'start' | 'end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'normal'
+type FlexAlign = 'start' | 'end' | 'center' | 'baseline' | 'stretch' | 'normal'
+type FlexWrap = 'nowrap' | 'wrap' | 'wrap-reverse'
+type GapMode = 'small' | 'default' | 'large' | 'custom'
+
+const direction = ref<FlexDirection>('row')
+const justify = ref<FlexJustify>('normal')
+const align = ref<FlexAlign>('normal')
+const wrap = ref<FlexWrap>('nowrap')
+const gapRadio = ref<GapMode>('small')
+const gap = ref<string | number>(gapRadio.value)
 const gapProgressValue = ref(0)
+
 watch(gapRadio, (val) => {
   if (val !== 'custom') {
     gap.value = val

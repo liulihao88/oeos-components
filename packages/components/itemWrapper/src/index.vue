@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSlots, computed } from 'vue'
+import { useSlots, computed, type VNode } from 'vue'
 import { processWidth } from '@oeos-components/utils'
 
 defineOptions({
@@ -22,12 +22,13 @@ const props = defineProps({
     default: null, // null 表示不分组，保持原样
   },
   minWidth: {
-    type: Number,
+    type: [String, Number],
     default: 0,
   },
 })
 
 const gapValue = computed(() => processWidth(props.gap, true))
+const minWidthValue = computed(() => processWidth(props.minWidth, true))
 
 const slots = useSlots()
 
@@ -107,7 +108,7 @@ const slotRows = computed(() => {
 
   /* 所有子项的通用约束 */
   > :deep(.col) {
-    min-width: v-bind('props.minWidth'); /* 关键点2：允许收缩 */
+    min-width: v-bind(minWidthValue); /* 关键点2：允许收缩 */
     flex: 1;
     overflow: hidden; /* 超出隐藏 */
     text-overflow: ellipsis; /* 文字省略号 */

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
 const tenantDetails = {
   tenantCount: 1,
   bucketCount: 4,

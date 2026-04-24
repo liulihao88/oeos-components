@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
-</script>
-
 <template>
   <oItemWrapper gap="20px" :columns="3">
     <OItem label="label" value="value" src="https://img.yzcdn.cn/vant/logo.png"></OItem>

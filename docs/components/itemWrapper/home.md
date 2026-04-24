@@ -32,7 +32,7 @@ itemWrapper/scroll
 | :----: | ---- | ---- | ------ |
 | `gap` | 子项之间的间距，内部会经过 `processWidth` 处理 | string / number | `16px` |
 | `columns` | 每行展示的列数；不传时保持横向 flex 布局 | number | `null` |
-| `minWidth` | 子项最小宽度 | number | `0` |
+| `minWidth` | 子项最小宽度，内部会经过 `processWidth` 处理 | string / number | `0` |
 
 ### 插槽
 
@@ -45,3 +45,4 @@ itemWrapper/scroll
 - 用于统一包裹多个 `item` 组件，支持设置间距、列数和滚动布局。
 - 设置 `columns` 后会切换为 grid 等分布局；不设置时使用横向 flex，内容超出后可横向滚动。
 - `gap` 支持 `16`、`'16'`、`'16px'`、`'5%'` 这类常见写法；纯数字或数字字符串会自动补成 `px`。
+- `minWidth` 也支持 `200`、`'200'`、`'200px'`、`'30%'` 这类写法。

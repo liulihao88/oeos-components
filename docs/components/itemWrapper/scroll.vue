@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
-</script>
-
 <template>
   <oItemWrapper gap="20px" :minWidth="'200px'">
     <OItem label="label" value="value" ></OItem>
