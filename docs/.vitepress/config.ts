@@ -59,10 +59,6 @@ export default defineConfig({
               link: '/components/',
             },
             {
-              text: '函数库文件代码',
-              link: '/components/utils/home.md',
-            },
-            {
               text: 'vitepress常用语法',
               link: '/components/utils/grammar/home.md',
             },
@@ -85,72 +81,76 @@ export default defineConfig({
           collapsed: false,
           items: [
             {
-              text: '$toast提示',
+              text: 'utils 方法总览（A-Z）',
+              link: '/components/utils/home.md',
+            },
+            {
+              text: '$toast 消息提示',
               link: '/components/utils/$toast/home.md',
             },
             {
-              text: 'confirm确认框',
-              link: '/components/utils/confirm/home.md',
-            },
-            {
-              text: 'clone深克隆',
+              text: 'clone 深克隆',
               link: '/components/utils/clone/home.md',
             },
             {
-              text: 'isEmpty判断是否空值',
-              link: '/components/utils/isEmpty/home.md',
+              text: 'confirm 确认框',
+              link: '/components/utils/confirm/home.md',
             },
             {
-              text: 'formatToFixed给数字加小数点',
-              link: '/components/utils/formatToFixed/home.md',
+              text: 'dayjs 日期函数',
+              link: '/components/utils/dayjs/home.md',
             },
             {
-              text: 'tryCatch函数封装',
-              link: '/components/utils/tryCatch/home.md',
-            },
-            {
-              text: 'validate校验',
-              link: '/components/utils/validate/home.md',
-            },
-            {
-              text: 'validForm校验form函数封装',
-              link: '/components/utils/validForm/home.md',
-            },
-            {
-              text: 'formatBytes数字变为字节',
+              text: 'formatBytes 字节格式化',
               link: '/components/utils/formatBytes/home.md',
             },
             {
-              text: 'formatBytesConvert翻转字节为数字',
+              text: 'formatBytesConvert 字节转数字',
               link: '/components/utils/formatBytesConvert/home.md',
             },
             {
-              text: 'formatTime转换日期',
-              link: '/components/utils/formatTime/home.md',
-            },
-            {
-              text: 'formatDutationTime持续时间',
+              text: 'formatDurationTime 持续时间',
               link: '/components/utils/formatDurationTime/home.md',
             },
             {
-              text: 'uuid生成随机字符串',
-              link: '/components/utils/uuid/home.md',
-            },
-            {
-              text: 'getType获取类型',
-              link: '/components/utils/getType/home.md',
-            },
-            {
-              text: 'sleep延迟函数',
-              link: '/components/utils/sleep/home.md',
-            },
-            {
-              text: 'formatTextToHtml',
+              text: 'formatTextToHtml 文本转 HTML',
               link: '/components/utils/formatTextToHtml/home.md',
             },
             {
-              text: 'dayjs函数方法',
-              link: '/components/utils/dayjs/home.md',
+              text: 'formatTime 时间格式化',
+              link: '/components/utils/formatTime/home.md',
+            },
+            {
+              text: 'formatToFixed 小数格式化',
+              link: '/components/utils/formatToFixed/home.md',
+            },
+            {
+              text: 'getType 类型判断',
+              link: '/components/utils/getType/home.md',
+            },
+            {
+              text: 'isEmpty 空值判断',
+              link: '/components/utils/isEmpty/home.md',
+            },
+            {
+              text: 'sleep 延迟函数',
+              link: '/components/utils/sleep/home.md',
+            },
+            {
+              text: 'tryCatch Promise 封装',
+              link: '/components/utils/tryCatch/home.md',
+            },
+            {
+              text: 'uuid 随机字符串',
+              link: '/components/utils/uuid/home.md',
+            },
+            {
+              text: 'validate 表单校验',
+              link: '/components/utils/validate/home.md',
+            },
+            {
+              text: 'validForm 表单校验封装',
+              link: '/components/utils/validForm/home.md',
             },
           ],
         },
