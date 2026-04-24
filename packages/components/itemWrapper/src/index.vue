@@ -6,6 +6,7 @@
 
 <script setup lang="ts">
 import { useSlots, computed } from 'vue'
+import { processWidth } from '@oeos-components/utils'
 
 defineOptions({
   name: 'OItemWrapper',
@@ -26,8 +27,9 @@ const props = defineProps({
   },
 })
 
+const gapValue = computed(() => processWidth(props.gap, true))
+
 const slots = useSlots()
-const defaultSlots = computed(() => slots.default?.() || [])
 
 // 只保留元素节点 (过滤掉注释和文本节点)
 const validSlots = computed(() => {
@@ -94,7 +96,7 @@ const slotRows = computed(() => {
   /* 默认 flex 布局（无 columns） */
   display: flex;
   flex-wrap: nowrap;
-  gap: v-bind('props.gap');
+  gap: v-bind(gapValue);
   overflow: auto;
 
   /* 设置了 columns 时切换为 grid 布局 */

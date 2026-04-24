@@ -1,20 +1,34 @@
-<script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
-</script>
-
 <template>
-  <oItemWrapper gap="5%">
-    <OItem label="label" value="value" src="https://img.yzcdn.cn/vant/logo.png"></OItem>
-    <OItem label="label" value="value"></OItem>
-    <OItem label="label" value="value"></OItem>
-    <OItem label="label" value="value"></OItem>
-    <!-- <div>123</div> -->
-    <div class="bg-white">
-      我也能凑凑热闹
+  <div class="demo-box">
+    <div>
+      <div class="demo-label">gap=&quot;12&quot;，数字字符串会自动补 `px`</div>
+      <o-item-wrapper gap="12">
+        <o-item label="label" value="value" src="https://img.yzcdn.cn/vant/logo.png" />
+        <o-item label="label" value="value" />
+        <o-item label="label" value="value" />
+      </o-item-wrapper>
     </div>
-  </oItemWrapper>
+
+    <div>
+      <div class="demo-label">gap=&quot;5%&quot;，保留原始百分比单位</div>
+      <o-item-wrapper gap="5%">
+        <o-item label="label" value="value" src="https://img.yzcdn.cn/vant/logo.png" />
+        <o-item label="label" value="value" />
+        <o-item label="label" value="value" />
+      </o-item-wrapper>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
+.demo-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.demo-label {
+  margin-bottom: 8px;
+  color: var(--45);
+}
 </style>
