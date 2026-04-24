@@ -42,19 +42,6 @@ $toast('保存失败', 'e')
 $toast.success('创建完成')
 ```
 
-### asyncWrapper
-
-将异步函数包装成 `{ res, err }` 结构，避免每次都手写 `try/catch`。
-
-```ts
-const loadList = async (params: { page: number }) => ({ list: [], ...params })
-
-const { res, err } = await asyncWrapper(loadList, { page: 1 })
-if (!err) {
-  console.log(res?.list)
-}
-```
-
 ### clearStorage
 
 清理 `localStorage` / `sessionStorage` 中的指定项，或按排除项整体清空。
@@ -557,12 +544,14 @@ toTypeString(Promise.resolve()) // [object Promise]
 
 ### tryCatch
 
-对 Promise 进行包装，统一拿到 `{ data, error }`。
+统一处理 Promise 或任务函数执行结果，返回固定的 `{ data, error }`。
 
 ```ts
-const { data, error } = await tryCatch(Promise.resolve({ id: 1 }))
+const loadList = async () => ({ list: [] })
+
+const { data, error } = await tryCatch(() => loadList())
 if (!error) {
-  console.log(data?.id)
+  console.log(data?.list)
 }
 ```
 

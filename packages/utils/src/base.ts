@@ -22,7 +22,7 @@ type Func = (...args: any[]) => any
  * getType(type)
  * sleep(delay = 0, fn?: () => void)
  * validate(type = 'required', rules = {}, pureValid = false)
- * asyncWrapper(func, ...args)
+ * tryCatch(promiseOrTask, loadingRef)
  * copy = (text, toastParams = {})
  * log(variableStr, variable, otherInfo = '')
  * random(min = 0, max = 10)
@@ -740,22 +740,6 @@ export function validate(type: string = 'required', rules: Record<string, any> =
   }
 }
 
-/**
- * 
-const { res, err } = await proxy.asyncWrapper(listTests, pickForm);
-if (err) {
-	return;
-}
- */
-export async function asyncWrapper(func, ...args) {
-  try {
-    const res = await func(...args)
-    return { res }
-  } catch (err) {
-    return { err }
-  }
-}
-
 type ToastParams =
   | { hideToast?: boolean } // 只有 hideToast
   | (Omit<ToastOptions, 'hideToast'> & { hideToast: boolean }) // 两者都有，确保hideToast被包含
@@ -932,40 +916,54 @@ export function throttle(fn, delay = 1000) {
 }
 
 /**
- * 封装 Promise 执行，提供自动 loading 状态管理
- * @param promise 需要执行的 Promise
- * @param sendLoading 可选的 loading 状态(支持 Ref<boolean> 或 boolean)
+ * 封装 Promise 或任务函数执行，统一返回 { data, error }
+ * 推荐传入函数，这样可以同时捕获同步 throw 和异步 reject
+ * @param task 需要执行的 Promise，或返回值 / Promise 的函数
+ * @param sendLoading 可选的 loading ref
  * @returns Promise<{ data: T | null; error: any }>
  * @example1
- * const loading = ref(false);
- * const { data, error } = await tryCatch(fetchUserData(), loading);
- * @example2 // 无视 loading 状态
- * const { data, error } = await tryCatch(fetchUserData());
+ * const loading = ref(false)
+ * const { data, error } = await tryCatch(() => fetchUserData(), loading)
+ * @example2
+ * const { data, error } = await tryCatch(Promise.resolve({ id: 1 }))
+ * @example3
+ * const { data, error } = await tryCatch(() => {
+ *   if (!form.name) throw new Error('请输入名称')
+ *   return submitForm(form)
+ * })
  */
+type TryCatchTask<T> = Promise<T> | (() => T | Promise<T>)
+
 export function tryCatch<T>(
-  promise: Promise<T>,
+  task: Promise<T>,
+  sendLoading?: Ref<boolean> | null,
+): Promise<{ data: T | null; error: any }>
+export function tryCatch<T>(
+  task: () => T | Promise<T>,
+  sendLoading?: Ref<boolean> | null,
+): Promise<{ data: T | null; error: any }>
+export async function tryCatch<T>(
+  task: TryCatchTask<T>,
   sendLoading?: Ref<boolean> | null,
 ): Promise<{ data: T | null; error: any }> {
   const updateLoading = (value: boolean): void => {
     if (isRef(sendLoading)) {
       sendLoading.value = value
-    } else if (sendLoading !== null) {
+    } else if (sendLoading !== undefined && sendLoading !== null) {
       console.warn('Cannot modify non-ref sendLoading directly!')
     }
   }
 
-  // 初始化 loading 状态
   updateLoading(true)
 
-  return promise
-    .then((data: T) => {
-      updateLoading(false)
-      return { data, error: null }
-    })
-    .catch((error: any) => {
-      updateLoading(false)
-      return { data: null, error }
-    })
+  try {
+    const data = typeof task === 'function' ? await task() : await task
+    return { data, error: null }
+  } catch (error: any) {
+    return { data: null, error }
+  } finally {
+    updateLoading(false)
+  }
 }
 
 /**
