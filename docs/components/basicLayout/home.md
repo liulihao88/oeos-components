@@ -50,9 +50,6 @@ basicLayout/square
 | `bodyStyle` | 内容区域样式 | object | `{}` |
 | `footerStyle` | 底部区域样式 | object | `{}` |
 | `border` | 是否显示头部下边框 | boolean | `true` |
-| `clearBrBottom` | 清除底部圆角 | boolean | `false` |
-| `clearBrTop` | 清除顶部圆角 | boolean | `false` |
-| `clearBr` | 清除全部圆角 | boolean | `false` |
 | `scroll` | 内容区是否自动撑开并滚动 | boolean | `true` |
 | `square` | 内容区按宽高最大值渲染为正方形 | boolean | `false` |
 | `collapsible` | 是否允许点击头部展开/收起 | boolean | `false` |

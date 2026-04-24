@@ -33,18 +33,6 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  clearBrBottom: {
-    type: Boolean,
-    default: false,
-  },
-  clearBrTop: {
-    type: Boolean,
-    default: false,
-  },
-  clearBr: {
-    type: Boolean,
-    default: false,
-  },
   scroll: {
     type: Boolean,
     default: true,
@@ -61,30 +49,9 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const boxRef = ref(null)
-const headerRef = ref(null)
+const boxRef = ref<HTMLDivElement | null>(null)
+const headerRef = ref<HTMLDivElement | null>(null)
 const isCollapsed = ref(props.modelValue)
-
-const boxMergedStyle = computed(() => {
-  let brStyle = {}
-  if (props.clearBrBottom) {
-    brStyle['border-bottom-right-radius'] = 0
-    brStyle['border-bottom-left-radius'] = 0
-  }
-  if (props.clearBrTop) {
-    brStyle['border-top-right-radius'] = 0
-    brStyle['border-top-left-radius'] = 0
-  }
-  if (props.clearBr) {
-    brStyle['border-bottom-right-radius'] = 0
-    brStyle['border-bottom-left-radius'] = 0
-    brStyle['border-top-right-radius'] = 0
-    brStyle['border-top-left-radius'] = 0
-  }
-  return {
-    ...brStyle,
-  }
-})
 
 const headerMergedStyle = computed(() => {
   let noBorderStyle = {}
@@ -140,7 +107,7 @@ const toggleCollapse = () => {
 </script>
 
 <template>
-  <div class="o-basic-layout" :style="boxMergedStyle" ref="boxRef">
+  <div class="o-basic-layout" ref="boxRef">
     <div
       class="o-basic-layout__header"
       v-if="$slots.header || props.title"
