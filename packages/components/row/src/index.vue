@@ -31,6 +31,10 @@ const props = defineProps({
     type: [Number, Array] as PropType<number | number[]>,
     default: 24,
   },
+  gap: {
+    type: [Number, String],
+    default: '',
+  },
   gutter: {
     type: [Number, String],
     default: 0,
@@ -51,14 +55,21 @@ const props = defineProps({
 
 const slots = useSlots()
 
-const gutterValue = computed(() => processWidth(props.gutter, true))
+const mergedGap = computed(() => {
+  if (props.gap !== '' && props.gap !== null && props.gap !== undefined) {
+    return props.gap
+  }
+  return props.gutter
+})
+
+const gutterValue = computed(() => processWidth(mergedGap.value, true))
 
 const nativeGutter = computed(() => {
-  if (typeof props.gutter === 'number') {
-    return props.gutter
+  if (typeof mergedGap.value === 'number') {
+    return mergedGap.value
   }
 
-  const gutter = String(props.gutter ?? '').trim()
+  const gutter = String(mergedGap.value ?? '').trim()
   if (!gutter) {
     return 0
   }
@@ -76,12 +87,12 @@ const nativeGutter = computed(() => {
 })
 
 const useCustomGutter = computed(() => {
-  const gutter = String(props.gutter ?? '').trim()
+  const gutter = String(mergedGap.value ?? '').trim()
   if (!gutterValue.value || !gutter) {
     return false
   }
 
-  if (typeof props.gutter === 'number') {
+  if (typeof mergedGap.value === 'number') {
     return false
   }
 
