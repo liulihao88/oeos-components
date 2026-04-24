@@ -48,8 +48,10 @@ $toast.success('创建完成')
 
 ```ts
 clearStorage('token')
+
 clearStorage(['token', 'userInfo'])
-clearStorage({ exclude: ['theme'] })
+
+clearStorage({ exclude: ['theme', 'language'] })
 ```
 
 ### clone
@@ -216,7 +218,10 @@ formatToFixed('22 TB', { digit: 2, unit: false, prefix: '$' }) // $22.00
 
 ```ts
 const token = getStorage('token')
-const userInfo = getStorage('userInfo', true)
+
+const userInfo = getStorage<{ id: number; name: string }>('userInfo')
+
+const draft = getStorage('formDraft', true)
 ```
 
 ### getType
@@ -483,7 +488,10 @@ random(100, 999) // 100 ~ 999
 
 ```ts
 setStorage('token', 'abc123')
-setStorage('userInfo', { id: 1, name: 'andy' }, true)
+
+setStorage('userInfo', { id: 1, name: 'andy' })
+
+setStorage('formDraft', { keyword: '机房', page: 2 }, true)
 ```
 
 ### sleep
