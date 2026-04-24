@@ -6,7 +6,7 @@
     </div>
   </el-button>
 
-  <div class="code-toggle" ref="toggleRef" v-if="isDev && !isHome">
+  <div class="code-toggle" v-if="isDev && !isHome">
     <el-button type="primary" size="small" @click.stop.prevent="jumpUrl('md')" class="dev-md-copy">
       <div class="visible-text">跳转home.md(仅本地)</div>
     </el-button>
@@ -32,39 +32,31 @@
 </template>
 
 <script lang="ts" setup>
-import { getStorage, setStorage, copy } from '@oeos-components/utils'
+import { getStorage, setStorage } from '@/utils/src/index.ts'
 import { ElMessage } from 'element-plus'
-import { ref, onUnmounted, watch } from 'vue'
-import { useData, useRouter } from 'vitepress' // 添加 useRouter 导入
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { useData, useRouter } from 'vitepress'
 import pkg from '../../../package.json'
 import { buildVscodeFileUrl, getComponentDocPath, getDocsBasePath, getSourceDir, joinLocalPath } from './utils/localFile'
 
 const { page } = useData()
-const router = useRouter() // 获取路由器实例
+const router = useRouter()
 
-const toggleRef = ref(null)
 const isDev = ref(import.meta.env.DEV)
 
 const pkgVersion = ref(pkg.version)
 
 const sourceVisible = ref(false)
-const showPackagesButton = ref(true) // 控制按钮显示/隐藏的状态
+const showPackagesButton = ref(true)
 
-// 根据路由判断是否应该显示按钮
 const shouldshowPackagesButton = (routePath: string) => {
-  // 在这里添加您的路由判断逻辑
-  // 示例：只在特定路径下显示按钮
   const hiddenRoutes = ['components/index.md']
   return !hiddenRoutes.includes(routePath)
 }
 
-sourceVisible.value = getStorage('codeVisible') || false
-
-// 监听路由变化，更新按钮显示状态
 watch(
   () => page.value.relativePath,
   (newPath) => {
-    console.log(`22 newPath`, newPath)
     showPackagesButton.value = shouldshowPackagesButton(newPath)
   },
   {
@@ -75,24 +67,6 @@ watch(
 const toggleSourceVisible = () => {
   setStorage('codeVisible', !sourceVisible.value)
   location.reload()
-}
-const copyMdUrl = () => {
-  let pathname = location.pathname
-  if (!pathname || pathname === '/') {
-    return
-  }
-  const docsBasePath = `${getDocsBasePath()}/components/`
-  let mdStr = pathname.replace(docsBasePath, '') + '.md'
-  copy(mdStr, { duration: 500 })
-}
-const copyPackageUrl = () => {
-  let pathname = location.pathname
-  if (!pathname || pathname === '/') {
-    return
-  }
-  const reg = /\/[^/]*$/
-  let pkgStr = 'packages' + pathname.replace(reg, '') + '.vue'
-  copy(pkgStr, { duration: 500 })
 }
 
 const openLocalSourceFile = (targetPath: string) => {
@@ -139,15 +113,23 @@ const jumpUrl = (type: string) => {
 }
 
 const isHome = ref(false)
-const timer = ref()
-timer.value = setInterval(() => {
-  if (window.location.pathname === `${getDocsBasePath()}/`) {
-    return (isHome.value = true)
-  }
-  isHome.value = false
-}, 1000)
+const timer = ref<ReturnType<typeof setInterval> | null>(null)
+
+onMounted(() => {
+  sourceVisible.value = !!getStorage('codeVisible')
+  timer.value = setInterval(() => {
+    if (window.location.pathname === `${getDocsBasePath()}/`) {
+      isHome.value = true
+      return
+    }
+    isHome.value = false
+  }, 1000)
+})
+
 onUnmounted(() => {
-  clearInterval(timer.value)
+  if (timer.value) {
+    clearInterval(timer.value)
+  }
 })
 </script>
 

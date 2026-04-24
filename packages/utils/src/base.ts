@@ -144,6 +144,33 @@ interface TryCatchResult<T> {
 
 type TryCatchTask<T> = Promise<T> | (() => T | Promise<T>)
 
+function _getBrowserStorage(isSession = false): Storage | null {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  try {
+    return isSession ? window.sessionStorage : window.localStorage
+  } catch (error) {
+    return null
+  }
+}
+
+function _parseStorageValue<T = any>(value: string | null): T | string | number | null {
+  if (value == null) {
+    return null
+  }
+
+  try {
+    const parsed = JSON.parse(value)
+    if (typeof parsed !== 'number') {
+      return parsed
+    }
+  } catch (error) {}
+
+  return value
+}
+
 /**
  * 显示消息提示。
  *
@@ -261,6 +288,7 @@ $toast.warning = (message: string | ToastOptions | VNode | (() => VNode), otherP
  * @param storageName 缓存 key。
  * @param params 要保存的值；对象和数组会自动序列化。
  * @param isSession 是否写入 `sessionStorage`；默认写入 `localStorage`。
+ * 在 SSR / Node 环境下会自动跳过，不会抛错。
  *
  * @example
  * setStorage('token', 'abc123')
@@ -269,17 +297,18 @@ $toast.warning = (message: string | ToastOptions | VNode | (() => VNode), otherP
  * setStorage('userInfo', { id: 1, name: 'andy' }, true)
  */
 export function setStorage(storageName: string, params: StorageValue, isSession = false): void {
+  const storage = _getBrowserStorage(isSession)
+  if (!storage) {
+    return
+  }
+
   let handleParams
   if (typeof params === 'number' || typeof params === 'string') {
     handleParams = params
   } else {
     handleParams = JSON.stringify(params)
   }
-  if (isSession) {
-    sessionStorage.setItem(storageName, handleParams)
-  } else {
-    localStorage.setItem(storageName, handleParams)
-  }
+  storage.setItem(storageName, handleParams)
 }
 
 /**
@@ -287,7 +316,7 @@ export function setStorage(storageName: string, params: StorageValue, isSession 
  *
  * @param data 缓存 key。
  * @param isSession 是否从 `sessionStorage` 读取；默认从 `localStorage` 读取。
- * @returns 读取到的缓存值；不存在时返回 `null`。
+ * @returns 读取到的缓存值；不存在或在 SSR 环境下时返回 `null`。
  *
  * @example
  * const token = getStorage('token')
@@ -296,32 +325,12 @@ export function setStorage(storageName: string, params: StorageValue, isSession 
  * const userInfo = getStorage('userInfo', true)
  */
 export function getStorage<T = any>(data: string, isSession = false): T | string | number | null {
-  // 先获取localStorage数据, 如果没有再获取sessionStorage数据。 如果都没有， null;
-  // localStorage.getItem / sessionStorage.getItem 返回 string | null，所以使用 any 或者 string | null 来兼容
-  let getLocalData: any = null
-  let getSessionData: any = null
-  // 如果isSessionFirst为true, 先判断sessionStorage, 后判断localStorage
-  if (isSession) {
-    getSessionData = sessionStorage.getItem(data)
-  } else {
-    getLocalData = localStorage.getItem(data)
+  const storage = _getBrowserStorage(isSession)
+  if (!storage) {
+    return null
   }
-  if (getLocalData) {
-    try {
-      if (typeof JSON.parse(getLocalData) !== 'number') {
-        getLocalData = JSON.parse(getLocalData)
-      }
-    } catch (e) {}
-    return getLocalData
-  } else if (getSessionData) {
-    try {
-      if (typeof JSON.parse(getSessionData) !== 'number') {
-        getSessionData = JSON.parse(getSessionData)
-      }
-    } catch (e) {}
-    return getSessionData
-  }
-  return null
+
+  return _parseStorageValue<T>(storage.getItem(data))
 }
 
 /**
@@ -329,6 +338,7 @@ export function getStorage<T = any>(data: string, isSession = false): T | string
  *
  * @param str 要清空的 key；不传时清空全部，传 `exclude` 时表示保留指定 key。
  * @returns 无返回值。
+ * 在 SSR / Node 环境下会自动跳过。
  *
  * @example
  * clearStorage()
@@ -340,15 +350,22 @@ export function getStorage<T = any>(data: string, isSession = false): T | string
  * clearStorage({ exclude: ['token', 'theme'] })
  */
 export function clearStorage(str: ClearStorageInput = ''): void {
+  const sessionStorageRef = _getBrowserStorage(true)
+  const localStorageRef = _getBrowserStorage(false)
+
+  if (!sessionStorageRef && !localStorageRef) {
+    return
+  }
+
   if (isEmpty(str)) {
-    sessionStorage.clear()
-    localStorage.clear()
+    sessionStorageRef?.clear()
+    localStorageRef?.clear()
   }
   if (!isEmpty(str) && getType(str) !== 'object') {
     let strArr = Array.isArray(str) ? str : [str]
     for (let i = 0; i < strArr.length; i++) {
-      sessionStorage.removeItem(strArr[i])
-      localStorage.removeItem(strArr[i])
+      sessionStorageRef?.removeItem(strArr[i])
+      localStorageRef?.removeItem(strArr[i])
     }
   }
   if (_isObjectWithExclude(str)) {
@@ -366,8 +383,8 @@ export function clearStorage(str: ClearStorageInput = ''): void {
           }
         }
       }
-      sessionStorage.clear()
-      localStorage.clear()
+      sessionStorageRef?.clear()
+      localStorageRef?.clear()
       for (const key in sessionStorageObj) {
         setStorage(key, sessionStorageObj[key], true)
       }

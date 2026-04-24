@@ -39,10 +39,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useClipboard } from '@vueuse/core'
-import { getStorage, setStorage } from '@oeos-components/utils'
+import { getStorage } from '@/utils/src/index.ts'
 
 import Example from './vp-example.vue'
 import SourceCode from './vp-source-code.vue'
@@ -61,13 +61,12 @@ const { copy, isSupported } = useClipboard({
   read: false,
 })
 
-const { copy: copy2 } = useClipboard({
-  source: props.path,
-  read: false,
-})
 const sourceVisible = ref(true)
-sourceVisible.value = getStorage('codeVisible') || false
-const toggleSourceVisible = (isOpen) => {
+onMounted(() => {
+  sourceVisible.value = !!getStorage('codeVisible')
+})
+
+const toggleSourceVisible = (isOpen?: boolean) => {
   if (isOpen === false) {
     sourceVisible.value = isOpen
   } else {
