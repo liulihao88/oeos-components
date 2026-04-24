@@ -3,12 +3,14 @@
     <span
       @click="contentClick"
       v-if="props.showSlot"
+      ref="textRef"
       class="o-tooltip-box__text"
-      :style="{ maxWidth: processWidth(width, true) }"
+      :class="{ 'o-tooltip-box__text--multiline': isMultiLineClamp }"
+      :style="textStyle"
       @mouseover="onMouseOver"
       v-bind="$attrs"
     >
-      <span ref="contentRef" class="o-tooltip-box__content">
+      <span class="o-tooltip-box__content">
         <slot>
           {{ $attrs.content }}
         </slot>
@@ -35,6 +37,10 @@ const props = defineProps({
     type: String,
     default: '100%',
   },
+  lineClamp: {
+    type: [String, Number],
+    default: 1,
+  },
   showSlot: {
     type: Boolean,
     default: true,
@@ -46,6 +52,34 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+})
+
+const normalizedLineClamp = computed(() => {
+  const lineClamp = Number(props.lineClamp)
+  if (!Number.isFinite(lineClamp) || lineClamp <= 0) {
+    return 1
+  }
+  return Math.floor(lineClamp)
+})
+
+const isMultiLineClamp = computed(() => normalizedLineClamp.value > 1)
+
+const textStyle = computed(() => {
+  const baseStyle = {
+    maxWidth: processWidth(props.width, true),
+  }
+
+  if (!isMultiLineClamp.value) {
+    return baseStyle
+  }
+
+  return {
+    ...baseStyle,
+    display: '-webkit-box',
+    whiteSpace: 'normal',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: String(normalizedLineClamp.value),
+  }
 })
 
 // 检查 content 是否为 VNode
@@ -65,7 +99,7 @@ const dynamicComponent = computed(() => {
   return null
 })
 
-const contentRef = ref()
+const textRef = ref<HTMLElement>()
 const isDisabled = ref(false)
 const handleDisabled = computed(() => {
   if (attrs.disabled) {
@@ -84,11 +118,11 @@ function onMouseOver() {
     return
   }
   // 内容超出，显示文字提示内容
-  const tag = contentRef.value
+  const tag = textRef.value
   if (!tag) return
-  const parentWidth = tag.parentNode.offsetWidth // 获取元素父级可视宽度
-  const contentWidth = tag.offsetWidth // 获取元素可视宽度
-  isDisabled.value = contentWidth <= parentWidth
+  const isOverflowWidth = tag.scrollWidth > tag.clientWidth
+  const isOverflowHeight = tag.scrollHeight > tag.clientHeight
+  isDisabled.value = !isOverflowWidth && !isOverflowHeight
 }
 const emits = defineEmits(['click'])
 function contentClick() {
@@ -102,6 +136,10 @@ function contentClick() {
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: bottom;
+}
+
+.o-tooltip-box__text--multiline {
+  text-overflow: initial;
 }
 
 .o-tooltip-box__text:has(.el-button) + :deep(.el-button),

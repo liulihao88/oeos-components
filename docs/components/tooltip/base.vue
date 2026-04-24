@@ -1,30 +1,37 @@
-<script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
-</script>
-
 <template>
-  <div style="width: 1000px">
-    <o-title title="这里测试o-tooltip跟不通button之间的间距" b="16"></o-title>
-    <o-tooltip content="">
-      <el-button type="primary" @click="isTest14">测试36</el-button>
-    </o-tooltip>
-    <el-button type="primary" @click="isTest63">测试31</el-button>
-    <el-button type="primary" @click="isTest14">测试212</el-button>
-    <el-button type="primary" @click="isTest14">测试224</el-button>
-    <o-tooltip content="">
-      <el-button type="primary" @click="isTest14">测试36</el-button>
-    </o-tooltip>
-    <!-- <hr /> -->
-    <o-tooltip content="">如果content为空, 什么都不显示. 这与el-tooltip有区别</o-tooltip>
-    <o-tooltip content="这里是需要显示的文本内容，当文本超出时会自动隐藏内容, 鼠标移入会显示完整内容">
-      <el-button type="primary">你好啊</el-button>
-    </o-tooltip>
+  <div class="demo-box">
+    <div class="demo-row">
+      <o-tooltip
+        width="220px"
+        content="这是一段比较长的提示文本，默认只展示单行，超出当前宽度后鼠标移入会显示完整内容。"
+      />
+      <o-tooltip width="300px" content="这段文字没有超出宽度，所以不会显示 tooltip。" />
+    </div>
+
+    <div class="demo-row">
+      <o-tooltip content="可以直接包裹按钮、图标等自定义触发内容">
+        <el-button type="primary">按钮触发</el-button>
+      </o-tooltip>
+      <el-button>普通按钮</el-button>
+    </div>
+
+    <div class="demo-row">
+      <o-tooltip content="">`content` 为空时，`o-tooltip` 会自动禁用提示。</o-tooltip>
+    </div>
   </div>
-  <o-tooltip
-    class="w-200 p-10 cp cl-blue"
-    content="这里是需要显示的文本内容，当文本超出时会自动隐藏内容, 鼠标移入会显示完整内容"
-  ></o-tooltip>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.demo-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+</style>

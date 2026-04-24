@@ -1,25 +1,24 @@
 <template>
-  <o-tooltip :visible="visible">
-    <template #content>
-      <span>Content</span>
-    </template>
-    <el-button @mouseenter="visible = true" @mouseleave="visible = false">Hover me</el-button>
-  </o-tooltip>
-
-  <oClickOutside @clickOutside="outer">
-    <el-button @click="triggerContent" class="w-100 ml" style="width: 100px">显示content</el-button>
-  </oClickOutside>
+  <div class="demo-row">
+    <o-tooltip :visible="visible" content="当前 tooltip 由外部 visible 状态完全控制" placement="top">
+      <el-button>受控 tooltip</el-button>
+    </o-tooltip>
+    <el-button type="primary" @click="visible = true">显示</el-button>
+    <el-button @click="visible = false">隐藏</el-button>
+    <el-button text @click="visible = !visible">{{ visible ? '切换为隐藏' : '切换为显示' }}</el-button>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 
 const visible = ref(false)
-
-const triggerContent = () => {
-  visible.value = !visible.value
-}
-const outer = () => {
-  visible.value = false
-}
 </script>
+
+<style scoped lang="scss">
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+</style>
