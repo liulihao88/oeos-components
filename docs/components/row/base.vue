@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
-</script>
-
 <template>
   <div>
     <o-title title="跟el-row的显示规则一样"></o-title>
@@ -74,6 +69,19 @@ const { proxy } = getCurrentInstance()
         <div class="grid-content ep-bg-purple">我不服44</div>
       </o-row>
     </oItemWrapper>
+
+    <o-title title="gutter 支持字符串和 CSS 单位"></o-title>
+    <o-row gutter="24">
+      <div class="box">gutter=&quot;24&quot;</div>
+      <div class="box">数字字符串</div>
+      <div class="box">自动按 px</div>
+    </o-row>
+
+    <o-row gutter="1rem">
+      <div class="box">gutter=&quot;1rem&quot;</div>
+      <div class="box">自定义单位</div>
+      <div class="box">同样生效</div>
+    </o-row>
   </div>
 </template>
 <style scoped>

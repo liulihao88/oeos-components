@@ -1,5 +1,13 @@
 <template>
-  <el-row v-bind="$attrs" :gutter="gutter" :justify="justify" :align="align">
+  <el-row
+    v-bind="$attrs"
+    class="o-row"
+    :class="{ 'o-row--custom-gutter': useCustomGutter }"
+    :style="rowStyle"
+    :gutter="nativeGutter"
+    :justify="justify"
+    :align="align"
+  >
     <template v-for="(vnode, i) in getDefaultSlot()" :key="vnode.key ?? i">
       <!-- 如果是 el-col 直接渲染 -->
       <component v-if="isElCol(vnode)" :is="vnode" />
@@ -15,7 +23,8 @@
 defineOptions({
   name: 'ORow',
 })
-import { PropType, useSlots } from 'vue'
+import { computed, PropType, useSlots } from 'vue'
+import { processWidth } from '@oeos-components/utils'
 
 const props = defineProps({
   col: {
@@ -23,7 +32,7 @@ const props = defineProps({
     default: 24,
   },
   gutter: {
-    type: Number,
+    type: [Number, String],
     default: 0,
   },
   justify: {
@@ -41,6 +50,53 @@ const props = defineProps({
 })
 
 const slots = useSlots()
+
+const gutterValue = computed(() => processWidth(props.gutter, true))
+
+const nativeGutter = computed(() => {
+  if (typeof props.gutter === 'number') {
+    return props.gutter
+  }
+
+  const gutter = String(props.gutter ?? '').trim()
+  if (!gutter) {
+    return 0
+  }
+
+  if (!Number.isNaN(Number(gutter))) {
+    return Number(gutter)
+  }
+
+  const pxMatch = gutter.match(/^(-?\d+(?:\.\d+)?)px$/)
+  if (pxMatch) {
+    return Number(pxMatch[1])
+  }
+
+  return 0
+})
+
+const useCustomGutter = computed(() => {
+  const gutter = String(props.gutter ?? '').trim()
+  if (!gutterValue.value || !gutter) {
+    return false
+  }
+
+  if (typeof props.gutter === 'number') {
+    return false
+  }
+
+  return Number.isNaN(Number(gutter)) && !/^(-?\d+(?:\.\d+)?)px$/.test(gutter)
+})
+
+const rowStyle = computed(() => {
+  if (!useCustomGutter.value) {
+    return {}
+  }
+
+  return {
+    '--o-row-gutter': gutterValue.value,
+  }
+})
 
 function getDefaultSlot() {
   return slots.default ? slots.default() : []
@@ -65,3 +121,16 @@ function getSpan(index: number) {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.o-row--custom-gutter {
+  margin-right: calc(var(--o-row-gutter) / -2);
+  margin-left: calc(var(--o-row-gutter) / -2);
+}
+
+.o-row--custom-gutter > :deep(.el-col) {
+  box-sizing: border-box;
+  padding-right: calc(var(--o-row-gutter) / 2);
+  padding-left: calc(var(--o-row-gutter) / 2);
+}
+</style>

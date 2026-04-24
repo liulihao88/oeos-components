@@ -10,7 +10,7 @@
 ></o-checkbox>
 */
 import { ref, watch, computed, useAttrs } from 'vue'
-import { isEmpty } from '@/utils/src'
+import { isEmpty, processWidth } from '@oeos-components/utils'
 const attrs = useAttrs()
 const props = defineProps({
   type: {
@@ -138,22 +138,13 @@ const filteredAttrs = computed(() => {
   const { label, ...rest } = attrs
   return rest
 })
-// 修改 getGapValue 计算属性
-const getGapValue = computed(() => {
-  if (props.gap === undefined || props.gap === null) {
-    return ''
-  }
 
-  if (typeof props.gap === 'number') {
-    return `${props.gap}px`
-  }
-
-  return props.gap
-})
+const getGapValue = computed(() => processWidth(props.gap, true))
+const hasGap = computed(() => !isEmpty(getGapValue.value, true))
 </script>
 
 <template>
-  <div class="o-checkbox" :class="{ 'o-gap-checkbox': !isEmpty(props.gap, true) }">
+  <div class="o-checkbox" :class="{ 'o-gap-checkbox': hasGap }">
     <el-checkbox
       v-model="checkAll"
       class="o-checkbox__all"

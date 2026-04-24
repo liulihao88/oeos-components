@@ -47,7 +47,7 @@ checkbox/customGap
 |     attrs      | 控制el-checkbox组件的参数           | object             | {}     |
 | customDisabled | 自定义的disabled                    | function           | {}     |
 |  customLabel   | 自定义显示的label                   | function/string/'' | {}     |
-|      gap       | 多个复选框之间的水平间距            | number/string      | -      |
+|      gap       | 多个复选框之间的水平间距，支持 `processWidth` 写法 | number/string      | -      |
 
 ### 方法
 
@@ -60,3 +60,7 @@ checkbox/customGap
 | 插槽名  | 说明             |
 | :-----: | ---------------- |
 | default | 默认可以使用插槽 |
+
+### 说明
+
+- `gap` 支持 `16`、`'16'`、`'16px'`、`'1rem'`、`'5%'` 这类常见写法；纯数字或数字字符串会自动补成 `px`。
