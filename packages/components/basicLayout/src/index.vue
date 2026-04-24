@@ -1,6 +1,5 @@
 <script setup lang="ts" name="OBasicLayout">
-import { ref, getCurrentInstance, computed } from 'vue'
-const { proxy } = getCurrentInstance()
+import { ref, computed } from 'vue'
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -150,9 +149,11 @@ const toggleCollapse = () => {
       @click="toggleCollapse"
       :class="{ collapsible: collapsible }"
     >
-      <slot name="header">
-        <o-title :title="props.title" :style="{ ...boxStyle }"></o-title>
-      </slot>
+      <div class="o-basic-layout__header-main">
+        <slot name="header">
+          <o-title :title="props.title" :style="{ ...boxStyle }"></o-title>
+        </slot>
+      </div>
       <span v-if="collapsible" class="collapse-arrow" :class="{ collapsed: isCollapsed }">
         <slot name="icon">
           <o-icon name="arrow-down"></o-icon>
@@ -178,15 +179,22 @@ const toggleCollapse = () => {
   overflow: auto;
   &__header {
     padding: v-bind(compPadding);
-    // 修复这一行的语法 - 原来的写法是错误的
     border-bottom: v-bind("isCollapsed ? 'none' : '1px solid var(--line)'");
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
+    gap: 12px;
+    cursor: default;
 
     &.collapsible {
+      cursor: pointer;
       user-select: none;
+    }
+
+    .o-basic-layout__header-main {
+      width: 100%;
+      min-width: 0;
+      flex: 1 1 auto;
     }
 
     .collapse-arrow {
@@ -194,6 +202,8 @@ const toggleCollapse = () => {
       font-size: 12px;
       display: flex;
       align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
       &.collapsed {
         transform: rotate(-90deg);
       }

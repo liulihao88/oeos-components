@@ -76,4 +76,5 @@ basicLayout/square
 
 - 用于构建业务卡片式基础布局，支持展开收起、插槽、自适应高度等常见场景。
 - 只有设置 `collapsible` 后，点击头部才会切换折叠状态。
+- `header` 插槽默认会自动占满头部剩余宽度；开启 `collapsible` 后，右侧会为折叠图标预留空间，不需要额外手写 `width: 100%`。
 - `scroll` 为 `true` 时内容区会设置 `flex: 1` 和 `overflow: auto`，适合放在固定高度容器中。
