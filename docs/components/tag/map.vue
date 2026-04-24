@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
 const map = [
   { type: 'primary', name: '标签1' },
   { type: 'primary', name: '标签11' },
@@ -24,20 +22,9 @@ const map2 = [
     primary: [{ InService: '已激活' }],
   },
 ]
-
-const testMap = {
-  Issue: '问题', // danger
-  OutOfService: '未激活', // danger
-  Loading: '激活中', //warning
-  Unloading: '停服中', // warning
-  Standby: '备用', // warning
-  Unknown: '未知', // info
-  InService: '已激活', // primary
-}
-
 const row = {
   asyncValue: 'OutOfService',
-  InService: 'InService'
+  InService: 'InService',
 }
 </script>
 

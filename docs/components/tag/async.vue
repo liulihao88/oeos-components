@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
+import { ref, onUnmounted } from 'vue'
 
 const map2 = [
   {
@@ -17,20 +16,18 @@ const map2 = [
   },
 ]
 
-for (const item of map2) {
-  console.log(`68 item`, item)
-}
-
 const value = ref('InService')
-// const value = 'InService'
-
-setInterval(() => {
+const timer = window.setInterval(() => {
   if (value.value === 'InService') {
     value.value = 'OutOfService'
   } else {
     value.value = 'InService'
   }
 }, 3000)
+
+onUnmounted(() => {
+  window.clearInterval(timer)
+})
 </script>
 
 <template>

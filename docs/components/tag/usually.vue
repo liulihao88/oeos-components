@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
+import { ref, onUnmounted } from 'vue'
+
 const value = ref(0)
-setInterval(() => {
+const valueTimer = window.setInterval(() => {
   value.value++
   if (value.value === 8) {
     value.value = 0
@@ -10,9 +10,14 @@ setInterval(() => {
 }, 1000)
 
 const randomValue = ref(1)
-setInterval(() => {
+const randomTimer = window.setInterval(() => {
   randomValue.value = Math.floor(Math.random() * 10) + 1
 }, 300)
+
+onUnmounted(() => {
+  window.clearInterval(valueTimer)
+  window.clearInterval(randomTimer)
+})
 </script>
 
 <template>

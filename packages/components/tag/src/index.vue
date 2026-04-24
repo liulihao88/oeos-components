@@ -3,9 +3,8 @@ defineOptions({
   name: 'OTag',
 })
 
-import { ref, getCurrentInstance, computed } from 'vue'
-import { processWidth, getType, notEmpty } from '@oeos-components/utils'
-const { proxy } = getCurrentInstance()
+import { ref, computed } from 'vue'
+import { getType, isEmpty, notEmpty } from '@oeos-components/utils'
 import { handleWidthHeight } from '@/components/utils/local.ts'
 const props = defineProps({
   options: {
@@ -22,16 +21,16 @@ const props = defineProps({
     type: [String, Number],
   },
   primary: {
-    type: [String, Number, Array],
+    type: [String, Number, Boolean, Array],
   },
   warning: {
-    type: [String, Number, Array],
+    type: [String, Number, Boolean, Array],
   },
   danger: {
-    type: [String, Number, Array],
+    type: [String, Number, Boolean, Array],
   },
   info: {
-    type: [String, Number, Array],
+    type: [String, Number, Boolean, Array],
   },
 
   other: {
@@ -47,8 +46,11 @@ const props = defineProps({
   },
 })
 
+const hasValue = computed(() => !isEmpty(props.value, true))
+const hasOptions = computed(() => props.options.length > 0)
+
 const parseContent = computed(() => {
-  if (props.options.length > 0 && props.value) {
+  if (hasOptions.value && hasValue.value && !isEmpty(optionsGetName.value, true)) {
     return optionsGetName.value
   } else {
     return props.value
@@ -56,62 +58,59 @@ const parseContent = computed(() => {
 })
 
 const optionsGetName = ref()
-const changeGetName = (foundItem) => {
-  optionsGetName.value = foundItem[props.value]
+
+const changeGetName = (foundItem, key = props.value) => {
+  optionsGetName.value = foundItem?.[key]
+}
+
+const getMatchType = (types, type) => {
+  const normalizedTypes = Array.isArray(types) ? types : [types]
+  if (getType(types) === 'array') {
+    return normalizedTypes.includes(props.value) ? type : null
+  } else if (getType(types) === 'boolean') {
+    return types === true ? type : null
+  } else if (types === props.value) {
+    return type
+  } else {
+    return null
+  }
 }
 
 const parseType = computed(() => {
   const { primary, warning, info, danger, other, type } = props
-  if (props.options.length > 0 && props.value) {
+  optionsGetName.value = undefined
+
+  if (hasOptions.value && hasValue.value) {
     if (notEmpty(props.config)) {
-      for (let i = 0; i < props.options.length; i++) {
-        const foundItem = props.options.find((obj) => props.value === obj[props.config.value || 'value'])
-        if (foundItem) {
-          optionsGetName.value = foundItem[props.config.label || 'label']
-          if (primary?.includes(props.value)) {
-            return 'primary'
-          }
-          if (info?.includes(props.value)) {
-            return 'info'
-          }
-          if (warning?.includes(props.value)) {
-            return 'warning'
-          }
-          if (danger?.includes(props.value)) {
-            return 'danger'
-          }
-        }
+      const foundItem = props.options.find((obj) => props.value === obj[props.config.value || 'value'])
+      if (foundItem) {
+        optionsGetName.value = foundItem[props.config.label || 'label']
+        return (
+          getMatchType(primary, 'primary') ||
+          getMatchType(info, 'info') ||
+          getMatchType(warning, 'warning') ||
+          getMatchType(danger, 'danger') ||
+          other
+        )
       }
       return other
     } else {
       for (const item of props.options) {
-        // 遍历 item 的所有键值对（而不是只取第一个）
         for (const [type, items] of Object.entries(item)) {
-          const foundItem = items.find((obj) => props.value in obj)
+          if (!Array.isArray(items)) continue
+          const foundItem = items.find((obj) => Object.prototype.hasOwnProperty.call(obj, props.value))
           if (foundItem) {
-            changeGetName(foundItem)
+            changeGetName(foundItem, props.value)
             return type
           }
         }
       }
-      return null
+      return other
     }
   }
 
   if (type) {
     return type
-  }
-
-  // 先检查是否是数组，确保统一处理
-  const getMatchType = (types, type) => {
-    const normalizedTypes = Array.isArray(types) ? types : [types]
-    if (getType(types) === 'array') {
-      return normalizedTypes.includes(props.value) ? type : null
-    } else if (getType(types) === 'boolean') {
-      return types === true ? type : null
-    } else {
-      return null
-    }
   }
 
   return (

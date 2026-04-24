@@ -1,10 +1,6 @@
-<script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
-</script>
-
 <template>
   <div>
+    <o-title title="默认light主题"></o-title>
     <OTag class="m-r-8" type="primary">默认</OTag>
     <OTag class="m-r-8" type="warning">警告</OTag>
     <OTag class="m-r-8" type="danger">危险</OTag>

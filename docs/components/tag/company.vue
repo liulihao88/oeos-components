@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
-const { proxy } = getCurrentInstance()
+import { ref, onUnmounted } from 'vue'
+
 const columns = [
   {
     label: '状态',
@@ -39,9 +39,9 @@ const nodeStatus = [
   },
 ]
 
-const data = ref([])
+const data:any = ref([])
 
-setTimeout(() => {
+const firstTimer = window.setTimeout(() => {
   data.value = [
     {
       updateTime: 1756794274572,
@@ -94,7 +94,7 @@ setTimeout(() => {
   ]
 }, 1000)
 
-setTimeout(() => {
+const secondTimer = window.setTimeout(() => {
   data.value = [
     {
       updateTime: 1756794274572,
@@ -158,14 +158,17 @@ setTimeout(() => {
     },
   ]
 }, 3000)
+
+onUnmounted(() => {
+  window.clearTimeout(firstTimer)
+  window.clearTimeout(secondTimer)
+})
 </script>
 
 <template>
   <div>
-    <o-table ref="tableRef" :columns="columns" :data="data">
-      <template #status="{ scope, row, value }">
-        <!-- {{ value }}?? -->
-        <!-- {{ nodeStatus.find((v) => v.value === value).name }} -->
+    <o-table :columns="columns" :data="data">
+      <template #status="{ value }">
         <o-tag
           :primary="['Normal']"
           :info="['Unknown', 'PowerOff', 'Maintenance']"
