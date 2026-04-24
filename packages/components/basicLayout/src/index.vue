@@ -53,6 +53,16 @@ const boxRef = ref<HTMLDivElement | null>(null)
 const headerRef = ref<HTMLDivElement | null>(null)
 const isCollapsed = ref(props.modelValue)
 
+const boxMergedStyle = computed(() => {
+  if (!props.square) {
+    return {}
+  }
+
+  return {
+    display: 'inline-flex',
+  }
+})
+
 const headerMergedStyle = computed(() => {
   let noBorderStyle = {}
   if (!props.border) {
@@ -77,19 +87,18 @@ const scrollStyle = computed(() => {
   return {}
 })
 const squareStyle = computed(() => {
-  if (props.square) {
-    if (boxRef.value) {
-      boxRef.value.style.display = 'inline-flex'
-      let boxWidth = boxRef.value.offsetWidth
-      let boxHeight = boxRef.value?.offsetHeight - headerRef.value.offsetHeight
-      let max = Math.max(boxWidth, boxHeight)
-      return {
-        width: `${max}px`,
-        height: `${max}px`,
-        flex: 'unset',
-      }
+  if (props.square && boxRef.value) {
+    const boxWidth = boxRef.value.offsetWidth
+    const boxHeight = (boxRef.value.offsetHeight ?? 0) - (headerRef.value?.offsetHeight ?? 0)
+    const max = Math.max(boxWidth, boxHeight)
+
+    return {
+      width: `${max}px`,
+      height: `${max}px`,
+      flex: 'unset',
     }
   }
+
   return {}
 })
 
@@ -107,7 +116,7 @@ const toggleCollapse = () => {
 </script>
 
 <template>
-  <div class="o-basic-layout" ref="boxRef">
+  <div class="o-basic-layout" :style="boxMergedStyle" ref="boxRef">
     <div
       class="o-basic-layout__header"
       v-if="$slots.header || props.title"
