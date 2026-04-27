@@ -53,6 +53,7 @@ basicLayout/square
 | `scroll` | 内容区是否自动撑开并滚动 | boolean | `true` |
 | `square` | 内容区按宽高最大值渲染为正方形 | boolean | `false` |
 | `collapsible` | 是否允许点击头部展开/收起 | boolean | `false` |
+| `collapseTrigger` | 折叠触发区域 | `icon` / `header` | `header` |
 
 ### 事件
 
@@ -72,6 +73,6 @@ basicLayout/square
 ### 说明
 
 - 用于构建业务卡片式基础布局，支持展开收起、插槽、自适应高度等常见场景。
-- 只有设置 `collapsible` 后，点击头部才会切换折叠状态。
+- 只有设置 `collapsible` 后才允许展开 / 收起；默认点击右侧图标触发，如需整块头部可点击，可设置 `collapseTrigger="header"`。
 - `header` 插槽默认会自动占满头部剩余宽度；开启 `collapsible` 后，右侧会为折叠图标预留空间，不需要额外手写 `width: 100%`。
 - `scroll` 为 `true` 时内容区会设置 `flex: 1` 和 `overflow: auto`，适合放在固定高度容器中。

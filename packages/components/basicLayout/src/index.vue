@@ -1,5 +1,5 @@
 <script setup lang="ts" name="OBasicLayout">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -45,13 +45,18 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  collapseTrigger: {
+    type: String,
+    default: 'header',
+    validator: (value) => ['icon', 'header'].includes(value),
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
 const boxRef = ref<HTMLDivElement | null>(null)
 const headerRef = ref<HTMLDivElement | null>(null)
-const isCollapsed = ref(props.modelValue)
+const isCollapsed = ref(false)
 
 const boxMergedStyle = computed(() => {
   if (!props.square) {
@@ -75,6 +80,10 @@ const headerMergedStyle = computed(() => {
     ...noBorderStyle,
     ...props.headerStyle,
   }
+})
+
+const isHeaderTrigger = computed(() => {
+  return props.collapsible && props.collapseTrigger === 'header'
 })
 
 const scrollStyle = computed(() => {
@@ -107,11 +116,35 @@ const compPadding = computed(() => {
   return size === 'default' ? '16px' : size === 'large' ? '24px' : '8px'
 })
 
+watch(
+  () => props.modelValue,
+  (value) => {
+    isCollapsed.value = value
+  },
+  {
+    immediate: true,
+  },
+)
+
 const toggleCollapse = () => {
-  if (props.collapsible) {
-    isCollapsed.value = !isCollapsed.value
-    emit('update:modelValue', isCollapsed.value)
+  if (!props.collapsible) {
+    return
   }
+
+  const nextValue = !isCollapsed.value
+  isCollapsed.value = nextValue
+  emit('update:modelValue', nextValue)
+}
+
+const handleHeaderClick = () => {
+  if (isHeaderTrigger.value) {
+    toggleCollapse()
+  }
+}
+
+const handleIconClick = (event) => {
+  event.stopPropagation()
+  toggleCollapse()
 }
 </script>
 
@@ -122,17 +155,17 @@ const toggleCollapse = () => {
       v-if="$slots.header || props.title"
       :style="headerMergedStyle"
       ref="headerRef"
-      @click="toggleCollapse"
-      :class="{ collapsible: collapsible }"
+      @click="handleHeaderClick"
+      :class="{ collapsible: isHeaderTrigger }"
     >
       <div class="o-basic-layout__header-main">
         <slot name="header">
-          <o-title :title="props.title" :style="{ ...boxStyle }"></o-title>
+          <o-title :title="props.title" :style="{ ...headerStyle }"></o-title>
         </slot>
       </div>
-      <span v-if="collapsible" class="collapse-arrow" :class="{ collapsed: isCollapsed }">
+      <span v-if="collapsible" class="collapse-arrow" :class="{ collapsed: isCollapsed }" @click="handleIconClick">
         <slot name="icon">
-          <o-icon name="arrow-down"></o-icon>
+          <o-icon name="arrow-down" ></o-icon>
         </slot>
       </span>
     </div>
@@ -180,6 +213,7 @@ const toggleCollapse = () => {
       align-items: center;
       justify-content: center;
       flex: 0 0 auto;
+      cursor: pointer;
       &.collapsed {
         transform: rotate(-90deg);
       }
