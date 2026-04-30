@@ -29,5 +29,7 @@ git push -f https://github.com/liulihao88/oeos-components.git main:github-pages
 # 提交所有代码到github
 cd ../../../
 git add .
-git commit -m "$commit_message"
-git push -u origin main
+if ! git diff --cached --quiet; then
+    git commit -m "$commit_message"
+fi
+git push -u origin main --follow-tags
