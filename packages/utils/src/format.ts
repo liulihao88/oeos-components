@@ -245,6 +245,7 @@ export function formatThousands(value: string | number): string | number {
  * 将时间值格式化为指定模板字符串。
  *
  * 支持 `Date`、毫秒时间戳、秒级时间戳、ISO 字符串和普通日期字符串。
+ * 纯日期字符串（如 `2022-03-04`）会按本地时区的 `00:00:00` 解析。
  *
  * @param time 时间值，默认当前时间。
  * @param cFormat 格式模板，默认 `{y}-{m}-{d} {h}:{i}:{s}`。
@@ -270,9 +271,13 @@ export function formatTime(
     date = time
   } else {
     const isoRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,3})?)?$/
+    const dateOnlyRegex = /^(\d{4})-(\d{2})-(\d{2})$/
 
     if (isoRegex.test(timeStr)) {
       date = new Date(time)
+    } else if (dateOnlyRegex.test(timeStr)) {
+      const [, year, month, day] = timeStr.match(dateOnlyRegex)!
+      date = new Date(Number(year), Number(month) - 1, Number(day))
     } else if (timeStr.includes('.') && !isNaN(parseFloat(timeStr))) {
       date = new Date(parseFloat(timeStr) * 1000)
     } else if (/^\d{10}$/.test(timeStr)) {
@@ -384,7 +389,11 @@ export function formatDurationTime(timestamp: number, cFormat = '{d}天{h}时{i}
  * @example
  * formatImg('avatar.png', 'user')
  */
-export function formatImg(photoName: string, addPath = '', { basePath = 'assets/images' }: FormatImgOptions = {}): string {
+export function formatImg(
+  photoName: string,
+  addPath = '',
+  { basePath = 'assets/images' }: FormatImgOptions = {},
+): string {
   if (photoName.startsWith('http') || photoName.startsWith('https')) {
     return photoName
   }
