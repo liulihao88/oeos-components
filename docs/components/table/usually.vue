@@ -14,12 +14,12 @@ const downloadRow = ({ row }) => {
 }
 const columns = [
   {
-    label:
-      'I want to , if you like it , please tell me. good',
+    label: 'I want to , if you like it , please tell me. good',
     prop: 'name',
+    width: 200,
     sortable: true,
     handler: handleDetail,
-    // filter: (row) => {
+    // filter: ({ row }) => {
     //   return row.status === 0 ? '进行中' : '已完成'
     // },
   },
@@ -33,12 +33,12 @@ const columns = [
   {
     label: '结束时间',
     prop: 'endTime',
+    filter: proxy.formatTime,
   },
   {
     label: '状态',
     prop: 'status',
-    filter: (row) => {
-      // console.log(`row`, row)
+    filter: ({ row, value, scope, index, event, column }) => {
       return row.status === 0 ? '进行中' : '已完成'
     },
   },
@@ -94,29 +94,15 @@ const orgData = [
     name: 'name1',
     owner:
       'owner1I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!',
-    endTime: '2022-08-02 12:12:00',
+    endTime: '2022-08-02',
     status: 0,
-  },
-  {
-    name: 'name2',
-    owner: 'owner2',
-    endTime:
-      'owner1I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!',
-    status: 1,
   },
   {
     name: 'name4',
     owner: 'owner2',
-    endTime:
-      'owner1I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!',
+    endTime: new Date(),
+
     status: 1,
-  },
-  {
-    name: 'name2',
-    owner: 'owner2',
-    endTime:
-      'owner1I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!I want to set some random text, if you like it , please tell me. good wish for you! thank you so much. hive a nice day!',
-    status: 0,
   },
 ]
 const num = ref(1)

@@ -46,7 +46,9 @@ export type TableMaybeFn<TResult = any, Row extends TableRow = TableRow> =
 
 export type TableRender<Row extends TableRow = TableRow> = (context: TableCallbackContext<Row>) => VNodeChild
 
-export type TableFilter<Row extends TableRow = TableRow> = (value: any, row: Row, scope: TableScope<Row>) => any
+export type TableFilter<Row extends TableRow = TableRow> =
+  | TableContextHandler<any, Row>
+  | ((value: any, row: Row, scope: TableScope<Row>) => any)
 
 export interface OTableButton<Row extends TableRow = TableRow> extends Record<string, any> {
   prop?: string

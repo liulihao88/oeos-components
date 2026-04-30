@@ -8,6 +8,7 @@ const options = [
   { label: 'formatTime(new Date())', value: formatTime(new Date()) },
   { label: "formatTime('2026-01-14T12:36:11.332')", value: formatTime('2026-01-14T12:36:11.332') },
   { label: "formatTime('2018-02-13T06:17')", value: formatTime('2018-02-13T06:17') },
+  { label: "formatTime('2022-03-04')", value: formatTime('2022-03-04') },
   { label: `formatTime('2020/03/02 06:02')`, value: formatTime('2020/03/02 06:02') },
   { label: `formatTime(1541927611000)`, value: formatTime(1541927611000) },
   { label: `formatTime(1541927611)`, value: formatTime(1541927611) },
@@ -57,6 +58,6 @@ const options = [
 <template>
   <OFunctionSourceCode functionName="formatTime"></OFunctionSourceCode>
   <div>
-    <o-descriptions :options="options" title="时间转换" :column="1"></o-descriptions>
+    <o-descriptions :options="options" title="时间转换" :column="1" showAll></o-descriptions>
   </div>
 </template>

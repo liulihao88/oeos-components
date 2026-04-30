@@ -121,7 +121,7 @@ const normalizedSelectionAttrs = computed<Record<string, any>>(() => {
 })
 const selectionHeaderLabel = computed(() => normalizedSelectionAttrs.value.label || '')
 const customHeaderCellStyle = computed<Record<string, any>>(() => {
-  return ((attrs['custom-header-cell-style'] as unknown as Record<string, any>) ?? {})
+  return (attrs['custom-header-cell-style'] as unknown as Record<string, any>) ?? {}
 })
 const indexColumnAttrs = computed<Record<string, any>>(() => {
   return (mergedProps.value.indexAttrs as unknown as Record<string, any>) ?? {}
@@ -349,6 +349,16 @@ const invokeWithContext = (fn: any, context: TableCallbackContext, legacyArgs: a
   return fn(context)
 }
 
+const isDestructuredObjectCallback = (fn: Function) => {
+  const source = Function.prototype.toString.call(fn).replace(/\s+/g, ' ')
+
+  return (
+    /^\s*(async\s+)?function\b[^(]*\(\s*\{/.test(source) ||
+    /^\s*(async\s+)?\(\s*\{/.test(source) ||
+    /^\s*(async\s+)?\{\s*[^}]*\}\s*=>/.test(source)
+  )
+}
+
 const normalizeMaxBtns = (value: number | string | undefined) => {
   const parsedValue = Number(value)
 
@@ -448,7 +458,11 @@ const parseDisabled = (disFn: OTableButton['disabled'], context: TableCallbackCo
     return disFn
   }
 }
-const parseIsShow = (isFn: OTableButton['isShow'] | OTableColumn['isShow'], context: TableCallbackContext = {}, legacyArgs: any[] = []) => {
+const parseIsShow = (
+  isFn: OTableButton['isShow'] | OTableColumn['isShow'],
+  context: TableCallbackContext = {},
+  legacyArgs: any[] = [],
+) => {
   if (typeof isFn === 'function') {
     return invokeWithContext(isFn, context, legacyArgs)
   } else {
@@ -457,6 +471,22 @@ const parseIsShow = (isFn: OTableButton['isShow'] | OTableColumn['isShow'], cont
     }
     return isFn
   }
+}
+
+const parseFilter = (filter: TableFilter | undefined, context: TableCallbackContext = {}) => {
+  if (typeof filter !== 'function') {
+    return context.value
+  }
+
+  if (filter.length > 1) {
+    return filter(context.value, context.row, context.scope)
+  }
+
+  if (isDestructuredObjectCallback(filter)) {
+    return filter(context)
+  }
+
+  return filter(context.value)
 }
 
 const parseSlot = (val: Pick<OTableButton | OTableColumn, 'useSlot' | 'prop'>) => {
@@ -1154,11 +1184,23 @@ defineExpose({
                   "
                 >
                   <span>
-                    {{ v.filter ? v.filter(scope.row[v.prop], scope.row, scope) : handleEmptyText(scope, v) }}
+                    {{
+                      v.filter
+                        ? parseFilter(
+                            v.filter,
+                            createCallbackContext({ row: scope.row, scope, column: v, index: scope.$index }),
+                          )
+                        : handleEmptyText(scope, v)
+                    }}
                   </span>
                 </span>
                 <span v-else-if="v.filter">
-                  {{ v.filter(scope.row[v.prop], scope.row, scope) }}
+                  {{
+                    parseFilter(
+                      v.filter,
+                      createCallbackContext({ row: scope.row, scope, column: v, index: scope.$index }),
+                    )
+                  }}
                 </span>
                 <span v-else>
                   {{ handleEmptyText(scope, v) }}
