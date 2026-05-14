@@ -144,6 +144,9 @@ interface TryCatchResult<T> {
 
 type TryCatchTask<T> = Promise<T> | (() => T | Promise<T>)
 
+const DEFAULT_CONFIRM_BUTTON_CLASS = 'o-message-box__confirm-btn'
+const DEFAULT_CANCEL_BUTTON_CLASS = 'o-message-box__cancel-btn'
+
 function _getBrowserStorage(isSession = false): Storage | null {
   if (typeof window === 'undefined') {
     return null
@@ -1308,15 +1311,22 @@ export function confirm(message: ConfirmMessage, options: ConfirmOptions = {}, a
   const mergeOptions = {
     title: '提示',
     draggable: true,
-    showCancelButton: false,
+    showCancelButton: true,
+    cancelButtonText: '取消',
     confirmButtonText: '确定',
     dangerouslyUseHTMLString: true,
     ...options,
     appendTo: resolvedAppendTo,
     appContext: resolvedAppContext,
+    confirmButtonClass: _mergeClassNames(DEFAULT_CONFIRM_BUTTON_CLASS, options?.confirmButtonClass),
+    cancelButtonClass: _mergeClassNames(DEFAULT_CANCEL_BUTTON_CLASS, options?.cancelButtonClass),
   }
 
   return ElMessageBox.confirm(resolvedMessage, mergeOptions)
+}
+
+function _mergeClassNames(...classNames: Array<string | undefined | null | false>) {
+  return classNames.filter(Boolean).join(' ')
 }
 
 function _resolveAppendTarget(appendTo?: ConfirmAppendTarget) {

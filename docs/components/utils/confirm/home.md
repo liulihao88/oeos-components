@@ -23,3 +23,5 @@ utils/confirm/test
 ### 说明
 
 - `confirm` 用于在执行危险或重要操作前发起二次确认。
+- 默认显示 `取消` 和 `确定` 两个按钮，并带默认 icon。
+- 如需隐藏取消按钮，可手动传 `showCancelButton: false`。

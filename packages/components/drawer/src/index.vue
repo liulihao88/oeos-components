@@ -83,6 +83,20 @@ const mergeAttrs = computed(() => {
   return changeAttrs
 })
 
+const mergedConfirmAttrs = computed(() => {
+  return {
+    icon: props.type === 'detail' ? 'el-icon-close' : 'el-icon-check',
+    ...props.confirmAttrs,
+  }
+})
+
+const mergedCancelAttrs = computed(() => {
+  return {
+    icon: 'el-icon-close',
+    ...props.cancelAttrs,
+  }
+})
+
 function confirm() {
   if (attrs.onConfirm) {
     attrs.onConfirm()
@@ -130,8 +144,8 @@ function _handleClose() {
           <el-button
             v-if="showConfirm"
             id="kdDrawerConfirmBtn"
-            :type="confirmAttrs.type || 'primary'"
-            v-bind="confirmAttrs"
+            :type="mergedConfirmAttrs.type || 'primary'"
+            v-bind="mergedConfirmAttrs"
             class="mr"
             @click="confirm"
           >
@@ -139,8 +153,8 @@ function _handleClose() {
           </el-button>
           <el-button
             v-if="mergeAttrs.showCancel"
-            :type="cancelAttrs.type || 'info'"
-            v-bind="cancelAttrs"
+            :type="mergedCancelAttrs.type || 'info'"
+            v-bind="mergedCancelAttrs"
             @click="handleClose"
           >
             {{ cancelText }}

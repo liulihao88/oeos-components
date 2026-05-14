@@ -42,6 +42,7 @@ function sleep(delay = 0, fn = () => {}) {
     cancelText="高级配置"
     :cancelAttrs="{
       type: 'primary',
+      icon: 'el-icon-edit',
     }"
   >
     <div v-for="(v, i) in 40" :key="i">

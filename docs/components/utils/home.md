@@ -69,7 +69,6 @@ const list = clone([1, 2, 3], 2)
 
 ```ts
 await confirm('确定删除当前记录吗？', {
-  showCancelButton: true,
   confirmButtonText: '删除',
 })
 ```

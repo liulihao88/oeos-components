@@ -30,15 +30,20 @@
       </div>
       <template #footer v-if="showFooter">
         <slot name="footer">
-          <el-button v-if="showCancel" :type="cancelAttrs.type || ''" v-bind="cancelAttrs" @click="handleCancelClose">
+          <el-button
+            v-if="showCancel"
+            :type="mergedCancelAttrs.type || ''"
+            v-bind="mergedCancelAttrs"
+            @click="handleCancelClose"
+          >
             {{ cancelText }}
           </el-button>
           <el-button
             v-if="showConfirm"
             :loading="confirmLoading"
             id="kdDialogConfirmBtn"
-            :type="confirmAttrs.type || 'primary'"
-            v-bind="confirmAttrs"
+            :type="mergedConfirmAttrs.type || 'primary'"
+            v-bind="mergedConfirmAttrs"
             @click="confirm"
           >
             {{ confirmText }}
@@ -129,6 +134,20 @@ const getThemeClass = computed(() => {
 
 const componentClass = computed(() => {
   return getThemeClass.value
+})
+
+const mergedConfirmAttrs = computed(() => {
+  return {
+    icon: 'el-icon-check',
+    ...props.confirmAttrs,
+  }
+})
+
+const mergedCancelAttrs = computed(() => {
+  return {
+    icon: 'el-icon-close',
+    ...props.cancelAttrs,
+  }
 })
 
 const drawerBodyClass = computed(() => {
