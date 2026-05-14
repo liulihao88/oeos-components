@@ -10,6 +10,15 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import Icons from 'unplugin-icons/vite'
 
+const formatBuildTime = (date) => {
+  const pad = (value) => String(value).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(
+    date.getMinutes(),
+  )}:${pad(date.getSeconds())}`
+}
+
+const buildTime = formatBuildTime(new Date())
+
 export default defineConfig({
   build: {
     outDir: 'dist',
@@ -29,7 +38,7 @@ export default defineConfig({
     },
   },
   define: {
-    __buildInfos__: new Date(), // 将构建信息作为全局变量注入
+    __OEOS_COMPONENTS_BUILD_TIME__: JSON.stringify(buildTime),
   },
   plugins: [
     VueSetupExtend(),
