@@ -1381,9 +1381,13 @@ function _resolveAppContext(appContext: AppContext | null | undefined) {
  * @example
  * getVariable('--vp-c-brand-1')
  */
-export function getVariable(propertyName: string): string {
-  let res = getComputedStyle(document.documentElement).getPropertyValue(propertyName).trim()
-  return res
+export function getVariable(propertyName: string, fallback = ''): string {
+  if (typeof document === 'undefined') {
+    return fallback
+  }
+
+  const res = getComputedStyle(document.documentElement).getPropertyValue(propertyName).trim()
+  return res || fallback
 }
 
 declare const __OEOS_UTILS_BUILD_TIME__: string

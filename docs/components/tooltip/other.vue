@@ -38,7 +38,7 @@ import { ref } from 'vue'
 const disabled = ref(false)
 </script>
 
-<style>
+<style scoped lang="scss">
 .demo-row {
   display: flex;
   flex-wrap: wrap;

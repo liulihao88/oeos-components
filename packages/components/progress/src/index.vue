@@ -54,12 +54,12 @@ const animation = () => {
 const customColorMethod = (percentage: number) => {
   if (props.customColor) {
     if (percentage < 30) {
-      return '#909399'
+      return 'var(--el-text-color-placeholder)'
     }
     if (percentage < 70) {
-      return '#e6a23c'
+      return 'var(--el-color-warning)'
     }
-    return '#67c23a'
+    return 'var(--el-color-success)'
   } else {
     return ''
   }

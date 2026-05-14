@@ -777,8 +777,8 @@ defineExpose({
       ref="tableRef"
       :data="mergedProps.data"
       :header-cell-style="{
-        background: '#f7f8fa',
-        color: 'rgba(39,48,75,0.85)',
+        background: 'var(--el-fill-color-light)',
+        color: 'var(--el-text-color-primary)',
         textAlign: 'center',
         ...customHeaderCellStyle,
       }"
@@ -1254,7 +1254,7 @@ defineExpose({
     min-height: 0;
   }
 
-  .page-wrap {
+.page-wrap {
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -1262,14 +1262,14 @@ defineExpose({
     gap: 12px;
     padding: 4px 24px;
     height: 50px;
-    background: #fff;
-    border: 1px solid #ebedf0;
+    background: var(--el-bg-color);
+    border: 1px solid var(--el-border-color-light);
     border-top-style: none;
   }
 
   .page-wrap .page-left {
     flex-shrink: 0;
-    color: rgb(39 48 75 / 85%);
+    color: var(--el-text-color-primary);
   }
 
   .page-wrap .page-right {
@@ -1357,7 +1357,7 @@ defineExpose({
   // 解决屏幕宽度改变, 可能导致操作那一列的左侧线条不显示的问题
   :deep(.el-table-fixed-column--right.is-last-column:before),
   :deep(.el-table-fixed-column--right.is-first-column:before) {
-    box-shadow: 1px 0 0 0 rgba(242, 243, 245, 1);
+    box-shadow: 1px 0 0 0 var(--el-border-color-extra-light);
   }
   :deep(.el-button) {
     margin-left: 0 !important;

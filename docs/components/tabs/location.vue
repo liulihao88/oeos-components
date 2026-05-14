@@ -37,16 +37,16 @@ const navList = [
   </div>
 </template>
 
-<style lang="scss">
-.demo-tabs > .el-tabs__content {
+<style lang="scss" scoped>
+:deep(.demo-tabs > .el-tabs__content) {
   padding: 32px;
-  color: #6b778c;
+  color: var(--el-text-color-regular);
   font-size: 32px;
   font-weight: 600;
 }
 
-.el-tabs--right .el-tabs__content,
-.el-tabs--left .el-tabs__content {
+:deep(.el-tabs--right .el-tabs__content),
+:deep(.el-tabs--left .el-tabs__content) {
   height: 100%;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="demo-box">
     <div>
-      horizontal gap:
+      horizontal gap: {{ horizontalGap }}
       <el-slider v-model="horizontalGap" />
     </div>
     <o-checkbox v-model="value" :options="options" :gap="horizontalGap"></o-checkbox>

@@ -58,8 +58,8 @@ const props = defineProps({
     default: '',
   },
   gap: {
-    type: [Number, String, undefined],
-    default: undefined,
+    type: [Number, String],
+    default: '',
   },
 })
 const checkAll = ref(false)

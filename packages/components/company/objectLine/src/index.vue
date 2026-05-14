@@ -2,7 +2,7 @@
 /** @使用方式
   时间最小区间是30分钟, 最大区间是2周
 */
-import { ref, getCurrentInstance, computed, watch } from 'vue'
+import { ref, getCurrentInstance, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { formatThousands, isEmpty, formatTime, formatBytes, formatBytesConvert, getVariable } from '@oeos-components/utils'
 import * as echarts from 'echarts'
 
@@ -12,6 +12,8 @@ defineOptions({
 
 const { proxy } = getCurrentInstance()
 const chartRef = ref(null)
+const themeVersion = ref(0)
+let themeObserver: MutationObserver | null = null
 
 const props = defineProps({
   objectCount: {
@@ -25,10 +27,24 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['dateChange'])
-const color = ['rgb(167, 224, 211)', 'rgb(154, 184, 191)']
-// const color = [getVariable('--green'), getVariable('--blue')]
-// const color = ['rgba(180, 225, 215, .9)', 'rgba(48, 189, 130, .9)']
-// const color = ['rgba(180, 225, 215, 0.5)', getVariable('--green')]
+
+const getObjectLineColors = () => {
+  return {
+    count: getVariable('--green'),
+    size: getVariable('--chart-pie-divider'),
+    axis: getVariable('--chart-axis-text'),
+    tooltipBackground: getVariable('--chart-tooltip-bg'),
+    tooltipText: getVariable('--chart-tooltip-text'),
+    tooltipBorder: getVariable('--chart-tooltip-border'),
+    palette: [
+      getVariable('--green'),
+      getVariable('--chart-pie-divider'),
+      getVariable('--chart-series-tertiary'),
+      getVariable('--chart-series-quaternary'),
+      getVariable('--chart-series-quinary'),
+    ],
+  }
+}
 
 const data: any = ref([])
 const data2: any = ref([])
@@ -79,8 +95,10 @@ const calcMax = (value) => {
 }
 
 const option = computed(() => {
+  themeVersion.value
   // let baseInterval = chartRef.value?.$el?.offsetWidth < 1000 ? 4 : 3
   let baseInterval = 4
+  const themeColors = getObjectLineColors()
   // 预处理数据，标记哪些节点需要强制显示
   const processedData = data.value[0].timeValue.map((item, index, array) => {
     const time = item.time * 1000
@@ -94,9 +112,14 @@ const option = computed(() => {
     }
   })
   return {
-    color: [color[0], color[1], '#37A2FF', '#FF0087', '#FFBF00'],
+    color: themeColors.palette,
     tooltip: {
       trigger: 'axis', // 设置触发方式为坐标轴
+      backgroundColor: themeColors.tooltipBackground,
+      borderColor: themeColors.tooltipBorder,
+      textStyle: {
+        color: themeColors.tooltipText,
+      },
       formatter: (params, ...arr) => {
         let time = data.value[0].timeValue[params[0].dataIndex].time * 1000
         let parseTime = formatTime(time, '{y}-{m}-{d} {h}:{m}')
@@ -127,6 +150,9 @@ const option = computed(() => {
       right: '10', // 距离右侧 10px
       orient: 'horizontal', // 水平排列（默认）
       align: 'left', // 文本左对齐
+      textStyle: {
+        color: themeColors.axis,
+      },
     },
 
     // 在图表配置中
@@ -167,7 +193,7 @@ const option = computed(() => {
         },
         minInterval: 1,
         axisLabel: {
-          color: '#8e97ae',
+          color: themeColors.axis,
           formatter: (value) => {
             let res = formatNumberWithChineseAbbreviation(value)
             return res
@@ -185,7 +211,7 @@ const option = computed(() => {
         interval: interval.value,
         max: calcMax,
         axisLabel: {
-          color: '#8e97ae',
+          color: themeColors.axis,
           formatter: (value) => {
             let res = formatBytes(value)
             return res
@@ -202,11 +228,11 @@ const option = computed(() => {
         smooth: true, // Add smooth curve
         showSymbol: false,
         lineStyle: {
-          color: color[0], // Light green color
+          color: themeColors.count,
           width: 1,
         },
         areaStyle: {
-          color: color[0],
+          color: themeColors.count,
         },
         emphasis: {
           focus: 'series',
@@ -221,10 +247,10 @@ const option = computed(() => {
         showSymbol: false,
         lineStyle: {
           width: 1,
-          color: color[1],
+          color: themeColors.size,
         },
         areaStyle: {
-          color: color[1],
+          color: themeColors.size,
         },
         emphasis: {
           focus: 'series',
@@ -238,6 +264,22 @@ const option = computed(() => {
 watch([() => props.objectCount, () => props.objectSize], ([val1, val2]) => {
   data.value = val1
   data2.value = val2
+})
+
+onMounted(() => {
+  if (typeof MutationObserver !== 'undefined') {
+    themeObserver = new MutationObserver(() => {
+      themeVersion.value += 1
+    })
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class', 'data-theme'],
+    })
+  }
+})
+
+onBeforeUnmount(() => {
+  themeObserver?.disconnect()
 })
 
 defineExpose({

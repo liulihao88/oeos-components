@@ -61,11 +61,10 @@ const sizeStyle = computed(() => {
 
 <style lang="scss" scoped>
 .o-comp-title {
-  background: #f5f7fa;
+  background: var(--el-fill-color-light);
   vertical-align: middle;
   position: relative;
-  border: 1px solid #dcdfe6;
-  // outline: 1px solid black;
+  border: 1px solid var(--el-border-color);
   box-sizing: border-box !important;
   border-right: 0 none;
   padding: 0 4px;

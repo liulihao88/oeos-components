@@ -122,8 +122,8 @@ const itemList = computed(() => {
     flex: 1;
     min-height: 63px;
     margin: 0 8px 0 0;
-    background: #fff;
-    border: 1px solid #d7e0f4;
+    background: var(--el-bg-color);
+    border: 1px solid var(--el-border-color);
     border-radius: 5px;
 
     .num-box {
@@ -131,7 +131,7 @@ const itemList = computed(() => {
       align-items: center;
       justify-content: center;
       width: 30px;
-      background: #f2f6ff;
+      background: var(--el-color-primary-light-9);
       border-radius: 5px 0 0 5px;
     }
 

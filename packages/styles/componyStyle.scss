@@ -1,16 +1,12 @@
 .c-box {
   padding: 16px;
-  background-color: #fff;
+  background-color: var(--el-bg-color);
   border-radius: 4px;
   transition: all 0.5s ease-out;
-
-  &:hover {
-    // box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
-  }
 }
 
 .c-pure-box {
-  background-color: #fff;
+  background-color: var(--el-bg-color);
   border-radius: 4px;
 }
 
@@ -19,7 +15,7 @@
   margin: 0 0 16px;
   font-size: 16px;
   font-weight: 800;
-  border-bottom: 1px dashed #eaeaea;
+  border-bottom: 1px dashed var(--el-border-color-lighter);
 }
 
 .c-page-footer {
@@ -28,8 +24,8 @@
   align-items: center;
   justify-content: end;
   padding: 16px;
-  background-color: #fff;
-  border: 1px solid #ebeef5;
+  background-color: var(--el-bg-color);
+  border: 1px solid var(--el-border-color-light);
   border-top: none;
 }
 
@@ -78,7 +74,7 @@
       margin-right: 10px;
       font-size: 13px;
       font-weight: 600;
-      color: #2a3e4e;
+      color: var(--el-text-color-primary);
       text-align: right;
     }
     .c-item__value {

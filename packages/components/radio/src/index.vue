@@ -91,7 +91,7 @@ const parseOptions = computed(() => {
 .o-radio-box {
   display: flex;
   .o-comp-title {
-    border-right: 1px solid #dcdfe6;
+    border-right: 1px solid var(--el-border-color);
   }
 }
 </style>

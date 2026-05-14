@@ -65,12 +65,12 @@ const loadUtils = async () => {
 <style scoped>
 .function-source-container {
   margin: 1rem 0;
-  border: 1px solid #ddd;
+  border: 1px solid var(--el-border-color-light);
   border-radius: 5px;
 }
 .function-source-summary {
   padding: 10px 15px;
-  background-color: #f8f8f8;
+  background-color: var(--el-fill-color-lighter);
   font-weight: bold;
   cursor: pointer;
   border-radius: 5px 5px 0 0;

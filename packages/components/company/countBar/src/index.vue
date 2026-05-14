@@ -23,11 +23,11 @@
       ">5GB": 0
   },
  */
-import { ref, getCurrentInstance, onMounted, watch, defineAsyncComponent } from 'vue'
+import { ref, getCurrentInstance, onMounted, onBeforeUnmount, watch, defineAsyncComponent } from 'vue'
 // import VChart from 'vue-echarts'
 const VChart = defineAsyncComponent(() => import('vue-echarts')) // // 因为直接引入vue-echarts, 使用vitepress打包回报错, 在使用 VitePress 打包时，如果引入的 vue-echarts 中包含对 document 的引用，可能会导致 document is not defined 的错误。这是因为 VitePress 使用了服务器端渲染（SSR），而 document 是浏览器环境中的对象，在服务器端环境中不存在。以下是几种可能的解决
 import '@/utils/local/useEcharts'
-import { clone, formatBytes, formatBytesConvert, isEmpty, formatThousands } from '@/utils/src'
+import { clone, formatBytes, formatBytesConvert, getVariable, isEmpty, formatThousands } from '@/utils/src'
 const props = defineProps({
   data: {
     type: Array,
@@ -46,10 +46,27 @@ const props = defineProps({
 })
 const option = ref()
 const isDataEmpty = ref(false)
+const themeVersion = ref(0)
+let themeObserver: MutationObserver | null = null
+
+const syncCountBarTheme = () => {
+  initOption.tooltip.backgroundColor = getVariable('--chart-tooltip-bg')
+  initOption.tooltip.borderColor = getVariable('--chart-tooltip-border')
+  initOption.tooltip.textStyle.color = getVariable('--chart-tooltip-text')
+  initOption.yAxis.splitLine.lineStyle.color = getVariable('--chart-grid-primary')
+  initOption.yAxis.axisLabel.color = getVariable('--chart-axis-text')
+  initOption.series[0].itemStyle.color = getVariable('--chart-series-primary')
+  initOption.series[1].itemStyle.color = getVariable('--chart-series-secondary')
+}
 
 let initOption = {
   tooltip: {
     trigger: 'axis', // 设置触发方式为坐标轴
+    backgroundColor: '',
+    borderColor: '',
+    textStyle: {
+      color: '',
+    },
     axisPointer: {
       // Use axis to trigger tooltip
       type: 'shadow', // 'shadow' as default; can also be 'line' or 'shadow'
@@ -88,13 +105,13 @@ let initOption = {
       show: false,
       lineStyle: {
         type: 'dashed', // 设置分隔线为虚线
-        color: '#1b78fc', // 设置分隔线颜色
+        color: '',
         opacity: 0.4,
       },
     },
     minInterval: 1,
     axisLabel: {
-      color: '#8e97ae',
+      color: '',
       formatter: (value) => {
         // let res = formatNumberWithChineseAbbreviation(value)
         // return res
@@ -117,7 +134,7 @@ let initOption = {
       },
       itemStyle: {
         borderRadius: 10, // 设置柱子的圆角
-        color: '#1b78fc', // 设置柱子的颜色
+        color: '',
       },
     },
     {
@@ -134,7 +151,7 @@ let initOption = {
       },
       itemStyle: {
         borderRadius: 10, // 设置柱子的圆角
-        color: '#30bd82', // 设置柱子的颜色
+        color: '',
       },
     },
   ],
@@ -169,6 +186,7 @@ function formatNumberWithChineseAbbreviation(num) {
 watch(
   () => props.data,
   (val) => {
+    syncCountBarTheme()
     if (isEmpty(val)) {
       isDataEmpty.value = true
       return
@@ -201,6 +219,27 @@ watch(
     immediate: true,
   },
 )
+
+watch(themeVersion, () => {
+  syncCountBarTheme()
+  option.value = clone(initOption)
+})
+
+onMounted(() => {
+  if (typeof MutationObserver !== 'undefined') {
+    themeObserver = new MutationObserver(() => {
+      themeVersion.value += 1
+    })
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class', 'data-theme'],
+    })
+  }
+})
+
+onBeforeUnmount(() => {
+  themeObserver?.disconnect()
+})
 </script>
 
 <template>

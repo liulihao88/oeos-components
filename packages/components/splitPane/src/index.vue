@@ -270,8 +270,8 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--el-text-color-secondary, #909399);
-  background: var(--el-border-color-lighter, #ebeef5);
+  color: var(--el-text-color-secondary);
+  background: var(--el-border-color-lighter);
   transition:
     background-color 0.2s,
     color 0.2s;
@@ -283,15 +283,15 @@ onBeforeUnmount(() => {
   }
 
   &:hover {
-    color: var(--el-color-primary, #409eff);
-    background: var(--el-color-primary-light-9, #ecf5ff);
+    color: var(--el-color-primary);
+    background: var(--el-color-primary-light-9);
   }
 }
 
 .o-split-pane.is-dragging {
   .o-split-pane__resizer {
-    color: var(--el-color-primary, #409eff);
-    background: var(--el-color-primary-light-8, #d9ecff);
+    color: var(--el-color-primary);
+    background: var(--el-color-primary-light-8);
   }
 }
 

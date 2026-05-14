@@ -8,7 +8,7 @@
       <div class="box">3</div>
       <div class="box">4</div>
     </o-row>
-    <o-title title="4个评分"></o-title>
+    <o-title title="4个平分"></o-title>
     <o-row :col="6" :gutter="16">
       <div class="box">1</div>
       <div class="box">2</div>

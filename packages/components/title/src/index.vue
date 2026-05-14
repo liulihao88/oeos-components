@@ -4,7 +4,7 @@
       <div class="f-st-ct" :style="{ marginLeft: props.inner ? '8px' : 0 }">
         <span :class="($slots.icon || props.type === 'icon') && 'o-title__slot-icon-wrapper'">
           <slot name="icon" class="icon_slot">
-            <img src="./title.svg" v-if="props.type === 'icon'" width="14" class="d-ib" />
+            <span v-if="props.type === 'icon'" class="o-title__default-icon" :style="defaultIconStyle" />
           </slot>
         </span>
         <span class="title-text">
@@ -32,6 +32,7 @@
 */
 import { processWidth } from '@/utils/src/index.ts'
 import { ref, computed } from 'vue'
+import titleIconUrl from './title.svg'
 const props = defineProps({
   title: {
     type: String,
@@ -112,6 +113,12 @@ const parseClass = computed(() => {
   }
   return 'o-title__top-left'
 })
+
+const defaultIconStyle = computed(() => {
+  return {
+    '--o-title-icon-url': `url(${titleIconUrl})`,
+  }
+})
 // copy成功的提示文案
 </script>
 
@@ -122,7 +129,7 @@ const parseClass = computed(() => {
   .o-title__top {
     display: flex;
     align-items: center;
-    color: #323233;
+    color: var(--el-text-color-primary);
     font-size: 16px;
     justify-content: space-between;
     .o-title__slot-icon-wrapper {
@@ -131,6 +138,21 @@ const parseClass = computed(() => {
       height: 14px;
       display: flex;
       align-items: center;
+      color: currentColor;
+    }
+    .o-title__default-icon {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      background-color: currentColor;
+      mask-image: var(--o-title-icon-url);
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      -webkit-mask-image: var(--o-title-icon-url);
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      -webkit-mask-size: contain;
     }
     .o-title__slot-right-wrapper {
       text-align: right;
@@ -143,7 +165,7 @@ const parseClass = computed(() => {
     margin: 0 0 16px;
     font-weight: 800;
     width: 100%;
-    border-bottom: 1px dashed #eaeaea;
+    border-bottom: 1px dashed var(--el-border-color-lighter);
   }
 
   .o-title__top-simple-left {
@@ -175,7 +197,6 @@ const parseClass = computed(() => {
       height: calc(100% - 8px);
       bottom: 0;
       letter-spacing: 0;
-      background-color: #5d7af7;
       background-color: var(--lc, var(--blue)); // 左侧的竖条颜色
     }
     .title-text {
@@ -188,7 +209,7 @@ const parseClass = computed(() => {
   .o-title__subTitle {
     font-size: 14px;
     font-weight: 400;
-    color: #646566;
+    color: var(--el-text-color-secondary);
     letter-spacing: 0;
   }
 }

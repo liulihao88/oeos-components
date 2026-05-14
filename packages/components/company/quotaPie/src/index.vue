@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, computed, defineAsyncComponent } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch, computed, defineAsyncComponent } from 'vue'
 const VChart = defineAsyncComponent(() => import('vue-echarts')) // 因为直接引入vue-echarts, 使用vitepress打包回报错, 在使用 VitePress 打包时，如果引入的 vue-echarts 中包含对 document 的引用，可能会导致 document is not defined 的错误。这是因为 VitePress 使用了服务器端渲染（SSR），而 document 是浏览器环境中的对象，在服务器端环境中不存在。以下是几种可能的解决
 import '@/utils/local/useEcharts'
 import { getPieColorByDataIndex } from '@/utils/local/packageUtils'
-import { formatBytes, formatBytesConvert, clone } from '@oeos-components/utils'
+import { formatBytes, formatBytesConvert, clone, getVariable } from '@oeos-components/utils'
 defineOptions({
   name: 'OQuotaPie',
 })
@@ -36,20 +36,39 @@ const seriesData = ref([])
 const usedNum = ref(0)
 const totalNum = ref(0)
 const usedPercent = ref('0%')
+let resizeObserver: ResizeObserver | null = null
+let themeObserver: MutationObserver | null = null
 
 const getValue = computed(() => {
   usedPercent.value = ((usedNum.value / totalNum.value) * 100).toFixed(2) + '%'
   let num = `${formatBytes(formatBytesConvert(props.used))} / ${formatBytes(formatBytesConvert(props.total))}`
-  // let text = '总使用量 / 总可用量'
   return `${usedPercent.value}\n\n${num}\n\n${props.text}`
 })
+
+const syncQuotaPieTheme = () => {
+  initOptions.title.textStyle.color = getVariable('--blue')
+  initOptions.series[0].label.backgroundColor = getVariable('--chart-pie-label-bg')
+  initOptions.series[0].label.borderColor = getVariable('--chart-pie-divider')
+  initOptions.series[0].label.textStyle.color = getVariable('--chart-pie-label-text')
+  initOptions.series[0].label.rich.a.color = getVariable('--chart-pie-label-muted')
+  initOptions.series[0].label.rich.hr.borderColor = getVariable('--chart-pie-divider')
+  initOptions.series[0].label.rich.b.color = getVariable('--chart-pie-label-strong')
+  initOptions.graphic.style.fill = getVariable('--chart-center-text')
+}
+
+const updateChartOptions = () => {
+  syncQuotaPieTheme()
+  initOptions.series[0].data = [usedNum.value, totalNum.value - usedNum.value]
+  initOptions.graphic.style.text = getValue.value
+  options.value = clone(initOptions)
+}
 
 let initOptions = {
   title: {
     text: '',
     textStyle: {
-      color: 'blue', // 更改标题颜色为红色
-      fontSize: 16, // 更改标题字体大小为 20px
+      color: '',
+      fontSize: 16,
     },
   },
   legend: {
@@ -75,29 +94,29 @@ let initOptions = {
       radius: ['75%', '95%'], // 设置饼图的内外半径，内容显示在内部
       center: ['50%', '50%'], // 设置饼图的中心位置
       label: {
-        backgroundColor: '#F6F8FC',
-        borderColor: '#8C8D8E',
+        backgroundColor: '',
+        borderColor: '',
         position: 'inner', // 标签显示在扇形内部
         borderRadius: 4,
         textStyle: {
-          fontSize: 12, // 更改标题字体大小为 20px
-          color: '#e4393c',
+          fontSize: 12,
+          color: '',
         },
         rich: {
           a: {
-            color: '#6E7079',
+            color: '',
             lineHeight: 22,
             fontSize: 10,
             align: 'center',
           },
           hr: {
-            borderColor: '#8C8D8E',
+            borderColor: '',
             width: '100%',
             borderWidth: 1,
             height: 0,
           },
           b: {
-            color: '#4C5058',
+            color: '',
             fontSize: 12,
             fontWeight: 'bold',
             lineHeight: 33,
@@ -118,9 +137,9 @@ let initOptions = {
     style: {
       text: getValue, // 自定义文本内容
       textAlign: 'center',
-      fill: '#000', // 文字颜色
+      fill: '',
       fontSize: 14,
-      fontWeight: 'bold', // 文字加粗
+      fontWeight: 'bold',
     },
   },
 }
@@ -132,8 +151,7 @@ watch(
       isEmpty.value = false
       usedNum.value = formatBytesConvert(usedNew)
       totalNum.value = formatBytesConvert(totalNew)
-      initOptions.series[0].data = [usedNum.value, totalNum.value - usedNum.value]
-      options.value =clone(initOptions)
+      updateChartOptions()
     } else {
       isEmpty.value = true
     }
@@ -159,11 +177,11 @@ const adjustFontSize = (width, height) => {
 
   initOptions.series[0].label.textStyle = {
     fontSize: baseSize / 30,
-    color: '#e4393c',
+    color: getVariable('--chart-pie-label-text'),
   }
 
   initOptions.title.textStyle = {
-    color: 'blue',
+    color: getVariable('--blue'),
     fontSize: baseSize / 25,
   }
 
@@ -171,13 +189,12 @@ const adjustFontSize = (width, height) => {
     fontSize: baseSize / 35,
   }
 
-  // 触发选项更新
-  options.value = { ...initOptions }
+  updateChartOptions()
 }
 
 // 监听容器大小变化
 onMounted(() => {
-  const resizeObserver = new ResizeObserver((entries) => {
+  resizeObserver = new ResizeObserver((entries) => {
     for (let entry of entries) {
       const { width, height } = entry.contentRect
       containerSize.value = { width, height }
@@ -189,9 +206,20 @@ onMounted(() => {
     resizeObserver.observe(containerRef.value)
   }
 
-  return () => {
-    resizeObserver.disconnect()
+  if (typeof MutationObserver !== 'undefined') {
+    themeObserver = new MutationObserver(() => {
+      updateChartOptions()
+    })
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class', 'data-theme'],
+    })
   }
+})
+
+onBeforeUnmount(() => {
+  resizeObserver?.disconnect()
+  themeObserver?.disconnect()
 })
 </script>
 

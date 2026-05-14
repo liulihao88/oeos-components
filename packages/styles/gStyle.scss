@@ -1,21 +1,61 @@
 :root {
-  --primary: #365edf;
-  --blue: #365edf;
-  --blue2: #f5f7fd;
-  --85: rgba(39, 48, 75, 0.85);
-  --65: rgba(39, 48, 75, 0.65);
-  --45: rgba(39, 48, 75, 0.45);
-  --black: #000;
-  --white: #ffffff;
-  --red: #e94c35;
-  --red2: #fdecea;
-  --yellow: #ffb51f;
-  --yellow2: #fff7e8;
-  --green: #30bd82;
-  --green2: #eaf8f2;
-  --gray: #ebedf0;
-  --gray2: #f7f8fa;
-  --line: #e3e6eb;
+  --primary: var(--el-color-primary);
+  --blue: var(--el-color-primary);
+  --blue2: var(--el-color-primary-light-9);
+  --85: var(--el-text-color-primary);
+  --65: var(--el-text-color-regular);
+  --45: var(--el-text-color-secondary);
+  --black: var(--el-text-color-primary);
+  --white: var(--el-color-white);
+  --red: var(--el-color-danger);
+  --red2: var(--el-color-danger-light-9);
+  --yellow: var(--el-color-warning);
+  --yellow2: var(--el-color-warning-light-9);
+  --green: var(--el-color-success);
+  --green2: var(--el-color-success-light-9);
+  --gray: var(--el-fill-color-light);
+  --gray2: var(--el-fill-color-lighter);
+  --line: var(--el-border-color);
+  --line-color: var(--el-border-color);
+  --disabled: var(--el-disabled-text-color);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-popover-1: #0000001f;
+  --shadow-popover-2: #00000014;
+  --shadow-popover-3: #0000000d;
+  --chart-axis-text: #8e97ae;
+  --chart-grid-primary: var(--el-color-primary);
+  --chart-grid-secondary: var(--green);
+  --chart-series-primary: var(--el-color-primary);
+  --chart-series-secondary: var(--green);
+  --chart-series-tertiary: #37a2ff;
+  --chart-series-quaternary: #ff0087;
+  --chart-series-quinary: #ffbf00;
+  --chart-pie-label-bg: var(--el-fill-color-lighter);
+  --chart-pie-divider: #8c8d8e;
+  --chart-pie-label-text: #e4393c;
+  --chart-pie-label-muted: #6e7079;
+  --chart-pie-label-strong: #4c5058;
+  --chart-center-text: var(--el-text-color-primary);
+  --chart-card-bg: #f8f8f8;
+  --chart-card-border: #dbdfe9;
+  --chart-tooltip-bg: var(--el-bg-color-overlay);
+  --chart-tooltip-text: var(--el-text-color-primary);
+  --chart-tooltip-border: var(--el-border-color-light);
+  --overview-primary-text: var(--el-color-primary);
+  --overview-primary-bg: var(--el-color-primary-light-9);
+  --overview-warning-text: var(--el-color-warning);
+  --overview-warning-bg: var(--el-color-warning-light-9);
+  --overview-success-text: var(--el-color-success);
+  --overview-success-bg: var(--el-color-success-light-9);
+  --overview-success-alt-bg: var(--el-fill-color-light);
+}
+
+html.dark,
+:root.dark,
+[data-theme='dark'] {
+  --chart-tooltip-bg: #000000;
+  --chart-tooltip-text: #ffffff;
+  --chart-tooltip-border: #303133;
 }
 @each $cl, $clVar in blue var(--blue), blue2 var(--blue2), 85 var(--85), 65 var(--65), 45 var(--45), black var(--black),
   white var(--white), red var(--red), red2 var(--red2), yellow var(--yellow), yellow2 var(--yellow2), green var(--green),
@@ -479,7 +519,7 @@ $align: (
   text-align: right;
 }
 .sd {
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 3px 6px var(--shadow-color);
 }
 .ma {
   margin: 0 auto;
@@ -513,4 +553,3 @@ $align: (
     }
   }
 }
-

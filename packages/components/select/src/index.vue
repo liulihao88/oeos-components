@@ -453,7 +453,7 @@ function _commonEmits(item, selectLabel, selectObj) {
     display: block;
     line-height: 1;
     font-size: 12px;
-    color: var(--disabled);
+    color: var(--el-disabled-text-color);
   }
 
   .o-select__fraction-line {
@@ -503,9 +503,9 @@ function _commonEmits(item, selectLabel, selectObj) {
     z-index: 10;
     width: 16px;
     height: 16px;
-    border: 1px solid #5d7af7;
+    border: 1px solid var(--primary);
     border-radius: 2px;
-    color: #ffffff;
+    color: var(--el-color-white);
     top: 50%;
     transform: translateY(-50%);
     line-height: 16px;
@@ -516,29 +516,29 @@ function _commonEmits(item, selectLabel, selectObj) {
     height: 16px;
   }
   &.selected .el-checkbox__label {
-    color: #5d7af7;
+    color: var(--primary);
   }
   &.hover {
-    background-color: #f5f7fd;
+    background-color: var(--el-color-primary-light-9);
     border-radius: 1px;
   }
   &.is-disabled {
     &.selected::after {
-      background: gray;
-      border: 1px solid gray;
+      background: var(--el-disabled-text-color);
+      border: 1px solid var(--el-disabled-text-color);
     }
     .el-checkbox,
     .el-checkbox__label,
     .el-checkbox__inner {
-      color: gray;
-      border-color: gray !important;
+      color: var(--el-disabled-text-color);
+      border-color: var(--el-disabled-text-color) !important;
     }
   }
 }
 :deep(.el-input__wrapper) {
-  background: #5d7af7;
+  background: var(--primary);
   & .el-input__inner {
-    color: #fff !important;
+    color: var(--el-color-white) !important;
   }
 }
 .o-select__all-select {
@@ -546,7 +546,7 @@ function _commonEmits(item, selectLabel, selectObj) {
   padding: 0px 0px 10px 20px;
   align-items: end;
   &:hover {
-    background-color: #f5f7fa;
+    background-color: var(--el-fill-color-light);
   }
 }
 .o-select__all-select:hover + .el-select-dropdown__item {
@@ -558,10 +558,10 @@ function _commonEmits(item, selectLabel, selectObj) {
   top: 4px;
 }
 .o-select__select-box {
-  background: #f5f7fa;
+  background: var(--el-fill-color-light);
   vertical-align: middle;
   position: relative;
-  border: 1px solid #dcdfe6;
+  border: 1px solid var(--el-border-color);
   border-left: none;
   white-space: nowrap;
   width: 14px;
@@ -581,7 +581,7 @@ function _commonEmits(item, selectLabel, selectObj) {
     justify-content: space-between;
     :hover {
       color: var(--blue);
-      background: lightblue;
+      background: var(--el-color-primary-light-9);
     }
     .o-icon + .o-icon {
       margin-left: 0;

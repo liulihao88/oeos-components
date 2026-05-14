@@ -180,7 +180,7 @@ const handleIconClick = (event) => {
 
 <style lang="scss" scoped>
 .o-basic-layout {
-  background: #fff;
+  background: var(--el-bg-color);
   border: 1px solid var(--line);
   border-radius: 4px;
   display: flex;

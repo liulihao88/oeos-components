@@ -70,10 +70,10 @@ const removeTab = (targetName: TabPaneName) => {
 }
 </script>
 
-<style>
-.demo-tabs > .el-tabs__content {
+<style scoped lang="scss">
+:deep(.demo-tabs > .el-tabs__content) {
   padding: 32px;
-  color: #6b778c;
+  color: var(--el-text-color-regular);
   font-size: 32px;
   font-weight: 600;
 }

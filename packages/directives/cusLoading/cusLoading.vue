@@ -33,7 +33,7 @@ defineExpose({
     align-items: center;
     .desc {
       line-height: 20px;
-      color: #fff;
+      color: var(--el-color-white);
     }
     img {
       animation: spin 2s linear infinite;

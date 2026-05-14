@@ -73,7 +73,7 @@ function parseClass(): string {
     <o-icon
       v-else-if="type === 'error' && props.icon"
       name="circle-close"
-      :color="'#f56c6c'"
+      :color="'var(--el-color-danger)'"
       v-bind="iconAttrs"
       class="o-warning-box__icon"
       size="16"
@@ -104,7 +104,7 @@ function parseClass(): string {
   display: flex;
   align-items: baseline;
   padding: 8px 8px;
-  border: 1px solid #dfca9e;
+  border: 1px solid var(--el-color-warning-light-5);
   border-radius: 4px;
 
   .o-warning-box__title {
@@ -132,7 +132,7 @@ function parseClass(): string {
   .o-warning-box__content {
     font-size: 14px;
     font-weight: 400;
-    color: var(--85);
+    color: var(--el-text-color-primary);
     overflow: auto;
   }
   .o-warning-box__icon {
@@ -152,7 +152,7 @@ function parseClass(): string {
   :deep(code) {
     padding: 3px 6px;
     border-radius: 4px;
-    background-color: rgba(142, 150, 170, 0.14);
+    background-color: var(--el-fill-color-light);
     transition:
       color 0.25s,
       background-color 0.25s;
@@ -161,8 +161,8 @@ function parseClass(): string {
     margin: 0;
     padding: 3px 6px;
     border-radius: 4px;
-    background-color: rgba(142, 150, 170, 0.14);
-    color: var(--blue);
+    background-color: var(--el-fill-color-light);
+    color: var(--el-color-primary);
     border-radius: 4px;
     padding: 0.15rem 0.5rem;
     font-family: var(--code-font-family);
@@ -176,11 +176,11 @@ function parseClass(): string {
 
 .o-warning__info {
   border: 1px solid var(--line);
-  background: rgba(64, 158, 255, 0.1);
+  background: var(--el-color-primary-light-9);
   border-left: 5px solid var(--el-color-primary);
   :deep(code) {
-    background-color: rgba(100, 108, 255, 0.14);
-    color: #3451b2;
+    background-color: var(--el-color-primary-light-8);
+    color: var(--el-color-primary-dark-2);
   }
 }
 .o-warning__simple {
@@ -191,21 +191,21 @@ function parseClass(): string {
   padding: 0;
 }
 .o-warning__warning {
-  background: #fffaf4;
-  border: 1px solid #dfca9e;
+  background: var(--el-color-warning-light-9);
+  border: 1px solid var(--el-color-warning-light-5);
   border-left: 5px solid var(--el-color-warning);
   :deep(code) {
-    background-color: rgba(234, 179, 8, 0.14);
-    color: #915930;
+    background-color: var(--el-color-warning-light-8);
+    color: var(--el-color-warning-dark-2);
   }
 }
 .o-warning__error {
-  background: #fef0f0; // 柔和的红色背景
-  border: 1px solid #fbc4c4; // 浅红色边框
-  border-left: 5px solid #f56c6c; // 左侧强调色使用 Element UI 的错误色
+  background: var(--el-color-danger-light-9);
+  border: 1px solid var(--el-color-danger-light-5);
+  border-left: 5px solid var(--el-color-danger);
   :deep(code) {
-    background-color: rgba(245, 108, 108, 0.1); // 错误色的淡色背景
-    color: #c45656; // 深一些的错误色文本
+    background-color: var(--el-color-danger-light-8);
+    color: var(--el-color-danger-dark-2);
   }
 }
 </style>

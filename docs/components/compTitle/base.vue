@@ -23,7 +23,7 @@ const count = ref(1)
     </div>
 
     <div class="demo-row">
-      <o-comp-title title="数量" :box-style="{ width: 72 }" />
+      <o-comp-title title="数量" />
       <el-input-number v-model="count" controls-position="right" />
     </div>
   </div>
@@ -34,21 +34,24 @@ const count = ref(1)
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
+  .demo-row {
+    display: flex;
+    align-items: center;
+    width: 320px;
+    min-width: 0;
+    gap: 0;
 
-.demo-row {
-  display: inline-flex;
-  align-items: center;
-  width: 320px;
+    :deep(.el-input),
+    :deep(.el-input-number) {
+      flex: 1;
+      min-width: 0;
+    }
 
-  :deep(.el-input__wrapper),
-  :deep(.el-input-number .el-input__wrapper) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  :deep(.el-input-number) {
-    flex: 1;
+    :deep(.el-input__wrapper),
+    :deep(.el-input-number .el-input__wrapper) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
   }
 }
 </style>

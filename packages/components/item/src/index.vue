@@ -124,7 +124,7 @@ const parseValue = computed(() => {
 
 <style lang="scss" scoped>
 .o-item-box {
-  background-color: #fff;
+  background-color: var(--el-bg-color);
   padding: 16px;
   border-radius: 4px;
   color: var(--85);
@@ -159,7 +159,7 @@ const parseValue = computed(() => {
 }
 
 .o-item-box__value {
-  background-color: #fff;
+  background-color: var(--el-bg-color);
   padding: 16px;
   border-radius: 4px;
   color: var(--85);

@@ -1,6 +1,6 @@
 <script setup lang="ts" name="OUsedPie">
 // import {defineAsyncComponent} from 'vue'
-import { ref, getCurrentInstance, onMounted, watch, defineAsyncComponent } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch, defineAsyncComponent } from 'vue'
 // import VChart from 'vue-echarts'
 const VChart = defineAsyncComponent(() => import('vue-echarts')) // 因为直接引入vue-echarts, 使用vitepress打包回报错, 在使用 VitePress 打包时，如果引入的 vue-echarts 中包含对 document 的引用，可能会导致 document is not defined 的错误。这是因为 VitePress 使用了服务器端渲染（SSR），而 document 是浏览器环境中的对象，在服务器端环境中不存在。以下是几种可能的解决
 import '@/utils/local/useEcharts'
@@ -24,6 +24,7 @@ const props = defineProps({
 })
 const option = ref()
 const usedPercent = ref('0%')
+let themeObserver: MutationObserver | null = null
 
 let initOption = {
   tooltip: {
@@ -80,15 +81,26 @@ let initOption = {
         textAlign: 'center',
         fontSize: 34,
         fontWeight: 'bold',
-        fill: '#333',
+        fill: '',
       },
     },
   ],
 }
 
+const syncUsedPieTheme = () => {
+  initOption.graphic[0].style.fill = getVariable('--chart-center-text')
+}
+
+const updateChartOptions = () => {
+  syncUsedPieTheme()
+  initOption.graphic[0].style.text = usedPercent.value
+  option.value = clone(initOption)
+}
+
 watch(
   () => [props.used, props.total],
   ([newUsedOrigin, newTotalOrigin]) => {
+    syncUsedPieTheme()
     let newUsed = formatBytesConvert(newUsedOrigin)
     let newTotal = formatBytesConvert(newTotalOrigin)
     if (newTotal != 0) {
@@ -110,8 +122,7 @@ watch(
     } else {
       initOption.series[0].itemStyle.color = getVariable('--green')
     }
-    initOption.graphic[0].style.text = usedPercent.value
-    option.value = clone(initOption)
+    updateChartOptions()
   },
   {
     deep: true,
@@ -135,11 +146,26 @@ watch(
 ]
  */
 function formatter(params) {
-  let res = `${params.name} \n <span class="cl-blue">${params.value}</span>`
   let { value, name } = params.data
   let formatBytesRes = formatBytes(value)
   return `${name}: ${formatBytesRes}\n 占比: (${params.percent}%)`
 }
+
+onMounted(() => {
+  if (typeof MutationObserver !== 'undefined') {
+    themeObserver = new MutationObserver(() => {
+      updateChartOptions()
+    })
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class', 'data-theme'],
+    })
+  }
+})
+
+onBeforeUnmount(() => {
+  themeObserver?.disconnect()
+})
 </script>
 
 <template>
@@ -182,8 +208,9 @@ function formatter(params) {
     justify-content: space-between;
     width: calc((100% - 16px) / 2);
     padding: 8px;
-    background-color: #f8f8f8;
-    border: 1px dashed #dbdfe9;
+    color: var(--el-text-color-primary);
+    background-color: var(--el-fill-color-light);
+    border: 1px dashed var(--el-border-color);
     border-radius: 2px;
 
     .num {

@@ -148,10 +148,10 @@ defineExpose({
 
 <style scoped lang="scss">
 .o-input-box {
-  background-color: white;
+  background-color: var(--el-bg-color);
   font-size: 12px;
   position: relative;
-  border: 1px solid #dcdee2;
+  border: 1px solid var(--el-border-color);
   border-radius: 6px;
   margin-bottom: 18px;
   padding: 6px 20px 6px 6px;
@@ -178,8 +178,8 @@ defineExpose({
 .spanbox {
   margin: 2px;
   padding: 0 10px;
-  background-color: #1abc9c;
-  color: white;
+  background-color: var(--el-color-primary);
+  color: var(--el-color-white);
   border-radius: 4px;
   font-size: 13px;
   cursor: pointer;
@@ -193,7 +193,7 @@ defineExpose({
   padding: 0px 17px 0 3px;
 }
 .spanclose {
-  color: white;
+  color: var(--el-color-white);
   padding: 0 10px 0 0;
   cursor: pointer;
   font-size: 12px;
@@ -214,7 +214,7 @@ defineExpose({
   margin: 2px;
   padding: 0 10px;
   background-color: var(--gray);
-  color: white;
+  color: var(--el-color-white);
   border-radius: 4px;
   font-size: 13px;
   cursor: not-allowed;
@@ -249,7 +249,7 @@ defineExpose({
   bottom: calc(50% - 8px);
   cursor: pointer;
   &:hover {
-    color: red;
+    color: var(--el-color-danger);
   }
 }
 </style>

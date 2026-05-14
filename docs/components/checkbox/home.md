@@ -28,7 +28,7 @@ checkbox/multyAttrs
 checkbox/slot
 :::
 
-### 自定义间距
+### 自定义间距 gap
 
 :::demo
 checkbox/customGap

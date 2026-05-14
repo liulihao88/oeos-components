@@ -33,8 +33,8 @@ const compItemList = computed(() => {
       key: 'bucketCount',
       src: bucketNumber,
       style: {
-        color: '#3366e8',
-        background: '#f2f6ff',
+        color: 'var(--overview-primary-text)',
+        background: 'var(--overview-primary-bg)',
       },
     },
     {
@@ -43,8 +43,8 @@ const compItemList = computed(() => {
       key: 'handleTaskCount',
       src: bucketTaskNumber,
       style: {
-        color: '#e7bb40',
-        background: '#fef6e9',
+        color: 'var(--overview-warning-text)',
+        background: 'var(--overview-warning-bg)',
       },
     },
     {
@@ -53,8 +53,8 @@ const compItemList = computed(() => {
       src: objSize,
       key: 'objectSize',
       style: {
-        color: '#86ab80',
-        background: '#f3faf3',
+        color: 'var(--overview-success-text)',
+        background: 'var(--overview-success-bg)',
       },
     },
     {
@@ -63,9 +63,8 @@ const compItemList = computed(() => {
       src: objNumber,
       key: 'objectCount',
       style: {
-        // color: proxy.getVariable('--green'),
-        color: 'blue',
-        background: '#f4faf3',
+        color: 'var(--overview-primary-text)',
+        background: 'var(--overview-success-alt-bg)',
       },
     },
     {
@@ -74,8 +73,8 @@ const compItemList = computed(() => {
       src: freeSize,
       key: 'totalFreeCapacity',
       style: {
-        color: '#e7bb40',
-        background: '#fef6e9',
+        color: 'var(--overview-warning-text)',
+        background: 'var(--overview-warning-bg)',
       },
     },
     {
@@ -84,8 +83,8 @@ const compItemList = computed(() => {
       src: healthyStatus,
       key: 'healthLevel',
       style: {
-        color: '#86ab80',
-        background: '#f3faf3',
+        color: 'var(--overview-success-text)',
+        background: 'var(--overview-success-bg)',
       },
     },
     {
@@ -94,8 +93,8 @@ const compItemList = computed(() => {
       src: workModule,
       key: 'workmode',
       style: {
-        color: '#3366e8',
-        background: '#f2f6ff',
+        color: 'var(--overview-primary-text)',
+        background: 'var(--overview-primary-bg)',
       },
     },
     {
@@ -104,8 +103,8 @@ const compItemList = computed(() => {
       src: spaceLimit,
       key: 'capacityUsageLevel',
       style: {
-        color: '#e7bb40',
-        background: '#fef6e9',
+        color: 'var(--overview-warning-text)',
+        background: 'var(--overview-warning-bg)',
       },
     },
   ])
@@ -128,7 +127,6 @@ const compItemList = computed(() => {
         <OItem
           :label="v.label"
           :value="v.value"
-          
           :style="{ background: v.style.background, fontSize: '12px', minWidth: '200px' }"
           :labelStyle="{ color: v.style.color }"
           :itemStyle="{

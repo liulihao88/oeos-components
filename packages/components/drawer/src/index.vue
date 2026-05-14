@@ -155,12 +155,12 @@ function _handleClose() {
 .o-drawer {
   :deep(.el-drawer__header) {
     margin-bottom: 0;
-    color: var(--text-color);
+    color: var(--el-text-color-primary);
     font-weight: 500;
     padding: 12px;
-    background-color: #ebedf0;
+    background-color: var(--el-fill-color-light);
     font-size: 14px;
-    border-bottom: 1px solid #e3e6eb;
+    border-bottom: 1px solid var(--el-border-color);
     box-sizing: border-box;
     > span {
       font-size: 14px;

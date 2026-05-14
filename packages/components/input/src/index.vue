@@ -64,7 +64,7 @@
     <o-icon
       v-if="content"
       class="o-input__icon"
-      v-bind="{ name: 'warning', color: '#DCDEE0', size: '16px', ...props.iconAttrs }"
+      v-bind="{ name: 'warning', color: 'var(--el-disabled-text-color)', size: '16px', ...props.iconAttrs }"
       :content="content"
     />
 
