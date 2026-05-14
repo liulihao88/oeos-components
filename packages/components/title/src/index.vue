@@ -4,7 +4,26 @@
       <div class="f-st-ct" :style="{ marginLeft: props.inner ? '8px' : 0 }">
         <span :class="($slots.icon || props.type === 'icon') && 'o-title__slot-icon-wrapper'">
           <slot name="icon" class="icon_slot">
-            <span v-if="props.type === 'icon'" class="o-title__default-icon" :style="defaultIconStyle" />
+            <svg
+              v-if="props.type === 'icon'"
+              class="o-title__default-icon"
+              viewBox="0 0 1024 1024"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                fill="currentColor"
+                d="M800.512 474.944h-377.6a24.256 24.256 0 0 0-24.32 24.32c0 13.504 10.816 24.32 24.32 24.32h377.6c13.504 0 24.32-10.816 24.32-24.32a24.576 24.576 0 0 0-24.32-24.32z m-377.6 203.776a24.256 24.256 0 0 0-24.32 24.32c0 13.504 10.816 24.32 24.32 24.32h377.6c13.504 0 24.32-10.816 24.32-24.32a24.576 24.576 0 0 0-24.32-24.32h-377.6z"
+              />
+              <path
+                fill="currentColor"
+                d="M928.064 209.6h-252.736l-5.376-15.68c-37.824-104.832-110.272-129.728-164.288-132.416h-409.728a62.592 62.592 0 0 0-62.72 62.144v776.704c0 34.048 28.096 62.144 62.72 62.144h832.128a62.72 62.72 0 0 0 62.72-62.144v-628.608a62.272 62.272 0 0 0-62.72-62.144z m-848.384-56.256c0-48.128 17.856-41.6 90.816-41.6h261.056c110.784 0 139.456 23.808 160.512 61.056l15.68 36.736h-528.064v-56.192z m773.248 759.424H170.496c-74.56 0-86.464-5.952-86.464-85.952v-566.464h784.576c78.912 0 70.784 30.784 70.784 85.952v492.928c0.064 72.448-25.344 73.536-86.464 73.536z"
+              />
+              <path
+                fill="currentColor"
+                d="M196.992 536.576h78.912v-78.912h-78.912v78.912z m0 205.952h78.912v-78.912h-78.912v78.912z"
+              />
+            </svg>
           </slot>
         </span>
         <span class="title-text">
@@ -31,8 +50,7 @@
 *
 */
 import { processWidth } from '@/utils/src/index.ts'
-import { ref, computed } from 'vue'
-import titleIconUrl from './title.svg'
+import { computed } from 'vue'
 const props = defineProps({
   title: {
     type: String,
@@ -53,7 +71,7 @@ const props = defineProps({
   },
   inner: {
     type: Boolean,
-    defalut: false,
+    default: false,
   },
   t: {
     type: [String, Number],
@@ -114,12 +132,6 @@ const parseClass = computed(() => {
   return 'o-title__top-left'
 })
 
-const defaultIconStyle = computed(() => {
-  return {
-    '--o-title-icon-url': `url(${titleIconUrl})`,
-  }
-})
-// copy成功的提示文案
 </script>
 
 <style scoped lang="scss">
@@ -141,18 +153,9 @@ const defaultIconStyle = computed(() => {
       color: currentColor;
     }
     .o-title__default-icon {
-      display: inline-block;
       width: 14px;
       height: 14px;
-      background-color: currentColor;
-      mask-image: var(--o-title-icon-url);
-      mask-repeat: no-repeat;
-      mask-position: center;
-      mask-size: contain;
-      -webkit-mask-image: var(--o-title-icon-url);
-      -webkit-mask-repeat: no-repeat;
-      -webkit-mask-position: center;
-      -webkit-mask-size: contain;
+      display: block;
     }
     .o-title__slot-right-wrapper {
       text-align: right;
