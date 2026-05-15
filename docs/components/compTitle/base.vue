@@ -23,6 +23,11 @@ const count = ref(1)
     </div>
 
     <div class="demo-row">
+      <o-comp-title title="小尺寸" size="small" :box-style="{ width: 88, color: 'var(--el-color-primary)' }" />
+      <el-select v-model="value" size="small" placeholder="small" />
+    </div>
+
+    <div class="demo-row">
       <o-comp-title title="数量" />
       <el-input-number v-model="count" controls-position="right" />
     </div>
@@ -42,12 +47,14 @@ const count = ref(1)
     gap: 0;
 
     :deep(.el-input),
-    :deep(.el-input-number) {
+    :deep(.el-input-number),
+    :deep(.el-select) {
       flex: 1;
       min-width: 0;
     }
 
     :deep(.el-input__wrapper),
+    :deep(.el-select__wrapper),
     :deep(.el-input-number .el-input__wrapper) {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;

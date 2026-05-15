@@ -2,10 +2,13 @@
   <div
     class="o-select"
     :style="{ ...processWidth(mergedProps.width) }"
-    :class="{
-      'has-title': mergedProps.title,
-      'has-quick': mergedProps.showQuick && !parseDisabled && sOptions.length > 0,
-    }"
+    :class="[
+      sizeClass,
+      {
+        'has-title': mergedProps.title,
+        'has-quick': mergedProps.showQuick && !parseDisabled && sOptions.length > 0,
+      },
+    ]"
   >
     <o-comp-title :title="mergedProps.title" :size="attrs.size" :boxStyle="$attrs.boxStyle ?? {}" />
     <el-tooltip
@@ -99,6 +102,10 @@ const noDefaultSlots = computed(() => {
   delete copySlots.default
   delete copySlots.label
   return copySlots
+})
+
+const sizeClass = computed(() => {
+  return `o-select--${attrs.size || 'default'}`
 })
 
 const props = defineProps({
@@ -434,10 +441,11 @@ function _commonEmits(item, selectLabel, selectObj) {
 
 <style lang="scss" scoped>
 .o-select {
+  --o-select-min-height: var(--el-component-size, 32px);
   display: inline-flex;
   width: 316px;
   height: 100%;
-  min-height: var(--el-input-height, 32px);
+  min-height: var(--o-select-min-height);
   vertical-align: bottom;
 
   .o-select__fraction {
@@ -479,7 +487,7 @@ function _commonEmits(item, selectLabel, selectObj) {
   }
 
   :deep(.el-select__wrapper) {
-    min-height: max(100%, var(--el-input-height, 32px));
+    min-height: max(100%, var(--o-select-min-height));
   }
 
   :deep(.el-input__inner) {
@@ -574,7 +582,7 @@ function _commonEmits(item, selectLabel, selectObj) {
   border-left: none;
   white-space: nowrap;
   width: 14px;
-  min-height: max(100%, var(--el-input-height, 32px));
+  min-height: max(100%, var(--o-select-min-height));
   cursor: pointer;
   border-radius: 0px 2px 2px 0px;
   align-items: center;
@@ -597,5 +605,13 @@ function _commonEmits(item, selectLabel, selectObj) {
       margin-left: 0;
     }
   }
+}
+
+.o-select--small {
+  --o-select-min-height: var(--el-component-size-small, 24px);
+}
+
+.o-select--large {
+  --o-select-min-height: var(--el-component-size-large, 40px);
 }
 </style>

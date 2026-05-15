@@ -33,18 +33,13 @@ const sizeClass = computed(() => {
   return attrs.size ? `el-input--${attrs.size}` : 'o-comp-title__base-size'
 })
 
-const sizeStyle = computed(() => {
-  return {
-    height: attrs.size === 'small' ? '' : 'unset',
-  }
-})
 </script>
 
 <template>
   <div
     class="o-comp-title"
     :class="sizeClass"
-    :style="{ ...sizeStyle, ...computedBoxStyle }"
+    :style="{ ...computedBoxStyle }"
     v-bind="$attrs"
     v-if="props.title"
   >
@@ -66,6 +61,7 @@ const sizeStyle = computed(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-height: var(--el-input-height, 32px);
   line-height: 100% !important;
   color: var(--el-color-info);
   font-size: 14px;
