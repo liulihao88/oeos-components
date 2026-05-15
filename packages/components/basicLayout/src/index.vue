@@ -59,12 +59,13 @@ const headerRef = ref<HTMLDivElement | null>(null)
 const isCollapsed = ref(false)
 
 const boxMergedStyle = computed(() => {
-  if (!props.square) {
-    return {}
-  }
-
   return {
-    display: 'inline-flex',
+    ...props.boxStyle,
+    ...(props.square
+      ? {
+          display: 'inline-flex',
+        }
+      : {}),
   }
 })
 

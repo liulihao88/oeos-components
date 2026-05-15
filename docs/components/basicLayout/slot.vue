@@ -1,6 +1,6 @@
 <template>
   <div>
-    <OBasicLayout collapsible>
+    <OBasicLayout collapsible :boxStyle="{ border: 'none' }">
       <template #header>
         <o-title title="更多">
           <template #right>
