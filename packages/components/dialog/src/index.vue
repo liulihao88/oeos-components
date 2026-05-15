@@ -14,10 +14,10 @@
       @close="handleClose"
     >
       <template #header>
-        <span class="o-dialog__header">
-          <slot name="header">
-            <div class="f-st-ct">
-              <svg class="o-dialog__header-icon w-16 d-ib m-r-2" viewBox="0 0 1024 1024" aria-hidden="true" focusable="false">
+        <div class="o-dialog__header">
+          <span v-if="!hideHeaderIcon" class="o-dialog__header-icon-box">
+            <slot name="headerIcon">
+              <svg class="o-dialog__header-icon" viewBox="0 0 1024 1024" aria-hidden="true" focusable="false">
                 <path
                   fill="currentColor"
                   d="M192 160h384c35.36 0 64 28.64 64 64v96h192c35.36 0 64 28.64 64 64v448c0 35.36-28.64 64-64 64H448c-35.36 0-64-28.64-64-64v-96H192c-35.36 0-64-28.64-64-64V224c0-35.36 28.64-64 64-64zm0 64v448h192V384c0-35.36 28.64-64 64-64h128v-96H192zm256 160v448h384V384H448z"
@@ -27,12 +27,14 @@
                   d="M544 480h192a32 32 0 1 1 0 64H544a32 32 0 1 1 0-64zm0 128h192a32 32 0 1 1 0 64H544a32 32 0 1 1 0-64z"
                 />
               </svg>
-              <span>
-                {{ title }}
-              </span>
-            </div>
-          </slot>
-        </span>
+            </slot>
+          </span>
+          <span class="o-dialog__header-content">
+            <slot name="header">
+              {{ title }}
+            </slot>
+          </span>
+        </div>
       </template>
       <div :class="slotBoxClass">
         <slot></slot>
@@ -64,7 +66,7 @@
 </template>
 
 <script setup lang="ts" name="ODialog">
-import { ref, computed, useAttrs, useSlots, watch, onBeforeUnmount, onMounted } from 'vue'
+import { ref, computed, useAttrs, watch, onBeforeUnmount, onMounted } from 'vue'
 import { getType } from '@/utils/src/index'
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue'])
@@ -124,6 +126,10 @@ const props = defineProps({
     type: Function,
   },
   fillSlot: {
+    type: Boolean,
+    default: false,
+  },
+  hideHeaderIcon: {
     type: Boolean,
     default: false,
   },
@@ -311,14 +317,30 @@ onBeforeUnmount(() => {
     height: 45px;
   }
   .o-dialog__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 16px;
     color: var(--el-text-color-primary);
   }
 
+  .o-dialog__header-icon-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
   .o-dialog__header-icon {
     display: block;
-    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
     color: currentColor;
+  }
+
+  .o-dialog__header-content {
+    min-width: 0;
+    flex: 1 1 auto;
   }
 }
 
