@@ -34,7 +34,7 @@ const compItemList = computed(() => {
       src: bucketNumber,
       style: {
         color: 'var(--overview-primary-text)',
-        background: 'var(--overview-primary-bg)',
+        background: 'var(--overview-success-alt-bg)',
       },
     },
     {
@@ -94,7 +94,7 @@ const compItemList = computed(() => {
       key: 'workmode',
       style: {
         color: 'var(--overview-primary-text)',
-        background: 'var(--overview-primary-bg)',
+        background: 'var(--overview-success-alt-bg)',
       },
     },
     {
