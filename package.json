@@ -44,7 +44,6 @@
     "chalk": "^5.3.0",
     "consola": "^3.2.3",
     "dayjs": "^1.11.19",
-    "echarts": "^5.5.0",
     "element-plus": "^2.11.5",
     "escape-html": "^1.0.3",
     "fast-glob": "^3.3.3",
@@ -64,8 +63,6 @@
     "vite-plugin-vue-setup-extend": "^0.4.0",
     "vite-svg-loader": "^5.1.0",
     "vitepress": "1.0.0-rc.1",
-    "vue": "^3.4.15",
-    "vue-echarts": "^7.0.3",
     "vue-router": "^4.2.5",
     "vue-tippy": "^6.4.1",
     "vue-tsc": "^3.1.5"
@@ -80,7 +77,10 @@
     "prettier": "^3.0.3",
     "terser": "^5.31.1",
     "vite": "^5.2.11",
-    "vite-plugin-md": "^0.21.5"
+    "vite-plugin-md": "^0.21.5",
+    "echarts": "^5.5.0",
+    "vue-echarts": "^7.0.3",
+    "vue": "^3.4.15"
   },
   "repository": {
     "type": "git",
@@ -95,5 +95,10 @@
     "cyrd",
     "创云融达",
     "llh"
-  ]
+  ],
+  "peerDependencies": {
+    "echarts": ">=5.5.0 <6",
+    "vue-echarts": ">=6.7.3 <8",
+    "vue": ">=3.4.0 <4"
+  }
 }

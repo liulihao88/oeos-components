@@ -28,11 +28,17 @@ export default defineConfig({
       fileName: (format) => `${pkg.name}-${format}.js`,
     },
     rollupOptions: {
-      external: ['vue'],
+      external: (id) => ['vue', 'echarts', 'vue-echarts'].includes(id) || /^echarts(\/|$)/.test(id) || /^vue-echarts(\/|$)/.test(id),
       output: {
         // UMD模式下位那些外部化的依赖提供一个全局的变量
         globals: {
           vue: 'Vue',
+          echarts: 'echarts',
+          'echarts/core': 'echarts',
+          'echarts/charts': 'echarts',
+          'echarts/renderers': 'echarts',
+          'echarts/components': 'echarts',
+          'vue-echarts': 'VueECharts',
         },
       },
     },
