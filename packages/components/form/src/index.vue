@@ -186,12 +186,19 @@ defineExpose({
   align-items: v-bind('props.align');
 
   .el-form-item__content {
+    display: flex;
+    align-items: stretch;
+
     .el-input,
     .el-select,
     .el-date-editor,
     .el-input-number,
-    .el-textarea {
+    .el-textarea,
+    .o-input,
+    .o-select,
+    .o-date-range {
       width: 100%;
+      height: 100%;
     }
   }
 }

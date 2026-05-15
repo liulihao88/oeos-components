@@ -30,19 +30,12 @@ const computedBoxStyle = computed(() => {
 })
 
 const sizeClass = computed(() => {
-  return `o-comp-title--${attrs.size || 'default'}`
+  return attrs.size ? `el-input--${attrs.size}` : 'o-comp-title__base-size'
 })
 
 const sizeStyle = computed(() => {
-  const size = attrs.size || 'default'
-  const heightMap = {
-    large: 'var(--el-component-size-large, 40px)',
-    default: 'var(--el-component-size, 32px)',
-    small: 'var(--el-component-size-small, 24px)',
-  }
-
   return {
-    height: heightMap[size] || heightMap.default,
+    height: attrs.size === 'small' ? '' : 'unset',
   }
 })
 </script>
@@ -70,11 +63,10 @@ const sizeStyle = computed(() => {
   padding: 0 4px;
   white-space: nowrap;
   border-radius: 2px 0 0 2px;
-  align-items: center;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  line-height: 1 !important;
+  line-height: 100% !important;
   color: var(--el-color-info);
   font-size: 14px;
 }
@@ -82,11 +74,7 @@ const sizeStyle = computed(() => {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
 }
-.o-comp-title--small {
-  font-size: 12px;
-}
-
-.o-comp-title--large {
+.o-comp-title__base-size {
   font-size: 14px;
 }
 </style>

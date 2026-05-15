@@ -436,6 +436,8 @@ function _commonEmits(item, selectLabel, selectObj) {
 .o-select {
   display: inline-flex;
   width: 316px;
+  height: 100%;
+  min-height: var(--el-input-height, 32px);
   vertical-align: bottom;
 
   .o-select__fraction {
@@ -467,10 +469,17 @@ function _commonEmits(item, selectLabel, selectObj) {
   .o-select__tooltip-trigger {
     display: flex;
     flex: 1;
+    height: 100%;
     min-width: 0;
   }
   :deep(.el-select) {
     flex: 1;
+    height: 100%;
+    min-height: inherit;
+  }
+
+  :deep(.el-select__wrapper) {
+    min-height: max(100%, var(--el-input-height, 32px));
   }
 
   :deep(.el-input__inner) {
@@ -565,6 +574,7 @@ function _commonEmits(item, selectLabel, selectObj) {
   border-left: none;
   white-space: nowrap;
   width: 14px;
+  min-height: max(100%, var(--el-input-height, 32px));
   cursor: pointer;
   border-radius: 0px 2px 2px 0px;
   align-items: center;
