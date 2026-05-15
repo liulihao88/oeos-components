@@ -2,10 +2,10 @@ import { getVariable } from '../src/index.ts'
 export function getPieColorByDataIndex(params: any, usedPercent: string) {
   if (params.dataIndex === 0) {
     if (parseInt(usedPercent) > 100) {
-      return getVariable('--red')
+      return getVariable('--el-color-danger')
     }
-    return getVariable('--blue')
+    return getVariable('--el-color-primary')
   } else {
-    return getVariable('--green')
+    return getVariable('--el-color-success')
   }
 }

@@ -232,7 +232,7 @@ onMounted(() => {
     })
     themeObserver.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class', 'data-theme'],
+      attributeFilter: ['class', 'data-theme', 'style'],
     })
   }
 })

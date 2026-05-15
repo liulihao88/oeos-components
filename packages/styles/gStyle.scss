@@ -41,6 +41,10 @@
   --chart-tooltip-bg: var(--el-bg-color-overlay);
   --chart-tooltip-text: var(--el-text-color-primary);
   --chart-tooltip-border: var(--el-border-color-light);
+  --o-capacity-progress-fill: var(--el-color-primary);
+  --o-capacity-progress-track-bg: var(--el-color-primary-light-7);
+  --o-capacity-progress-overflow-fill: var(--el-color-danger);
+  --o-capacity-progress-track-bg-negative: var(--el-color-info-light-7);
   --overview-primary-text: var(--el-color-primary);
   --overview-primary-bg: var(--el-color-primary-light-9);
   --overview-warning-text: var(--el-color-warning);

@@ -6,8 +6,7 @@
  */
 
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { sleep, getVariable } from '@/utils/src'
-import { formatBytes, getType } from '@/utils/src'
+import { sleep, formatBytes, getType } from '@/utils/src/index.ts'
 import { handleWidthHeight } from '@/components/utils/local.ts'
 
 const progressBoxRef = ref(null)
@@ -152,15 +151,15 @@ const parseType = computed(() => {
 
 const setColorByType = (pType) => {
   if (pType === 'primary') {
-    return getVariable('--blue')
+    return 'var(--o-capacity-progress-fill)'
   } else if (pType === 'info') {
-    return getVariable('--el-color-info')
+    return 'var(--el-color-info)'
   } else if (pType === 'warning') {
-    return getVariable('--el-color-warning')
+    return 'var(--el-color-warning)'
   } else if (pType === 'danger') {
-    return getVariable('--red')
+    return 'var(--o-capacity-progress-overflow-fill)'
   } else {
-    return getVariable('--blue')
+    return 'var(--o-capacity-progress-fill)'
   }
 }
 function formatColor(value) {
@@ -168,9 +167,9 @@ function formatColor(value) {
     if (props.customColor) {
       return setColorByType(parseType.value)
     }
-    return getVariable('--blue')
+    return 'var(--o-capacity-progress-fill)'
   } else {
-    return getVariable('--red')
+    return 'var(--o-capacity-progress-overflow-fill)'
   }
 }
 
@@ -250,10 +249,10 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .progress-box :deep(.el-progress-bar__outer) {
   width: 100%;
-  background: var(--green);
+  background: var(--o-capacity-progress-track-bg);
 }
 .progress-box.prgress-less-zero :deep(.el-progress-bar__outer) {
   width: 100%;
-  background: var(--el-color-info);
+  background: var(--o-capacity-progress-track-bg-negative);
 }
 </style>
