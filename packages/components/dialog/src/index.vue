@@ -17,7 +17,16 @@
         <span class="o-dialog__header">
           <slot name="header">
             <div class="f-st-ct">
-              <img :src="dialogImg" class="w-16 d-ib m-r-2" />
+              <svg class="o-dialog__header-icon w-16 d-ib m-r-2" viewBox="0 0 1024 1024" aria-hidden="true" focusable="false">
+                <path
+                  fill="currentColor"
+                  d="M192 160h384c35.36 0 64 28.64 64 64v96h192c35.36 0 64 28.64 64 64v448c0 35.36-28.64 64-64 64H448c-35.36 0-64-28.64-64-64v-96H192c-35.36 0-64-28.64-64-64V224c0-35.36 28.64-64 64-64zm0 64v448h192V384c0-35.36 28.64-64 64-64h128v-96H192zm256 160v448h384V384H448z"
+                />
+                <path
+                  fill="currentColor"
+                  d="M544 480h192a32 32 0 1 1 0 64H544a32 32 0 1 1 0-64zm0 128h192a32 32 0 1 1 0 64H544a32 32 0 1 1 0-64z"
+                />
+              </svg>
               <span>
                 {{ title }}
               </span>
@@ -56,7 +65,6 @@
 
 <script setup lang="ts" name="ODialog">
 import { ref, computed, useAttrs, useSlots, watch, onBeforeUnmount, onMounted } from 'vue'
-import dialogImg from '@/assets/images/dialog.png'
 import { getType } from '@/utils/src/index'
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue'])
@@ -133,7 +141,7 @@ const getThemeClass = computed(() => {
 })
 
 const componentClass = computed(() => {
-  return getThemeClass.value
+  return ['o-dialog__panel', getThemeClass.value].filter(Boolean).join(' ')
 })
 
 const mergedConfirmAttrs = computed(() => {
@@ -304,6 +312,14 @@ onBeforeUnmount(() => {
   }
   .o-dialog__header {
     font-size: 16px;
+    color: var(--el-text-color-primary);
+  }
+
+  .o-dialog__header-icon {
+    display: block;
+    flex: 0 0 auto;
+    color: currentColor;
   }
 }
+
 </style>
