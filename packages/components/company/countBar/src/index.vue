@@ -252,6 +252,8 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" scoped>
+@import '@/styles/utilities.scss';
+
 .calc-height {
   height: 100%;
   min-height: 100px;

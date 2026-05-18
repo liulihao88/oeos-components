@@ -16,6 +16,7 @@ import ChangelogContent from './components/ChangelogContent.vue'
 import { VPDemo } from '../vitepress'
 // 基于element-plus二次封装基础组件
 import '~dist/style.css'
+import '@/styles/utilities.scss'
 import oeosV3Components, { createSvg } from '@/index.ts' // 开发时使用的入口文件
 // import oeosV3Components, { createSvg } from '~dist/oeos-components-es.js' // 打包后的入口文件
 import * as utils from '@/utils/src/index.ts'

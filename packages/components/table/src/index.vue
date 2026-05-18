@@ -1240,6 +1240,8 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
+@import '@/styles/utilities.scss';
+
 .linked {
   color: var(--blue);
   cursor: pointer;

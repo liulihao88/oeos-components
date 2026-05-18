@@ -182,6 +182,8 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/utilities.scss';
+
 .o-descriptions {
   :deep(.el-descriptions__body),
   :deep(.el-descriptions__table) {

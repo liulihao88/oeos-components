@@ -142,6 +142,8 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/utilities.scss';
+
 :deep(.el-form-item__label):before {
   content: '*';
   color: var(--el-color-danger);

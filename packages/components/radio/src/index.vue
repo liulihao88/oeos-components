@@ -88,6 +88,8 @@ const parseOptions = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/utilities.scss';
+
 .o-radio-box {
   display: flex;
   .o-comp-title {

@@ -116,3 +116,7 @@ const disabledDate = (time) => {
   return time > new Date() // 禁用未来的日期
 }
 </script>
+
+<style scoped lang="scss">
+@import '@/styles/utilities.scss';
+</style>

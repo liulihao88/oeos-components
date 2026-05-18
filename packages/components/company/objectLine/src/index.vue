@@ -300,3 +300,7 @@ defineExpose({
     <o-empty v-else class="h-100%" />
   </oBasicLayout>
 </template>
+
+<style scoped lang="scss">
+@import '@/styles/utilities.scss';
+</style>

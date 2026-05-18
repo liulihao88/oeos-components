@@ -440,6 +440,8 @@ function _commonEmits(item, selectLabel, selectObj) {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/utilities.scss';
+
 .o-select {
   --o-select-min-height: var(--el-component-size, 32px);
   display: inline-flex;

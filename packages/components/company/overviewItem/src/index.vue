@@ -146,6 +146,8 @@ const compItemList = computed(() => {
 </template>
 
 <style lang="scss" scoped>
+@import '@/styles/utilities.scss';
+
 .new-img-box {
   display: flex;
   align-items: center;

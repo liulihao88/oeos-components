@@ -166,6 +166,8 @@ function _handleClose() {
 </template>
 
 <style scoped lang="scss">
+@import '@/styles/utilities.scss';
+
 .o-drawer {
   :deep(.el-drawer__header) {
     margin-bottom: 0;

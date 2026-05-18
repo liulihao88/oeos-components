@@ -147,6 +147,8 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
+@import '@/styles/utilities.scss';
+
 .o-input-box {
   background-color: var(--el-bg-color);
   font-size: 12px;

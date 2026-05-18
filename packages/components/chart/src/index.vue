@@ -139,6 +139,8 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped lang="scss">
+@import '@/styles/utilities.scss';
+
 .o-chart-container {
   height: 100%;
   width: 100%;

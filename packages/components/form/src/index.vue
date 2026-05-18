@@ -178,6 +178,8 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
+@import '@/styles/utilities.scss';
+
 .o-form {
   display: flex;
   flex-wrap: wrap;

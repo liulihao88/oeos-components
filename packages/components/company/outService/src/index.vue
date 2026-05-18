@@ -85,6 +85,8 @@ const itemList = computed(() => {
 </template>
 
 <style lang="scss" scoped>
+@import '@/styles/utilities.scss';
+
 .box {
   margin-bottom: 16px;
 }

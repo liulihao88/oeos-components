@@ -134,6 +134,8 @@ function getSpan(index: number) {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/utilities.scss';
+
 .o-row--custom-gutter {
   margin-right: calc(var(--o-row-gutter) / -2);
   margin-left: calc(var(--o-row-gutter) / -2);

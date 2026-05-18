@@ -247,6 +247,8 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@import '@/styles/utilities.scss';
+
 .progress-box :deep(.el-progress-bar__outer) {
   width: 100%;
   background: var(--o-capacity-progress-track-bg);

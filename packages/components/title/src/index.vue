@@ -135,6 +135,8 @@ const parseClass = computed(() => {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/utilities.scss';
+
 .o-title {
   position: relative;
   box-sizing: border-box;

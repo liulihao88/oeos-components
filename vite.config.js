@@ -9,6 +9,7 @@ import { customVitePluginFilePath } from './packages/utils/local/customVitePlugi
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import Icons from 'unplugin-icons/vite'
+import { compile } from 'sass'
 
 const formatBuildTime = (date) => {
   const pad = (value) => String(value).padStart(2, '0')
@@ -58,6 +59,21 @@ export default defineConfig({
         },
       }),
       apply: 'build',
+    },
+    {
+      name: 'emit-optional-utilities',
+      apply: 'build',
+      generateBundle() {
+        const result = compile(resolve(__dirname, './packages/styles/utilities.scss'), {
+          style: 'expanded',
+        })
+
+        this.emitFile({
+          type: 'asset',
+          fileName: 'utilities.css',
+          source: result.css,
+        })
+      },
     },
     vue({
       include: [/\.vue$/],

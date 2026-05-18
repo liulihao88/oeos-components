@@ -100,6 +100,8 @@ function parseClass(): string {
 </template>
 
 <style lang="scss" scoped>
+@import '@/styles/utilities.scss';
+
 .o-warning-box {
   display: flex;
   align-items: baseline;

@@ -185,6 +185,8 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" scoped>
+@import '@/styles/utilities.scss';
+
 .vChart-box {
   width: 100%;
   height: 100%;
