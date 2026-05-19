@@ -180,6 +180,7 @@ const singleSelectionColumnAttrs = computed(() => {
   return {
     width: 58,
     align: 'center',
+    fixed: 'left',
     ...normalizedSelectionAttrs.value,
   }
 })
@@ -808,9 +809,8 @@ defineExpose({
           </div>
         </template>
       </el-table-column>
-      <slot />
       <el-table-column
-        v-if="mergedProps.showIndex"
+        v-if="isSingleSelection && mergedProps.showIndex"
         type="index"
         :width="tableTotal >= 10000 || $attrs.size === 'large' ? 70 : 60"
         align="center"
@@ -819,6 +819,20 @@ defineExpose({
         v-bind="indexColumnAttrs"
       >
         <!-- 使用 #header 插槽自定义表头 -->
+        <template #header="{ column }">
+          <HeaderTooltip :label="column.label || '序号'" />
+        </template>
+      </el-table-column>
+      <slot />
+      <el-table-column
+        v-if="!isSingleSelection && mergedProps.showIndex"
+        type="index"
+        :width="tableTotal >= 10000 || $attrs.size === 'large' ? 70 : 60"
+        align="center"
+        :index="indexMethod"
+        :fixed="true"
+        v-bind="indexColumnAttrs"
+      >
         <template #header="{ column }">
           <HeaderTooltip :label="column.label || '序号'" />
         </template>
