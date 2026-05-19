@@ -124,7 +124,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="o-input-box cl-blue">
+  <div class="o-input-box">
     <div class="o-input-box__content">
       <div v-for="(item, index) in labelarr" :key="index" :class="item.isDelete === 0 ? 'disbox' : 'spanbox'">
         <span>{{ item.name || item }}</span>
@@ -147,9 +147,8 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-@import '@/styles/utilities.scss';
-
 .o-input-box {
+  color: var(--blue);
   background-color: var(--el-bg-color);
   font-size: 12px;
   position: relative;

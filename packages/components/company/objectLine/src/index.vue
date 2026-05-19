@@ -126,10 +126,10 @@ const option = computed(() => {
         let res = ` ${parseTime} <br> `
         params.forEach((v) => {
           if (v.seriesName === '数量') {
-            res += `数量: <span class="bold-700">${formatThousands(v.data)}</span> <br> `
+            res += `数量: <span style="font-weight: 700">${formatThousands(v.data)}</span> <br> `
           }
           if (v.seriesName === '大小') {
-            res += `大小: <span class="bold-700">
+            res += `大小: <span style="font-weight: 700">
               ${formatBytes(v.data)}
             </span>`
           }
@@ -288,7 +288,7 @@ defineExpose({
 </script>
 
 <template>
-  <oBasicLayout class="h-100%" :bodyStyle="{ padding: 0 }">
+  <oBasicLayout class="o-object-line" :bodyStyle="{ padding: 0 }">
     <template #header>
       <o-title title="对象数量/大小历史">
         <!-- <template #right>
@@ -297,10 +297,13 @@ defineExpose({
       </o-title>
     </template>
     <o-chart v-if="!isEmpty(data)" :option="option" height="100%" ref="chartRef" />
-    <o-empty v-else class="h-100%" />
+    <o-empty v-else class="o-object-line__empty" />
   </oBasicLayout>
 </template>
 
 <style scoped lang="scss">
-@import '@/styles/utilities.scss';
+.o-object-line,
+.o-object-line__empty {
+  height: 100%;
+}
 </style>

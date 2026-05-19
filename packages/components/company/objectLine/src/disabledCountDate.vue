@@ -1,5 +1,5 @@
 <template>
-  <div class="f-st-ct">
+  <div class="o-disabled-count-date">
     <!-- <el-date-picker
       ref="datePickerRef"
       v-model="dateRange"
@@ -118,5 +118,8 @@ const disabledDate = (time) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/utilities.scss';
+.o-disabled-count-date {
+  display: flex;
+  align-items: center;
+}
 </style>

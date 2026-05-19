@@ -161,7 +161,7 @@ let initOption = {
   ],
 }
 function formatter(params) {
-  let res = `${params.name} \n <span class="cl-blue">${params.value}</span>`
+  let res = `${params.name} \n <span style="color: var(--blue)">${params.value}</span>`
   let { value, name } = params.data
   return `${name}: ${value}\n 占比: (${params.percent}%)`
 }
@@ -257,19 +257,21 @@ onBeforeUnmount(() => {
 
 <template>
   <template v-if="isEmpty">
-    <o-empty class="h-100%" />
+    <o-empty class="o-count-bar-old__empty" />
   </template>
   <template v-else>
     <div class="vChart-box">
-      <VChart class="calc-height" :option="option" autoresize />
+      <VChart class="o-count-bar-old__chart" :option="option" autoresize />
     </div>
   </template>
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
+.o-count-bar-old__empty {
+  height: 100%;
+}
 
-.calc-height {
+.o-count-bar-old__chart {
   height: 100%;
   min-height: 100px;
 }

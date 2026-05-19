@@ -38,7 +38,6 @@ const selectedText = computed(() => {
       selection-type="single"
       :columns="columns"
       :data="data"
-      :showIndex="false"
       :showPage="false"
       highlight-current-row
     />

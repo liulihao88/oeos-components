@@ -1,6 +1,11 @@
 <template>
   <div class="o-radio-box">
-    <o-comp-title :title="props.title" v-if="props.title" :boxStyle="$attrs.boxStyle ?? {}" class="mr"></o-comp-title>
+    <o-comp-title
+      :title="props.title"
+      v-if="props.title"
+      :boxStyle="$attrs.boxStyle ?? {}"
+      class="o-radio-box__title"
+    ></o-comp-title>
     <el-radio-group v-bind="$attrs">
       <slot>
         <component
@@ -88,10 +93,11 @@ const parseOptions = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
-
 .o-radio-box {
   display: flex;
+  .o-radio-box__title {
+    margin-right: 8px;
+  }
   .o-comp-title {
     border-right: 1px solid var(--el-border-color);
   }

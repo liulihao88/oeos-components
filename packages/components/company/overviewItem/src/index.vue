@@ -121,8 +121,8 @@ const compItemList = computed(() => {
 </script>
 
 <template>
-  <oBasicLayout class="h-100%">
-    <oItemWrapper class="w-100%">
+  <oBasicLayout class="o-overview-item">
+    <oItemWrapper class="o-overview-item__wrapper">
       <template v-for="(v, i) in compItemList" :key="i">
         <OItem
           :label="v.label"
@@ -136,7 +136,7 @@ const compItemList = computed(() => {
         >
           <template #img>
             <div class="new-img-box">
-              <img :src="v.src" class="po-r" :useResize="true" />
+              <img :src="v.src" class="o-overview-item__image" :useResize="true" />
             </div>
           </template>
         </OItem>
@@ -146,7 +146,13 @@ const compItemList = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
+.o-overview-item {
+  height: 100%;
+}
+
+.o-overview-item__wrapper {
+  width: 100%;
+}
 
 .new-img-box {
   display: flex;
@@ -160,5 +166,9 @@ const compItemList = computed(() => {
     max-width: 100%;
     object-fit: contain !important; // 这里是为了让图片, 不缩放
   }
+}
+
+.o-overview-item__image {
+  position: relative;
 }
 </style>

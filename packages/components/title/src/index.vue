@@ -1,7 +1,7 @@
 <template>
   <div class="o-title" :style="{ ...margin, height: processWidth(height, true) }" v-bind="$attrs">
     <div class="o-title__top" :class="parseClass">
-      <div class="f-st-ct" :style="{ marginLeft: props.inner ? '8px' : 0 }">
+      <div class="o-title__main" :style="{ marginLeft: props.inner ? '8px' : 0 }">
         <span :class="($slots.icon || props.type === 'icon') && 'o-title__slot-icon-wrapper'">
           <slot name="icon" class="icon_slot">
             <svg
@@ -135,11 +135,13 @@ const parseClass = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/utilities.scss';
-
 .o-title {
   position: relative;
   box-sizing: border-box;
+  .o-title__main {
+    display: flex;
+    align-items: center;
+  }
   .o-title__top {
     display: flex;
     align-items: center;

@@ -49,20 +49,20 @@ const itemList = computed(() => {
 </script>
 
 <template>
-  <oBasicLayout class="h-100%">
+  <oBasicLayout class="o-out-service">
     <template #header>
       <o-title title="对外服务信息">
         <template #icon>
-          <img :src="overviewService" class="mr" />
+          <img :src="overviewService" class="o-out-service__title-icon" />
         </template>
       </o-title>
     </template>
     <div class="top" v-if="type !== 'horizontal'">
       <div v-for="(v, i) in itemList" :key="i" class="item">
-        <img :src="v.img" class="mr" width="43" />
+        <img :src="v.img" class="o-out-service__item-icon" width="43" />
         <div class="item-right">
-          <div class="bold tc">{{ v.value }}</div>
-          <div class="cl-45 tc">{{ v.label }}</div>
+          <div class="o-out-service__item-value">{{ v.value }}</div>
+          <div class="o-out-service__item-label">{{ v.label }}</div>
         </div>
       </div>
     </div>
@@ -85,10 +85,27 @@ const itemList = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
-
 .box {
   margin-bottom: 16px;
+}
+
+.o-out-service {
+  height: 100%;
+}
+
+.o-out-service__title-icon,
+.o-out-service__item-icon {
+  margin-right: 8px;
+}
+
+.o-out-service__item-value {
+  font-weight: 700;
+  text-align: center;
+}
+
+.o-out-service__item-label {
+  color: var(--45);
+  text-align: center;
 }
 
 .top {

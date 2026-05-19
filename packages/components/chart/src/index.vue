@@ -129,7 +129,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="o-chart po-r" :style="{ height: processWidth(height, true), width: processWidth(width, true) }">
+  <div class="o-chart" :style="{ height: processWidth(height, true), width: processWidth(width, true) }">
     <div ref="echartDivRef" :id="id" class="o-chart-container" v-show="!formatEmpty" />
     <slot v-if="formatEmpty" name="empty">
       <el-empty v-bind="$attrs" :description="description" />
@@ -139,7 +139,9 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped lang="scss">
-@import '@/styles/utilities.scss';
+.o-chart {
+  position: relative;
+}
 
 .o-chart-container {
   height: 100%;

@@ -1,10 +1,10 @@
 <!-- src/components/QuotaFormItem.vue -->
 <template>
   <el-form-item label="配额" prop="quota" :rules="rules" ref="formItemRef" v-bind="$attrs">
-    <div class="f-st-ct">
-      <div class="f-st-ct w-100% mr2">
-        <el-input-number v-model="internalValue" style="min-width: 150px" class="mr" :min="0" />
-        <o-radio v-model="unitValue" :options="QUOTA_UNIT" showType="button" class="w-200" />
+    <div class="o-quota-unit">
+      <div class="o-quota-unit__controls">
+        <el-input-number v-model="internalValue" style="min-width: 150px" class="o-quota-unit__input" :min="0" />
+        <o-radio v-model="unitValue" :options="QUOTA_UNIT" showType="button" class="o-quota-unit__radio" />
       </div>
     </div>
   </el-form-item>
@@ -142,7 +142,25 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
+.o-quota-unit {
+  display: flex;
+  align-items: center;
+}
+
+.o-quota-unit__controls {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-right: 16px;
+}
+
+.o-quota-unit__input {
+  margin-right: 8px;
+}
+
+.o-quota-unit__radio {
+  width: 200px;
+}
 
 :deep(.el-form-item__label):before {
   content: '*';

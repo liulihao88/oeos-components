@@ -798,7 +798,7 @@ defineExpose({
           <HeaderTooltip :label="selectionHeaderLabel" />
         </template>
         <template #default="scope">
-          <div class="f-ct-ct w-100%">
+          <div class="o-table__selection">
             <el-radio
               :model-value="isSingleRowSelected(scope.row)"
               :value="true"
@@ -901,7 +901,7 @@ defineExpose({
                                 )
                               : val.title ?? '确定删除吗?'
                           "
-                          class="f-st-ct"
+                          class="o-table__actions"
                           @confirm="
                             invokeWithContext(
                               val.handler,
@@ -919,7 +919,7 @@ defineExpose({
                           <component
                             :is="val.comp"
                             v-if="val.comp"
-                            class="cp"
+                            class="o-table__clickable"
                             v-bind="val.attrs"
                             :disabled="
                               parseDisabled(
@@ -970,7 +970,7 @@ defineExpose({
                       <component
                         :is="val.comp"
                         v-else-if="val.comp"
-                        class="cp"
+                        class="o-table__clickable"
                         v-bind="val.attrs"
                         :disabled="
                           parseDisabled(
@@ -1215,7 +1215,7 @@ defineExpose({
     <div class="page-wrap" v-if="mergedProps.showPage">
       <div class="page-left">
         <span>共</span>
-        <span class="m-lr-2 bold">{{ tableTotal }}</span>
+        <span class="o-table__total">{{ tableTotal }}</span>
         <span>项</span>
       </div>
       <div class="page-right">
@@ -1240,11 +1240,30 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-@import '@/styles/utilities.scss';
-
 .linked {
   color: var(--blue);
   cursor: pointer;
+}
+
+.o-table__selection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.o-table__actions {
+  display: flex;
+  align-items: center;
+}
+
+.o-table__clickable {
+  cursor: pointer;
+}
+
+.o-table__total {
+  margin: 0 16px;
+  font-weight: 900;
 }
 
 .o-table {

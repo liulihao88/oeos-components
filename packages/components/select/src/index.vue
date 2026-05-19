@@ -39,12 +39,12 @@
         >
           <template v-if="mergedProps.showPrefix" #prefix>
             <slot name="prefix">
-              <span v-if="Array.isArray(childSelectedValue)" class="o-select__fraction l-1">
+              <span v-if="Array.isArray(childSelectedValue)" class="o-select__fraction">
                 <span class="o-select__fraction-text">{{ childSelectedValue.length }}</span>
                 <span class="o-select__fraction-line"></span>
                 <span class="o-select__fraction-text">{{ sOptions.length }}</span>
               </span>
-              <span v-else class="o-select__fraction-text po-a l-1">{{ sOptions.length }}</span>
+              <span v-else class="o-select__fraction-text o-select__fraction-text--absolute">{{ sOptions.length }}</span>
             </slot>
           </template>
           <template v-if="$slots.label" #label="arg">
@@ -54,14 +54,14 @@
             <slot :name="name" v-bind="arg" :index="index" />
           </template>
 
-          <div v-if="multiple && mergedProps.showAll" class="po-r">
+          <div v-if="multiple && mergedProps.showAll" class="o-select__bulk-actions">
             <el-checkbox
               v-model="selectChecked"
               :indeterminate="indeterminate"
-              class="o-select__all-select f-st-ct"
+              class="o-select__all-select"
               @change="selectAll"
             >
-              <div class="mt">全选</div>
+              <div class="o-select__all-select-label">全选</div>
             </el-checkbox>
             <el-button type="primary" size="small" class="reverse-select" @click.stop="reverseSelect">反选</el-button>
           </div>
@@ -82,7 +82,7 @@
     <span v-if="showQuick && !parseDisabled && sOptions.length > 0" class="o-select__select-box">
       <span class="o-select__select-box__inner">
         <o-icon name="ArrowUp" :size="attrs.size === 'small' ? 10 : 14" @click="quickSelect(false)" />
-        <div class="h-1 w-100% cl-blue bg-line" />
+        <div class="o-select__divider" />
         <o-icon name="ArrowDown" :size="attrs.size === 'small' ? 10 : 14" @click="quickSelect(true)" />
       </span>
     </span>
@@ -440,8 +440,6 @@ function _commonEmits(item, selectLabel, selectObj) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
-
 .o-select {
   --o-select-min-height: var(--el-component-size, 32px);
   display: inline-flex;
@@ -459,6 +457,7 @@ function _commonEmits(item, selectLabel, selectObj) {
     line-height: 1;
     font-size: 12px;
     position: absolute;
+    left: 1px;
   }
 
   .o-select__fraction-text {
@@ -501,6 +500,25 @@ function _commonEmits(item, selectLabel, selectObj) {
       box-shadow: 0 0 0 1px var(--red) inset;
     }
   }
+}
+
+.o-select__fraction-text--absolute {
+  position: absolute;
+  left: 1px;
+}
+
+.o-select__bulk-actions {
+  position: relative;
+}
+
+.o-select__all-select-label {
+  margin-top: 8px;
+}
+
+.o-select__divider {
+  width: 100%;
+  height: 1px;
+  background: var(--line);
 }
 .has-title {
   :deep(.el-select__wrapper) {
@@ -563,7 +581,7 @@ function _commonEmits(item, selectLabel, selectObj) {
 .o-select__all-select {
   display: flex;
   padding: 0px 0px 10px 20px;
-  align-items: end;
+  align-items: flex-end;
   &:hover {
     background-color: var(--el-fill-color-light);
   }

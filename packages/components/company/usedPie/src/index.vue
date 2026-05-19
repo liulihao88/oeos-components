@@ -171,7 +171,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="vChart-box">
     <VChart class="calc-height" :option="option" autoresize />
-    <div class="f w-100% list-container">
+    <div class="list-container">
       <div class="list">
         <div>使用量</div>
         <div class="num">{{ formatBytes(used) }}</div>
@@ -185,8 +185,6 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
-
 .vChart-box {
   width: 100%;
   height: 100%;

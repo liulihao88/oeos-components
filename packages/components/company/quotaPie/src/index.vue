@@ -225,19 +225,21 @@ onBeforeUnmount(() => {
 
 <template>
   <template v-if="isEmpty">
-    <o-empty class="h-100%" />
+    <o-empty class="o-quota-pie__empty" />
   </template>
   <template v-else>
     <div class="vChart-box" ref="containerRef">
-      <v-chart class="calc-height" :option="options" autoresize />
+      <v-chart class="o-quota-pie__chart" :option="options" autoresize />
     </div>
   </template>
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
+.o-quota-pie__empty {
+  height: 100%;
+}
 
-.calc-height {
+.o-quota-pie__chart {
   height: 100%;
   min-height: 100px;
 }

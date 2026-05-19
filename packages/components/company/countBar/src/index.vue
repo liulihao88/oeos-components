@@ -244,17 +244,19 @@ onBeforeUnmount(() => {
 
 <template>
   <template v-if="isDataEmpty">
-    <o-empty class="h-100%" />
+    <o-empty class="o-count-bar__empty" />
   </template>
   <template v-else>
-    <VChart class="calc-height" :option="option" autoresize />
+    <VChart class="o-count-bar__chart" :option="option" autoresize />
   </template>
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
+.o-count-bar__empty {
+  height: 100%;
+}
 
-.calc-height {
+.o-count-bar__chart {
   height: 100%;
   min-height: 100px;
 }

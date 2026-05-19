@@ -93,15 +93,17 @@ function parseClass(): string {
         </slot>
       </div>
       <slot name="content">
-        <span class="o-warning-box__content" :class="type === 'icon' && 'cl-45 fs-14'" v-bind="bindProps" />
+        <span
+          class="o-warning-box__content"
+          :class="{ 'o-warning-box__content--muted': type === 'icon' }"
+          v-bind="bindProps"
+        />
       </slot>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
-
 .o-warning-box {
   display: flex;
   align-items: baseline;
@@ -136,6 +138,10 @@ function parseClass(): string {
     font-weight: 400;
     color: var(--el-text-color-primary);
     overflow: auto;
+  }
+  .o-warning-box__content--muted {
+    color: var(--45);
+    font-size: 14px;
   }
   .o-warning-box__icon {
     position: relative;

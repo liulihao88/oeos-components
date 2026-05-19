@@ -35,7 +35,7 @@
           </template>
           <o-tooltip
             v-else
-            class="w-100%"
+            class="o-descriptions__tooltip"
             :content="parseContent(parseValue(item))"
             v-bind="item.valueAttrs"
           ></o-tooltip>
@@ -182,7 +182,9 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/utilities.scss';
+.o-descriptions__tooltip {
+  width: 100%;
+}
 
 .o-descriptions {
   :deep(.el-descriptions__body),

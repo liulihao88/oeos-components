@@ -210,7 +210,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="f-st-ct w-100%" :style="{ ...handleWidthHeight(props.width, props.height) }">
+  <div class="o-capacity-progress" :style="{ ...handleWidthHeight(props.width, props.height) }">
     <o-progress
       ref="progressBoxRef"
       class="progress-box"
@@ -225,8 +225,8 @@ onUnmounted(() => {
     >
       <template #default="{ percentage }">
         <el-tooltip :content="handleTooltip" :disabled="showRight">
-          <div ref="percentageRef" class="f-bt-ct" :style="{ ...adaptiveWidth() }">
-            <div class="percentage-value mr">{{ format() }}</div>
+          <div ref="percentageRef" class="o-capacity-progress__value-row" :style="{ ...adaptiveWidth() }">
+            <div class="percentage-value o-capacity-progress__percentage">{{ format() }}</div>
             <div class="">
               <slot>
                 <span v-if="showRight">{{ parseSpace(props.used) }}/{{ parseSpace(props.total) }}</span>
@@ -240,14 +240,32 @@ onUnmounted(() => {
       v-if="percentage > 100"
       name="warning"
       content="已用容量远超总容量, 请扩容 "
-      class="ml"
+      class="o-capacity-progress__warning"
       v-bind="iconAttrs"
     />
   </div>
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
+.o-capacity-progress {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.o-capacity-progress__value-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.o-capacity-progress__percentage {
+  margin-right: 8px;
+}
+
+.o-capacity-progress__warning {
+  margin-left: 8px;
+}
 
 .progress-box :deep(.el-progress-bar__outer) {
   width: 100%;

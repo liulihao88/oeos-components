@@ -141,8 +141,8 @@ defineExpose({
             </template>
             <template v-else>
               <slot :name="v.prop + '-label'" :item="v">
-                <img v-if="v.imgAttrs?.src" :src="v.imgAttrs?.src" class="h-16" v-bind="v.imgAttrs" />
-                <o-icon v-else-if="v.imgAttrs?.name" :name="v.imgAttrs?.name" class="m-r-4" v-bind="v.imgAttrs" />
+                <img v-if="v.imgAttrs?.src" :src="v.imgAttrs?.src" class="o-form__label-image" v-bind="v.imgAttrs" />
+                <o-icon v-else-if="v.imgAttrs?.name" :name="v.imgAttrs?.name" class="o-form__label-icon" v-bind="v.imgAttrs" />
                 <o-tooltip :content="v.label" />
               </slot>
             </template>
@@ -178,11 +178,17 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
-
 .o-form {
   display: flex;
   flex-wrap: wrap;
+}
+
+.o-form__label-image {
+  height: 16px;
+}
+
+.o-form__label-icon {
+  margin-right: 4px;
 }
 :deep(.el-form-item) {
   align-items: v-bind('props.align');

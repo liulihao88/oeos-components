@@ -12,7 +12,7 @@
       <!-- 如果是 el-col 直接渲染 -->
       <component v-if="isElCol(vnode)" :is="vnode" />
       <!-- 否则包裹一层 el-col -->
-      <el-col v-else :span="getSpan(i)" v-bind="colAttrs" class="h-100%">
+      <el-col v-else :span="getSpan(i)" v-bind="colAttrs" class="o-row__col">
         <component :is="vnode" />
       </el-col>
     </template>
@@ -134,7 +134,9 @@ function getSpan(index: number) {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/utilities.scss';
+.o-row__col {
+  height: 100%;
+}
 
 .o-row--custom-gutter {
   margin-right: calc(var(--o-row-gutter) / -2);

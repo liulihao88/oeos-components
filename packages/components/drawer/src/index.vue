@@ -146,7 +146,7 @@ function _handleClose() {
             id="kdDrawerConfirmBtn"
             :type="mergedConfirmAttrs.type || 'primary'"
             v-bind="mergedConfirmAttrs"
-            class="mr"
+            class="o-drawer__confirm"
             @click="confirm"
           >
             {{ mergeAttrs.confirmText }}
@@ -166,8 +166,6 @@ function _handleClose() {
 </template>
 
 <style scoped lang="scss">
-@import '@/styles/utilities.scss';
-
 .o-drawer {
   :deep(.el-drawer__header) {
     margin-bottom: 0;
@@ -233,5 +231,9 @@ function _handleClose() {
     box-sizing: border-box;
     border-top: 1px solid var(--line);
   }
+}
+
+.o-drawer__confirm {
+  margin-right: 8px;
 }
 </style>
