@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
+import { readFileSync } from 'fs'
 import vue from '@vitejs/plugin-vue'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
 import pkg from './package.json'
@@ -64,7 +65,8 @@ export default defineConfig({
       name: 'emit-optional-utilities',
       apply: 'build',
       generateBundle() {
-        const result = compile(resolve(__dirname, './packages/styles/utilities.scss'), {
+        const utilitiesPath = resolve(__dirname, './packages/styles/utilities.scss')
+        const result = compile(utilitiesPath, {
           style: 'expanded',
         })
 
@@ -72,6 +74,12 @@ export default defineConfig({
           type: 'asset',
           fileName: 'utilities.css',
           source: result.css,
+        })
+
+        this.emitFile({
+          type: 'asset',
+          fileName: 'utilities.scss',
+          source: readFileSync(utilitiesPath, 'utf-8'),
         })
       },
     },

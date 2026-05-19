@@ -15,10 +15,13 @@ import ChangelogContent from './components/ChangelogContent.vue'
 
 import { VPDemo } from '../vitepress'
 // 基于element-plus二次封装基础组件
-import '~dist/style.css'
-import '@/styles/utilities.scss'
-import oeosV3Components, { createSvg } from '@/index.ts' // 开发时使用的入口文件
-// import oeosV3Components, { createSvg } from '~dist/oeos-components-es.js' // 打包后的入口文件
+/* import '~dist/style.css'
+import '~dist/utilities.css'
+import OeosComponents, { createSvg } from '~dist/oeos-components-es.js' // 打包后的入口文件 */
+
+import '../../../packages/styles/index.scss'
+import '../../../packages/styles/utilities.scss'
+import OeosComponents, { createSvg } from '@/index.ts' // 开发时使用的入口文件
 import * as utils from '@/utils/src/index.ts'
 import '/public/css/index.css'
 import Logo from './logo.vue'
@@ -56,7 +59,7 @@ export default {
       locale, // 语言设置
     })
     // 全局注册基础组件
-    ctx.app.use(oeosV3Components)
+    ctx.app.use(OeosComponents)
     ctx.app.use(VueTippy)
 
     ctx.app.component('Demo', VPDemo)

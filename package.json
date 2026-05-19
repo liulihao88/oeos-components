@@ -8,6 +8,15 @@
   "unpkg": "dist/oeos-components-umd.js",
   "module": "dist/oeos-components-es.js",
   "style": "dist/style.css",
+  "exports": {
+    ".": {
+      "import": "./dist/oeos-components-es.js",
+      "default": "./dist/oeos-components-es.js"
+    },
+    "./style.css": "./dist/style.css",
+    "./utilities.css": "./dist/utilities.css",
+    "./utilities.scss": "./dist/utilities.scss"
+  },
   "files": [
     "dist"
   ],
