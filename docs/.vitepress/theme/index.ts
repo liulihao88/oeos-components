@@ -5,6 +5,8 @@ import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import locale from 'element-plus/es/locale/lang/zh-cn'
 import { h } from 'vue'
+import '/public/css/index.css'
+import './assets/styles/index.css'
 
 // 图标并进行全局注册
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
@@ -15,17 +17,15 @@ import ChangelogContent from './components/ChangelogContent.vue'
 
 import { VPDemo } from '../vitepress'
 // 基于element-plus二次封装基础组件
-/* import '~dist/style.css'
-import '~dist/utilities.css'
-import OeosComponents, { createSvg } from '~dist/oeos-components-es.js' // 打包后的入口文件 */
+import '~dist/style.css'
+// import '~dist/utilities.css'
+import OeosComponents, { createSvg } from '~dist/oeos-components-es.js' // 打包后的入口文件
 
-import '../../../packages/styles/index.scss'
-import '../../../packages/styles/utilities.scss'
-import OeosComponents, { createSvg } from '@/index.ts' // 开发时使用的入口文件
+// import '../../../packages/styles/index.scss'
+// import '../../../packages/styles/utilities.scss'
+// import OeosComponents, { createSvg } from '@/index.ts' // 开发时使用的入口文件
 import * as utils from '@/utils/src/index.ts'
-import '/public/css/index.css'
 import Logo from './logo.vue'
-import './assets/styles/index.css'
 import VueTippy from 'vue-tippy'
 
 // import 'virtual:svg-icons-register'
