@@ -25,36 +25,77 @@ const props = defineProps({
 })
 
 const sourceCode = ref<string>('')
+const rawUtilsModules = import.meta.glob('/packages/utils/src/*.ts', {
+  query: '?raw',
+  import: 'default',
+}) as Record<string, () => Promise<string>>
 
 onMounted(() => {
   loadUtils()
 })
 
-// .vitepress/components/FunctionSourceCode.vue
+const getLineStart = (source: string, index: number): number => {
+  const lineStart = source.lastIndexOf('\n', index)
+  return lineStart === -1 ? 0 : lineStart + 1
+}
 
-// Helper function to convert PascalCase to kebab-case
-const pascalToKebab = (str: string) => {
-  return str
-    .replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2')
-    .toLowerCase()
-    .replace(/^-/, '')
+const findMatchingBrace = (source: string, openBraceIndex: number): number => {
+  let depth = 0
+
+  for (let i = openBraceIndex; i < source.length; i++) {
+    const char = source[i]
+    if (char === '{') depth++
+    if (char === '}') {
+      depth--
+      if (depth === 0) return i
+    }
+  }
+
+  return -1
+}
+
+const extractDeclaration = (source: string, matcher: RegExp): string | null => {
+  const match = matcher.exec(source)
+  if (!match || match.index === undefined) return null
+
+  const declarationStart = getLineStart(source, match.index)
+  const bodyStart = source.indexOf('{', match.index)
+  if (bodyStart === -1) return null
+
+  const bodyEnd = findMatchingBrace(source, bodyStart)
+  if (bodyEnd === -1) return null
+
+  return source.slice(declarationStart, bodyEnd + 1).trim()
+}
+
+const extractFunctionSource = (source: string, functionName: string): string | null => {
+  const escapedName = functionName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const patterns = [
+    new RegExp(`export\\s+(?:async\\s+)?function\\s+${escapedName}\\b`, 'm'),
+    new RegExp(`export\\s+const\\s+${escapedName}\\s*=`, 'm'),
+    new RegExp(`export\\s+class\\s+${escapedName}\\b`, 'm'),
+  ]
+
+  for (const pattern of patterns) {
+    const code = extractDeclaration(source, pattern)
+    if (code) return code
+  }
+
+  return null
 }
 
 const loadUtils = async () => {
   try {
-    // 动态导入你保存了所有函数的 JS/TS 文件
-    // 这里我们假设你的函数都在 'src/utils/functions.ts' 中
-    const module = await import('@/utils/src/index.ts')
-
-    // 根据函数名从模块中获取函数本身
-    const func = module[props.functionName]
-
-    if (func && typeof func === 'function') {
-      // 使用 .toString() 将函数转换为源代码字符串
-      sourceCode.value = func.toString()
-    } else {
-      sourceCode.value = `// 未能找到函数 "${props.functionName}"`
+    for (const loadSource of Object.values(rawUtilsModules)) {
+      const source = await loadSource()
+      const code = extractFunctionSource(source, props.functionName)
+      if (code) {
+        sourceCode.value = code
+        return
+      }
     }
+
+    sourceCode.value = `// 未能找到函数 "${props.functionName}" 的源码`
   } catch (error) {
     console.error(`加载函数源码失败: ${props.functionName}`, error)
     sourceCode.value = `// 加载函数源码时出错: ${error}`
