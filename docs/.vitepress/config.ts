@@ -3,9 +3,13 @@ import { fileURLToPath, URL } from 'node:url'
 import { mdPlugin } from './config/plugins.ts'
 import { createAlgolia, Github } from './utils/settings.ts'
 
+const isProd = process.env.NODE_ENV === 'production'
+const hiddenDocsInProd = ['/components/test/home.md', '/components/chooseArea/home.md']
+
 export default defineConfig({
   // 站点级选项
   base: '/oeos-components/',
+  srcExclude: isProd ? ['components/test/**', 'components/chooseArea/**'] : [],
   head: [
     ['link', { rel: 'icon', type: 'image/x-icon', href: '/img/logo.svg' }],
     ['meta', { name: 'mobile-web-app-capable', content: 'yes' }],
@@ -278,7 +282,7 @@ export default defineConfig({
               text: 'warning组件',
               link: '/components/warning/home.md',
             },
-          ],
+          ].filter((item) => !isProd || !hiddenDocsInProd.includes(item.link)),
         },
         {
           text: '原生js组件',
