@@ -37,7 +37,7 @@ export default {
   async enhanceApp(ctx) {
     const { default: OeosComponents, createSvg } = import.meta.env.DEV
       ? await import('@/index.ts')
-      : await import('~dist/oeos-components-es.js')
+      : await Promise.all([import('~dist/style.css'), import('~dist/oeos-components-es.js')]).then(([, mod]) => mod)
     const svgIconConfig = createSvg(
       './assets/svg', // 指定本地 SVG 文件夹路径
     )

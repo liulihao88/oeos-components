@@ -30,7 +30,8 @@ export default defineConfig({
       fileName: (format) => `${pkg.name}-${format}.js`,
     },
     rollupOptions: {
-      external: (id) => ['vue', 'echarts', 'vue-echarts'].includes(id) || /^echarts(\/|$)/.test(id) || /^vue-echarts(\/|$)/.test(id),
+      external: (id) =>
+        ['vue', 'echarts', 'vue-echarts'].includes(id) || /^echarts(\/|$)/.test(id) || /^vue-echarts(\/|$)/.test(id),
       output: {
         // UMD模式下位那些外部化的依赖提供一个全局的变量
         globals: {
@@ -74,12 +75,6 @@ export default defineConfig({
           type: 'asset',
           fileName: 'utilities.css',
           source: result.css,
-        })
-
-        this.emitFile({
-          type: 'asset',
-          fileName: 'utilities.scss',
-          source: readFileSync(utilitiesPath, 'utf-8'),
         })
       },
     },
