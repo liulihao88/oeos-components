@@ -18,7 +18,7 @@ hero:
       link: /components/
     - theme: brand
       text: 组件预览
-      link: /components/dialog/base.md
+      link: /components/button/home
 features:
   - icon: 🔨
     title: 实际项目
