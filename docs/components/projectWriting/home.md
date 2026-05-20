@@ -21,7 +21,7 @@ docs/components/foo/
 ```
 
 - 通用基础组件通常放在 `packages/components/*`。
-- 偏业务的公司内部组件通常放在 `packages/components/company/*`。
+- 偏业务的业务组件通常放在 `packages/components/company/*`。
 - 文档示例通常放在 `docs/components/*`，一个组件一个目录。
 
 ### 2. 组件源码一般放在 `src/index.vue`

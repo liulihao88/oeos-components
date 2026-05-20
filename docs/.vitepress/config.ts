@@ -325,7 +325,7 @@ export default defineConfig({
           ],
         },
         {
-          text: '公司内部组件',
+          text: '业务组件',
           collapsed: false,
           items: [
             {

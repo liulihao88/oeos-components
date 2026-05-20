@@ -14,7 +14,7 @@ import OSvg from './components/svg/index.ts'
 import { GLOBAL_COMPONENT_CONFIG_KEY } from './hooks/useGlobalComponentConfig'
 
 const componentsGlobal = import.meta.glob('./components/*/index.ts', { eager: true, import: 'default' }) // 引入全局基础组件
-const componentsCompany = import.meta.glob('./components/company/*/index.ts', { eager: true, import: 'default' }) // 引入公司内部组件
+const componentsCompany = import.meta.glob('./components/company/*/index.ts', { eager: true, import: 'default' }) // 引入业务组件
 
 const allComponents = {
   ...componentsGlobal,
