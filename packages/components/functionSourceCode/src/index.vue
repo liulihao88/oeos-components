@@ -25,7 +25,7 @@ const props = defineProps({
 })
 
 const sourceCode = ref<string>('')
-const rawUtilsModules = import.meta.glob('/packages/utils/src/*.ts', {
+const rawUtilsModules = import.meta.glob('../../../utils/src/*.ts', {
   query: '?raw',
   import: 'default',
 }) as Record<string, () => Promise<string>>
@@ -37,6 +37,32 @@ onMounted(() => {
 const getLineStart = (source: string, index: number): number => {
   const lineStart = source.lastIndexOf('\n', index)
   return lineStart === -1 ? 0 : lineStart + 1
+}
+
+const findBodyStart = (source: string, startIndex: number): number => {
+  let parenDepth = 0
+  let seenParen = false
+
+  for (let i = startIndex; i < source.length; i++) {
+    const char = source[i]
+
+    if (char === '(') {
+      parenDepth++
+      seenParen = true
+      continue
+    }
+
+    if (char === ')') {
+      parenDepth--
+      continue
+    }
+
+    if (char === '{' && (!seenParen || parenDepth === 0)) {
+      return i
+    }
+  }
+
+  return -1
 }
 
 const findMatchingBrace = (source: string, openBraceIndex: number): number => {
@@ -59,7 +85,7 @@ const extractDeclaration = (source: string, matcher: RegExp): string | null => {
   if (!match || match.index === undefined) return null
 
   const declarationStart = getLineStart(source, match.index)
-  const bodyStart = source.indexOf('{', match.index)
+  const bodyStart = findBodyStart(source, match.index)
   if (bodyStart === -1) return null
 
   const bodyEnd = findMatchingBrace(source, bodyStart)

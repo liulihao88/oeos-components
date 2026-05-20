@@ -6,6 +6,11 @@ import { formatDateToDay, formatDateToMinute, formatDate, diffDate, diffDateFrom
 
 <template>
   <div>
+    <!--<OFunctionSourceCode functionName="formatDate"></OFunctionSourceCode>
+    <OFunctionSourceCode functionName="formatDateToDay"></OFunctionSourceCode>
+    <OFunctionSourceCode functionName="formatDateToMinute"></OFunctionSourceCode>
+    <OFunctionSourceCode functionName="diffDate"></OFunctionSourceCode>
+    <OFunctionSourceCode functionName="diffDateFromCurrent"></OFunctionSourceCode> -->
     <div>{{ formatDate(new Date()) }}</div>
     <div>{{ formatDateToDay(new Date()) }}</div>
     <div>{{ formatDateToMinute(new Date()) }}</div>

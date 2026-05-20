@@ -16,22 +16,15 @@ import OTip from '../vitepress/components/oTip/index.vue'
 import ChangelogContent from './components/ChangelogContent.vue'
 
 import { VPDemo } from '../vitepress'
-// 基于element-plus二次封装基础组件
-import '~dist/style.css'
-// import '~dist/utilities.css'
-import OeosComponents, { createSvg } from '~dist/oeos-components-es.js' // 打包后的入口文件
-
-// import '../../../packages/styles/index.scss'
-// import '../../../packages/styles/utilities.scss'
-// import OeosComponents, { createSvg } from '@/index.ts' // 开发时使用的入口文件
 import * as utils from '@/utils/src/index.ts'
 import Logo from './logo.vue'
 import VueTippy from 'vue-tippy'
 
+// 基于element-plus二次封装基础组件
+import '../../../packages/styles/index.scss'
+// import '../../../packages/styles/utilities.scss'
+
 // import 'virtual:svg-icons-register'
-const svgIconConfig = createSvg(
-  './assets/svg', // 指定本地 SVG 文件夹路径
-)
 import 'virtual:svg-icons-register'
 
 export default {
@@ -41,7 +34,14 @@ export default {
       'nav-bar-title-before': () => h(Logo),
     })
   },
-  enhanceApp(ctx) {
+  async enhanceApp(ctx) {
+    const { default: OeosComponents, createSvg } = import.meta.env.DEV
+      ? await import('@/index.ts')
+      : await import('~dist/oeos-components-es.js')
+    const svgIconConfig = createSvg(
+      './assets/svg', // 指定本地 SVG 文件夹路径
+    )
+
     ctx.app.config.globalProperties.$echarts = echarts // 全局使用
     // 将oeos-v3-components下的公共函数赋值到全局
     Object.keys(utils).forEach((v) => {
