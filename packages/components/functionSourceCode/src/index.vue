@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 
 defineOptions({
   name: 'OFunctionSourceCode',
@@ -29,10 +29,6 @@ const rawUtilsModules = import.meta.glob('../../../utils/src/*.ts', {
   query: '?raw',
   import: 'default',
 }) as Record<string, () => Promise<string>>
-
-onMounted(() => {
-  loadUtils()
-})
 
 const getLineStart = (source: string, index: number): number => {
   const lineStart = source.lastIndexOf('\n', index)
@@ -110,23 +106,38 @@ const extractFunctionSource = (source: string, functionName: string): string | n
   return null
 }
 
-const loadUtils = async () => {
+const loadUtils = async (functionName: string) => {
   try {
     for (const loadSource of Object.values(rawUtilsModules)) {
       const source = await loadSource()
-      const code = extractFunctionSource(source, props.functionName)
+      const code = extractFunctionSource(source, functionName)
       if (code) {
-        sourceCode.value = code
+        if (functionName === props.functionName) {
+          sourceCode.value = code
+        }
         return
       }
     }
 
-    sourceCode.value = `// 未能找到函数 "${props.functionName}" 的源码`
+    if (functionName === props.functionName) {
+      sourceCode.value = `// 未能找到函数 "${functionName}" 的源码`
+    }
   } catch (error) {
-    console.error(`加载函数源码失败: ${props.functionName}`, error)
-    sourceCode.value = `// 加载函数源码时出错: ${error}`
+    console.error(`加载函数源码失败: ${functionName}`, error)
+    if (functionName === props.functionName) {
+      sourceCode.value = `// 加载函数源码时出错: ${error}`
+    }
   }
 }
+
+watch(
+  () => props.functionName,
+  (functionName) => {
+    sourceCode.value = ''
+    loadUtils(functionName)
+  },
+  { immediate: true },
+)
 </script>
 
 <style scoped>
