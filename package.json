@@ -33,6 +33,7 @@
     "docsserve": "vitepress serve docs",
     "deploy": "sh -x deploy.sh",
     "release-deploy": "pnpm release && npm run deploy",
+    "update-document": "pnpm build && npm run deploy",
     "deploy-no-build": "sh -x deploy.sh -k",
     "utils:release": "pnpm run -C packages/utils release"
   },
