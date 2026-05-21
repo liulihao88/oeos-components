@@ -22,7 +22,7 @@ import VueTippy from 'vue-tippy'
 
 // 基于element-plus二次封装基础组件
 import '../../../packages/styles/index.scss'
-// import '../../../packages/styles/utilities.scss'
+import '../../../packages/styles/utilities.scss'
 
 // import 'virtual:svg-icons-register'
 import 'virtual:svg-icons-register'
@@ -35,9 +35,16 @@ export default {
     })
   },
   async enhanceApp(ctx) {
-    const { default: OeosComponents, createSvg } = import.meta.env.DEV
-      ? await import('@/index.ts')
-      : await Promise.all([import('~dist/style.css'), import('~dist/oeos-components-es.js')]).then(([, mod]) => mod)
+    let componentModule
+
+    if (import.meta.env.DEV) {
+      componentModule = await import('@/index.ts')
+    } else {
+      // await import('~dist/style.css')
+      componentModule = await import('~dist/oeos-components-es.js')
+    }
+
+    const { default: OeosComponents, createSvg } = componentModule
     const svgIconConfig = createSvg(
       './assets/svg', // 指定本地 SVG 文件夹路径
     )
