@@ -40,7 +40,8 @@ export default {
     if (import.meta.env.DEV) {
       componentModule = await import('@/index.ts')
     } else {
-      // await import('~dist/style.css')
+      await import('~dist/style.css')
+      await import('~dist/utilities.css')
       componentModule = await import('~dist/oeos-components-es.js')
     }
 
