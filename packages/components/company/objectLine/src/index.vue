@@ -288,7 +288,7 @@ defineExpose({
 </script>
 
 <template>
-  <oBasicLayout class="o-object-line" :bodyStyle="{ padding: 0 }">
+  <oBasicLayout class="o-object-line" :bodyStyle="{ padding: 0 }" v-bind="$attrs">
     <template #header>
       <o-title title="对象数量/大小历史">
         <!-- <template #right>
@@ -302,7 +302,6 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-.o-object-line,
 .o-object-line__empty {
   height: 100%;
 }
