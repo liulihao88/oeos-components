@@ -1,5 +1,5 @@
 <template>
-  <div class="po-f  l-220">{{ pkgVersion }}</div>
+  <div class="">({{ pkgVersion }})</div>
   <el-button type="primary" size="small" @click.stop.prevent="toggleSourceVisible" class="prod-toogle" v-if="!isHome">
     <div class="visible-text">
       {{ sourceVisible === true ? '代码折叠' : '代码显示' }}

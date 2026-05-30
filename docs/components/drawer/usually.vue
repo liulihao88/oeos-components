@@ -21,7 +21,6 @@ async function cusConfirm() {
   <div>
     <o-drawer
       ref="dialogRef"
-      size="800"
       title="App"
       @confirm="cusConfirm"
       :confirmAttrs="{
