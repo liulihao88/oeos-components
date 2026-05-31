@@ -37,7 +37,7 @@ npm install oeos-components -S
 ```js
 // main.ts
 import OeosComponents from 'oeos-components'
-import 'oeos-components/dist/style.css'
+import 'oeos-components/style.css'
 const app = createApp(App)
 app.use(OeosComponents).mount('#app')
 ```

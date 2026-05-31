@@ -7,7 +7,7 @@
 ### 在vue3项目的main.js里引入
 
 ```js
-import 'oeos-components/dist/style.css'
+import 'oeos-components/style.css'
 import OeosComponets from 'oeos-components'
 app.use(OeosComponets)
 ```
